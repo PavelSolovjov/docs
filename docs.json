@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Test",
   "colors": {
-    "primary": "#4d055d",
-    "light": "#8d0592",
-    "dark": "#300130"
+    "primary": "#4905d7",
+    "light": "#4e4fe5",
+    "dark": "#060249"
   },
   "favicon": "/favicon.svg",
   "navigation": {
