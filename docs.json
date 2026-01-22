@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Китовое говно",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#a31544",
+    "light": "#c9069e",
+    "dark": "#161480"
   },
   "favicon": "/favicon.svg",
   "navigation": {
