@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Китовое говно",
   "colors": {
-    "primary": "#a31544",
-    "light": "#c9069e",
-    "dark": "#161480"
+    "primary": "#4d055d",
+    "light": "#8d0592",
+    "dark": "#300130"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -83,10 +83,7 @@
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
+  "logo": "/images/holderslogo.svg",
   "navbar": {
     "links": [
       {
