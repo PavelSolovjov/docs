@@ -1,94 +1,93 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: "Пополнения"
+description: "Механизм работы пополнений"
 ---
 
-<Info>
-  **Prerequisites**:
-  - Node.js version 19 or higher
-  - A docs repository with a `docs.json` file
-</Info>
+# Пополнение
 
-Follow these steps to install and run Mintlify on your operating system.
+Для использования основных возможностей сервиса пользователю необходимо пополнить свой [смарт-контракт](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), который выступает в роли банковского счета. К смарт-контракту привязываются [банковские карты](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) пользователя для осуществления платежей. При оплате банковской картой средства списываются со счета пользователя, к которому прикреплена данная карта.\
+В Holders существует два типа контрактов:
 
-<Steps>
-<Step title="Install the Mintlify CLI">
+1. Контракты поддержываемых валют - для каждого блокчейна и каждой криптовалюты в Holders разворачивается отдельный смарт‑контракт. В настоящее время функционируют три основных контракта:
+   1. [TON ](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN)— смарт‑контракт для [блокчейна TON](https://ton.org/).
+   2. [USDT](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN) — смарт‑контракт для токена [USDT](https://tether.to/en/) ([на базе TON](https://ton.org/)) — доступен только для существующих пользователей (новые открытия недоступны).
+   3. [USDC](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — смарт‑контракт токена USDC вблокчейне [Solana](https://solana.com/).
+   4. [USDY](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — смарт‑контракт токена USDY вблокчейне [Solana](https://solana.com/).
+2. Контракты для реализации дополнительных возможностей в системе:
+   1. [Trust](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09UTNG3ARE) контракт - контракт, позволяющий пользователю создать счет, которым можно поделиться с другим пользователем. На этот счет поэтапно будет переводиться заявленная владельцем сумма через заданные интервалы времени. В дальнейшем будет использоваться для доверительного управления активами (подробнее о работе траста [Описание продукта Trust (Product Description for Trust)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09VA15AML0))
 
-```bash
-npm i -g mint
-```
-</Step>
+Для каждого из этих типов существуют свои особенности при пополнении.
 
-<Step title="Preview locally">
+# Газ при пополнении
 
-Navigate to your docs directory where your `docs.json` file is located, and run the following command:
+Газ (комиссия) при пополнении складывается из двух основных частей:
 
-```bash
-mint dev
-```
+1. Газ за отправку транзакции с пополнением - для проведения любой транзакции в блокчейне нужно платить комисиию сети.
+2. Газ за обновление баланса контракта. Для распознавания поступивших на баланс контракта средств используется Controller ([Смарт-контракты и счета (Smart contracts and accounts)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02)), который осуществляет постоянное сканирование всех транзакций в блокчейне. При обнаружении транзакции, отправленной на адрес счета Holders, Controller инициирует обновление баланса соответствующего контракта.
 
-A local preview of your documentation will be available at `http://localhost:3000`.
+Сумма газа будет отличаться в зависимости от блокчейна и способа пополнения контракта.
 
-</Step>
-</Steps>
+# Способы пополнения контрактов
 
-## Custom ports
+Существует два основных способа пополнить счёт:
 
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. For example, to run Mintlify on port 3333, use this command:
+1. Прямое пополнение
+2. Пополнение с подключенного кошелька
 
-```bash
-mint dev --port 3333
-```
+## Прямое пополнение
 
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
+Данный способ подразумевает прямой перевод средств на адрес контракта с любого друго адреса. Поддерживается только на новых версиях контрактов:
 
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
+- TON (начиная с версии v3)
+- USDT (TON) (начиная с версии v8)
+- USDC (поддерживается на всех версиях)
 
-## Mintlify versions
+При прямом пополнении средства поступают непосредственно на адрес контракта. Для распознавания поступивших средств используется Controller ([Смарт-контракты и счета (Smart contracts and accounts)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02)), который осуществляет постоянное сканирование всех транзакций в блокчейне. При обнаружении транзакции, отправленной на адрес счета Holders, Controller инициирует обновление баланса соответствующего контракта. 
 
-Please note that each CLI release is associated with a specific version of Mintlify. If your local preview does not align with the production version, please update the CLI:
+### Газ при прямом пополнении
 
-```bash
-npm mint update
-```
+Газ за отправку транзакции с пополнением - оплачивается пользователем и составляет стандартную для блокчейна сумму:\
+Примечание: указаны максимальные значения комиссий. Фактическая комиссия может быть меньше - в этом случае неиспользованная часть возвращается на баланс кошелька пользователя.
 
-## Validating links
+1. Комиссия за проведение транзакции пополнения (оплачивается пользователем):
+   1. TON - около 0.03 TON
+   2. Solana - около 0.000005 SOL
+2. Комиссия за обновление баланса контракта:
+   1. TON - около 0.1 TON (оплачивается Holders)
+   2. Solana - не взимается (благодаря использованию инструкции `deposit_card`)
 
-The CLI can assist with validating links in your documentation. To identify any broken links, use the following command:
+### Пополнение через Changelly
 
-```bash
-mint broken-links
-```
+Данный способ является одним из частных случаев прямого пополнения и позволяет пополнить контракт криптовалютами, которые не поддерживаются в сервисе, такими как:
 
-## Deployment
+- USDT (TRC-20)
+- USDT (Polygon)
+- USDT (SOL)
+- USDT (ERC-20)
+- USDC (Polygon)
+- USDC (ERC-20)
+- USDC (SOL) для контрактов в блокчейне TON
 
-If the deployment is successful, you should see the following:
+При таком способе пополнения Changelly принимает средства в указанных валютах на свои счета и осуществляет прямое пополнение счета пользователя в валюте контракта. Сервис Changelly позволяет клиентам пополнять счета различными криптовалютами, включая те, с которыми невозможно работать согласно регламенту MICA (например, USDT). Подробнее о таком пополнении читайте в [Changelly](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FG41J2EA).
 
-<Frame>
-  <img src="/images/checks-passed.png" alt="Screenshot of a deployment confirmation message that says All checks have passed." style={{ borderRadius: '0.5rem' }} />
-</Frame>
+## Пополнение с подключенного кошелька
 
-## Code formatting
+Данный способ позволяет пополнить счет с кошелька, подключенного к Holders. Пользователь инициирует перевод необходимой суммы через интерфейс Holders, который затем через протокол подключения (TONConnect или специально разработанный протокол для Solana) запускает операцию пополнения в приложении кошелька. Пополнение доступно только для контрактов, где пользовательский кошелек имеет права Owner или Wallet Authority ([Смарт-контракты и счета (Smart contracts and accounts)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02)). При таком способе пополнения не требуются дополнительные проверки от Controller, а все комиссии за транзакции оплачивает пользователь.\
+Комиссия за такое пополнение зависит от нагрузки сети, но как правило не превышает следующих значений:
 
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
+- 0.000005 SOL (для блокчейна Solana)
+- 0.008 TON (для блокчейна TON)
 
-## Troubleshooting
+### Газ при пополнении с подключенного кошелька
 
-<AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
+Примечание: указаны максимальные значения комиссий. Фактическая комиссия может быть меньше - в этом случае неиспользованная часть возвращается на баланс кошелька пользователя.
 
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of the CLI: `npm remove -g mint`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall the CLI: `npm i -g mint`
-  </Accordion>
+1. Газ за отправку транзакции с пополнением - оплачивается пользователем и составляет стандартную для блокчейна сумму:
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the `~/.mintlify` folder. Then run `mint dev` again.
-  </Accordion>
-</AccordionGroup>
+- В TON ≈ 0.03 TON
+- В Solana ≈ 0.000005 SOL
 
-Curious about what changed in the latest CLI version? Check out the [CLI changelog](https://www.npmjs.com/package/mintlify?activeTab=versions).
+1. Газ за обновление баланса контракта - оплачивается также пользователем.
+
+- В TON ≈ 0.1 TON
+- В Solana не взимается.
