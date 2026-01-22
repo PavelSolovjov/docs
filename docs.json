@@ -17,7 +17,7 @@
             "group": "Общая информация о проекте",
             "pages": [
               "index",
-              "quickstart",
+              "Блокчейн лимиты счета",
               "development",
               "zaluplandia"            ]
           }
