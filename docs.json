@@ -12,15 +12,8 @@
     "tabs": [
       {
         "tab": "Guides",
-        "groups": [
-          {
-            "group": "Общая информация о проекте",
-            "pages": [
-              "index",
-              "blockchainlimits",
-              "topups"
-           ]
-          }
+        "pages": [
+          "index"
         ]
       }
     ]
