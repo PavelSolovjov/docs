@@ -3,7 +3,7 @@ title: "Get started with WebSDK integration"
 description: "Integrate with the Holders WebSDK"
 ---
 
-Holders provides an SDK that enables seamless integration of bank card payments with a user's TON or USDC (SOL) wallet via a smart contract deployed on TON or Solana. The smart contract is linked directly to the user's wallet, enabling decentralized control over funds. Currently, Holders is integrated into the **Tonhub** wallet.\
+Holders provides an SDK that enables seamless integration of bank card payments with a user's TON or USDC (SOL) wallet via a smart contract deployed on TON or Solana. The smart contract is linked directly to the user's wallet, enabling decentralized control over funds. Currently, Holders is integrated into the [**Tonhub**](https://gettonhub.com/) wallet.\
 Alternatively, Holders can be integrated via API instead of the SDK, giving full flexibility to customize and render all interface components independently.
 
 # Endpoints
@@ -139,15 +139,15 @@ Simply add the`['dapp-mainbutton']`or `[’main-button']` object to the **window
 
 ### Types
 
-| **Function**                                                                                                                           | **Description**                                                                          |
-| :------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `hide()`                                                                                                                               | Hides the button                                                                         |
-| `show()`                                                                                                                               | Makes the button visible                                                                 |
-| `setParams(params: { text: string; textColor: string; color: string; disabledColor: string; isVisible: boolean; isActive: boolean; })` | Sets the button parameters. The _params_object contains one or more fields to be changed |
-| `onClick(callback: () => void)`                                                                                                        | Sets the button's press event handler                                                    |
-| `offClick(callback: () => void)`                                                                                                       | Removes the button's press event handler                                                 |
-| `showProgress()`                                                                                                                       | Displays a loader on the button                                                          |
-| `hideProgress()`                                                                                                                       | Hides the loader on the button                                                           |
+| **Function**                                                                                                                           | **Description**                                                                           |
+| :------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| `hide()`                                                                                                                               | Hides the button                                                                          |
+| `show()`                                                                                                                               | Makes the button visible                                                                  |
+| `setParams(params: { text: string; textColor: string; color: string; disabledColor: string; isVisible: boolean; isActive: boolean; })` | Sets the button parameters. The \_params_object contains one or more fields to be changed |
+| `onClick(callback: () => void)`                                                                                                        | Sets the button's press event handler                                                     |
+| `offClick(callback: () => void)`                                                                                                       | Removes the button's press event handler                                                  |
+| `showProgress()`                                                                                                                       | Displays a loader on the button                                                           |
+| `hideProgress()`                                                                                                                       | Hides the loader on the button                                                            |
 
 <Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/fragments/apps/components/inject/createInjectSource.ts" cta="Check">
   
