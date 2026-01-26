@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Test",
+  "name": "Holders",
   "colors": {
     "primary": "#4905d7",
     "light": "#4e4fe5",
