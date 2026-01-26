@@ -1,98 +1,688 @@
 ---
-title: "Смарт-контракты и счета"
+title: "Get started with WebSDK integration"
+description: "Integrate with the Holders WebSDK"
 ---
 
-# Философия Holders
+Holders provides an SDK that enables seamless integration of bank card payments with a user's TON or USDC (SOL) wallet via a smart contract deployed on TON or Solana. The smart contract is linked directly to the user's wallet, enabling decentralized control over funds. Currently, Holders is integrated into the **Tonhub** wallet.\
+Alternatively, Holders can be integrated via API instead of the SDK, giving full flexibility to customize and render all interface components independently.
 
-В древности деньги могли быть только физическими: шкуры, монеты, бумага. Каждый, кто имел их владел ими лично. Люди всегда задавались вопросом: как же их сохранить? Как сделать так, чтобы их не украли, не забрали или они не пропали в пожаре? Средства хранили в сундуках и кладах, но придумывали и более креативные варианты: в ульях и в рыбьих тушах, в гробах, в сосудах со святой водой. Однако пользоваться деньгами, спрятанными в рыбьей туше, неудобно, а сундук могут взломать или унести, и деньги все равно пропадут.\
-Все поменялось с появлением банков. Больше не нужно прятать деньги, их можно хранить в банке, он берет ответственность за хранение на себя. Грабители стали реже выносить сейфы, а о хранении средств в сундуках все давно забыли. Банковские карты позволили людям забыть, как выглядят наличные, а оплата смартфоном отменила необходимость использовать и сами карты.\
-Но с повышением уровня безопасности и удобств появилась и новая проблема: **люди больше не владеют своими деньгами, теперь ими владеет Банк.** Банк решает, сколько вы можете тратить, куда и кому вы можете переводить. Банк в любой момент может заморозить средства и сам решит, стоит ли их вернуть. Банк самостоятельно передаст в налоговые органы информацию о ваших балансах, тратах и пополнениях.\
-Но как же не потерять всех удобств, которые дает банк, и в то же время сохранить личное владение средствами? Holders создали уникальное решение, которое позволяет и сохранить полный личный контроль над деньгами, и пользоваться всеми современными удобствами банковской системы - некастодиальные счета основанные на смарт-контрактах.
+# Endpoints
 
-# Что называется счетом и смарт-контрактом
+## Server endpoints
 
-**Смарт‑контракт** — это программа в блокчейне, которая автоматически выполняет запрограммированные условия (включая переводы токенов) без участия посредников. Его код и состояние хранятся в блокчейне; транзакции выполняются при наступлении заданных условий, а изменения в поведении контракта могут вносить только уполномоченные (владельцы) в рамках заложенной логики. В Holders контракт создается индивидуально для каждого пользователя и принадлежит только ему.\
-**Счёт в системе Holders (account)** — это программная оболочка поверх смарт‑контракта, которая превращает сам контракт в удобный для пользователя «банковский» счёт. Проще говоря: один смарт‑контракт + обёртка Holders = счёт пользователя. Счет обладает следующими характеристиками:
+| **API Endpoint**                    | **Environment**    |
+| :---------------------------------- | :----------------- |
+| https://card-prod.whales-api.com    | Mainnet production |
+| https://card-preprod.whales-api.com | Mainnet preprod    |
+| https://card-staging.whales-api.com | Testnet staging    |
+| https://card-dev.whales-api.com     | Testnet dev        |
 
-- **Название счета** - по умолчанию система присваивает счетам наименование в формате "Spending account X", где X обозначает порядковый номер счета в профиле пользователя. Владелец счета имеет возможность изменить название в любой момент по своему усмотрению.
-- **Состояния счета** - отражает текущее состояние счета в системе. Статус счета в интерфейсе пользователя может отличаться от фактического состояния смарт-контракта в блокчейне.
-- **Виртуальный баланс счета** - представляет собой отображаемый в пользовательском интерфейсе баланс, который может временно отличаться от реального баланса смарт-контракта. Такое расхождение возникает в случаях, когда некоторые транзакции ожидают обработки в рамках процедуры роллапа. Именно виртуальный баланс счета отображается на экране счета в приложении.
-- **Банковские карты** - к счету может быть привязана одна или несколько банковских карт, которые используются для проведения операций.
+# DApp integration
 
-# Некастодиальность
+DApp integration is the integration, based on Holders’ SDK.
 
-**Некастодиальность** (non-custodial) — модель, в которой сервис не хранит приватные ключи и не контролирует средства пользователя; пользователь сам распоряжается ими и может в любой момент вывести средства со своего смарт‑контракта. \
-Основным конкурентным преимуществом Holders является некастодиальность счетов, обеспечиваемая смарт-контрактами. Только владелец контракта (пользователь) имеет возможность вывести средства с контракта через свой криптовалютный кошелек, к которому доступ есть исключительно у него. \
-Holders не хранит приватные ключи пользователей и не имеет прямого контроля над средствами клиентов. Сервис может осуществлять операции только в рамках разрешенной логики платежей и исключительно на адрес [Трежерс кошельки (Treasure wallets)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09G99VBCGY) компании. Вывод средств на сторонние кошельки с пользовательского контракта технически невозможен, а все транзакции на [Трежерс кошельки (Treasure wallets)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09G99VBCGY) полностью прозрачны и [отслеживаются в блокчейне по адресу контракта](https://tonviewer.com/).\
-Банк-партнер также не имеет доступа к счету клиента и не может заблокировать или заморозить средства.\
-Наличие индивидуального смарт-контракта делает Holders некастодиальным сервисом, что максимально повышает безопасность и прозрачность операций, а также снижает операционные и регуляторные риски.\
-**Holders - сервис, который позволяет пользователям реально владеть своими деньгами.**
+## DApp: Scheme of routes
 
-# Юридическое сопровождение решения
+![Flowchart1](/images/Flowchart1.png)
 
-Смарт‑контракт — это технология/механизм исполнения, а отношения с пользователем регулируются договором ([Terms of use](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09THTFBPGF)). Код не «сам по себе законен», он работает в рамках соглашения подписываемого каждый раз перед созданием счета в сервисе пользователем. Версия подписываемого пользователем документа фиксируется и хранится базе данных с возможностью обновления при следующем апдейте термсов.\
-Юридические определения:
+## DApp: Initial State
 
-- Смарт контракт — техинструмент учета и списаний в крипте.
-- Карточный счет — находится у Партнера, который проводит карточные платежи.
-- Кошелек — блокчейн‑адрес пользователя с которого инициировалось создание контракта.
-- Учетная запись — кабинет в сервисе.
+Inject initial state for authorization and faster app loading.\
+Simply add the `initialState` object to the **window** object.
 
-Основные пункты:
+### Types
 
-1. Смарт-контракт создаётся и связывается к Карточному счету, но управляется сервисом по договорному мандату. Права собственности на “код/контракт” не закреплены за пользователем, но пользователь полностью владеет крипто‑средствами на нём, а сервис имеет право управления ими для исполнения услуг.
-2. Учётная запись, создаваемая пользователем на платформе контролируется и администрируется Holders; при нарушениях может быть ограничена/закрыта. Все средства при этом выводятся на привязанный к ней кошелек пользователя.
-3. Карчточный счет принадлежит и ведётся Партнёром (эмитент/обслуживающая организация карты). Holders не открывает/не обслуживает банковские счета, но имеет договорное право инициировать списания/зачисления в рамках услуг.
+```
+type WindowInitialState = {
+  user?: {
+    token: UserTokenT;
+    status: UserStatusT;
+  };
+  accountsList?: AccountT[];
+  prepaidCards?: CardPrepaidT[];
+};
+```
 
-# Виды контрактов в Holders
+### Example
 
-В Holders существует два типа контрактов:
+Here's an example of how you can inject the initial state for faster app loading:
 
-1. Контракты поддержываемых валют - для каждого блокчейна и каждой криптовалюты в Holders разворачивается отдельный смарт‑контракт. В настоящее время функционируют три основных контракта:
+```
+window.initialState = {
+  user: {
+    token: "user_token_here",
+    status: {
+          // User state object
+    }
+  },
+  accountsList: [
+    // Array of account objects
+  ],
+  prepaidCards: [
+    // Array of prepaid card objects
+  ]
+};
+```
 
-- [TON ](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN)— смарт‑контракт для [блокчейна TON](https://ton.org/).
-- [USDT](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN) — смарт‑контракт для токена [USDT](https://tether.to/en/) ([на базе TON](https://ton.org/)) — доступен только для существующих пользователей (новые открытия недоступны).
-- [USDC](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — смарт‑контракт токена USDC вблокчейне [Solana](https://solana.com/).
-- [USDY](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — смарт‑контракт токена USDY вблокчейне [Solana](https://solana.com/).
+This code should be placed in your application's entry point. It sets the **initialState** object on the **window**, which can then be accessed by your application to initialize its state more quickly.
 
-1. Контракты для реализации дополнительных возможностей в системе:
+## DApp: Query params for settings
 
-- [Trust](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09UTNG3ARE) контракт - контракт, позволяющий пользователю создать счет, которым можно поделиться с другим пользователем. На этот счет поэтапно будет переводиться заявленная владельцем сумма через заданные интервалы времени. В дальнейшем будет использоваться для доверительного управления активами (подробнее о работе траста [Описание продукта Trust (Product Description for Trust)](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09VA15AML0))
+Add query parameters to the URL to pass the app's currency, language, and theme settings.
 
-# Комиссия (газ)
+### Types
 
-При создании счёта аллоцируется пространство в блокчейне и создаётся смарт-контракт, связанный с кошельком пользователя. Аллокация пространства в блокчейне - основное действие, на которое расходуется газ в блокчейне.
+| **Param name** | **Value**     |
+| :------------- | :------------ |
+| lang           | en            |
+| currency       | currency code |
+| theme          | theme code    |
+| theme-style    | dark          |
 
-## Solana
+**Supported currencies:**
 
-### Создание и поддержание контракта
+```
+const supportedCurrencies = [
+  { code: 'USD', symbol: '$', label: 'U.S. Dollar' },
+  { code: 'EUR', symbol: '€', label: 'Euro' },
+  { code: 'RUB', symbol: '₽', label: 'Russian Ruble' },
+  { code: 'GBP', symbol: '£', label: 'British Pound' },
+  { code: 'CHF', symbol: '₣', label: 'Swiss Franc' },
+  { code: 'CNY', symbol: '¥', label: 'Chinese Yuan' },
+  { code: 'KRW', symbol: '₩', label: 'South Korean Won' },
+  { code: 'IDR', symbol: 'Rp', label: 'Indonesian Rupiah' },
+  { code: 'INR', symbol: '₹', label: 'Indian Rupee' },
+  { code: 'JPY', symbol: '¥', label: 'Japanese Yen' }
+];
+```
 
-В Holders при создании контрактов в Solana применяется [RentExemption](https://solana.com/docs/core/accounts) - оплата сразу за 2 года навсегда закрепляющая пространство. Стоимость [RentExemption](https://solana.com/docs/core/accounts) в Solana зависит от размера хранения (в байтах) и актуальной ставки за аллокацию в сети. В среднем цена составляет примерно около 0.0023 SOL за каждые 10 кБ. При закрытии счета можно запросить возврат стоимости, так как аллокация уже не нужна.\
-Приблизительная цена создания такого контракта — **примерно 0.015 SOL (2 USD при курсе Sol/USDT \$139)**.
+### Example
 
-### Газ за пополнение
+<Card title="Example" icon="check" href="https://github.com/tonwhales/wallet/blob/master/app/fragments/holders/components/HoldersAppComponent.tsx#L250" cta="Check">
+  
+</Card>
 
-Для ускорения транзакций в сети Solana подключён механизм [Priority Fee](https://solana.com/docs/core/fees) — дополнительная плата, увеличивающая шанс подтверждения при высокой нагрузке. Это позволяет быстрее совершать транзакции. Пользователь платит газ только при пополнении контракта, все остальные оплаты проходят уже за счет сервиса. Газ за пополнение счета в Solana фиксирована - **0.000005 SOL (0,00069 USD при курсе Sol/USDT \$139).**
+```
+const lang = getLocales()[0].languageCode;
+const queryParams = new URLSearchParams({
+        lang: lang,
+        currency: 'EUR',
+        theme: 'holders',
+        'theme-style': theme.style === 'dark' ? 'dark' : 'light',
+        bounceable: bounceableFormat.toString()
+});
 
-## TON
+const url = `${props.endpoint}${route}?${queryParams.toString()}`;
+```
 
-### Создание и поддержание контракта
+## DApp: Client API
 
-В TON выделение пространства (создание нового счета) осуществляется навсегда, аналогично RentExemption в Solana. При отправке транзакции указывается сумма перевода и сумма газа, которую кошелек готов потратить. Если фактическая стоимость газа меньше выделенной, остаток возвращается. \
-Cтоимость создания контракта — **около 0.15–0.2 TON (0.27 USD при курсе TON/USDT \$1.8**).
+Key injected functions for controlling the application.\
+Simply add the `['dapp-client']` object to the **window** object.
 
-### Газ за пополнение
+### Types
 
-Газ за пополнение счета в TON — **около 0,01 TON (0.018 USD при курсе TON/USDT \$1.8**).
+| **Function**                                 | **Description**                                                                |
+| :------------------------------------------- | :----------------------------------------------------------------------------- |
+| `openUrl(url: string)`                       | Opens a URL in the app's internal browser                                      |
+| `openEnrollment()`                           | Triggers extension installation when necessary                                 |
+| `showKeyboardAccessoryView(isShow: boolean)` | Toggles the WebView's keyboard accessory view to enable/disable keyboard hints |
+| `lockScroll(isLocked: boolean)`              | Enables or disables scrolling in the WebView                                   |
+| `subscribed(isSubscribed: boolean)`          | Triggers the advertisement banner subscription                                 |
+| `closeApp()`                                 | Closes the WebView                                                             |
 
-### Газ за хранение контракта
+## DApp: MainButton API
 
-В сети TON смарт-контракт оплачивает [хранение занимаемого пространства](https://docs.ton.org/foundations/fees) - включая код, данные и баланс (представление аккаунта). При снижении баланса TON ниже установленного порога аккаунт может быть заморожен или удален. Стоимость хранения составляет примерно 0.01 nanoTON за байт в день (значение не может быть дробным, но стоимость примерная). Данная плата списывается с сумы газа при каждой транзакции для поддержания контракта в рабочем состоянии. \
-На практике для заморозки или удаления контракта необходимо взаимодействие [валидатора](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) с контрактом, что в реальных условиях происходит крайне редко. Следовательно, даже при полном исчерпании баланса для оплаты хранения данных контракт будет заморожен только в случае активного взаимодействия с ним со стороны участников сети (например, при поступлении средств на баланс контракта). В отсутствие такого взаимодействия контракт продолжает функционировать с нулевым балансом. При поступлении средств плата за хранение данных списывается незамедлительно.
+Key injected functions for controlling the main button in the application.\
+Similar to [Telegram Mini Apps BottomButton](https://core.telegram.org/bots/webapps#bottombutton)\
+Simply add the`['dapp-mainbutton']`or `[’main-button']` object to the **window** object.
 
-# Мониторинг состояния
+### Types
 
-Оператор [Backoffice](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FLT091E0) осуществляет мониторинг состояния и балансов счетов пользователей. В интерфейсе оператора [на странице пользователя](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09HATW7BLH) отображаются все счета клиента и актуальное состояние каждого контракта. \
-Для отслеживания возможных сбоев реализована автоматическая метрика, которая показывает количество контрактов, перешедших в состояние автоматической заморозки. Метрика доступна оператору тестирования в [общем сервисе мониторинга](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09H0432JKW).
+| **Function**                                                                                                                           | **Description**                                                                          |
+| :------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| `hide()`                                                                                                                               | Hides the button                                                                         |
+| `show()`                                                                                                                               | Makes the button visible                                                                 |
+| `setParams(params: { text: string; textColor: string; color: string; disabledColor: string; isVisible: boolean; isActive: boolean; })` | Sets the button parameters. The _params_object contains one or more fields to be changed |
+| `onClick(callback: () => void)`                                                                                                        | Sets the button's press event handler                                                    |
+| `offClick(callback: () => void)`                                                                                                       | Removes the button's press event handler                                                 |
+| `showProgress()`                                                                                                                       | Displays a loader on the button                                                          |
+| `hideProgress()`                                                                                                                       | Hides the loader on the button                                                           |
 
-# Блок схема жизненных циклов контракта и счета
+<Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/fragments/apps/components/inject/createInjectSource.ts" cta="Check">
+  
+</Card>
+
+## DApp: StatusBar API
+
+Key injected functions for controlling the status bar in the application.\
+Simply add the`['dapp-status-bar']`or `[’status-bar']` object to the **window** object.
+
+### Types
+
+| **Function**                        | **Description**                      |
+| :---------------------------------- | :----------------------------------- |
+| `setBackgroundColor(color: string)` | Sets the status bar background color |
+| \`setStyle(style: 'light'           | 'dark')\`                            |
+
+### 
+
+<Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/fragments/apps/components/inject/createInjectSource.ts" cta="Check">
+  
+</Card>
+
+## DApp: Auth API
+
+Key injected functions for authentication (FaceID, TouchID) in the application.\
+Simply add the`['dapp-auth']` object to the **window** object.
+
+### Types
+
+| **Function**                                                                            | **Description**                          |
+| :-------------------------------------------------------------------------------------- | :--------------------------------------- |
+| `authenticate(callback: (result: { isAuthenticated: boolean; error: string }) => void)` | Authenticate operation and return result |
+
+## DApp: Wallet Provisioning API
+
+Key injected functions for wallet provisioning (adding to Apple Pay or Google Pay) in the application.\
+Simply add the`['dapp-wallet']` object to the **window** object.
+
+### Types
+
+| **Function**                                                                                                                                 | **Description**                                           |
+| :------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------- |
+| `isEnabled(callback: (result: boolean) => void)`                                                                                             | Checks if wallet provisioning is available on the device  |
+| `checkIfCardIsAlreadyAdded(cardDigits: string, callback: (result: boolean) => void)`                                                         | Verifies if the card has already been added to the wallet |
+| `canAddCard(cardId: string, callback: (result: boolean, error: Error) => void)`                                                              | Determines if it's possible to add the card to the wallet |
+| `addCardToWallet(data: { cardId: string; cardholderName: string; primaryAccountNumberSuffix: string }, callback: (result: boolean) => void)` | Adds the card to the wallet                               |
+
+# API integration
+
+## Public Accounts list endpoint
+
+We aim to provide a seamless experience for users who have logged into their wallet without obtaining a Holders authentication token.\
+**URL:**`https://${endpoint}/v2/public/accounts`
+
+<Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/engine/api/holders/fetchAccounts.ts" cta="Check">
+  
+</Card>
+
+```
+export async function fetchAccountsPublic({ address, solanaAddress, isTestnet }: { address: string | Address, isTestnet: boolean, solanaAddress?: string }) {
+  const endpoint = holdersEndpoint(isTestnet);
+  const addressString = (address instanceof Address) ? address.toString({ testOnly: isTestnet }) : address;
+  const body = solanaAddress ? {
+    walletKind: 'tonhub',
+    wallets: [
+      {
+        network: isTestnet ? 'ton-testnet' : 'ton-mainnet',
+        address: addressString
+      },
+      {
+        network: 'solana',
+        address: solanaAddress
+      }
+    ]
+  } : {
+    walletKind: 'tonhub',
+    network: isTestnet ? 'ton-testnet' : 'ton-mainnet',
+    address: addressString
+  };
+
+  const res = await axios.post(
+    `https://${endpoint}/v2/public/accounts`,
+    body,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": "true",
+      }
+    }
+  );
+
+  if (res.status === 401) {
+    return null;
+  }
+
+  const parseResult = accountsListPublicSchema.safeParse(res.data);
+  if (!parseResult.success) {
+    console.warn(JSON.stringify(parseResult.error.format()));
+    throw Error("Invalid public card list response");
+  }
+
+  if (!res.data.ok) {
+    throw Error(`Error fetching card list: ${res.data.error}`);
+  }
+
+  return res.data.accounts as GeneralHoldersAccount[];
+}
+```
+
+## Obtaining User Access Token
+
+Enrolling a user involves creating a TON Connect 2.0 injected bridge for the app at the holdersUrl endpoint. This process includes authenticating via the user's private key, saving the TON Connect 2.0 app injected bridge connection, and fetching the private account token.\
+You can then use this token to synchronize private account data and transactions, as well as pass it as part of the injected initial state to Holders.\
+**URL:**`https://${endpoint}/v2/user/wallet/connect`
+
+<Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/engine/hooks/holders/useHoldersEnroll.ts" cta="Check">
+  
+</Card>
+
+```
+export async function fetchAccountToken(config: {
+    address: string,
+    walletConfig: string,
+    walletType: string,
+    time: number,
+    signature: string,
+    subkey: {
+        domain: string,
+        publicKey: string,
+        time: number,
+        signature: string
+    }
+}, isTestnet: boolean): Promise<string> {
+    let res = await axios.post(
+        'https://' + holdersEndpoint +'/v2/user/wallet/connect',
+        {
+            stack: 'ton',
+            network: isTestnet ? 'ton-testnet' : 'ton-mainnet',
+            key: {
+                kind: 'ton-x-lite',
+                config
+            }
+        }
+    );
+    if (!res.data.ok) {
+        throw Error('Failed to fetch card token');
+    }
+    return res.data.token as string;
+}
+```
+
+## Authenticated: Fetching Account state
+
+**URL:**`https://${endpoint}/v2/account/state`
+
+<Card title="Example" icon="arrow-down-right" href="https://github.com/tonwhales/wallet/blob/master/app/engine/hooks/holders/useHoldersAccountStatus.ts" cta="Check">
+  
+</Card>
+
+```
+export async function fetchAccountState(token: string) {
+    let res = await axios.post(
+        'https://' + holdersEndpoint + '/account/state',
+        { token }
+    );
+
+    if (res.status === 401) {
+        return null;
+    }
+
+    if (!res.data.ok) {
+        throw Error('Failed to fetch account state');
+    }
+
+    return res.data.state as AccountState;
+}
+```
+
+## Authenticated: Fetching Accounts List with Prepaid Cards
+
+**URL:**`https://${endpoint}/v2/account/list`
+
+### Example
+
+```
+export async function fetchAccountsList(token: string) {
+  let res = await axios.post(
+    'https://' + holdersEndpoint + '/v2/account/list',
+    { token },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": "true",
+      }
+    }
+  );
+
+  if (res.status === 401) {
+    return null;
+  }
+
+  if (!res.data.ok) {
+    throw Error(`Error fetching card list: ${res.data.error}`);
+  }
+
+  let parseResult = accountsListResCodec.safeParse(res.data);
+  if (!parseResult.success) {
+    console.warn(JSON.stringify(parseResult.error.format()));
+    throw Error("Invalid card list response");
+  }
+
+  return res.data.list as GeneralHoldersAccount[];
+}
+```
+
+## OTP notifications
+
+![Flowchart2](/images/Flowchart2.png)
+
+**1. Get OTP Delivery Configuration**\
+**URL**
+
+```
+POST ${endpoint}/user/otp/delivery/config/get
+```
+
+**Description**\
+Retrieves the current OTP delivery configuration for the user.\
+**availableProperties** - is a set of configurable values. If confirmationTypes contains one type only (for example TEXT_CODE) - it’s not possible to choose between "TEXT_CODE" and "CONFIRMATION_BUTTON" according to the current customer partner/card provider. The same applied to push/email/sms boolean properties.\
+\
+**Request**
+
+```
+{
+  "token": "string"
+}
+```
+
+**Response**\
+• **200**
+
+```
+{
+  "ok": true,
+  "data": {
+    "currentConfig": {
+      "confirmationType": "TEXT_CODE" | "CONFIRMATION_BUTTON",
+      "push": true | false,
+      "email": true | false,
+      "sms": true | false
+    },
+    "availableProperties": {
+      "confirmationTypes": ["TEXT_CODE", "CONFIRMATION_BUTTON"],
+      "push": true | false,
+      "email": true | false,
+      "sms": true | false
+    }
+  }
+}
+```
+
+**OR**
+
+```
+{
+  "ok": false,
+  "error": "no_product"
+}
+```
+
+**Example (Axios)**
+
+```
+import axios from 'axios';
+
+export async function getOtpDeliveryConfig(token) {
+  const response = await axios.post(`${endpoint}/user/otp/delivery/config/get`, {
+    token
+  }, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response.data;
+}
+```
+
+---
+
+**2. Get Current OTP Request**\
+**URL**
+
+```
+POST ${endpoint}/user/otp/requests
+```
+
+**Description**\
+Fetches the currently active OTP request (if any).\
+**Request**
+
+```
+{
+  "token": "string"
+}
+```
+
+**Response**\
+• **200**\
+OTP code:
+
+```
+{
+  "type": "otp_code",
+  "code": "123456",
+  "amount": "50.00",
+  "currency": "USD",
+  "txnId": "txn_1001",
+  "expiresAt": "2025-03-10T17:45:00Z",
+  "merchant": {
+    "dirtyName": "Example Merchant",
+    "cleanName": "Example Merchant LLC",
+    "logo": "logo.png",
+    "logoUrl": "<https://example.com/logo.png>",
+    "country": "USA",
+    "city": "New York",
+    "merchantId": "merchant_123",
+    "placeId": "place_456",
+    "mccCode": "5411",
+    "category": "Retail"
+  }
+}
+```
+
+Activation code:
+
+```
+{
+  "type": "activation_code",
+  "code": "654321",
+  "txnId": "txn_1002",
+  "expiresAt": "2025-03-11T18:00:00Z",
+  "merchant": {
+    "dirtyName": "Example Merchant",
+    "cleanName": "Example Merchant LLC",
+    "logo": "logo.png",
+    "logoUrl": "<https://example.com/logo.png>",
+    "country": "USA",
+    "city": "New York",
+    "merchantId": "merchant_123",
+    "placeId": "place_456",
+    "mccCode": "5411",
+    "category": "Retail"
+  }
+}
+```
+
+Confirmation request
+
+```
+{
+  "type": "confirmation_request",
+  "amount": "100.00",
+  "currency": "EUR",
+  "txnId": "txn_1003",
+  "expiresAt": "2025-03-12T19:00:00Z",
+  "merchant": {
+    "dirtyName": "Example Merchant",
+    "cleanName": "Example Merchant LLC",
+    "logo": "logo.png",
+    "logoUrl": "<https://example.com/logo.png>",
+    "country": "USA",
+    "city": "New York",
+    "merchantId": "merchant_123",
+    "placeId": "place_456",
+    "mccCode": "5411",
+    "category": "Retail"
+  }
+}
+```
+
+**OR**
+
+```
+{
+  "ok": true,
+  "data": null
+}
+```
+
+**Example (Axios)**
+
+```
+import axios from 'axios';
+
+export async function getCurrentOtpRequest(token) {
+  const response = await axios.post(`${endpoint}/user/otp/requests`, {
+    token
+  }, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response.data;
+}
+```
+
+---
+
+**3. Confirm an OTP Request**\
+**URL**
+
+```
+POST ${endpoint}/user/otp/requests/confirm
+```
+
+**Description**\
+Confirms or rejects a pending confirmation request.\
+**Request**
+
+```
+{
+  "token": "string",
+  "data": {
+    "id": "${txnId}",
+    "status": "REJECTED" | "CONFIRMED"
+  }
+}
+```
+
+**Response**\
+• **200**
+
+```
+{
+  "ok": false,
+  "error": "not_confirmation_type" | "expired" | "already_rejected" | "already_confirmed" | "disabled_for_provider"
+}
+```
+
+**OR**
+
+```
+{
+  "ok": true
+}
+```
+
+**Example (Axios)**
+
+```
+import axios from 'axios';
+
+export async function confirmOtpRequest(token, requestId, status) {
+  const response = await axios.post(`${endpoint}/user/otp/requests/confirm`, {
+    token,
+    data: {
+      id: requestId,
+      status
+    }
+  }, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response.data;
+}
+```
+
+---
+
+**4. Update OTP Delivery Configuration**\
+**URL**
+
+```
+POST ${endpoint}/user/otp/delivery/config/update
+```
+
+**Description**\
+Updates the user’s OTP delivery configuration.\
+**Request**
+
+```
+{
+  "token": "string",
+  "data": {
+    "confirmationType": "CONFIRMATION_BUTTON" | "TEXT_CODE",
+    "push": true | false,
+    "email": true | false,
+    "sms": true | false
+  }
+}
+```
+
+**Response**\
+• **200**
+
+```
+{
+  "ok": true
+}
+```
+
+**OR**
+
+```
+{
+  "ok": false,
+  "error": "no_partner"
+}
+```
+
+**Example (Axios)**
+
+```
+import axios from 'axios';
+
+export async function updateOtpDeliveryConfig(token, configData) {
+  const response = await axios.post(`${endpoint}/user/otp/delivery/config/update`, {
+    token,
+    data: configData
+  }, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response.data;
+}
+```
+
+---
+
+**5. Socket notification body**
+
+```
+{
+    type: 'inapp_otp',
+    card: "cardId",
+    transactionId: "txnId",
+    cryptoAccount: "cryptoAccountId",
+}
+```
