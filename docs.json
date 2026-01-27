@@ -27,5 +27,10 @@
         "href": "https://help.holders.io"
       }
     ]
+  },
+  "footer": {
+    "socials": {
+      "telegram": "https://t.me/welcomecards"
+    }
   }
 }
