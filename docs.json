@@ -13,7 +13,8 @@
       {
         "tab": "Inegration",
         "pages": [
-          "managersdoc"
+          "managersdoc",
+          "techdoc"
         ]
       }
     ]
