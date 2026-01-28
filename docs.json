@@ -14,7 +14,8 @@
         "tab": "Inegration Gides",
         "pages": [
           "managersdoc",
-          "techdoc"
+          "techdoc",
+          "inegration-gides/web-view-bridge-apis"
         ]
       }
     ]
