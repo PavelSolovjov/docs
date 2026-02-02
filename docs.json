@@ -20,7 +20,10 @@
               {
                 "group": "Accounts",
                 "pages": [
-                  "holders/product-review/untitled-page"
+                  "holders/product-review/untitled-page",
+                  "holders/product-review/accounts/solana-smart-contracts",
+                  "holders/product-review/accounts/ton-and-usdt-smart-contracts",
+                  "holders/product-review/accounts/trust-smart-contract"
                 ]
               }
             ]
