@@ -15,7 +15,9 @@
         "groups": [
           {
             "group": "Technical integration",
-            "pages": []
+            "pages": [
+              "managersdocs"
+            ]
           }
         ]
       }
