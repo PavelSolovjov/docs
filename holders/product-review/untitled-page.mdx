@@ -16,7 +16,7 @@ title: "Accounts & smart-contracts"
 
 **Non-custodial** — a model in which the service does not store private keys and does not control user funds; the user manages them independently and can withdraw funds from their smart contract at any time.\
 The main competitive advantage of Holders is the non-custodial nature of accounts, ensured by smart contracts. Only the contract owner (user) has the ability to withdraw funds from the contract through their cryptocurrency wallet, to which only they have access.\
-Holders does not store users' private keys and has no direct control over client funds. The service can only perform operations within the permitted payment logic and exclusively to the address of [Treasure wallets](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09G99VBCGY) of the company. Withdrawal of funds to third-party wallets from the user contract is technically impossible, and all transactions to [Treasure wallets](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09G99VBCGY) are completely transparent and [tracked in the blockchain by contract address](https://tonviewer.com/).\
+Holders does not store users' private keys and has no direct control over client funds. The service can only perform operations within the permitted payment logic and exclusively to the address of Treasure wallets of the company. Withdrawal of funds to third-party wallets from the user contract is technically impossible, and all transactions to Treasure wallets are completely transparent and [tracked in the blockchain by contract address](https://tonviewer.com/).\
 The partner bank does not have access to the client account and has no authority to block or freeze funds.\
 The presence of an individual smart contract makes Holders a non-custodial service, which maximally increases the security and transparency of operations, as well as reduces operational and regulatory risks.
 
@@ -24,7 +24,7 @@ The presence of an individual smart contract makes Holders a non-custodial servi
 
 # Legal framework for the solution
 
-A smart contract is a technology/execution mechanism, while user relationships are governed by an agreement ([Terms of use](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09THTFBPGF)). The code is not "legal by itself" - it operates within the framework of an agreement signed each time before creating an account in the service by the user. The version of the document signed by the user is recorded and stored in the database with the ability to update during the next terms update.\
+A smart contract is a technology/execution mechanism, while user relationships are governed by an agreement (Terms of use). The code is not "legal by itself" - it operates within the framework of an agreement signed each time before creating an account in the service by the user. The version of the document signed by the user is recorded and stored in the database with the ability to update during the next terms update.\
 Legal definitions:
 
 - Smart contract — a technical tool for accounting and debiting in crypto.
@@ -40,15 +40,15 @@ Legal definitions:
 
 # Types of Contracts in Holders
 
-There are two types of contracts in Holders:
+**There are two types of contracts in Holders:**
 
 1. Supported currency contracts - for each blockchain and each cryptocurrency in Holders, a separate smart contract is deployed. Currently, three main contracts are functioning:
-   1. [TON](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN) — smart contract for the [TON blockchain](https://ton.org/).
-   2. [USDT](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09U0DBTKBN) — smart contract for the [USDT](https://tether.to/en/) token ([based on TON](https://ton.org/)) — available only for existing users (new openings unavailable).
-   3. [USDC](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — smart contract for USDC token in the [Solana](https://solana.com/) blockchain.
-   4. [USDY](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09TQEHHDJ7) — smart contract for USDY token in the [Solana](https://solana.com/) blockchain.
-2. Contracts for implementing additional system capabilities:
-   1. [Trust](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09UTNG3ARE) contract - a contract that allows a user to create an account that can be shared with another user. The amount declared by the owner will be transferred to this account in stages at specified time intervals. It will later be used for trust management of assets (more details about trust operation [Trust Product Description](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09VA15AML0))
+   1. **TON** — smart contract for the [TON blockchain](https://ton.org/).
+   2. **USDT** — smart contract for the [USDT](https://tether.to/en/) token ([based on TON](https://ton.org/)) — available only for existing users (new openings unavailable).
+   3. **USDC** — smart contract for USDC token in the [Solana](https://solana.com/) blockchain.
+   4. **USDY** — smart contract for USDY token in the [Solana](https://solana.com/) blockchain.
+1. Contracts for implementing additional system capabilities:
+   1. [**Trust**](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09UTNG3ARE)** contract **- a contract that allows a user to create an account that can be shared with another user. The amount declared by the owner will be transferred to this account in stages at specified time intervals. It will later be used for trust management of assets.
 
 # Fees (Gas)
 
@@ -84,8 +84,8 @@ In practice, freezing or deleting a contract requires [validator](https://docs.t
 
 # State monitoring
 
-The [Backoffice](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FLT091E0) operator monitors the state and balances of user accounts. The operator interface [on the user page](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09HATW7BLH) displays all client accounts and the current state of each contract.\
-To track possible failures, an automatic metric has been implemented that shows the number of contracts that have transitioned to an automatic freeze state. The metric is available to the testing operator in the [general monitoring service](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09H0432JKW).
+The Backoffice operator monitors the state and balances of user accounts. The operator interface on the user page displays all client accounts and the current state of each contract.\
+To track possible failures, an automatic metric has been implemented that shows the number of contracts that have transitioned to an automatic freeze state. The metric is available to the testing operator in the general monitoring service.
 
 # Block diagram of contract and account lifecycles
 
