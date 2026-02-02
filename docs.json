@@ -11,11 +11,16 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Inegration Gides",
-        "pages": [
-          "managersdoc",
-          "techdoc",
-          "inegration-gides/web-view-bridge-apis"
+        "tab": "Integration Gides",
+        "groups": [
+          {
+            "group": "Technical integration",
+            "pages": [
+              "managersdoc",
+              "techdoc",
+              "inegration-gides/web-view-bridge-apis"
+            ]
+          }
         ]
       }
     ]
