@@ -9,17 +9,22 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "dropdowns": [
       {
-        "tab": "Integration Gides",
-        "groups": [
+        "dropdown": "Untitled Dropdown",
+        "tabs": [
           {
-            "group": "Technical integration",
-            "expanded": false,
-            "pages": [
-              "integration-gides/technical-integration/webviewbridgeapis",
-              "integration-gides/technical-integration/techdoc",
-              "integration-gides/technical-integration/managersdocs"
+            "tab": "Integration Gides",
+            "groups": [
+              {
+                "group": "Technical integration",
+                "expanded": false,
+                "pages": [
+                  "integration-gides/technical-integration/webviewbridgeapis",
+                  "integration-gides/technical-integration/techdoc",
+                  "integration-gides/technical-integration/managersdocs"
+                ]
+              }
             ]
           }
         ]
