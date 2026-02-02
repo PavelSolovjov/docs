@@ -146,7 +146,7 @@ User Token is a **JWT (JSON Web Token)** that is issued by the Holders server af
 
 After initial authentication and obtaining the User Token, the main interaction with Holders occurs through WebView with an embedded JavaScript Bridge.
 
-# User steps
+# Profile creation (User steps)
 
 User progression through steps is displayed based on integration into the Tonhub mobile wallet.
 
@@ -269,6 +269,26 @@ User progression through steps is displayed based on integration into the Tonhub
   className="mx-auto"
   style={{ width:"30%" }}
 />
+
+# Profile log in
+
+The user logs into an existing account within the Holders extension in the partner wallet.
+
+- Login by phone number
+- Login by seed phrase
+
+# Login by phone number
+
+Used when the user has previously used the service or wants to link an additional wallet address to their profile (the number of wallets linked to one profile is unlimited).
+
+1. The user navigates to the Holders application from the wallet interface. The transition design depends on the partner: when transitioning from the Tonhub application, the user clicks on the banner on the wallet's main screen.
+2. The user selects their country of residence by scrolling through the list of flags or entering the country name in the search field. The system supports input of both full country names and abbreviations (for example, UAE, USA) in any language. When logging into an existing account, we already know the user's country, however until the phone number is entered, it's unclear whether the user is attempting to log into an existing account or create a new one.
+3. The user enters the phone number they previously used in the service. After clicking the "Continue" button, the user proceeds to the number confirmation page. At this stage, automatic acceptance of the current _Privacy Policy_ also occurs.
+4. Upon correct entry of the confirmation code, the user is taken to the page of the last created account.
+
+# Login by seed phrase
+
+Used when the user knows the seed phrase from the TON wallet linked to the profile in Holders. After entering the seed phrase, the profile opens along with the wallet. To log into the profile, you need to go to the "Cards" section at the top of the wallet and then click the "Continue" button — the user will be taken to the page of the last created account.
 
 # Metrics and Analytics
 
