@@ -25,6 +25,12 @@
                   "holders/product-review/accounts/ton-and-usdt-smart-contracts",
                   "holders/product-review/accounts/trust-smart-contract"
                 ]
+              },
+              {
+                "group": "Onboarding",
+                "pages": [
+                  "holders/product-review/onboarding/onboarding-process"
+                ]
               }
             ]
           },
