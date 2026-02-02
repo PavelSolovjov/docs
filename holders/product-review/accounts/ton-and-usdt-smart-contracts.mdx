@@ -48,10 +48,9 @@ The TON contract became the first contract launched in the project in June 2023.
 
 # General Information
 
-**Blockchain:**[TON](https://ton.org/)\
-**Location:** https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\
-**Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
-License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
+**Blockchain: **[TON](https://ton.org/)\
+**Location:** https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\\ **Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
+**License:** [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Contract Roles
 
@@ -147,7 +146,7 @@ Balance is updated, prepared limits, and confirmation is returned. \
 This is the main account operation mechanism. It allows processing debits, transfers, clearings, as well as updating account state. During execution, the following are checked:
 
 - Seed and seqno: guarantee that the message is current and there were no repeated or outdated transactions.
-- Time **(**`timestamp`**)** and deadlines**:** ensuring timely execution of operations and preventing delays.
+- Time **(**`timestamp`**)** and deadlines\*\*:\*\* ensuring timely execution of operations and preventing delays.
 - Balance and limits: checking that balance is sufficient and limits are not exceeded.
 - Account status: ensuring the account is not in closed or requested for closure state.
 
@@ -171,7 +170,7 @@ Updated limits are saved, increasing the level of protection against abuse.
 
 User or owner can initiate account closure.\
 The account is set to "closure request" status, and automatic withdrawal of remaining funds occurs over time (timeout).\
-Upon execution — the transaction withdraws all balance remainders and transitions the account to `closed` state. 
+Upon execution — the transaction withdraws all balance remainders and transitions the account to `closed` state.
 
 ### 6. **Code update (**`update`**)**
 
@@ -179,7 +178,7 @@ Provides smart contract upgrade — code replacement with version and signature 
 It's verified that the version matches the expected one, and signature validation is performed (signatures of owner or authorized participants).\
 After successful update, the contract continues operating with new code.
 
-### 7. **TON and Jettons withdrawal (**`withdraw_tons`**, **`withdraw_jettons`**)**
+### 7. **TON and Jettons withdrawal (**`withdraw_tons`****`, withdraw_jettons)`****
 
 To ensure interaction with external systems and third-party tokens, TON and Jettons withdrawal functions are provided, with authorization and reserve checks.
 
