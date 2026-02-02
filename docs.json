@@ -12,7 +12,8 @@
     "tabs": [
       {
         "tab": " Holders",
-        "groups": [
+        "pages": [
+          "holders/business-review",
           {
             "group": "Integration guides",
             "pages": [
