@@ -1,4 +1,256 @@
 ---
-title: 'SOLANA smart-contracts'
+title: "SOLANA smart-contracts"
 ---
 
+# Smart Contract
+
+A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed on the network, without intermediaries, according to predefined rules.\
+The structure of USDC and USDY contracts is based on one blockchain, so a unified description is used.
+
+# What is USDC
+
+USDC (short for USD Coin) is a stablecoin created in 2018, designed to maintain stable value by pegging to a reserve asset. In the case of USDC, it is backed by the US dollar in a 1:1 ratio, meaning each token can be exchanged for one US dollar or equivalent asset stored in reserve. This makes USDC less volatile compared to other cryptocurrencies.\
+It is owned and managed by [Centre](https://www.centre.io/), a consortium created by [Circle](https://www.circle.com/) and [Coinbase](https://www.coinbase.com/), which ensures trust and transparency in its management. These two major companies are responsible for the development, issuance, and management of this coin. Circle controls the issuance and redemption of USDC, while Coinbase plays a key role in distributing the token across various platforms and exchanges, ensuring its wide availability and usage.\
+Currently, there are approximately 28 billion USDC tokens in circulation. Each token is fully reserved, meaning it is backed 1:1 by US dollars or equivalent assets, which guarantees its stability. Although USDC itself is not FDIC (Federal Deposit Insurance Corporation) insured, the reserves supporting it are held in regulated financial institutions. Additionally, these reserves are regularly audited by independent third parties to ensure that USDC is always fully backed, providing transparency and security for its users.\
+USDC is a stablecoin operating on multiple blockchain networks, such as [Solana](https://solana.com/), [Ethereum](https://ethereum.org/), [Tron](https://tron.network/) and others. Each network uses a specific contract address to manage USDC transactions.\
+USDC in Holders is available to all clients [with European residency](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FNDP3PT7) who have completed onboarding on Walleexer.
+
+# What is USDY
+
+Ondo US Dollar Yield (USDY) is a tokenized financial instrument that combines the convenience of stablecoin usage with yield from ultra-safe US Treasury bonds and bank deposits. It is primarily designed for investors outside the United States.
+
+1. Backed by short-term [US Treasury bonds](https://www.treasurydirect.gov/) and deposits, it offers daily yield accrual while maintaining a 1:1 parity with the US dollar.
+2. Protected from bankruptcy, with independent oversight, over 3% excess collateralization, and token transfer restrictions to comply with regulatory standards.
+3. Functions as composable collateral on [Ethereum](https://ethereum.org/), [Solana](https://solana.com/), and other blockchains, combining traditional finance yields with blockchain liquidity.
+
+USDY bridges the gap between traditional finance and decentralized ecosystems by tokenizing low-risk investment in [US Treasury bonds](https://www.treasurydirect.gov/). This allows investors worldwide to earn yield (~4.25% annually) that is typically only available to institutional players, while providing 24/7 liquidity through blockchain. Unlike regular stablecoins, USDY's value is not simply pegged to the dollar — it is directly backed by yield-generating assets, creating a hybrid product that combines stability and passive income.\
+USDY in Holders is currently in testing phase, but will be available to all clients with European residency who have completed onboarding on Walleexer.
+
+# History
+
+The Solana contract was written by Holders in January 2025 and allowed users to use USDC as their account currency. One of the problems that the company solved by introducing this contract was the absence of an EU license for the USDT token, which was being used as the primary currency for opening accounts at that time. Since the main application at the time of writing the contract was the mobile wallet Tonhub, the company had to add Solana blockchain support to the wallet, thereby making it multi-currency.\
+Since the company's main application at the time of contract development was the mobile wallet [Tonhub](https://gettonhub.com/), it was necessary to add Solana blockchain support to it, which made the wallet multi-currency.\
+The contract for the increasingly popular USDY token was implemented in November 2025 as an alternative to USDC, since storing funds in this token allows users not only to pay with it but also to receive additional income from holding it.
+
+# How the contract works in simple terms
+
+1. The user selects a currency (TON or USDT) and initiates the creation of a new account, passing the corresponding command to the controller _\*_\* (Controller authority).
+2. The controller creates a contract and transfers ownership rights to the user's wallet (wallet authority).
+3. The user tops up the contract balance.
+4. When conducting a transaction, the contract receives a signal from the controller to block the amount needed to execute the operation.
+5. Blocked amounts are combined into a batch (rollup) to optimize gas costs.
+6. The formed batch is transferred to the Holders treasury wallet.
+7. When returning funds, the amount is transferred from the treasury wallet back to the user's contract balance.
+8. If the user initiates a withdrawal to an external account, the contract implements multi-signature and sends the funds.
+
+# General Information
+
+**Blockchain:**[Solana](https://solana.com/)\
+**Location:** https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src\
+**Language:**[Rust](https://rust-lang.org/)\
+**License:**[MIT](https://en.wikipedia.org/wiki/MIT_License)
+
+# Contract Roles
+
+## **Contract Owner (wallet authority)**
+
+This role is assigned to the Holders user when deploying the contract — the owner is considered to be the wallet from which the contract creation was initiated. It is impossible to change the contract owner, and in case of access loss, it will not be possible to recover funds remaining on the contract. The only way to help a client who has lost access to their wallet is to advise them to spend funds from cards linked to the account.
+
+### Available actions:
+
+- Setting account limits
+- Topping up the contract through the wallet (calling the corresponding instruction)
+- Emergency withdrawal of funds
+
+### Gas payment:
+
+- Gas is paid by the contract owner - the user themselves (Owner wallet).
+
+The contract owner's address can be seen on the main account page in the Linked to wallet card. The owner's wallet address is also available in the backoffice on the User page when clicking on the account tile.
+
+## **Controller** (**Controller authority**)
+
+Controller is a wallet (highload-wallet v3 with rotational public key) that has been delegated management rights and execution of operations on behalf of the owner. It performs automated and operational tasks that are inconvenient or impossible to assign directly to the user.
+
+### Controller addresses:
+
+- [4XzRdcK1M1koygnvS51V9YfuQzyJMLWDZqJQ73Jymg59](https://solscan.io/account/4XzRdcK1M1koygnvS51V9YfuQzyJMLWDZqJQ73Jymg59) - SOL controller
+
+### Available actions:
+
+- Creating new accounts — after creation, Controller transfers the Wallet authority role to the client's wallet.
+- Processing payments
+- Processing clearings
+- Closing accounts — can close an account immediately, without waiting (Graceful period).
+- Synchronizing contract balance after direct top-up
+- Withdrawing funds to external accounts - can sign withdrawals from its side
+
+### Gas payment:
+
+- Gas for these operations is paid by the Controller owner from their balance. The role belongs to Holders, meaning the Holders service itself pays for gas, so it's important to monitor the controller's balance.
+
+## **Treasure authority**
+
+Treasury wallets are Holders wallets where funds (USDC or TON) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with treasury wallets; this smart contract has no Wallet authority.
+
+### Available actions:
+
+- Processing refunds and reversals from treasury wallets to client accounts
+- Withdrawals from treasury wallets (only to wallet addresses specified in the whitelist)
+
+### Gas payment:
+
+- Gas for these operations is paid by Treasure authority, i.e., Holders.
+
+## Support authority
+
+A role responsible for launching fixes in case of errors. Currently, this is one fix: removing an incorrect deposit address that exchanges send to Associated Token Account. As a result, funds are sent to the wrong address, and the Support authority role allows manually removing such incorrect addresses.
+
+## Route owner (in TON — Owner, also known as Treasure owner)
+
+A role that has administrative rights over a set of contracts. For Wallester, Holders has a root account in the Solana network owned by Route owner.
+
+### Available functions:
+
+- Changing Treasure authority
+- Changing Support authority
+- Changing Controller
+- Setting up Graceful period (withdrawal time after account closure)
+- Updating whitelist for treasury withdrawals (adding or excluding addresses)
+
+### Gas payment:
+
+- Gas payment for executing these operations is made by Route owner (Holders).
+
+## Upgrade authority
+
+A role that has the right to update contract code. On Solana, you can update code immediately for all contracts associated with an account.\
+According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however, changes to contract logic are allowed.
+
+# Main Operations and Scenarios
+
+### 1. **Deploy (**`deploy`**)**
+
+- Creates a new account, initializes parameters: seed, addresses, controller.
+- Verifies seed correctness, address correspondence, remembers parameters, sets limits and states.
+- Returns deployment confirmation.
+
+### 2. **Top-up (**`topup`**)**
+
+- Deposits funds into the user's balance.
+- Verifies the correctness of the calling party and limits.
+- Updates the displayed balance, sends confirmation.
+
+### 3. **Transaction execution (**`execute`**)**
+
+- The most important function — allows transferring funds, debiting, processing clearings.
+- Verifies seed, seqno, time, account status.
+- Calculates current balance, checks limits for single, daily, and monthly limits.
+- Updates balance, limits, and state.
+- If the account is marked as closed — initiates automatic withdrawal of remaining funds.
+
+### 4. **Limit updates (**`update_limits`**)**
+
+- Allows the owner to change limits (single, daily, monthly).
+- Verifies sequence (seqno) and limit validity.
+- Updates the pending limits queue.
+
+### 5. **Account closure (**`close`**)**
+
+- Initiates a closure request.
+- After timeout expiration — automatically withdraws remaining funds and transfers the account to `closed` state.
+
+### 6. **Code update (**`update`**)**
+
+Provides smart contract upgrade. When called:
+
+- The correctness of version (`revision`) and owner signature is verified.
+- If checks pass — contract code is updated without state loss.
+- Allows implementing new functions, fixing bugs, and developing the system.
+
+### 7.  **USDC withdrawal to linked wallet (**`withdraw_usdc`**)**
+
+- The system includes functions for USDC withdrawal.
+- Mandatory authorization checks ensure secure asset withdrawal in accordance with rules and account state.
+
+### **8. USDC withdrawal to external account**
+
+- Allows withdrawing funds to an external account
+- Allows transferring funds between accounts within the system
+
+# Gas
+
+### Contract creation and maintenance
+
+In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - payment for 2 years upfront that permanently reserves space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL for every 10 kB. When closing an account, you can request a cost refund since allocation is no longer needed.\
+Approximate price for creating such a contract — **approximately 0.015 SOL (1.5 USD at Sol/USDT rate \$100)**.
+
+### Gas for top-up
+
+To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected — an additional fee that increases the chance of confirmation during high load. This allows faster transaction processing. The user pays gas only when topping up the contract; all other payments are already covered by the service. Gas for account top-up in Solana is fixed - **0.000005 SOL (0.00005 USD at Sol/USDT rate \$100).**
+
+# Implementation Features
+
+### 1. State structure and data serialization
+
+The contract uses internal methods `load_data()` and `store_data()` for state serialization and deserialization. All important parameters — balances, limits, status, timeouts — are stored in structured form in block memory. Note: proper use of these methods is critical for data integrity.
+
+### 2. Limit management through pending_limits queue
+
+Operation limits (single, daily, monthly) are implemented using the `pending_limits_queue`. This enables asynchronous limit updates while checking `seqno` sequence.\
+Limit updates occur only through `update_limits` calls, with verification of correct `seqno` and change validity.
+
+### 3. Account closure mechanism
+
+Account closure is implemented in two stages:\
+**RequestCloseA:** user calls closure request, account transitions to "closure requested" state, timeout is set.\
+**Automatic withdrawal:** after timeout expiration — all remaining funds are withdrawn by automatic call to `close` function, and account is transferred to `closed` state. This ensures security and automation of the closure procedure.
+
+### 4. Verification and authorization
+
+All operations require authorization — either owner (`owner`) through signature or controller. It's important to follow the correct method call order and verify signatures to avoid unauthorized actions.
+
+### 5. Working with balances and reservation
+
+Balance within the contract is managed using variables `deposited`, `transferred`, `withdrawn`. Before any operations, reservation (`raw_reserve()`) is performed to guarantee correct accounting and avoid overflow or insufficient funds.
+
+### 6. Code update (upgrade)
+
+Updates are performed through the `update` method, which checks `revision` and owner signature. After successful verification — contract code is replaced without resetting state or data.
+
+### 7. Interaction with external infrastructure
+
+Functions `do_send_message()` and `do_send_token_message()` are used for conducting operations and sending transactions. All transactions require sufficient gas and correct signature. In case of errors — transactions are rejected and corresponding error is triggered.
+
+### 8. Error handling
+
+The contract provides numerous checks and errors — for example, for limit violations, incorrect seeds, timeouts, or invalid signatures. It's essential to follow call rules to avoid execution errors.
+
+### 9. Security assurance
+
+The contract uses signature verification, `has_one`, proper management of `seeds` and `bump` to protect against unauthorized actions. Participants must carefully control private keys and follow call procedures.
+
+# Data Structure and Storage
+
+### Main storage fields (`state`):
+
+- **Time and sequence**:
+  - `ctx_seqno`: sequential transaction number.
+  - `ctx_last_state_at`: time of last state update.
+  - `ctx_deadline`: closure timeouts.
+- **Balance indicators**:
+  - `ctx_deposited_a`, `ctx_deposited_b`: deposit amounts.
+  - `ctx_transferred_a`, `ctx_transferred_b`: transfers between accounts.
+  - `ctx_withdrawn_a`, `ctx_withdrawn_b`: withdrawn fund amounts.
+- **Status and state**:
+  - `ctx_state`: account state (open, closed, closure requested).
+  - `ctx_seed`: unique seed for messages.
+  - `ctx_tz_offset`, `ctx_close_timeout`: timezone and timeout settings.
+- **Limits**:
+  - In `ctx_limits`: operation restrictions, stored limits, expenses, deadlines, and pending limits queue.
+
+### Addresses and keys:
+
+- `ctx_address_a`, `ctx_address_b`: owner and treasury addresses.
+- `ctx_controller`: controller role.
+- `ctx_token_mint`: Mint for USDC.
