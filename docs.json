@@ -26,12 +26,7 @@
                   "holders/product-review/accounts/trust-smart-contract"
                 ]
               },
-              {
-                "group": "Onboarding",
-                "pages": [
-                  "holders/product-review/onboarding/onboarding-process"
-                ]
-              }
+              "holders/product-review/onboarding/onboarding-process"
             ]
           },
           {
