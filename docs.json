@@ -14,16 +14,10 @@
         "tab": " Holders",
         "groups": [
           {
-            "group": "Technical integration",
+            "group": "Integration guides",
             "pages": [
               {
-                "group": "For managers",
-                "pages": [
-                  "integration-gides/technical-integration/managersdocs"
-                ]
-              },
-              {
-                "group": "For developers",
+                "group": "For wallets",
                 "pages": [
                   "integration-gides/technical-integration/techdoc",
                   "integration-gides/technical-integration/webviewbridgeapis"
