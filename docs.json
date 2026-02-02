@@ -17,8 +17,7 @@
             "group": "Technical integration",
             "pages": [
               "managersdoc",
-              "techdoc",
-              "inegration-gides/web-view-bridge-apis"
+              "techdoc"
             ]
           }
         ]
