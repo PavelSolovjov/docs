@@ -15,6 +15,7 @@
         "groups": [
           {
             "group": "Technical integration",
+            "expanded": false,
             "pages": [
               "integration-gides/technical-integration/webviewbridgeapis",
               "integration-gides/technical-integration/techdoc",
