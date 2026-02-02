@@ -13,10 +13,16 @@
       {
         "tab": " Holders",
         "pages": [
+          "holders/business-review",
           {
             "group": "Product review",
             "pages": [
-              "holders/business-review"
+              {
+                "group": "Accounts",
+                "pages": [
+                  "holders/product-review/untitled-page"
+                ]
+              }
             ]
           },
           {
