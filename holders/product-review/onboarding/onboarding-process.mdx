@@ -157,6 +157,7 @@ User progression through steps is displayed based on integration into the Tonhub
      alt="Banner(1)"
      title="Banner(1)"
      style={{ width:"32%" }}
+     className="mx-auto"
    />
 2. User session creation screen. Displayed when there is no user token in the system. Clicking the "Continue" button initiates the generation of a new token and creation of a new user session.
 
@@ -165,16 +166,18 @@ User progression through steps is displayed based on integration into the Tonhub
      alt="Landing(1)(1)"
      title="Landing(1)(1)"
      style={{ width:"26%" }}
+     className="mx-auto"
    />
-3. Residency selection screen (pre-onboarding). At this stage, the system applies restrictions according to the country list loaded from the Holders backend. If the user's country of residence falls under the current restrictions, the user is redirected to the [application form](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09GVC4FRC2). Currently (January 2026), restrictions apply exclusively to residents of countries included in the [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information) sanctions lists.
+3. Residency selection screen (pre-onboarding). At this stage, the system applies restrictions according to the country list loaded from the Holders backend. If the user's country of residence falls under the current restrictions, the user is redirected to the application form. Currently (January 2026), restrictions apply exclusively to residents of countries included in the [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information) sanctions lists.
 
    <img
      src="/images/IMG_0454.PNG"
      alt="IMG 0454"
      title="IMG 0454"
      style={{ width:"25%" }}
+     className="mx-auto"
    />
-4. Phone number entry and confirmation (OTP). The user enters their phone number and confirms it using a code received via SMS message. By default, the system suggests the country code selected by the user during the pre-onboarding stage, however the code can be changed by clicking on the corresponding country flag. Confirmation code delivery is implemented in partnership with [Twilio](https://www.twilio.com/en-us) service. Upon phone number confirmation, a user profile is created in the Holders database and Holders policies are accepted — [Privacy Notes](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGH6263U). The version of accepted policies is also saved in the service database.
+4. Phone number entry and confirmation (OTP). The user enters their phone number and confirms it using a code received via SMS message. By default, the system suggests the country code selected by the user during the pre-onboarding stage, however the code can be changed by clicking on the corresponding country flag. Confirmation code delivery is implemented in partnership with [Twilio](https://www.twilio.com/en-us) service. Upon phone number confirmation, a user profile is created in the Holders database and Holders policies are accepted — Privacy Notes. The version of accepted policies is also saved in the service database.
 
    The page has two additional options:
    - **Resend code** — function for resending the authorization code with a 40-second interval. The number of requests is limited to five per day, however this limitation can be removed by the Backoffice system administrator on the user management page.
@@ -185,4 +188,43 @@ User progression through steps is displayed based on integration into the Tonhub
        alt="Phone(1)"
        title="Phone(1)"
        style={{ width:"27%" }}
+       className="mx-auto"
      />
+5. Email address confirmation. The user enters an address and clicks continue. The system checks the address for fraud using the external service [_Postmark_](https://postmarkapp.com/). After successful verification, the user receives an email with a six-digit numeric confirmation code that must be entered in the corresponding field. Alternatively, the user can confirm the email address by clicking a special button in the received email. If the email was not received, the user has the option to return to the email address entry screen and repeat the process. Note: there is a limit of no more than 3 emails with confirmation codes within 24 hours.
+6. Beginning verification. The user arrives at a screen with an offer to complete verification and clicks Continue.
+
+   <img
+     src="/images/KYC-intro(1)-1.png"
+     alt="KYC Intro(1) 1"
+     title="KYC Intro(1) 1"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+7. Next, the user proceeds to the Sumsub SDK, where they complete KYC. KYC consists of predefined stages in Sumsub settings.
+   1. Completing a questionnaire about the source of funds
+   2. Uploading documents for identification
+   3. Taking a live selfie
+
+   <img
+     src="/images/IMG_0462(1).PNG"
+     alt="IMG 0462(1)"
+     title="IMG 0462(1)"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+
+   <img
+     src="/images/IMG_0463(1).PNG"
+     alt="IMG 0463(1)"
+     title="IMG 0463(1)"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+
+   <img
+     src="/images/IMG_0464(1).PNG"
+     alt="IMG 0464(1)"
+     title="IMG 0464(1)"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
