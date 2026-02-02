@@ -14,6 +14,10 @@
         "tab": " Holders",
         "groups": [
           {
+            "group": "Overview",
+            "pages": []
+          },
+          {
             "group": "Integration guides",
             "pages": [
               {
