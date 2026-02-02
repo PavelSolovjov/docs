@@ -151,10 +151,38 @@ After initial authentication and obtaining the User Token, the main interaction 
 User progression through steps is displayed based on integration into the Tonhub mobile wallet.
 
 1. User clicks on the banner on the wallet's main screen. The wallet redirects the user to the Holders WebApp.
+
+   <img
+     src="/images/Banner(1).png"
+     alt="Banner(1)"
+     title="Banner(1)"
+     style={{ width:"32%" }}
+   />
 2. User session creation screen. Displayed when there is no user token in the system. Clicking the "Continue" button initiates the generation of a new token and creation of a new user session.
+
+   <img
+     src="/images/Landing(1)(1).png"
+     alt="Landing(1)(1)"
+     title="Landing(1)(1)"
+     style={{ width:"26%" }}
+   />
 3. Residency selection screen (pre-onboarding). At this stage, the system applies restrictions according to the country list loaded from the Holders backend. If the user's country of residence falls under the current restrictions, the user is redirected to the [application form](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09GVC4FRC2). Currently (January 2026), restrictions apply exclusively to residents of countries included in the [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information) sanctions lists.
+
+   <img
+     src="/images/IMG_0454.PNG"
+     alt="IMG 0454"
+     title="IMG 0454"
+     style={{ width:"25%" }}
+   />
 4. Phone number entry and confirmation (OTP). The user enters their phone number and confirms it using a code received via SMS message. By default, the system suggests the country code selected by the user during the pre-onboarding stage, however the code can be changed by clicking on the corresponding country flag. Confirmation code delivery is implemented in partnership with [Twilio](https://www.twilio.com/en-us) service. Upon phone number confirmation, a user profile is created in the Holders database and Holders policies are accepted — [Privacy Notes](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGH6263U). The version of accepted policies is also saved in the service database.
 
    The page has two additional options:
    - **Resend code** — function for resending the authorization code with a 40-second interval. The number of requests is limited to five per day, however this limitation can be removed by the Backoffice system administrator on the user management page.
    - **Didn't receive the code?** — function for opening a modal window with an informational message: "**Not received the code?** Check your number, it may have been entered with an error. It is also possible that airplane mode is turned on or there is no access to the operator's network. Or write to support, we will try to help you" and the ability to contact support through the integrated Intercom service.
+
+     <img
+       src="/images/Phone(1).png"
+       alt="Phone(1)"
+       title="Phone(1)"
+       style={{ width:"27%" }}
+     />
