@@ -9,13 +9,18 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "dropdowns": [
       {
-        "tab": "Inegration Gides",
-        "pages": [
-          "managersdoc",
-          "techdoc",
-          "inegration-gides/web-view-bridge-apis"
+        "dropdown": "Untitled Dropdown",
+        "tabs": [
+          {
+            "tab": "Inegration Gides",
+            "pages": [
+              "managersdoc",
+              "techdoc",
+              "inegration-gides/web-view-bridge-apis"
+            ]
+          }
         ]
       }
     ]
