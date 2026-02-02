@@ -10,27 +10,27 @@ Onboarding in Holders represents a structured process of integrating a mobile wa
 
 - **Explain the value of Holders**
 
- The user understands what Holders is, can evaluate the onboarding process, and form a correct opinion about the company.
+The user understands what Holders is, can evaluate the onboarding process, and form a correct opinion about the company.
 
 - **Guide through profile creation**
 
- The user flawlessly goes through the steps: creates a profile, confirms wallet connection, completes basic setup.
+The user flawlessly goes through the steps: creates a profile, confirms wallet connection, completes basic setup.
 
 - **Collect necessary consents and permissions**
 
- The user provides all required consents (for Holders and partners) so the service can operate fully and remain compliant.
+The user provides all required consents (for Holders and partners) so the service can operate fully and remain compliant.
 
 - **Lead to the first target action**
 
- The user performs the first key action based on Holders - creates and funds an account.
+The user performs the first key action based on Holders - creates and funds an account.
 
 - **Reduce churn and misunderstanding**
 
- Minimize cases where the user exits onboarding due to fear, misunderstanding, or perception of complexity, through simple explanations and clear steps.
+Minimize cases where the user exits onboarding due to fear, misunderstanding, or perception of complexity, through simple explanations and clear steps.
 
 - **Filter out unsuitable users**
 
- Correctly stop onboarding if the user doesn't meet critical conditions (residency, creditworthiness), and explain why and what can be done next (if relevant).
+Correctly stop onboarding if the user doesn't meet critical conditions (residency, creditworthiness), and explain why and what can be done next (if relevant).
 
 # Onboarding start and end conditions
 
@@ -117,3 +117,31 @@ Tonhub uses **the same Ed25519 key** for Solana as for TON. This is possible bec
 ### Result
 
 The Holders server links both accounts (TON and Solana) to one user and issues a unified User Token for access to both.
+
+# What is User token
+
+User Token is a **JWT (JSON Web Token)** that is issued by the Holders server after successful authentication and serves as the user's session identifier.
+
+## What is it used for
+
+| Function              | Definition                                                                         |
+| :-------------------- | :--------------------------------------------------------------------------------- |
+| **API Authorization** | Passed in each request to the Holders API in the request body (`{ token: "..." }`) |
+| **Getting Profile**   | `/v2/profile/get` - user information                                               |
+| **Account List**      | `/v2/account/list` - cards and crypto accounts                                     |
+| **Account status**    | `/account/state` - KYC status, verification                                        |
+| **OTP requests**      | `/v2/user/otp/requests` - one-time passwords for operations                        |
+| **WebSocket**         | Connection to `wss://*/v2/updates` for real-time updates                           |
+
+## Where it's stored
+
+- Token is saved locally in the device's secure storage (MMKV)
+- Linked to a specific TON wallet address
+
+## When it's deleted
+
+1. **401 response** from API - token expired or invalid
+2. **New invite code** - when re-attempting registration by invitation
+3. **Migration** - when updating token format (e.g., transition to TON+Solana)
+
+After initial authentication and obtaining the User Token, the main interaction with Holders occurs through WebView with an embedded JavaScript Bridge.
