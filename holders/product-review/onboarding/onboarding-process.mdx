@@ -228,3 +228,56 @@ User progression through steps is displayed based on integration into the Tonhub
      className="mx-auto"
      style={{ width:"26%" }}
    />
+
+   Upon completion of the verification procedure, the user is directed to a page awaiting verification results.
+
+   <img
+     src="/images/KYC-processing(1).png"
+     alt="KYC Processing(1)"
+     title="KYC Processing(1)"
+     className="mx-auto"
+     style={{ width:"31%" }}
+   />
+
+   Users can also view verification results through corresponding statuses displayed on the wallet's main screen banner. When clicking on the banner, the user is redirected to the last onboarding step where they left off.
+
+   <img
+     src="/images/BannerStates(1)(1).png"
+     alt="Banner States(1)(1)"
+     title="Banner States(1)(1)"
+     className="mx-auto"
+     style={{ width:"31%" }}
+   />
+
+   Following the moderation results, the partner sends a webhook to Holders with one of the following decisions:
+   1. Moderation passed successfully — the user receives a push notification and can begin using the service.
+
+
+   2. Moderation failed — the user receives a push notification about the inability to use the service with the reason specified. In case of a non-final decision (for example, when uploading a poor-quality document image), the user is provided with the opportunity to re-complete verification.
+
+   Subsequently, the user can re-complete verification using other documents, but this can only be done by contacting support or after their expiration date.
+8. The user proceeds to the product selection page, where they are given the opportunity to choose one of three available products. After confirming their choice, the user awaits account issuance.
+   - Account + virtual bank card
+   - Account
+   - Private Trust
+
+   <img
+     src="/images/Chooseaproduct(1)(1).png"
+     alt="Chooseaproduct(1)(1)"
+     title="Chooseaproduct(1)(1)"
+     className="mx-auto"
+     style={{ width:"31%" }}
+   />
+9. The user arrives at the account page and waits for the smart contract deployment to complete. After deployment finishes, the user sees a modal window with an offer to fund their account. The modal window will appear each time the user navigates to the account page until the first funding is completed.
+
+<img
+  src="/images/Home(1)(1).png"
+  alt="Home(1)(1)"
+  title="Home(1)(1)"
+  className="mx-auto"
+  style={{ width:"30%" }}
+/>
+
+# Metrics and Analytics
+
+The user onboarding process is covered by metrics on both the frontend and backend. Backend events are sent to Backoffice as well as to the Metabase service. Frontend events can be viewed and funnels can be built in the [Mixpanel](https://mixpanel.com/home/) service.
