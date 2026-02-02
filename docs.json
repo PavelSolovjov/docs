@@ -13,11 +13,10 @@
       {
         "tab": " Holders",
         "pages": [
-          "holders/business-review",
           {
             "group": "Product review",
             "pages": [
-              "holders/product-review/accounts-and-smart-contracts"
+              "holders/business-review"
             ]
           },
           {
