@@ -1,4 +1,131 @@
 ---
-title: 'TRUST smart-contract'
+title: "TRUST smart-contract"
 ---
 
+# Smart Contract
+
+A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
+The structure of TON (TON) and USDT (TON) contracts is based on one blockchain, so a unified description is used.
+
+# General Information
+
+**Blockchain:**[Solana](https://solana.com/)\
+**Repository:**https://github.com/whalescorp/holders-vesting-sol/\
+**Language:**[Rust](https://rust-lang.org/)\
+**License:**[MIT](https://en.wikipedia.org/wiki/MIT_License)
+
+# Contract Operation Flowchart
+
+![Image(3)(1)](/images/image\(3\)\(1\).png)
+
+The flowchart describes the process of creating and using vesting, as well as token distribution through blockchain. The process can be broken down into the following stages:
+
+1. **Vesting Creation:**
+   1. User initiates vesting creation.
+   2. Information is passed to the Issuer and then to the database (DB), where the record is saved with "PENDING" status.
+2. **Contract Deployment:**
+   1. Database notifies ChainManager about the need for contract deployment.
+   2. ChainManager initiates contract deployment on the blockchain.
+   3. After successful deployment, the status is updated to "ACTIVE".
+3. **Deposit Funding:**
+   1. User deposits tokens into the contract.
+   2. This action is registered in the database.
+
+Further actions occur cyclically depending on the unlock period:
+
+1. **Token Distribution:**
+   1. A portion of tokens is paid out to the user.
+   2. ChainManager receives information from the blockchain that the payout has been completed.
+   3. ChainManager notifies the Issuer that the payout has been completed.
+
+- Issuer passes information about the payout and updated balance to the database and decides whether to initiate the next cycle.
+
+# Contract Roles
+
+1. **Config Authority**:
+   1. Responsible for creating and managing vesting configurations.
+   2. Has the right to set the controller.
+2. **Controller**:
+   1. Participant who manages a specific configuration and can perform vesting-related operations.
+   2. Can create new vestings and add or remove beneficiaries.
+3. **Grantor**:
+   1. Person or address that creates a specific vesting.
+   2. Can add beneficiaries and initiate payouts.
+4. **Beneficiary**:
+   1. Receives tokens according to the vesting schedule.
+   2. Can participate in receiving tokens during their distribution.
+
+# Main Operations and Scenarios
+
+1. **Configuration creation (**`create_config`**)** - initialization of a new vesting configuration with specific parameters, including configurator and controller.
+2. **Controller change (**`set_controller`**)** - updating the controller for an existing configuration.
+3. **Vesting creation (**`create_vesting`**)** - initialization of a new vesting, defining parameters such as token distribution time, nominal amount, and inflation.
+4. **Adding beneficiary (**`add_beneficiary`**)** - adds a new beneficiary to an existing vesting, while checking that the number of beneficiaries does not exceed maximum limits.
+5. **Removing beneficiary (**`remove_beneficiary`**)** - removes a beneficiary from the vesting recipients list, ensuring that minimum requirements for the number of beneficiaries are met.
+6. **Token claim (**`claim`**)** - allows a beneficiary to request tokens according to vesting conditions, checking available funds and time constraints.
+
+# Inflation Calculation
+
+The `VestingV0` structure has an `inflation_rate_per_interval` field that is responsible for the inflation percentage. This parameter allows setting inflation rates for a given interval.\
+The `total_release_amount_with_inflation_at` method in the `VestingV0` structure calculates the total amount of tokens that can be released, taking into account the specified inflation:
+
+```
+pub fn total_release_amount_with_inflation_at(&self, unix_timestamp: i64) -> Option<u64 {
+    let first_release_at = if self.cliff_until == 0 {
+        self.started_at
+    } else {
+        self.cliff_until
+    };
+    
+    if unix_timestamp < first_release_at {
+        return None;
+    }
+    
+    let elapsed = unix_timestamp.checked_sub(first_release_at)?;
+    let release_count = elapsed.checked_div(self.release_interval)?;
+    
+    if release_count == 0 {
+        return Some(self.nominal_release_amount);
+    }
+    
+    // Логика с учетом инфляции
+    // ...
+}
+```
+
+The method calculates the number of intervals that have passed since the beginning of vesting and, depending on this, increases the amount based on the specified inflation. Through a loop, iteration occurs over intervals and accumulation of the amount depending on inflation. This approach allows dynamic calculation of payout amounts, depending on time and established inflation, which provides flexibility in managing financial flows.
+
+# Data Structure
+
+## **Config**
+
+- `bump`: Used to ensure account uniqueness (method for working with addresses).
+- `seqno`: Sequential configuration number.
+- `authority`: Configuration owner address.
+- `controller`: Address of the controller managing the configuration.
+
+## **Vesting**
+
+- `bump`: Like in `Config`, used to avoid collisions when creating an account.
+- `seqno`: Sequential vesting number.
+- `config`: Reference to the configuration account with which the vesting is associated.
+- `mint`: Address of the token to be vested.
+- `grantor`: Address of the vesting creator.
+- `beneficiaries`: List of token recipient addresses.
+- `started_at`: Vesting start time in Unix timestamp format.
+- `cliff_until`: End time of the "cliff" period (time block during which tokens cannot be received).
+- `release_interval`: Time interval between token releases.
+- `nominal_release_amount`: Nominal amount to be released.
+- `inflation_rate_per_interval`: Inflation percentage for each interval.
+- `total_transferred_amount`: Amount that has already been transferred to beneficiaries.
+
+# Gas
+
+### Contract Creation and Maintenance
+
+In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - a one-time payment for 2 years that permanently reserves space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL for every 10 KB. When closing an account, you can request a refund of the cost since the allocation is no longer needed.\
+The approximate cost of creating such a contract is **approximately 0.015 SOL (2 USD at Sol/USDT rate of \$139)**.
+
+### Gas for Funding
+
+To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected - an additional fee that increases the chance of confirmation during high load. This allows faster transaction processing. The user pays gas only when funding the contract; all other payments are already covered by the service. Gas for account funding in Solana is fixed - **0.000005 SOL (0.00069 USD at Sol/USDT rate of \$139).**
