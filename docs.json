@@ -17,10 +17,14 @@
             "group": "Technical integration",
             "pages": [
               {
-                "group": "Untitled Group",
-                "expanded": false,
+                "group": "For developers",
                 "pages": [
-                  "integration-gides/technical-integration/webviewbridgeapis",
+                  "integration-gides/technical-integration/webviewbridgeapis"
+                ]
+              },
+              {
+                "group": "For managers",
+                "pages": [
                   "integration-gides/technical-integration/techdoc",
                   "integration-gides/technical-integration/managersdocs"
                 ]
