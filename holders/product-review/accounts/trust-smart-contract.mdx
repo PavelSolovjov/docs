@@ -4,15 +4,13 @@ title: "TRUST smart-contract"
 
 # Smart Contract
 
-A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
-The structure of TON (TON) and USDT (TON) contracts is based on one blockchain, so a unified description is used.
+A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.
 
 # General Information
 
-**Blockchain:**[Solana](https://solana.com/)\
-**Repository:**https://github.com/whalescorp/holders-vesting-sol/\
-**Language:**[Rust](https://rust-lang.org/)\
-**License:**[MIT](https://en.wikipedia.org/wiki/MIT_License)
+**Blockchain: **[Solana](https://solana.com/)\
+**Repository:** https://github.com/whalescorp/holders-vesting-sol/\\ **Language:**[Rust](https://rust-lang.org/)\
+**License: **[MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Contract Operation Flowchart
 
@@ -23,11 +21,11 @@ The flowchart describes the process of creating and using vesting, as well as to
 1. **Vesting Creation:**
    1. User initiates vesting creation.
    2. Information is passed to the Issuer and then to the database (DB), where the record is saved with "PENDING" status.
-2. **Contract Deployment:**
+1. **Contract Deployment:**
    1. Database notifies ChainManager about the need for contract deployment.
    2. ChainManager initiates contract deployment on the blockchain.
    3. After successful deployment, the status is updated to "ACTIVE".
-3. **Deposit Funding:**
+2. **Deposit Funding:**
    1. User deposits tokens into the contract.
    2. This action is registered in the database.
 
@@ -45,13 +43,13 @@ Further actions occur cyclically depending on the unlock period:
 1. **Config Authority**:
    1. Responsible for creating and managing vesting configurations.
    2. Has the right to set the controller.
-2. **Controller**:
+1. **Controller**:
    1. Participant who manages a specific configuration and can perform vesting-related operations.
    2. Can create new vestings and add or remove beneficiaries.
-3. **Grantor**:
+2. **Grantor**:
    1. Person or address that creates a specific vesting.
    2. Can add beneficiaries and initiate payouts.
-4. **Beneficiary**:
+2. **Beneficiary**:
    1. Receives tokens according to the vesting schedule.
    2. Can participate in receiving tokens during their distribution.
 
