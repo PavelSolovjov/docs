@@ -1,3 +1,90 @@
 ---
 title: "Google Pay overview"
 ---
+
+# What is GPay
+
+**Google Pay** is a mobile payment service and electronic wallet [Google Wallet](https://wallet.google.com/), developed by [Google](https://www.google.com/). It allows users to make contactless payments, pay for goods and services online or in physical stores through smartphones and smartwatches based on [Android](https://www.android.com/). [Google Pay](https://pay.google.com/) is also available on [iOS](https://www.apple.com/ios/), although functionality may be limited.
+
+# Possible limitations for users
+
+1. **Compatible devices**: [GPay](https://pay.google.com/) is only available on [Android](https://www.android.com/) devices that support this feature.
+2. **Supported banks and cards**: Not all financial institutions and payment cards are compatible with [GPay](https://pay.google.com/). When concluding an agreement with the issuing bank, the business team verifies the availability of support for this technology from the specific bank.
+3. **Regional restrictions**: [GPay](https://pay.google.com/) availability varies depending on geographical location. [List of supported regions](https://worldpopulationreview.com/country-rankings/google-pay-countries-list).
+4. **Transaction limits**: Issuing banks may set restrictions on the maximum amount of transactions conducted through [GPay](https://pay.google.com/).
+5. **Number of cards**: The maximum number of cards is not limited, but restrictions may be applied when adding more than 10 cards per month.
+
+# In-app provisioning
+
+The Holders service implements advanced integration with [**Google Pay**](https://pay.google.com/) through [In-app provisioning](https://developers.google.com/pay/issuers/tsp-integration/overview) technology. This technology provides the process of adding a payment card to [Google Wallet](https://wallet.google/) directly from an application on the [Android](https://www.android.com/) platform, which significantly simplifies the card connection procedure for users, eliminating the need to access Google Wallet settings.\
+To use In-app provisioning technology, an organization must pass mandatory [Google certification](https://developers.google.com/pay/issuers/tsp-integration/overview#certification). Certification is free and does not require special testing as in the case with [Apple Pay](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09GCU0HKHB).\
+The presence of In-app provisioning does not cancel the possibility of manually adding a card to [Google Wallet](https://wallet.google/) through its interface.
+
+# In-app provisioning Certification
+
+Certification stages:
+
+ 1. Signing a Non-Disclosure Agreement (NDA) with Google
+ 2. Signing an issuer agreement with Google
+ 3. Completing all [functional tests](https://developers.google.com/pay/issuers/tsp-integration/testing#testing_requirements) to verify correct tokenization functionality
+ 4. Implementing all applicable Google Pay [best practices](https://developers.google.com/pay/issuers/tsp-integration/best-practices)
+ 5. Implementing at least two authentication options with yellow path (verification required) for tokenization
+ 6. Confirming the absence of known issues related to tokenization, in-store transactions, or online transactions
+ 7. [Training](https://developers.google.com/pay/issuers/support/overview#end_user_support) support staff on proper handling and routing of cardholder requests
+ 8. [Updating the website](https://developers.google.com/pay/issuers/tsp-integration/overview#brand_guidelines) to inform cardholders about Google Pay, including relevant Google Pay support information (https://tonhub.com/google-pay).
+ 9. Providing TSP with a list of products for launch in English and local languages. This information will be used to update their [list of supported issuers](https://support.google.com/pay/answer/7454247)
+10. Providing TSP launch checklist documentation
+11. Obtaining certification from TSP for production launch.
+
+Complete [detailed guide](https://developers.google.com/pay/issuers/tsp-integration/overview) for implementing in-app provisioning.
+
+# Holders Certification
+
+**Company that underwent certification: **[**Walleexer s.r.o.**](https://walleexer.com/)\
+**Application that underwent certification:**[**Tonhub**](https://gettonhub.com/)\
+**Partner bank: **[**Wallester**](https://wallester.com/)\
+**Certificate date:** 25.09.2024\
+**Cost:** \$5000 (tokenization setup Wallester)\
+The Wallester tokenization setup includes payment card configuration for integration with the following digital payment systems. In each of them, the card will be displayed with correct parameters and settings:
+
+- [Apple Pay](https://www.apple.com/apple-pay/)
+- [Google Pay](https://pay.google.com/)
+- [Garmin Pay](https://www.garmin.com/en-US/p/pay)
+- [Samsung Pay](https://www.samsung.com/us/samsung-pay/)
+- [Fitbit Pay](https://www.fitbit.com/global/us/technology/fitbit-pay)
+- [Fidesmo Pay](https://fidesmo.com/consumer/fidesmo-pay/)
+
+# User Card Verification
+
+After adding a card to Google Wallet, Google performs a verification procedure to confirm the user's ownership rights to the payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS to the phone number specified by the user when registering their profile in the Holders system.\
+**Important feature:** Google Pay does not transmit the actual credit or debit card number when conducting transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
+
+## Google Card Verification Statuses
+
+**Green** - the card passes verification immediately without additional requests.\
+**Yellow status** — to complete the verification procedure, the user needs to enter a one-time confirmation code (OTP).\
+**Orange status** — the card is subject to verification exclusively in manual mode through the partner bank.\
+Red - the card cannot be verified
+
+## Orange Flow Card Processing
+
+If a card in the Google system receives orange status, the user will be offered to complete verification by calling the [**Tonhub**](https://gettonhub.com/) application support phone number (the call may be charged).\
+Tonhub phone number (Switzerland) +41587880033.\
+Currently, the specified number is answered by an automated system that directs the user to the application's online support service. After the user contacts Tonhub support through the Intercom platform, the operator gains the ability to perform card verification in the Wallester administrative panel according to the established instructions.
+
+## Responsibility for Card Transfer
+
+Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.com/private-account-card-agreement) states the following:
+
+> "The Card must only be used by the Client. The Client must not authorise third parties to use the card, i.e., to make the Card or only the Card Data available to the third parties. The card must not be given to third parties as a gift, sold to third parties or otherwise transferred to third parties."
+
+This means that the card must be used only by the client, and the client has no right to authorize third parties to use the card, transfer it, give it as a gift, or sell it.\
+Accordingly, any actions involving the transfer of the card to other persons or granting them the right to use the card are qualified as a violation of the terms of the agreement with Wallester. Such violations result in the application of sanctions in the form of card blocking. In certain cases, depending on the nature of the use of card data and the intent of the participants, such actions may be qualified as fraudulent, which provides for criminal liability in the form of monetary penalties or imprisonment.
+
+# Card Appearance
+
+Users cannot independently change the card design in [Google Wallet](https://wallet.google.com/). The card design in [Google Wallet](https://wallet.google.com/) is set by the bank or financial institution that issued the card. Each design is approved by the issuer with the payment system and added to the card settings after approval. The same situation occurs with the bank name that is displayed on the card in [Google Wallet](https://wallet.google.com/). Holders can change or add designs, but each change will require approval from [VISA](https://www.visa.com/) and additional costs.\
+**Cost of adding a design:** 400 EUR\
+**Cost of a minor change:** 100 EUR\
+A minor change is considered, for example, changing a phone number or logo on the card.\
+Adding a design to [Google Wallet](https://wallet.google.com/) after [VISA](https://www.visa.com/) approval happens automatically and does not require approvals or additional payments.
