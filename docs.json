@@ -55,7 +55,8 @@
                   {
                     "group": "Google Pay",
                     "pages": [
-                      "google-pay"
+                      "google-pay",
+                      "google-pay-ui"
                     ]
                   }
                 ]
