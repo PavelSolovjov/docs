@@ -28,6 +28,12 @@
                 ]
               },
               {
+                "group": "Bank cards",
+                "pages": [
+                  "virtual-debit-bank-cards"
+                ]
+              },
+              {
                 "group": "Onboarding",
                 "pages": [
                   "holders/product-review/onboarding/untitled-page",
