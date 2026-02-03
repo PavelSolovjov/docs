@@ -45,8 +45,18 @@
               {
                 "group": "Contactless payments",
                 "pages": [
-                  "apple-pay",
-                  "google-pay"
+                  {
+                    "group": "Apple Pay",
+                    "pages": [
+                      "apple-pay"
+                    ]
+                  },
+                  {
+                    "group": "Google Pay",
+                    "pages": [
+                      "google-pay"
+                    ]
+                  }
                 ]
               }
             ]
