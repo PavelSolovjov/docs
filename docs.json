@@ -41,6 +41,13 @@
                   "Issuerblockchainlimits",
                   "blockchainlimitsui"
                 ]
+              },
+              {
+                "group": "Contactless payments",
+                "pages": [
+                  "apple-pay",
+                  "google-pay"
+                ]
               }
             ]
           },
