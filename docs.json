@@ -27,7 +27,13 @@
                   "holders/product-review/accounts-and-smart-contracts/account-brand"
                 ]
               },
-              "holders/product-review/onboarding/onboarding-process",
+              {
+                "group": "Onboarding",
+                "pages": [
+                  "holders/product-review/onboarding/untitled-page",
+                  "holders/product-review/onboarding/onboarding-process"
+                ]
+              },
               "holders/product-review/user-profile"
             ]
           },
