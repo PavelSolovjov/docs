@@ -48,7 +48,8 @@
                   {
                     "group": "Apple Pay",
                     "pages": [
-                      "apple-pay"
+                      "apple-pay",
+                      "apple-pay-ui"
                     ]
                   },
                   {

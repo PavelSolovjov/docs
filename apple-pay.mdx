@@ -46,7 +46,7 @@ Upon completion of testing:
 
 **Company that underwent certification:**[Walleexer s.r.o.](https://walleexer.com/)\
 **Application that underwent certification:** Tonhub\
-**Partner bank: **[Wallester](https://wallester.com/)\
+\*\*Partner bank: \*\*[Wallester](https://wallester.com/)\
 **Certificate date:** 20.08.2024\
 **Certification partner:**[Fime](https://www.fime.com/)\
 **Cost:** \$20,000 (certification cost) + \$5,000 (tokenization setup Wallester) = \$25,000.\
@@ -61,8 +61,11 @@ The Wallester tokenization setup includes payment card configuration for integra
 
 # Card Verification by User
 
-After adding a card to Apple Wallet, Apple performs a verification procedure to confirm the user's ownership rights to the given payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS message to the phone number specified by the user when registering their profile in the Holders system.\
-**Important feature:** Apple Pay does not transmit the actual credit or debit card number when making transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
+After adding a card to Apple Wallet, Apple performs a verification procedure to confirm the user's ownership rights to the given payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS message to the phone number specified by the user when registering their profile in the Holders system.
+
+<Info>
+  **Important feature:** Apple Pay does not transmit the actual credit or debit card number when making transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
+</Info>
 
 ## Apple Card Verification Statuses
 
@@ -73,8 +76,12 @@ Red - the card cannot be verified
 
 ## Orange Flow Card Processing
 
-If a card in the [Apple](https://www.apple.com/) system receives orange status, the user will be offered to complete verification by calling the Tonhub application support phone number (the call may be paid).\
-Tonhub phone number (Switzerland) +41587880033.\
+If a card in the [Apple](https://www.apple.com/) system receives orange status, the user will be offered to complete verification by calling the Tonhub application support phone number (the call may be paid).
+
+<Info>
+  Tonhub phone number (Switzerland) +41587880033.
+</Info>
+
 Currently, the specified number is answered by an automated system that directs the user to the application's online support service. After the user contacts Tonhub support through the Intercom platform, the operator gains the ability to perform card verification in the Wallester administrative panel according to the established instructions.
 
 ## Responsibility for Card Transfer
