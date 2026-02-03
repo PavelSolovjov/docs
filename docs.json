@@ -34,7 +34,13 @@
                   "holders/product-review/onboarding/onboarding-process"
                 ]
               },
-              "holders/product-review/user-profile"
+              "holders/product-review/user-profile",
+              {
+                "group": "Account limits",
+                "pages": [
+                  "Issuerblockchainlimits"
+                ]
+              }
             ]
           },
           {
