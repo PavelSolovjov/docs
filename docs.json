@@ -38,7 +38,8 @@
               {
                 "group": "Account limits",
                 "pages": [
-                  "Issuerblockchainlimits"
+                  "Issuerblockchainlimits",
+                  "blockchainlimitsui"
                 ]
               }
             ]
