@@ -3,7 +3,7 @@ title: "Virtual debit bank cards"
 description: "This document explains what virtual debit cards are in Holders, which types and banks are used, how card ownership and responsibilities are structured, how payments are processed, and how a card’s lifecycle and statuses work."
 ---
 
-# What is a virtual debit bank card
+# What is a virtual debit bank card !
 
 A virtual debit bank card is a digital version of a payment card that has no physical medium but contains standard credentials: card number, expiration date, and CVV. It is used for the same operations as a regular plastic card. Physical bank cards are not currently implemented in the project.\
 Cards do not have their own money — they draw funds from the account to which they are connected. In Holders, up to 50 cards can be connected to one account, but the bank may set its own restrictions. If limits are not exceeded, a new card can be issued at any time. The card's currency is the currency of the account to which it is linked.
@@ -66,11 +66,11 @@ The client acts as the cardholder, however the legal ownership of the card itsel
    5. Completion of KYC and AML procedures
    6. Correctness of entered CVC code and 3D-Secure password (for online payments)
    7. Payment confirmation by the client using the selected method - through the application or 6-digit code (for online payments)
-5. After successful verification, the Holders backend sends authorization to the issuing bank to conduct the operation
-6. The issuing bank executes the payment and debits the purchase amount from the Holders account
-7. The Holders backend creates a debit task, includes it in the rollup, and subsequently debits from the client's smart contract.
-8. An order is formed on the exchange to sell the required amount in cryptocurrency.
-9. The accumulated fiat amount on the exchange is withdrawn to the balance of the Holders account at the issuing bank.
+1. After successful verification, the Holders backend sends authorization to the issuing bank to conduct the operation
+2. The issuing bank executes the payment and debits the purchase amount from the Holders account
+3. The Holders backend creates a debit task, includes it in the rollup, and subsequently debits from the client's smart contract.
+4. An order is formed on the exchange to sell the required amount in cryptocurrency.
+5. The accumulated fiat amount on the exchange is withdrawn to the balance of the Holders account at the issuing bank.
 
 # Сard lifecycle
 
