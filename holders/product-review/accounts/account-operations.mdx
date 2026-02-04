@@ -118,7 +118,7 @@ The simplest way to fund an account. This function is available when there is a 
 
 ## Funding from Another Wallet
 
-This funding method works through the partner service Changelly. It allows you to fund your account with cryptocurrencies that are not directly supported by the platform:
+This funding method works through the partner service [Changelly](https://changelly.com/). It allows you to fund your account with cryptocurrencies that are not directly supported by the platform:
 
 - USDT (TRC-20)
 - USDT (Polygon)
@@ -128,8 +128,8 @@ This funding method works through the partner service Changelly. It allows you t
 - USDC (ERC-20)
 - USDC (SOL) for contracts on the TON blockchain
 
-How it works: the user sends funds in one of the listed currencies to a Changelly address, and they automatically convert and credit the money to the account in the required currency. This is especially convenient for using cryptocurrencies that are restricted by MICA regulations (for example, USDT). Holders covers the exchange commission. Funding this way typically takes up to 60 minutes.\
-As part of the integration with Holders, Changelly supports exchanges exclusively at a fixed rate (Fix rate). With this exchange method, the rate is fixed for a certain period, allowing the client to know exactly the final amount. 3 hours are provided to complete the operation. This approach became possible because exchanges are only made between stable currencies.
+How it works: the user sends funds in one of the listed currencies to a [Changelly](https://changelly.com/) address, and they automatically convert and credit the money to the account in the required currency. This is especially convenient for using cryptocurrencies that are restricted by MICA regulations (for example, USDT). Holders covers the exchange commission. Funding this way typically takes up to 60 minutes.\
+As part of the integration with Holders, [Changelly](https://changelly.com/) supports exchanges exclusively at a fixed rate (Fix rate). With this exchange method, the rate is fixed for a certain period, allowing the client to know exactly the final amount. 3 hours are provided to complete the operation. This approach became possible because exchanges are only made between stable currencies.
 
 ### Interface
 
@@ -151,7 +151,7 @@ As part of the integration with Holders, Changelly supports exchanges exclusivel
      className="mx-auto"
      style={{ width:"25%" }}
    />
-3. Changelly creates an exchange order and awaits transfer from the user.
+3. [Changelly](https://changelly.com/) creates an exchange order and awaits transfer from the user.
 
    <img
      src="/images/2025-10-2117.58.14(1).jpg"
@@ -161,7 +161,7 @@ As part of the integration with Holders, Changelly supports exchanges exclusivel
      style={{ width:"26%" }}
    />
 4. The user transfers funds to the details specified in the order.
-5. After receiving funds from the user, the Changelly service credits the corresponding amount to their account in the Holders system.
+5. After receiving funds from the user, the [Changelly](https://changelly.com/) service credits the corresponding amount to their account in the Holders system.
 
 ## Funding from Exchange
 
@@ -176,13 +176,13 @@ This method involves direct transfer of funds to the contract address from anoth
 - USDT (TON) (starting from version v8)
 
 With direct funding, funds are received directly to the contract address. To recognize received funds, a Controller is used that continuously scans all transactions on the blockchain. When a transaction sent to a Holders account address is detected, the Controller initiates an update of the corresponding contract balance.\
-Deposit by details is the classic direct account funding via transaction to its address. It allows you to fund an account, share account details, or create a payment link for account funding and send it to a friend who can fund the account through the Changelly interface regardless of whether they have a Holders service account.
+Deposit by details is the classic direct account funding via transaction to its address. It allows you to fund an account, share account details, or create a payment link for account funding and send it to a friend who can fund the account through the [Changelly](https://changelly.com/) interface regardless of whether they have a Holders service account.
 
 - Fund the account directly using details
 - Share account details with other users
 - Create a payment link like https://hldrs.me/th/pay/cmgzamplv39rk3s3gkj2mia1x for funding and send it to another user
 
-When using the payment link, the recipient can fund the account through the Changelly interface without needing to create an account in the Holders service.
+When using the payment link, the recipient can fund the account through the [Changelly](https://changelly.com/) interface without needing to create an account in the Holders service.
 
 # Account Withdrawal
 
@@ -209,7 +209,7 @@ This method maintains security and allows safe withdrawal of money to external a
 
 ### Withdrawal to Other Blockchains
 
-To enable money withdrawal to different networks, Changelly is integrated into the system (as with funding). Changelly allows the user to choose the network in which they want to receive money. The user selects the network, specifies the recipient address, and confirms the transfer. Gas for the operation is paid by Holders.
+To enable money withdrawal to different networks, [Changelly](https://changelly.com/) is integrated into the system (as with funding). [Changelly ](https://changelly.com/)allows the user to choose the network in which they want to receive money. The user selects the network, specifies the recipient address, and confirms the transfer. Gas for the operation is paid by Holders.
 
 ## To Another Holders Account
 
