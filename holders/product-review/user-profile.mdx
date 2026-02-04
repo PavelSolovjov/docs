@@ -87,6 +87,16 @@ With each login, the service collects available session data and stores it in th
 - Security (`security`) - not used but stored ([more details](https://ipgeolocation.io/ip-security-api.html#documentation-overview)).
 - Inviter ID (`inviteld`)
 
+# User Active Sessions
+
+Users can view all their currently active sessions by navigating to the "Devices" section in Holders settings. There is also an option to terminate sessions on unused devices to ensure fund security. For each session, the user is provided with the following data:
+
+- Connected wallet address
+- Application name
+- IP address
+- Geolocation
+- Last login time
+
 # Wallet Addresses
 
 When creating a profile in the database through a session, in addition to the data specified above, TON and Solana addresses are transmitted, obtained from the application (wallet) in which the Holders SDK is integrated. If the application supports both blockchains, both addresses are transmitted to the profile; otherwise, only the supported address is transmitted.\
