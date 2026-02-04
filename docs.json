@@ -30,7 +30,8 @@
               {
                 "group": "Bank cards",
                 "pages": [
-                  "virtual-debit-bank-cards"
+                  "virtual-debit-bank-cards",
+                  "card-operations"
                 ]
               },
               {
