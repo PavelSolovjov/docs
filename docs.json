@@ -11,6 +11,9 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "Whales CORP"
+      },
+      {
         "tab": " Holders",
         "pages": [
           "holders/business-review",
