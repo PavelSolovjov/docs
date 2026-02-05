@@ -7,7 +7,7 @@
     "light": "#F8112E",
     "dark": "#6d0000"
   },
-  "favicon": "/images/NEW.svg",
+  "favicon": "/images/NEW2.svg",
   "navigation": {
     "tabs": [
       {
@@ -108,7 +108,7 @@
       }
     ]
   },
-  "logo": "/images/NEW.svg",
+  "logo": "/images/NEW2.svg",
   "navbar": {
     "links": [
       {
