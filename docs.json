@@ -1,13 +1,16 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Holders",
+  "name": "Whales CORP docs",
   "colors": {
-    "primary": "#4905d7",
-    "light": "#4e4fe5",
-    "dark": "#060249"
+    "primary": "#F8112E",
+    "light": "#ff3b65",
+    "dark": "#6d0000"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/images/sign(1).svg",
+    "dark": "/images/signsqr.svg"
+  },
   "navigation": {
     "tabs": [
       {
@@ -101,7 +104,7 @@
       }
     ]
   },
-  "logo": "/images/holderslogo.svg",
+  "logo": "/images/sign(1).svg",
   "navbar": {
     "links": [
       {
@@ -114,5 +117,9 @@
     "socials": {
       "telegram": "https://t.me/welcomecards"
     }
+  },
+  "description": "Documentation for the Whales ecosystem: products and SDK, architecture, legal and compliance model, and key user and partner flows for working with Holders‑based solutions.",
+  "appearance": {
+    "default": "system"
   }
 }
