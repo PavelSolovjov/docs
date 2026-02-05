@@ -1,4 +1,95 @@
 ---
-title: 'Bank statements'
+title: "Bank statements"
+description: "
+This document explains what an account statement is in Holders, what information it includes, how to request it, and in which cases it can be used."
 ---
 
+# What is an account statement
+
+An account statement is a document that reflects all operations on a client's account for a selected period in the account currency: incoming transactions (returns, deposits) and expenses (payments). This report contains information about dates, amounts, transaction types, and the current account status. The statement helps control finances, confirm operations for reporting purposes, and serves as a tool for identifying errors or fraud.
+
+<img
+  src="/images/Screenshot2025-10-10at17.48.53.png"
+  alt="Screenshot2025 10 10at17 48 53"
+  title="Screenshot2025 10 10at17 48 53"
+  className="mx-auto"
+  style={{ width:"54%" }}
+/>
+
+# Data displayed in the statement
+
+### Data of the organization creating the statement
+
+In Holders, the organization creating the statement is typically a regional VASP. For the European region, such VASP is [Walleexer](https://walleexer.com/).
+
+- Name
+- Registered address
+- Business activity
+- Email
+- Website
+
+### Account holder data
+
+- Account holder's first and last name
+- Country of residence
+- Blockchain account address
+- Account currency
+- Balance at the beginning of the period
+- Balance at the end of the period
+
+### Operations for the selected period
+
+- Transaction date - date of authorization
+- Value date - date of authorization confirmation (e.g., clearing)
+- Description - operation type, merchant name and last 4 digits of card number
+- Outgoing funds - outgoing operation amount in account currency, operation amount in merchant currency and exchange rate merchant currency/account currency (e.g., payment)
+- Incoming funds - incoming operation amount in account currency, operation amount in merchant currency and exchange rate merchant currency/account currency (e.g., refund)
+- Balance - account balance after the operation
+
+# What the statement is used for
+
+1. Personal finance control — tracking all receipts and debits to analyze cash flow and identify non-targeted expenses.
+2. Payment confirmation — documentary confirmation of payment for goods or services. The statement can be provided to counterparties or services in case of disputes.
+3. Accounting and reporting — used in accounting by individuals and legal entities. Can be attached to accounting documents and reconciliation statements.
+4. Tax purposes — documentary confirmation of income and expenses for tax returns, as well as justification of the origin of funds.
+5. KYC/AML procedures and compliance — provided upon request by banks, cryptocurrency exchanges and fintech services. The statement serves as documentary confirmation of the source of funds.
+6. Dispute resolution — serves as documentary basis for filing claims, initiating chargeback procedures, contacting support services or banking institutions.
+
+# Statement generation time
+
+The statement generation time is determined by the selected period and the number of operations on the corresponding account. In most cases, the statement generation time does not exceed 15 minutes.
+
+# User interface
+
+To obtain an account statement, you need to perform the following actions:
+
+1. In the account settings, select the "Statements" section
+2. In the opened menu, click "Account Statements"
+
+<img
+  src="/images/2025-10-1016.55.411.png"
+  alt="2025 10 1016 55 411"
+  title="2025 10 1016 55 411"
+  className="mx-auto"
+  style={{ width:"38%" }}
+/>
+
+3. Specify the account for which you need to obtain a statement
+
+   <img
+     src="/images/2025-10-1016.57.17.jpg"
+     alt="2025 10 1016 57 17"
+     title="2025 10 1016 57 17"
+     className="mx-auto"
+     style={{ width:"28%" }}
+   />
+4. Select the statement generation period (you can specify a custom period or use preset intervals)
+
+   <img
+     src="/images/2025-10-1016.57.21.jpg"
+     alt="2025 10 1016 57 21"
+     title="2025 10 1016 57 21"
+     className="mx-auto"
+     style={{ width:"27%" }}
+   />
+5. After submitting the request, the system will generate the statement and send it to the email address linked to your profile. The statement generation time is up to 15 minutes.
