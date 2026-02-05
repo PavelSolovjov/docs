@@ -17,7 +17,6 @@
           {
             "group": "Product review",
             "pages": [
-              "holders/product-review/untitled-page",
               {
                 "group": "Accounts & smart-contracts",
                 "pages": [
@@ -73,6 +72,13 @@
                       "google-pay-ui"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Bank statements",
+                "pages": [
+                  "holders/product-review/bank-statements",
+                  "holders/product-review/account-ownership-certificate"
                 ]
               }
             ]
