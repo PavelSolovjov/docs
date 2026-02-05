@@ -5,7 +5,7 @@ title: "TON smart-contracts"
 # Smart Contract
 
 A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
-The structure of TON (TON) and USDT (TON) contracts is based on one blockchain, so a unified description is used.
+The structure of [TON (TON)](https://ton.org/en) and [USDT (TON)](https://tether.to/en/) contracts is based on one blockchain, so a unified description is used.
 
 # What is Toncoin (TON)
 
@@ -21,24 +21,24 @@ TON in Holders is available to all clients who have European residency and have 
 
 # What is Tether USDt (USDT)
 
-Tether USDt (USDT) is a stable cryptocurrency developed by Tether, based on blockchain technology and pegged to the US dollar at a 1:1 ratio. It was created to combine the stability of traditional money with the convenience and speed of cryptocurrency transactions.
+Tether [USDt (USDT)](https://tether.to/en/) is a stable cryptocurrency developed by Tether, based on blockchain technology and pegged to the US dollar at a 1:1 ratio. It was created to combine the stability of traditional money with the convenience and speed of cryptocurrency transactions.
 
 1. Maintains a dollar peg, reducing crypto market volatility.
 2. Operates on more than 20 blockchains, providing global access.
 3. Claims full backing in dollars or equivalent assets, although transparency issues remain a subject of discussion.
 
-USDT serves as a bridge between traditional finance and cryptocurrencies, allowing users to conduct operations with a digital asset that is not subject to sharp exchange rate fluctuations. It is widely used for trading, transfers, and protection against market risks. Thanks to its stable peg to the dollar, USDT simplifies international payments and participation in decentralized finance (DeFi).\
-USDT is issued on many blockchains, such as [Ethereum (ERC-20)](https://ethereum.org/), [Tron (TRC-20)](https://tron.network/), [TON](https://ton.org/) and [Solana](https://solana.com/), while support for legacy networks such as [Algorand](https://www.algorand.com/) and [EOS](https://eos.io/) is gradually being discontinued. This multi-chain approach provides low fees and compatibility between different blockchains. However, unlike decentralized stablecoins such as [DAI](https://makerdao.com/), USDT issuance is centrally controlled.\
-[Tether](https://tether.to/) company issues and destroys USDT depending on demand and availability of reserves, which include cash, [US Treasury bonds](https://www.treasurydirect.gov/) (worth \$127 billion as of 2025) and other assets. Management is centralized and belongs to [Tether Holdings Ltd.](https://tether.to/), which faces regulatory oversight but holds [68% of the stablecoin market](https://coinmarketcap.com/view/stablecoin/).\
+[USDT](https://tether.to/en/) serves as a bridge between traditional finance and cryptocurrencies, allowing users to conduct operations with a digital asset that is not subject to sharp exchange rate fluctuations. It is widely used for trading, transfers, and protection against market risks. Thanks to its stable peg to the dollar, [USDT](https://tether.to/en/) simplifies international payments and participation in decentralized finance (DeFi).\
+USDT is issued on many blockchains, such as [Ethereum (ERC-20)](https://ethereum.org/), [Tron (TRC-20)](https://tron.network/), [TON](https://ton.org/) and [Solana](https://solana.com/), while support for legacy networks such as [Algorand](https://www.algorand.com/) and [EOS](https://eos.io/) is gradually being discontinued. This multi-chain approach provides low fees and compatibility between different blockchains. However, unlike decentralized stablecoins such as [DAI](https://makerdao.com/), [USDT](https://tether.to/en/) issuance is centrally controlled.\
+[Tether](https://tether.to/) company issues and destroys [USDT](https://tether.to/en/) depending on demand and availability of reserves, which include cash, [US Treasury bonds](https://www.treasurydirect.gov/) (worth \$127 billion as of 2025) and other assets. Management is centralized and belongs to [Tether Holdings Ltd.](https://tether.to/), which faces regulatory oversight but holds [68% of the stablecoin market](https://coinmarketcap.com/view/stablecoin/).\
 Currently, support for USDT smart contracts in Holders has been discontinued due to the implementation of new European regulation (EU regulation [**MiCA (Regulation (EU) 2023/1114)**](https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng)).
 
 # History
 
-The TON contract became the first contract launched in the project in June 2023. With its help, it became possible to conduct transactions on the TON network. Later, the USDT contract was launched. Based on these contracts, the company's first product was implemented - prepaid cards. In the first versions of the contracts, there was no possibility of direct top-up (direct sending of funds to the contract address). This functionality was added in the current final version in March 2024. Currently, opening new USDT accounts is suspended due to MiCA regulatory requirements. According to [Article 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) of the MiCA (EU) 2023/1114 regulation, only licensed issuers can issue and offer stablecoins in the EU. Tether has not obtained such a license, therefore public offering and listing of USDT on regulated EU exchanges is prohibited.
+The TON contract became the first contract launched in the project in June 2023. With its help, it became possible to conduct transactions on the TON network. Later, the [USDT](https://tether.to/en/) contract was launched. Based on these contracts, the company's first product was implemented - prepaid cards. In the first versions of the contracts, there was no possibility of direct top-up (direct sending of funds to the contract address). This functionality was added in the current final version in March 2024. Currently, opening new [USDT](https://tether.to/en/) accounts is suspended due to MiCA regulatory requirements. According to [Article 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) of the MiCA (EU) 2023/1114 regulation, only licensed issuers can issue and offer stablecoins in the EU. Tether has not obtained such a license, therefore public offering and listing of [USDT](https://tether.to/en/) on regulated EU exchanges is prohibited.
 
 # How the contract works in simple terms
 
-1. The user selects a currency (TON or USDT) and initiates the creation of a new account by sending the corresponding command to the Controller authority.
+1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account by sending the corresponding command to the Controller authority.
 2. The Controller creates a contract and transfers ownership rights to the user's wallet (wallet authority).
 3. The user tops up the contract balance.
 4. When conducting a transaction, the contract receives a signal from the controller to block the amount necessary to execute the operation.
@@ -49,7 +49,7 @@ The TON contract became the first contract launched in the project in June 2023.
 # General Information
 
 Blockchain: [TON](https://ton.org/)\
-Location: https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\\\\ **Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
+Location: https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\\\\\\\\ **Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
 License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Contract Roles
@@ -93,7 +93,7 @@ Controller is a wallet (highload-wallet v3 with rotational public key) that has 
 
 ## **Treasure authority**
 
-Treasure wallets are Holders wallets where funds (USDC or TON) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with Treasure wallets, this smart contract has no Wallet authority.
+Treasure wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with Treasure wallets, this smart contract has no Wallet authority.
 
 ### Available actions:
 
