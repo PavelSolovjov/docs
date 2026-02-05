@@ -5,12 +5,12 @@ description: "This document briefly explains all main account operations in Hold
 
 # Account Operations
 
-1. Opening a new account – creating a new account with its own balance and the ability to issue cards.
-2. Account closure — the procedure for permanently terminating account services, making operations on this account impossible, and transferring remaining funds in accordance with established regulations.
-3. Account funding — the operation of crediting funds to an account through available deposit methods.
-4. Withdrawal from account — the operation of transferring funds from an account using provided withdrawal methods.
-5. Payments — operations for sending funds from an account using available transfer methods.
-6. Setting account limits — the procedure for determining and adjusting spending restrictions (limits per individual operation, daily, monthly, and other time-based restrictions).
+1. **Opening a new account** – creating a new account with its own balance and the ability to issue cards.
+2. **Account closure **— the procedure for permanently terminating account services, making operations on this account impossible, and transferring remaining funds in accordance with established regulations.
+3. **Account funding** — the operation of crediting funds to an account through available deposit methods.
+4. **Withdrawal from account** — the operation of transferring funds from an account using provided withdrawal methods.
+5. **Payments** — operations for sending funds from an account using available transfer methods.
+6. **Setting account limits** — the procedure for determining and adjusting spending restrictions (limits per individual operation, daily, monthly, and other time-based restrictions).
 
 # Opening a New Account
 
@@ -22,17 +22,17 @@ Opening a new account is available to all Holders users who have residency in co
 
 ## Available Account Currencies
 
-- USDC (SOL) — publicly available currency for all account types
-- TON — publicly available currency for regular accounts (not vesting)
-- USDY (SOL) — currently in testing mode. Will be available for both regular and vesting accounts.
-- USDT (TON) — support discontinued
+- **USDC (SOL)** — publicly available currency for all account types
+- **TON** — publicly available currency for regular accounts (not vesting)
+- **USDY (SOL)** — currently in testing mode. Will be available for both regular and vesting accounts.
+- **USDT (TON)** — support discontinued
 
 ## Interface
 
 1. Opening a new account is available to the user from the main wallet page. The user clicks on Add new account and selects the type of account they want to open. Three possible options are available:
-   1. Account with card — the first card is issued free of charge, subsequent card issuance is paid.
-   2. Account without card — a card can be additionally issued at any time.
-   3. Vesting account — provides the ability to create automatic payments to beneficiaries from the account.
+   1. **Account with card** — the first card is issued free of charge, subsequent card issuance is paid.
+   2. **Account without card **— a card can be additionally issued at any time.
+   3. **Vesting account** — provides the ability to create automatic payments to beneficiaries from the account.
 
       <img
         src="/images/Chooseaproduct(2)(1).png"
@@ -76,20 +76,20 @@ Account closure is an operation to decommission an account, making it impossible
 
 # Account Funding
 
-To use the main features of the service, users need to fund their [smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), which acts as a bank account. User [bank cards](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) are linked to the smart contract for making payments. When paying with a bank card, funds are debited from the user's account to which the card is attached.
+To use the main features of the service, users need to fund their [smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), which acts as a bank account. User [bank cards](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) are linked to the smart contract for making payments. When paying with [a bank card](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM), funds are debited from the user's account to which the card is attached.
 
 # Account Funding Methods
 
-1. From savings account (from connected wallet balance) - allows transferring funds from the connected wallet to the account.
-2. From another wallet — provides the ability to fund the account in a currency different from the account currency, with automatic currency conversion.
-3. Deposit by details (direct funding) — provides the ability to transfer funds to the account from any source using the account details.
-4. From exchange — enables transferring funds to the account balance from an exchange balance.
+1. **From savings account (from connected wallet balance)** - allows transferring funds from the connected wallet to the account.
+2. **From another wallet** — provides the ability to fund the account in a currency different from the account currency, with automatic currency conversion.
+3. **Deposit by details (direct funding)** — provides the ability to transfer funds to the account from any source using the account details.
+4. **From exchange** — enables transferring funds to the account balance from an exchange balance.
 
 <Info>
   In the Holders + Tonhub system, the following terminology is used for accounts:
 
-  - sending accounts - accounts in Holders designed for linking cards and making purchases
-  - savings accounts - balances of the connected wallet in various currencies, used for storing funds
+  - **Sending accounts** - accounts in Holders designed for linking cards and making purchases
+  - **Savings accounts** - balances of the connected wallet in various currencies, used for storing funds
 </Info>
 
 # Gas Fees for Account Funding
@@ -104,11 +104,11 @@ The gas amount will vary depending on the blockchain and the method of contract 
 ## Fee Amounts
 
 1. Commission for conducting the funding transaction:
-   1. TON - approximately 0.03 TON
-   2. Solana - 0.000005 SOL
+   1. **TON** - approximately **0.03 TON**
+   2. **Solana** - **0.000005 SOL**
 1. Commission for updating the contract balance:
-   1. TON - approximately 0.1 TON (paid by Holders)
-   2. Solana - not charged
+   1. **TON** - approximately **0.1 TON** (paid by Holders)
+   2. **Solana** - **not charged**
 
 Note: maximum commission values are indicated. The actual commission may be lower - in this case, the unused portion is returned to the user's wallet balance.
 
@@ -120,15 +120,15 @@ The simplest way to fund an account. This function is available when there is a 
 
 This funding method works through the partner service [Changelly](https://changelly.com/). It allows you to fund your account with cryptocurrencies that are not directly supported by the platform:
 
-- USDT (TRC-20)
-- USDT (Polygon)
-- USDT (SOL)
-- USDT (ERC-20)
-- USDC (Polygon)
-- USDC (ERC-20)
-- USDC (SOL) for contracts on the TON blockchain
+- **USDT (TRC-20)**
+- **USDT (Polygon)**
+- **USDT (SOL)**
+- **USDT (ERC-20)**
+- **USDC (Polygon)**
+- **USDC (ERC-20)**
+- **USDC (SOL) for contracts on the TON blockchain**
 
-How it works: the user sends funds in one of the listed currencies to a [Changelly](https://changelly.com/) address, and they automatically convert and credit the money to the account in the required currency. This is especially convenient for using cryptocurrencies that are restricted by MICA regulations (for example, USDT). Holders covers the exchange commission. Funding this way typically takes up to 60 minutes.\
+**How it works:** the user sends funds in one of the listed currencies to a [Changelly](https://changelly.com/) address, and they automatically convert and credit the money to the account in the required currency. This is especially convenient for using cryptocurrencies that are restricted by [MICA regulations](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) (for example, [USDT](https://tether.to/)). Holders covers the exchange commission. Funding this way typically takes up to 60 minutes.\
 As part of the integration with Holders, [Changelly](https://changelly.com/) supports exchanges exclusively at a fixed rate (Fix rate). With this exchange method, the rate is fixed for a certain period, allowing the client to know exactly the final amount. 3 hours are provided to complete the operation. This approach became possible because exchanges are only made between stable currencies.
 
 ### Interface
@@ -167,9 +167,9 @@ As part of the integration with Holders, [Changelly](https://changelly.com/) sup
 
 This method involves direct transfer of funds to the contract address from another address in the same network. It is only supported on newer contract versions:
 
-- USDC (supported on all versions)
-- TON (starting from version v3)
-- USDT (TON) (starting from version v8)
+- **USDC (supported on all versions)**
+- **TON (starting from version v3)**
+- **USDT (TON) (starting from version v8)**
 
 With direct funding, funds are received directly to the contract address. To recognize received funds, a Controller is used that continuously scans all transactions on the blockchain. When a transaction sent to a Holders account address is detected, the Controller initiates an update of the corresponding contract balance.\
 Deposit by details is the classic direct account funding via transaction to its address. It allows you to fund an account, share account details, or create a payment link for account funding and send it to a friend who can fund the account through the [Changelly](https://changelly.com/) interface regardless of whether they have a Holders service account.
@@ -229,15 +229,15 @@ This method allows withdrawals/transfers of funds to other Holders accounts by p
 
 The following types of payments are available:
 
-- Holders Account - to another account in the Holders system. This transfer was discussed above in the Account Withdrawal section.
-- External Wallet - to an arbitrary address. This transfer was discussed above in the Account Withdrawal section.
-- SEPA - bank transfers in EUR within Europe.
-- SWIFT - international bank transfers in any currency.
+- **Holders Account** - to another account in the Holders system. This transfer was discussed above in the Account Withdrawal section.
+- **External Wallet** - to an arbitrary address. This transfer was discussed above in the Account Withdrawal section.
+- **SEPA** - bank transfers in EUR within Europe.
+- **SWIFT** - international bank transfers in any currency.
 
 ## SEPA
 
 A SEPA transfer is a cashless bank transfer in euros between SEPA zone countries (EU, EEA and others), which follows unified standards: fast, with fixed commission and without currency conversion.\
-SEPA transfers in the Holders system are processed by support service agents manually through the Triple-A payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SEPA transfer sending function implemented — all operations are carried out through the Triple-A payment partner. The transfer takes from 1 business day.
+SEPA transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SEPA transfer sending function implemented — all operations are carried out through the [Triple-A](https://www.triple-a.io/) payment partner. The transfer takes from 1 business day.
 
 ### Recipient Data
 
@@ -254,7 +254,7 @@ A standard commission is charged for processing a SEPA payment, consisting of a 
 ## SWIFT
 
 A SWIFT transfer is an international bank transfer through the SWIFT network, allowing money to be sent to any country and currency, but usually with higher commission, possible conversion and longer timeframes than SEPA. Timeframes: usually from 1 to 5 business days.\
-SWIFT transfers in the Holders system are processed by support service agents manually through the Triple-A payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SWIFT transfer sending function implemented — all operations are carried out through the Triple-A payment partner.
+SWIFT transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SWIFT transfer sending function implemented — all operations are carried out through the [Triple-A ](https://www.triple-a.io/)payment partner.
 
 ### Sending Data
 
