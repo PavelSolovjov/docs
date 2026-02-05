@@ -20,7 +20,7 @@
               {
                 "group": "Accounts & smart-contracts",
                 "pages": [
-                  "holders/product-review/untitled-page",
+                  "holders/product-review/accounts-and-contracts",
                   "holders/product-review/accounts/account-operations",
                   {
                     "group": "Types of smart-contracts",
