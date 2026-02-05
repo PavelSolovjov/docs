@@ -21,10 +21,15 @@
                 "group": "Accounts & smart-contracts",
                 "pages": [
                   "holders/product-review/untitled-page",
-                  "holders/product-review/accounts/solana-smart-contracts",
-                  "holders/product-review/accounts/ton-and-usdt-smart-contracts",
-                  "holders/product-review/accounts/trust-smart-contract",
                   "holders/product-review/accounts/account-operations",
+                  {
+                    "group": "Types of smart-contracts",
+                    "pages": [
+                      "holders/product-review/accounts/solana-smart-contracts",
+                      "holders/product-review/accounts/ton-and-usdt-smart-contracts",
+                      "holders/product-review/accounts/trust-smart-contract"
+                    ]
+                  },
                   "holders/product-review/accounts-and-smart-contracts/account-brand"
                 ]
               },
