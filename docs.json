@@ -13,7 +13,6 @@
       {
         "tab": " Holders",
         "pages": [
-          "holders/product-review/untitled-page",
           "holders/business-review",
           {
             "group": "Product review",
@@ -21,6 +20,7 @@
               {
                 "group": "Accounts & smart-contracts",
                 "pages": [
+                  "holders/product-review/untitled-page",
                   "holders/product-review/accounts/account-operations",
                   {
                     "group": "Types of smart-contracts",
