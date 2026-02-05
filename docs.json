@@ -17,6 +17,7 @@
           {
             "group": "Product review",
             "pages": [
+              "holders/product-review/untitled-page",
               {
                 "group": "Accounts & smart-contracts",
                 "pages": [
