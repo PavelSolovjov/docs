@@ -21,6 +21,7 @@
                 "group": "Accounts & smart-contracts",
                 "pages": [
                   "holders/product-review/accounts-and-contracts",
+                  "holders/product-review/accounts-and-smart-contracts/Accountssmart-contractsoverview",
                   "holders/product-review/accounts/account-operations",
                   {
                     "group": "Types of smart-contracts",
