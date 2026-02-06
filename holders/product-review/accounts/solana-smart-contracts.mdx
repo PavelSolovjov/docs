@@ -39,14 +39,14 @@ The contract for the increasingly popular [USDY](https://ondo.finance/usdy) toke
 3. The user tops up the contract balance.
 4. When conducting a transaction, the contract receives a signal from the controller to block the amount needed to execute the operation.
 5. Blocked amounts are combined into a batch (rollup) to optimize gas costs.
-6. The formed batch is transferred to the Holders treasury wallet.
-7. When returning funds, the amount is transferred from the treasury wallet back to the user's contract balance.
+6. The formed batch is transferred to the Holders treasure wallet.
+7. When returning funds, the amount is transferred from the treasure wallet back to the user's contract balance.
 8. If the user initiates a withdrawal to an external account, the contract implements multi-signature and sends the funds.
 
 # General Information
 
 Blockchain: [Solana](https://solana.com/)\
-Location: https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src\\\\\\\\ **Language:**[Rust](https://rust-lang.org/)\
+Location: https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src\\\\\\\\\\\\\\\\ **Language:**[Rust](https://rust-lang.org/)\
 License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Contract Roles
@@ -90,12 +90,12 @@ Controller is a wallet (highload-wallet v3 with rotational public key) that has 
 
 ## **Treasure authority**
 
-Treasury wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with treasury wallets; this smart contract has no Wallet authority.
+Treasure wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with treasure wallets; this smart contract has no Wallet authority.
 
 ### Available actions:
 
-- Processing refunds and reversals from treasury wallets to client accounts
-- Withdrawals from treasury wallets (only to wallet addresses specified in the whitelist)
+- Processing refunds and reversals from treasure wallets to client accounts
+- Withdrawals from treasure wallets (only to wallet addresses specified in the whitelist)
 
 ### Gas payment:
 
@@ -115,7 +115,7 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 - Changing Support authority
 - Changing Controller
 - Setting up Graceful period (withdrawal time after account closure)
-- Updating whitelist for treasury withdrawals (adding or excluding addresses)
+- Updating whitelist for treasure withdrawals (adding or excluding addresses)
 
 ### Gas payment:
 
@@ -250,6 +250,6 @@ The contract uses signature verification, `has_one`, proper management of `seeds
 
 ### Addresses and keys:
 
-- `ctx_address_a`, `ctx_address_b`: owner and treasury addresses.
+- `ctx_address_a`, `ctx_address_b`: owner and treasure addresses.
 - `ctx_controller`: controller role.
 - `ctx_token_mint`: Mint for USDC.
