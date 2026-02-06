@@ -22,6 +22,7 @@
         "pages": [
           "holders/business-review",
           "holders/glossary",
+          "holders/privacy-notes",
           {
             "group": "Product review",
             "pages": [
