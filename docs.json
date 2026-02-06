@@ -87,11 +87,11 @@
                 "group": "Bank statements",
                 "pages": [
                   "holders/product-review/bank-statements",
-                  "holders/product-review/account-ownership-certificate",
-                  "holders/product-review/user-transaction-confirmation-mechanism"
+                  "holders/product-review/account-ownership-certificate"
                 ]
               },
-              "holders/product-review/trust-and-vesting"
+              "holders/product-review/trust-and-vesting",
+              "holders/product-review/user-transaction-confirmation-mechanism"
             ]
           },
           {
