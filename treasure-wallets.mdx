@@ -1,0 +1,29 @@
+---
+title: "Treasure wallets"
+---
+
+# What is a treasure wallet
+
+A treasure wallet is a specialized smart contract that functions as a project's treasury account for a specific cryptocurrency and legal entity. This account accumulates funds for various purposes: fees, reserves, and operational budgets. Treasure wallet funds are used to make payments to partners, ensure liquidity, and finance budgets. Management of such a wallet is regulated by strict rules and procedures.
+
+# Types of treasure wallets in Holders
+
+Currently, there are seven treasure wallets in the system:
+
+1. **Solana-treasure-usdc1** — active treasury wallet of Walleexer s.r.o. for USDC operations on the Solana network.
+2. **Solana-treasure-usdc2** — decommissioned treasury wallet of Walleexer s.r.o. for USDC operations on the Solana network.
+3. **Ton-treasure1** — legacy treasury wallet of Walleexer s.r.o. for TON operations, not supporting automatic refund operations. Used for working with the first system users, all new users are directed to **Ton-treasure2.**
+4. **Ton-treasure2** — active treasury wallet of Walleexer s.r.o. for TON operations, supporting refund operations via QR codes.
+5. **Ton-treasure-usdt1** — legacy treasury wallet of Walleexer s.r.o. for USDT operations on the TON network, not supporting automatic refund operations. Used for working with the first system users, all new users are directed to **Ton-treasure-usdt2.** Technically represents the same wallet as Ton-treasure1, separation is done exclusively for accounting purposes.
+6. **Ton-treasure-usdt2** — active treasury wallet of Walleexer s.r.o. for USDT operations on the TON network, supporting refund operations via QR codes.
+7. **Holders Elysphere treasure USDT** — decommissioned treasury wallet of Elysphere LTD for USDT operations on the TON network.
+
+# Withdrawing funds from treasure wallet
+
+Withdrawal of funds from the treasury wallet is carried out exclusively by an authorized operator who has access to the treasure authority — a specialized blockchain wallet endowed with the right to sign transactions for fund debiting. Transaction formation is performed by the operator through the Backoffice interface. Fund withdrawal operations can only be executed to addresses included in the treasury wallet smart contract's whitelist. Such treasure wallet operation guarantees the security of funds placed on it.\
+Withdrawal destinations:
+
+- VASP transit wallets
+- VASP exchanges
+- VASP cold wallets (included in whitelist)
+- Client cryptocurrency accounts (for refund operations)

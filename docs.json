@@ -94,6 +94,12 @@
             ]
           },
           {
+            "group": "Funds flow",
+            "pages": [
+              "treasure-wallets"
+            ]
+          },
+          {
             "group": "Integration guides",
             "pages": [
               {
