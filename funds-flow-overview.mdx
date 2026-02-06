@@ -1,4 +1,151 @@
 ---
-title: 'Funds flow overview'
+title: "Write-offs in Holders: rollups, clearings, refunds, reversals"
 ---
 
+# Flowchart of the funds debit process
+
+![Untitled(6)(1)](/images/Untitled\(6\)\(1\).png)
+
+1. User initiates a payment operation.
+2. Card provider sends an authorization request to the Holders webhook, containing the transaction amount and merchant information.
+3. Issuer performs a check of sufficient cryptocurrency funds in the client's account. If the necessary amount is available, it gets reserved (Hold is set), after which confirmation of operation approval is sent to the provider. The virtual account balance decreases while the actual balance remains unchanged.
+4. After receiving the clearing transaction from the provider, funds are debited from the settlement balance.
+5. Formation of a rollup batch is initiated, including a list of transactions with specified amounts and fees.
+6. Preparation of aggregated state for subsequent blockchain recording is performed.
+7. Upon completion of batch formation, the total rollup amount is debited from the user's contract.
+8. The aggregated amount is transferred to the Treasury wallet.
+9. The batch receives closed status, and the transactions included in it are linked to the corresponding rollup.
+
+# Rollups
+
+## What is a rollup
+
+A rollup is a mechanism for grouping multiple transactions into a single batch to optimize processing and reduce fees when interacting with the blockchain. For each cryptocurrency withdrawal from a client's account, the payment service must pay a commission for conducting the transaction in the blockchain (gas). To optimize costs, the Holders system has implemented rollup technology, which allows aggregating multiple transactions into a single batch and paying gas once for the entire formed block of operations.
+
+## What is a batch
+
+A batch is a group of transactions or operations combined for joint processing to optimize performance and reduce costs. In the Holders system, batches are used to aggregate multiple operations into a single block before executing them on the blockchain.
+
+## Rollup Formation
+
+A rollup is formed for each client account every 3 hours (configurable parameter) when there is at least one operation in the specified period. All operations performed during this time interval are aggregated into a single block and then executed on the blockchain.\
+The rollup includes the following types of operations:
+
+- **Payments** — client funds are blocked on the Holders backend at the moment of payment, actual blocking on the blockchain occurs during rollup formation
+- **Clearings** — debiting funds from the client's account to the treasury wallet
+- **Reversals** — operations to unblock previously reserved funds
+
+The smart contract accumulates changes rather than calculating the current balance. This means that if two opposite operations for the same amount fall into the same rollup (for example, a reversal and a payment), both will be executed.
+
+<Info>
+  **Example:** A client makes a payment at 13:00 for 100 EUR, at 14:00 they make a second payment for 200 EUR. At 15:00 the client receives a reversal for 300 EUR and a clearing for 400 EUR for previously completed operations (all operations occur on the same account).\
+  At 16:00 a rollup is formed, in which:
+
+  - 300 EUR is blocked on the client's account and the displayed balance decreases (for payments made during the period), the actual account balance does not change
+  - 300 EUR is unblocked and the client's displayed balance increases (reversal), the actual account balance does not change
+  - 400 EUR is debited from the client's account to treasury, the displayed balance does not change, while the actual balance decreases by 400 EUR
+
+  _All amounts are specified in EUR for calculation simplification. In reality, all blockchain operations are conducted using cryptocurrency only_
+</Info>
+
+# Clearings
+
+## What is clearing
+
+Clearing is a process of reconciliation and mutual settlements, as well as final confirmation of operations between the issuing bank, acquirer, payment system and Holders based on authorizations. Typically, clearing for an operation takes place within 24 hours.
+
+## **The Role of Clearing in Payment Flow**
+
+Clearing is a bridge between authorization and final settlement.\
+It is responsible for:
+
+- **Matching authorizations and actual operations**: confirming which specific authorized amounts need to be actually debited, taking into account possible changes (partial clearing, cancellations, refunds).
+- **Converting "promise to debit" into obligation**: after clearing, the amount stops being simply reserved and becomes a confirmed claim against the client's account.
+- **Updating balances in the system**: virtual balance (in the interface) and actual balance of the smart contract/settlement account are brought into compliance with real data from the payment system and issuing bank.
+
+Thus, authorization says "this operation can be conducted", clearing says "this amount should be debited for this operation", and settlement says "money has been finally moved and recorded".
+
+## **Process Participants**
+
+Several parties and components participate in clearing:
+
+- **Card issuing bank** – sends clearing events to Holders (final transaction data after authorization: amounts, fees, currency, clearing date).
+- **Payment system (Visa)** – provides rules and infrastructure for transaction exchange between the issuing bank, acquirer and Holders, standardizes the format of clearing messages.
+- **Holders Backend** – receives clearing events, matches them with authorizations, includes them in rollup and initiates changes to the client's account/contract.
+- **Controller (on-chain component/service)** – based on clearing and rollup results, initiates actual debiting from the user's smart contract and transfer of funds to the corresponding Treasury contract.
+- **Client smart contracts** – store user funds; based on clearing and rollup results, aggregated amounts are debited from them.
+- **Treasury wallets** – receive aggregated amounts after clearing (by tokens/networks), serving as the company's funds accumulation point.
+
+## Clearing Stages in Holders
+
+The clearing process in the Holders system includes the following stages:
+
+1. The card issuing bank sends a clearing event to the Holders system.
+2. The Holders backend processes the received event and includes it in the rollup of transactions related to the corresponding smart contract.
+3. After the established time interval expires, the information is transmitted to the Controller.
+4. The Controller initiates the transfer of funds from the smart contract to Treasury. A separate Treasury contract is used for each coin.
+5. Subsequent withdrawal of funds from Treasury is only possible to pre-authorized addresses included in the whitelist.
+
+<Info>
+  Important to note: in some cases, the clearing amount may exceed the amount reserved on the client's contract, which is due to the specifics of payment systems operation. Currently, the mechanism for additional fund requests through invoices to cover such differences is under development.
+</Info>
+
+## Types of clearing
+
+### Regular clearing
+
+Standard clearing process where the clearing amount equals or is practically equal to the original transaction amount.
+
+### Partial Clearing
+
+Partial clearing occurs when only part of the obligations or transactions are executed. This can happen in the following cases:
+
+- **Insufficient liquidity**: When the bank cannot process all orders simultaneously, only part of the transactions can be closed.
+- **Gradual execution**: In cases where contracts or transactions involve execution in several stages, and obligations are fulfilled as funds become available.
+
+### Over-clearing
+
+Over-clearing refers to a situation where the final settlement exceeds the initial obligations, which may be related to:
+
+- **Complex financial operations**: For example, when using derivative financial instruments or hedging, where risks may exceed initial positions.
+
+# Returns and Reversals
+
+## Return
+
+**Return** is an operation initiated by a merchant after payment completion and clearing, in which funds are returned to the customer for the original transaction, either fully or partially.\
+**Return characteristics:**
+
+- Executed after clearing completion when funds have already been debited
+- Creates a new incoming operation (credit) in the bank statement
+
+## Returns in Holders
+
+In Holders, returns are processed manually after receiving notification from the issuing bank. This approach provides additional protection against fraudulent operations.\
+**Return features:**
+
+- Usually the return reaches the customer within 30 days after merchant initiation
+- The operation is performed by an authorized Backoffice employee
+- Only the main payment amount is returned, the commission is not returned (covers Holders' operational expenses)
+
+<Info>
+  **Important feature:** The return amount is calculated at the exchange rate at the time of return, not at the time of the original payment.\
+  **Example:** Customer paid 100 TON. Merchant initiated a return. Bank approved the return and notified Holders. By this time, TON rate dropped by half. Customer will receive 200 TON (minus commission) — twice the originally spent amount in crypto.
+</Info>
+
+## Reversal
+
+Reversal is an operation to cancel authorization before its clearing. During reversal, blocked funds are released and become available in the customer's account without actual money movement between the issuing bank and acquirer.\
+**Reversal characteristics:**
+
+- Executed between authorization and clearing stages
+- Cancels amount reservation on the account
+- Removes fund blocking without creating a new operation in the statement
+
+## Reversals in Holders
+
+In Holders, reversals are processed automatically after receiving notification from the issuing bank.\
+**Reversal features:**
+
+- Full purchase amount is returned, exchange rate is not recalculated
+- Commission amount is not deducted from the reversal
