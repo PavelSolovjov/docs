@@ -96,6 +96,7 @@
           {
             "group": "Funds flow",
             "pages": [
+              "funds-flow-overview",
               "treasure-wallets"
             ]
           },
