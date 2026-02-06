@@ -1,6 +1,6 @@
 ---
 title: "Write-offs in Holders: rollups, clearings, refunds, reversals"
-description: "This document explains how funds are debited in Holders: from card authorization and clearing through rollup formation and on-chain debits to Treasury wallets, including how refunds and reversals work."
+description: "This document explains how funds are debited in Holders: from card authorization and clearing through rollup formation and on-chain debits to Treasure wallets, including how refunds and reversals work."
 ---
 
 # Flowchart of the funds debit process
@@ -14,7 +14,7 @@ description: "This document explains how funds are debited in Holders: from card
 5. Formation of a rollup batch is initiated, including a list of transactions with specified amounts and fees.
 6. Preparation of aggregated state for subsequent blockchain recording is performed.
 7. Upon completion of batch formation, the total rollup amount is debited from the user's contract.
-8. The aggregated amount is transferred to the Treasury wallet.
+8. The aggregated amount is transferred to the Treasure wallet.
 9. The batch receives closed status, and the transactions included in it are linked to the corresponding rollup.
 
 # Rollups
@@ -33,7 +33,7 @@ A rollup is formed for each client account every 3 hours (configurable parameter
 The rollup includes the following types of operations:
 
 - **Payments** — client funds are blocked on the Holders backend at the moment of payment, actual blocking on the blockchain occurs during rollup formation
-- **Clearings** — debiting funds from the client's account to the treasury wallet
+- **Clearings** — debiting funds from the client's account to the treasure wallet
 - **Reversals** — operations to unblock previously reserved funds
 
 The smart contract accumulates changes rather than calculating the current balance. This means that if two opposite operations for the same amount fall into the same rollup (for example, a reversal and a payment), both will be executed.
@@ -44,7 +44,7 @@ The smart contract accumulates changes rather than calculating the current balan
 
   - 300 EUR is blocked on the client's account and the displayed balance decreases (for payments made during the period), the actual account balance does not change
   - 300 EUR is unblocked and the client's displayed balance increases (reversal), the actual account balance does not change
-  - 400 EUR is debited from the client's account to treasury, the displayed balance does not change, while the actual balance decreases by 400 EUR
+  - 400 EUR is debited from the client's account to treasure, the displayed balance does not change, while the actual balance decreases by 400 EUR
 
   _All amounts are specified in EUR for calculation simplification. In reality, all blockchain operations are conducted using cryptocurrency only_
 </Info>
@@ -73,9 +73,9 @@ Several parties and components participate in clearing:
 - **Card issuing bank** – sends clearing events to Holders (final transaction data after authorization: amounts, fees, currency, clearing date).
 - **Payment system (Visa)** – provides rules and infrastructure for transaction exchange between the issuing bank, acquirer and Holders, standardizes the format of clearing messages.
 - **Holders Backend** – receives clearing events, matches them with authorizations, includes them in rollup and initiates changes to the client's account/contract.
-- **Controller (on-chain component/service)** – based on clearing and rollup results, initiates actual debiting from the user's smart contract and transfer of funds to the corresponding Treasury contract.
+- **Controller (on-chain component/service)** – based on clearing and rollup results, initiates actual debiting from the user's smart contract and transfer of funds to the corresponding Treasure contract.
 - **Client smart contracts** – store user funds; based on clearing and rollup results, aggregated amounts are debited from them.
-- **Treasury wallets** – receive aggregated amounts after clearing (by tokens/networks), serving as the company's funds accumulation point.
+- **Treasure wallets** – receive aggregated amounts after clearing (by tokens/networks), serving as the company's funds accumulation point.
 
 ## Clearing Stages in Holders
 
@@ -84,8 +84,8 @@ The clearing process in the Holders system includes the following stages:
 1. The card issuing bank sends a clearing event to the Holders system.
 2. The Holders backend processes the received event and includes it in the rollup of transactions related to the corresponding smart contract.
 3. After the established time interval expires, the information is transmitted to the Controller.
-4. The Controller initiates the transfer of funds from the smart contract to Treasury. A separate Treasury contract is used for each coin.
-5. Subsequent withdrawal of funds from Treasury is only possible to pre-authorized addresses included in the whitelist.
+4. The Controller initiates the transfer of funds from the smart contract to Treasure. A separate Treasure contract is used for each coin.
+5. Subsequent withdrawal of funds from Treasure is only possible to pre-authorized addresses included in the whitelist.
 
 <Info>
   Important to note: in some cases, the clearing amount may exceed the amount reserved on the client's contract, which is due to the specifics of payment systems operation. Currently, the mechanism for additional fund requests through invoices to cover such differences is under development.
