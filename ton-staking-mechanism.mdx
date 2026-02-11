@@ -1,0 +1,111 @@
+---
+title: "TON staking general information"
+---
+
+# What is staking
+
+Blockchain is a distributed ledger of transactions, copies of which are synchronously stored on multiple computers. Transactions are grouped into blocks, with each subsequent block containing a cryptographic reference to the previous one, making falsification of historical data extremely difficult. New records are added according to unified network rules, allowing all participants to verify the correctness of operations. This architecture enables the system to function without a centralized governing body or administrator.\
+Block formation requires significant computational resources. Since the network operates in a decentralized mode, there is no single server or responsible party to coordinate the attraction of these resources. The network must independently ensure the attraction of necessary computing power for continuous operation.\
+To solve this problem, blockchain technology developers created two main consensus algorithms:
+
+- **Proof-of-Work (PoW)** — thousands of computers compete to solve a complex cryptographic problem. The participant who first finds the solution gets the right to add a new block and receives a reward. The reward is predetermined by the blockchain creator and has a limited volume, so mining difficulty is periodically adjusted. The high computational complexity of the task is aimed at preventing fraudulent actions. Recalculating previous blocks is practically impossible due to the need for colossal energy and time costs.
+  - Advantages: high level of security, resistance to falsification of historical data.
+  - Disadvantages: significant energy consumption, low transaction processing speed, high operational costs.
+  - Implementation examples: Bitcoin, Litecoin.
+- **Proof-of-Stake (PoS)** — instead of high computational power, a token collateral mechanism is used. Participants provide devices with low computational power and lock a certain amount of their own coins as collateral. The probability of being selected as a block validator is directly proportional to the size of the stake. Rewards are generated directly by the network in the form of new tokens.
+  - Advantages: high level of security, low energy consumption, high transaction confirmation speed, increased network throughput.
+  - Disadvantages and risks: need to have tokens for collateral, possibility of receiving penalties for non-compliance with technical requirements.
+  - Implementation examples: Ethereum, Solana, TON.
+
+The procedure of participating in Proof-of-Work is called mining, and in Proof-of-Stake - staking.
+
+# TON Staking
+
+TON staking is the process of locking TON (The Open Network) tokens to support network operation and receive rewards. In the TON ecosystem, staking allows token holders to participate in ensuring blockchain security, confirm transactions, and receive a portion of fees as passive income. Staking participants who provide computational power are called validators.
+
+# Validators (Nodes)
+
+A validator (node) is a node (server) in the blockchain that verifies and adds blocks to the blockchain. In PoS: the validator locks their coins (stake), gets the right to propose/confirm blocks and receives rewards for this.\
+The number of validators is determined by a network configuration parameter fixed in the configuration contract. This parameter is set through a general vote of all validators. In the TON blockchain, the number of validators is currently limited to 375 participants. [Anyone can become a validator](https://ton.org/en/validators) by meeting the following requirements:
+
+1. Validator hardware compliance with current minimum technical specifications. Current configuration is available at: https://t.me/tonstatus/102
+2. Software compliance with the latest required version. Information about the current version and updates can be tracked in the [@tonstatus](https://t.me/tonstatus/) channel.
+3. Ensuring constant network connection. The validator cannot disconnect when participating in a staking cycle. All disconnections result in penalties.
+4. The minimum required number of locked coins must exceed the indicator of the validator [occupying 375th place at the current moment.](https://tonwhales.com/staking/stats/validators) The current minimum volume of coins is approximately 680,000 TON. In case of insufficient own coins for locking, the validator turns to nominators.
+5. The maximum amount of locked coins is not limited, however, in one round no validator can control more than 1/3 (≈33.33%) of the total stake amount of all validators. Otherwise, they will not be able to participate in staking.
+
+Typically, the main network load is processed by the first hundred validators, while the rest are in reserve and connect as needed. For this reason, validator operators strive to avoid getting into the first hundred to reduce operational loads, since high load can lead to validator failures and, consequently, to penalties.
+
+## Penalties
+
+Penalties for validators in the TON network are a mechanism for punishing incorrect work or malicious actions - withholding rewards or exclusion from the active set. Actions such as signing invalid blocks, prolonged downtime (offline), or equipment failures are penalized. Throughout the entire history of Ton Whales' existence, a penalty was received only once and was fully covered from the company's budget.
+
+# Ton Whales Validators
+
+Ton Whales operates its own validators and allows [nominators](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWNf95c61fef3f64e9bace33b62f) to send their coins for staking and share rewards with them. Currently, the team supports the operation of 19 validators, whose status can be monitored [in the dashboard within the Grafana interface](https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f). The DevOps team is responsible for validator operations.
+
+# Nominators
+
+A nominator is a staking participant who stakes their tokens together with a validator. They do not validate themselves, but choose validators and share rewards with them. Anyone can become a nominator. The only requirement is having TON tokens that they can lock. The minimum lock amount depends on the smart contract used for working with a specific nominator. The maximum stake amount for a nominator is unlimited.
+
+# Staking Smart Contract
+
+A contract is a set of rules that exists on the blockchain and allows users to interact with the blockchain and send their assets for staking.\
+Key functions:
+
+1. The contract allows users to deposit their tokens into a pool for staking and withdraw them
+2. It automatically calculates and distributes staking rewards among participants based on their share in the pool
+3. Ensures fund security by guaranteeing that tokens will be locked for a specific period for staking and will only return to the one who sent them
+4. Provides transparency of all transactions and actions related to staking, allowing users to trust and track coin movements through explorers
+
+### Types of Contracts
+
+Currently, two main smart contracts operate in the TON network for implementing classic staking:
+
+- **Ton Nominators Pool** — the first staking smart contract, [launched on March 14, 2022](https://t.me/toncoin_rus/281) by the Ton Whales team. Used in all Ton Whales staking pools, as well as in several partner pools. Key characteristics:
+  - Minimum stake amount for a nominator is 50 TON.
+  - The percentage ratio of profit distribution between validator and nominators is a configurable parameter set during contract initialization. Currently, pools operate where the validator receives only 5% of total rewards, while the remaining 95% is distributed among nominators proportionally to their stake size.
+  - [Open source code](https://github.com/tonwhales/ton-nominators).
+- **Nominator Pool Smart Contract** — a contract [launched on March 22, 2022](https://t.me/toncoin_rus/362) by the [TON Foundation](https://ton.foundation/en) team. Main technical characteristics:
+  - Minimum stake amount for a nominator is 10,000 TON.
+  - The percentage ratio of profit distribution between validator and nominators is fixed at the smart contract level and cannot be changed. The validator receives 40% of all rewards, while the remaining 60% is distributed among nominators proportionally to their stake size.
+  - [Open source code](https://github.com/ton-blockchain/nominator-pool).
+
+# Staking Pools
+
+A staking pool is a combination of participants for joint staking. For pool participants, the entry threshold to staking is lowered and the need to maintain expensive hardware (validator) disappears. Participants contribute TON, the pool operator stakes them with validators, and rewards are distributed proportionally to the contributed share. There are custodial (pool owner has access to coins) and non-custodial pools. All Ton Whales pools are non-custodial - this means that only the participant who sent them has access to the coins stored in them. Neither the pool owner nor other participants can access these funds.\
+Staking pools are divided into custodial (where the pool owner has access to tokens) and non-custodial. All Ton Whales pools operate on a non-custodial model, which means that only the participant who deposited them has exclusive access to the tokens stored in them. Neither the pool owner nor other participants can access these funds.\
+Currently, [7 different staking pools](https://tonwhales.com/staking) operate on the [tonwhales.com](http://tonwhales.com) platform, which differ in access conditions and percentage ratios in reward distribution. Detailed information about Ton Whales staking pools is presented in the document [Ton Whales Staking Pools](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A5N1EP20Z).
+
+# Reward Distribution
+
+For participating in staking, participants receive rewards that are divided between validators and nominators depending on the conditions specified [in the staking contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN8747ce8ffe8a4356bd75ab073). Rewards automatically arrive to participants' staking balance each cycle and also participate in staking. Nominators can withdraw rewards together with the main stake body or by making a separate request (if the contract supports partial fund withdrawal). The reward that a participant will receive depends on the following factors:
+
+- Stake size. The more funds a nominator has locked in the contract, the greater reward they will receive.
+- Total staking volume in the network. The more funds participate in staking in total, the lower each participant's share will be.
+- Network load. The more transactions [validators](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN1c6b8c1d7bed4db4b8e986927) process, the more rewards all participants will receive.
+- Percentage ratio of reward distribution. The lower the commission in the pool where the nominator participates, the more funds they will receive. The commission size is determined by [contract conditions](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN8747ce8ffe8a4356bd75ab073).
+
+# Staking Cycles
+
+Staking cycles are recurring time periods by which the network operates.\
+**Staking cycle = one complete operational period**
+
+1. Collection of stakes from participants.
+2. Selection of active validators.
+3. Execution of operations by validators during the established period.
+4. Calculation and distribution of rewards.
+5. Update of validator composition and stake volumes → initiation of the next cycle.
+
+Funds sent to staking are activated only with the start of the next cycle after the current one ends. In the TON network, the basic cycle is 36 hours.
+
+# Staking Queues
+
+To improve user experience efficiency, a system of two parallel cycles with an 18-hour offset relative to each other has been implemented. This solution ensures reduced waiting time for users and increases network stability: while validators of one cycle carry out operational activities, validators of the second cycle conduct voting procedures.\
+Due to this cycle structure in TON, staking pools have two independent queues each. The queues are identical but may differ in profitability depending on the number of coins staked in each of them. Users can choose the nearest one and send coins specifically to it to save time or choose a queue with higher profitability.
+
+![Screenshot2026 02 11at17 32 27](/images/Screenshot2026-02-11at17.32.27.png)
+
+# Staking Stages Scheme with Queue Offset
+
+![Screenshot2026 01 19at18 32 43](/images/Screenshot2026-01-19at18.32.43.png)

@@ -119,7 +119,12 @@
         "tab": "Ton Whales",
         "pages": [
           "business-overview",
-          "glossary"
+          "glossary",
+          "ton-staking-mechanism",
+          {
+            "group": "Products review",
+            "pages": []
+          }
         ]
       }
     ]
