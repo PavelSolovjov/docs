@@ -109,3 +109,17 @@ Due to this cycle structure in TON, staking pools have two independent queues ea
 # Staking Stages Scheme with Queue Offset
 
 ![Screenshot2026 01 19at18 32 43](/images/Screenshot2026-01-19at18.32.43.png)
+
+The diagram shows how one staking cycle is structured in TON and how it is "shifted" for two queues (Queue 1 and Queue 2).\
+There are three cycle phases:
+
+1. **Election (validator selection) — 7 hours.** In this phase, it is determined which validators will participate in the next validation period and with what stakes.
+2. **Validation — 18 hours.** Selected validators produce and sign blocks, earning rewards for this.
+3. **Hold — 11 hours.** The stake is essentially "suspended" in the system: it no longer participates in new elections but is not yet available for complete withdrawal. This is a technical period for cycle completion during which validators may be penalized for violations during the last validation cycle.
+
+Total length of one cycle:\
+**7 h (election) + 18 h (validation) + 11 h (hold) = 36 hours.**
+
+## Cooldown period
+
+During the first two hours of each staking cycle, a Simplified period (cooldown) is active. During this time, users don't need to wait for the cycle to end to withdraw or deposit stake — everything happens instantly. Users can transfer funds from one pool to another without losing cycle income if the Simplified period is active in both pools. The simplified period mechanism is available exclusively for users participating in staking through Ton Whales pools.
