@@ -127,8 +127,8 @@
               {
                 "group": "Smart-contracts",
                 "pages": [
-                  "smart-contract-dao",
-                  "smart-contract-nominators"
+                  "smart-contract-nominators",
+                  "smart-contract-dao"
                 ]
               }
             ]
