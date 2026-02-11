@@ -4,9 +4,12 @@ title: "Smart-contract nominators"
 
 # General Description
 
-**Link: **https://github.com/tonwhales/ton-nominators\
-**License:**[GNU v3](https://www.gnu.org/licenses/gpl-3.0.en.html)\
-**Language:**[FunC](https://docs.ton.org/languages/func/overview)\
+**Link:** https://github.com/tonwhales/ton-nominators\\ 
+
+**License:**[GNU v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+**Language:**[FunC](https://docs.ton.org/languages/func/overview)
+
 A decentralized smart contract launched by the Ton Whales team on March 14, 2021, which stores all staking records and allows nominators to pool together to send funds for staking as a single block.
 
 # Architecture
@@ -87,10 +90,10 @@ In both cases, the `op_deposit(member, value)` function is called, which perform
    1. recalculates participant profit (`member_update_balance`)
    2. resets pending withdrawal
    3. increases `ctx_member_pending_deposit` and `ctx_balance_pending_deposits`
-6. Sends confirmation:
+1. Sends confirmation:
    1. when `ctx_query_id == 0` (text command): text message "Stake \<amount\> accepted"
    2. in other cases: standard message with `op::stake_deposit::response()` and `query_id`
-7. Saves updated participant data and base state
+2. Saves updated participant data and base state
 
 <Info>
   **Important note:** the deposit at this stage is in pending status (`pending_deposit`) and is not included in the pool's total balance until confirmed.
@@ -122,8 +125,8 @@ The `op_controller_accept_stakes()` function is called, which performs the follo
       3. updates participant's profit (`member_update_balance()`)
       4. transfers `ctx_member_pending_deposit` to `ctx_member_balance`
       5. increases total pool balance (`ctx_balance`)
-   3. Saves participant data (`store_member()`)
-4. Saves pool base state (`store_base_data()`)
+   1. Saves participant data (`store_member()`)
+1. Saves pool base state (`store_base_data()`)
 
 <Info>
   **Important note:** from this point forward, the deposit is officially recorded in the pool's general stake and participates in validation.
@@ -157,17 +160,17 @@ In both cases, the `op_withdraw(member, value, stake)` function is called, which
       1. from pending deposits (`ctx_member_pending_deposit`)
       2. from previously requested withdrawals (`ctx_member_withdraw`)
       3. from active stake (`ctx_member_balance`), if pool is not locked
-   4. Places remainder in withdrawal queue (`ctx_member_pending_withdraw`)
-   5. Returns immediate withdrawal amount and operation completion status
-4. Determines recipient address:
+   1. Places remainder in withdrawal queue (`ctx_member_pending_withdraw`)
+   2. Returns immediate withdrawal amount and operation completion status
+1. Determines recipient address:
    1. for owner — `ctx_owner`
    2. for nominator — `serialize_work_addr(member)`
-5. Sends confirmation:
+2. Sends confirmation:
    1. when `ctx_query_id == 0` (text command): text message with amount and status
       1. "Withdraw completed" — for full withdrawal
       2. "Withdraw requested..." — for partial withdrawal
-   2. in other cases: standard message with `op::stake_withdraw::response()` or `op::stake_withdraw::delayed()`
-6. Saves updated member data and base state
+   1. in other cases: standard message with `op::stake_withdraw::response()` or `op::stake_withdraw::delayed()`
+3. Saves updated member data and base state
 
 <Info>
   **Important note:** funds placed in the withdrawal queue (`pending_withdraw`) will be withdrawn after the pool is unlocked by the controller.
@@ -200,13 +203,13 @@ The `op_controller_accept_withdraws()` function is called, which performs the fo
       4. takes `amount = ctx_member_pending_withdraw` and transfers it:
          1. decreases `ctx_member_balance` by `amount`
          2. increases `ctx_member_withdraw` by `amount`
-      5. at pool level:
+      1. at pool level:
          1. decreases `ctx_balance` by `amount`
          2. increases `ctx_balance_withdraw` by `amount`
          3. decreases `ctx_balance_pending_withdraw` by `amount`
-      6. resets `ctx_member_pending_withdraw` and `ctx_member_pending_withdraw_all` flag
-   3. Saves participant data (`store_member()`)
-4. Saves pool base state (`store_base_data()`)
+      2. resets `ctx_member_pending_withdraw` and `ctx_member_pending_withdraw_all` flag
+   1. Saves participant data (`store_member()`)
+1. Saves pool base state (`store_base_data()`)
 
 <Info>
   **Important note:** after accepting a withdrawal, the funds transition to a ready-to-receive status (`ctx_member_withdraw`). External code (script/controller/owner) can send the accumulated amount to the user via regular transfer, since the contract does not initiate transfers itself but only maintains records.
