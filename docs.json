@@ -134,6 +134,12 @@
               },
               "liquid-staking-pool"
             ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "deposit-withdraw-whales-liquid-pool"
+            ]
           }
         ]
       }
