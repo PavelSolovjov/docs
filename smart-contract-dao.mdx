@@ -2,6 +2,12 @@
 title: "Smart-contract DAO"
 ---
 
+# General Data
+
+**Link: **https://github.com/tonwhales/nominators-dao\
+**License: **[MIT](https://opensource.org/licenses/MIT)\
+**Language: **[Tact](https://tact-lang.org/)
+
 # What is a DAO contract
 
 This is a DAO smart contract that automatically:
@@ -74,16 +80,16 @@ Stores:
 1. Proposal creation (`CreateProposal` message)
    1. Sender must be a DAO participant (`members` contains their hash).
    2. Message account (`ctx.value`) must have \> 2 × PROPOSAL_MINIMUM_BALANCE — to cover deployment and proposal contract operation.
-2. Voting in `Proposal` contract `receive("Agree")` and `receive("Disagree")`:
+1. Voting in `Proposal` contract `receive("Agree")` and `receive("Disagree")`:
    1. Only allowed for basechain addresses (`wc == 0`) present in `members` with non-zero weight.
    2. One participant can vote only once — after voting, their weight in `members` is zeroed.
    3. If number of "for" votes ≥ `votesNeeded`:
       1. `executeProposal()` is called:
          1. `Proposal` contract sends `ExecuteProposal` message with `messages` map to DAO.
-   4. If number of "against" votes ≥ `votesNeeded`:
+   1. If number of "against" votes ≥ `votesNeeded`:
       1. `terminateProposal()` is called:
          1. text message `"Terminated"` goes to DAO.
-3. Proposal execution in DAO (`receive(proposal: ExecuteProposal)`)
+2. Proposal execution in DAO (`receive(proposal: ExecuteProposal)`)
    1. DAO checks that sender is the correct proposal contract:
    2. Recalculates `StateInit` of expected `Proposal` based on current DAO state and received `messages`;
    3. Compares `ctx.sender` with address computed from this `StateInit`.
