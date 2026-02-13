@@ -124,6 +124,7 @@
           {
             "group": "Products review",
             "pages": [
+              "staking-pools",
               {
                 "group": "Smart-contracts",
                 "pages": [
