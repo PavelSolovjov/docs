@@ -131,7 +131,8 @@
                   "smart-contract-nominators",
                   "smart-contract-dao"
                 ]
-              }
+              },
+              "liquid-staking-pool"
             ]
           }
         ]
