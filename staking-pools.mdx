@@ -4,26 +4,24 @@ title: "Staking pools"
 
 # What is a staking pool
 
-A staking pool is a smart contract-based service that allows multiple users to combine their tokens for joint participation in staking, proportional distribution of rewards according to each participant's contribution size, and eliminates the need to run their own validator.\
+A staking pool is [a smart contract-based](/smart-contract-nominators) service that allows multiple users to combine their tokens for joint participation in staking, proportional distribution of rewards according to each participant's contribution size, and eliminates the need to run their own validator.\
 Ton Whales staking pools are divided into proprietary pools — fully owned by Ton Whales, and partner pools — launched jointly with partners.
 
 # Ton Whales Partner Pools
 
-A partner pool is a staking pool launched jointly with a partner. Typically, Whales launch and are responsible for all pool infrastructure, while the partner attracts nominators to it, although there are cases where the infrastructure also falls on the partner, and Whales only provide the smart contract. The commission received from nominators in the partner pool is divided in a pre-agreed ratio between Whales and the partner using a DAO contract.
+A partner pool is a staking pool launched jointly with a partner. Typically, Whales launch and are responsible for all pool infrastructure, while the partner attracts nominators to it, although there are cases where the infrastructure also falls on the partner, and Whales only provide the smart contract. The commission received from nominators in the partner pool is divided in a pre-agreed ratio between Whales and the partner using a [DAO contract](/smart-contract-dao).
 
 <Info>
   ## Why can't a partner launch a pool independently if the contract is open source?
 
   1. Despite the contract being open source, expensive security audits are necessary for its safe use. Whales provides the results of conducted audits to partners after signing a cooperation agreement.
   2. The staker is proprietary software and is a critically important component for pool functionality. Access to the staker's source code is provided to partners exclusively after contract signing.
-
-
   1. Whales provides comprehensive technical support to partners at all stages of setup, deployment, and launch of staking pools.
 </Info>
 
 # Nominators DAO Contract
 
-A decentralized smart contract with three main functions:
+A decentralized [smart contract](/smart-contract-dao) with three main functions:
 
 - **Proposal voting** — the contract maintains a list of participants and their share weights. Any DAO participant can create a proposal representing a set of predefined actions. Other participants vote for or against by sending corresponding messages to the contract address.
 - **Staking revenue distribution** — all received income is distributed among DAO participants according to pre-established shares.
@@ -126,7 +124,7 @@ A user's rating is the sum of ratings of all their whales and a bonus for comple
   **Important.** When first depositing funds into the pool through the Tonhub interface or the [tonwhales.com](http://tonwhales.com) website, the user will receive a warning about the need to ensure that their address is added to the pool. This warning is displayed regardless of the actual presence of the address in the table and is purely informational in nature.
 </Info>
 
-# Staking Commissions
+# Staking Fees
 
 Commissions from partner pools are withdrawn to wallets specified in the DAO of these pools or transferred monthly (as in the case with P2P). Commissions from proprietary pools remain on the controller.
 
