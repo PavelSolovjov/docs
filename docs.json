@@ -139,7 +139,8 @@
             "group": "Guides",
             "pages": [
               "deposit-withdraw-via-tonhub",
-              "deposit-withdraw-whales-liquid-pool"
+              "deposit-withdraw-whales-liquid-pool",
+              "deposit-withdraw-via-tonkeeper"
             ]
           }
         ]
