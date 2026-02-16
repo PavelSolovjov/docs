@@ -142,6 +142,7 @@
               "deposit-withdraw-via-tonwhales-com",
               "deposit-withdraw-whales-liquid-pool",
               "deposit-withdraw-via-transaction",
+              "deposit-withdraw-via-ledger",
               "deposit-withdraw-via-tonkeeper"
             ]
           }
