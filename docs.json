@@ -125,6 +125,7 @@
             "group": "Products review",
             "pages": [
               "staking-pools",
+              "whales-validators",
               {
                 "group": "Smart-contracts",
                 "pages": [
