@@ -110,6 +110,12 @@
                   "integration-gides/technical-integration/techdoc",
                   "integration-gides/technical-integration/webviewbridgeapis"
                 ]
+              },
+              {
+                "group": "For banks",
+                "pages": [
+                  "list-of-required-information-to-start-the-integration"
+                ]
               }
             ]
           }

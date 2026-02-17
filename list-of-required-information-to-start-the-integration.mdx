@@ -1,0 +1,209 @@
+---
+title: "List of required information to start the integration"
+---
+
+# **Stage 1: Environment Setup, Integration Conditions, and Access Provisioning**
+
+## **Providing API Documentation from Holders Partner**
+
+1. The documentation you provide must contain a detailed description of all resources, endpoints (including URLs, HTTP methods, headers), request parameters, and response formats (JSON).
+2. You must provide examples of the complete payment/refund process in the form of real webhook examples for transactions (including clearing) for the following processes:
+   1. decision_request and notification (with all types)
+      1. online payments
+      2. offline payments
+      3. contactless payments
+      4. full reversal
+      5. partial reversal
+      6. refund
+      7. multiple authorizations (if applicable)
+   2. clearing
+      1. full clearing
+      2. partial clearing (if available)
+      3. multi-clearing (if available)
+   3. decline (with all types)
+      1. after decision_request
+      2. as notification
+3. You must provide detailed information on transaction processing methods for all types of operations.
+4. Detailed description of all available endpoints covering the complete card lifecycle (issuance, activation, blocking, data viewing), user management, balance checking, transaction history retrieval, as well as endpoints for additional services: [methods checklist](https://docs.google.com/spreadsheets/d/1MyeDlhjFGQIWkF2-8jHmQ74Z28t9sJRX-SWyoMYNCj0/edit?gid=1349998777#gid=1349998777) for the partner.
+5. Provide a comprehensive list of possible error codes, their meanings, and recommended actions when they occur. Specify API versioning information.
+
+## **Providing Stable Access to Environments**
+
+Provide working access credentials (API keys, endpoint URLs) for access to an isolated Sandbox (test) API environment.
+
+- Test environment evaluation criteria:
+  - Ability to complete a full KYC process for the client that is as close to production as possible
+  - Card issuance
+  - Card data retrieval
+  - Ability to test transactions and webhooks
+- Clearly describe the procedure for obtaining and provide separate access to the Production API environment. Specify all configuration or behavior differences of the Production environment compared to Sandbox.
+
+## **Card Design Coordination, Approval, and Customization**
+
+- Describe the Partner's internal process for coordinating and approving bank card designs, including requirements for file formats, design elements, and review timelines.
+- Coordinate the final layout, including placement of logos, mandatory text (e.g., terms of use, issuing bank contacts), and other elements.
+- Confirm receipt of the card design provided by the Holders team in SVG (Scalable Vector Graphics) format and its technical suitability for use. SVG format is necessary for quality printing and image scaling. Alternatively, agree on another format acceptable to the Partner.
+- Define clear and realistic timelines for technical implementation of the approved card design in Partner systems and its display in interfaces (e.g., through iframe). Specify required formats and methods for delivering final design files.
+
+## **Customization and Detailed Card Data Display**
+
+- Provide detailed technical information on implementing iframe or other secure methods for displaying sensitive card data (full card number, CVV, expiration date). Include code examples for embedding and description of transmitted parameters. Note that our PCI DSS level is SAQ; we are not fully PCI DSS compliant.
+- Clarify availability and list all available minimal customization options for iframe appearance (if applicable, e.g., passing background parameters, fonts, or availability of CSS classes for style overrides) to bring the appearance as close as possible to the Holders application design.
+- Describe security measures implemented in the iframe to prevent unauthorized access to card data.
+
+## **Currencies and Calculations**
+
+Provide the following information:
+
+- Report the account currency in your system
+- Supported currencies for payments
+- What is contained in the transaction:
+  - Amount in transaction currency
+  - Amount in account currency
+  - Is it possible to display the transaction amount in USDT/USDC along with the fiat amount?
+- What size should the settlement balance be and in what currency
+- In what currency will payments be accepted
+- Clarify the process for paying Partner services (settlements with Holders)
+
+## **3DS Support**
+
+- What types of 3DS are supported:
+  - Confirmation button in the application
+  - SMS from Partner
+  - Webhook from Partner to Holders so Holders can control the message sending process
+- Is a 3DS password required
+- Who sends SMS
+- At what moments will the Partner send SMS, and at what moments will Holders:
+  - For example, when adding cards to Apple/Google Pay — Partner may send SMS independently of other settings.
+
+## **Card Design for Apple/Google Pay**
+
+If necessary: is it required to provide a separate card design for display in Apple/Google Pay.
+
+## **KYC Requirements**
+
+Collect requirements for the list of mandatory documents depending on the region.\
+Questionnaire:
+
+- How is data transmitted to the Partner side, options:
+  - API: sending documents and complete client data set
+  - Sumsub share token
+  - Simplified verification, e.g., address only
+  - Only Holders performs client verification, additional verification is not required, Partner may conduct it upon request based on documents provided by the client.
+- List of countries and corresponding list of required documents with detailed description. Is proof of address needed and what are the document requirements:
+  - Document number requirements
+  - Correspondence between address-confirming document and ID
+  - Address requirements
+  - Is it necessary to request additional document numbers through a data entry form in addition to uploading main documents?
+
+# **Stage 2: Contractual and Legal Aspects**
+
+At this stage, all commercial, operational, and legal aspects of cooperation must be finalized and legally formalized.
+
+## **Agreement Finalization and Signing**
+
+- Carefully review and provide comments on the Term Sheet proposed by Holders, which establishes key commercial and operational cooperation conditions. The Term Sheet serves as the basis for the final contract.
+- Coordinate and finalize all key commercial conditions, including:
+  - Complete money exchange process (and crypto — if applicable) — whether commissions are included. Who performs the exchange: Partner or Holders; and which exchange can be used within the region if we perform the exchange.
+  - Monthly subscription fee amount and grace period conditions at project start.
+  - Cost of issuing each virtual and/or physical card.
+  - Amount and conditions of commissions for transactions, chargeback processing, and refunds (if applicable).
+  - Rates and conditions for additional payment services (ACH, RTP, Push to Card, Venmo, PayPal), including possible minimum volumes or additional setup costs.
+  - Detailed exclusivity conditions (geography, term, specific services).
+  - Invoice payment conditions and settlement currency.
+
+Based on the agreed Term Sheet, finalize the main contract text. Ensure clarity of formulations, especially in parts concerning party responsibilities, dispute resolution procedures, termination conditions, and liability limitations.
+
+- Organize signing of the final contract by authorized representatives of both companies.
+
+## **User Agreement Provision and Coordination**
+
+- Provide complete and current texts of the main issuer's Terms of Service, as well as Partner's own Terms of Service (if they exist and apply to Holders end users).
+- Confirm that the provided texts are final and can be integrated into Holders user onboarding.
+- Clarify whether the Partner has special requirements for displaying and accepting these terms by users in the Holders application (e.g., need for separate checkboxes for each document).
+
+## **Responsibility Zone Confirmation and Detailing**
+
+- Formally confirm that the Partner is fully responsible for compliance with all applicable regulatory requirements (federal and state) and issuing bank card rules.
+- Describe in detail the interaction process for AML/KYC procedures. Confirm that the Partner performs final verification and makes client decisions but receives necessary data from Holders. Describe the format and protocol for KYC data transmission. Alternatively, discuss and establish a different model.
+- Clarify interaction procedures with the issuing bank and regulators in case of requests or incidents related to Holders users.
+
+## For partners providing legal entity
+
+### **Providing Secure Access to Infrastructure Services**
+
+Provide administrative access to the following cloud services and accounts registered under the Partner's legal entity. Transfer must be carried out using [GPG encryption](https://gnupg.org/) (public GPG key will be provided by the Holders team):
+
+- [Amazon Web Services (AWS)](https://aws.amazon.com/): required for deploying Holders core infrastructure (Kubernetes, databases, queues, etc.).
+- [Cloudflare](https://www.cloudflare.com/): used for DNS management, CDN, and web application protection. Access to the domain that will be used to launch Holders services is needed.
+- [Temporal.io](http://Temporal.io): required for managing complex workflows, Essentials plan is sufficient at start. Corporate Google or Microsoft accounts are needed. AWS Temporal is not suitable!
+- [GitHub](https://github.com/): for collaborative work on infrastructure code and configurations (access to organization or repositories for corporate account).
+- [Grafana Cloud](https://grafana.com/): for setting up monitoring systems and collecting service performance metrics.
+
+<Info>
+  _Important Security Note:_ When configuring and administering these services by the Holders team, access to the specified services, especially AWS, must be performed from a dedicated secure workstation (for example, Mac mini or dedicated Windows server) located at the legal entity's premises and having a static IP address. This is necessary to minimize the risk of blocks from cloud providers due to suspicious activity or atypical IP addresses.
+</Info>
+
+Provide contact details of the responsible person from the Partner's side managing these accounts for prompt resolution of possible access issues.
+
+# **Stage 3: Service Configuration, Functionality and Support**
+
+At this stage, it is necessary to clarify all technical and operational details of the provided service, its functionality and support processes.
+
+## **Confirmation of Complete List of Available Services and Tariffs**
+
+- Provide a comprehensive list of all services available to Holders through the Partner's API, including not only card issuance, but all available payment and transfer methods (ACH, Check, RTP, Push to Card, Prepaid Visa, Venmo, PayPal).
+- Provide final and current tariffs for each of the confirmed services. If pricing depends on transaction volumes, provide the corresponding tariff grid. Indicate the presence of minimum fees or hidden charges (if any).
+- Confirm the absence of additional fees for activating the listed services.
+
+## **Clarification and Documentation of Transaction Processing Details**
+
+- Finally confirm the presence or absence of a Webhooks mechanism for asynchronous notification of the Holders system about transaction status changes (for example, successful authorization, settlement confirmation, authorization reversal, refund).
+- If Webhooks are absent, provide clear recommendations for the API polling mechanism: recommended request frequency, specific endpoints for status checking, parameters for transaction filtering, methods for identifying changes.
+- Describe in detail the current process for handling foreign currency (FX) transactions.
+- Provide a complete description of all possible transaction statuses in the Partner's system and describe the typical transaction lifecycle from authorization to final settlement or cancellation/refund. Clarify how these statuses are reflected in API responses or polling data.
+
+## **Clarification of Card Functionality and Limits**
+
+- Provide exact limits for withdrawal/debit operations: maximum amount per operation, daily limit, monthly limit. Specify associated fees.
+- Officially confirm the current geography of card usage. Indicate whether expansion of regions is planned in the future and describe the roadmap (if available).
+  - List of countries whose residents Holders can onboard
+  - List of countries where Holders can conduct transactions
+  - Is there a requirement for phone number to match the card issuing country?
+  - Is there a list of countries/country codes for phone numbers where 3DS codes cannot be sent or where separate agreements with local operators are required?
+
+## **Reconciliations**
+
+- Reconciliation process: provide examples of documents and their format for reconciliation. For example:
+  - weekly transaction report
+  - monthly invoice report with all expenses charged to us, broken down by categories
+
+## **Support Process Organization**
+
+- Provide clear contact details (email, phone, support portal) for contacting L2 support for technical and operational issues related to the Partner's platform.
+- Describe in detail the process for registering and handling requests from the Holders team.
+- Confirm the agreed SLA, including guaranteed first response time (for example, within 4 business hours) and target resolution time for incidents of different criticality (for example, critical — 8 hours, standard — 24 hours).
+- Describe the escalation process within the Partner's support service if the problem is not resolved at L2 level within the target time.
+
+## **Controller Setup and Launch and Top-ups**
+
+If the Partner's legal entity is used, it is assumed that the Partner tops up service wallets. Depending on the Partner's experience, methods for exchanging to the required currency can be recommended — for example, as well as approximate amounts in dollars that should be exchanged at the current rate.\
+**TON**
+
+- TON Deploy — 2 TON (for deployment only)
+- TON Authority — 2 TON (for \>100 returns/withdrawals from treasury)
+
+After the technical integration team (or other script owner who creates wallets with TON/USDT endings and necessary access) generates an address:
+
+- 50–100 TON (for creating user smart contract accounts and updating their state)
+
+**Solana**
+
+- Solana Authority — 0.0005 SOL (for 100 returns/withdrawals from treasury)
+- Solana Controller — 2 SOL (for creating ~250 user smart contract accounts and updating their state)
+
+It is necessary to send instructions in the format:
+
+- Wallet — currency amount
+
+Total currency amount (including gas that will need to be paid for transfers).
