@@ -156,6 +156,12 @@
           },
           "bounty-program"
         ]
+      },
+      {
+        "tab": "Tonhub",
+        "pages": [
+          "business-overview-1"
+        ]
       }
     ]
   },
