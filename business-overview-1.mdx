@@ -1,4 +1,128 @@
 ---
-title: 'Business overview'
+title: "Business overview"
 ---
 
+# [What is Tonhub](https://gettonhub.com/)
+
+[Tonhub](https://gettonhub.com/) is an open-source crypto wallet that allows users to independently manage their digital assets without intermediaries. The wallet works with popular stablecoins (cryptocurrencies pegged to stable assets) on [TON](https://ton.org/en) and [Solana](https://solana.com/) networks. In addition to storing and sending funds, the application offers staking features (earning income from token locking) and issuing virtual cards and accounts for everyday purchases.\
+The wallet is designed for people who regularly use cryptocurrencies in everyday life — paying for purchases, transferring money, or investing. At the same time, reliable storage of funds and a user-friendly interface without complex technical details are important to them.\
+Tonhub became the first wallet to successfully integrate Holders technology into a solution where users control their own funds. This is a ready working example of reference [Holders SDK](/holders/business-review) integration for partners — they can study how such integration works and use this experience to create similar features in their products.\
+**Repository:** https://github.com/tonwhales/wallet\
+**Language:** [TypeScript](https://www.typescriptlang.org/)
+
+# Tonhub Mission
+
+Tonhub's mission is to provide users with a convenient and secure non-custodial wallet integrated with payment infrastructure, essentially being a full-fledged blockchain account for making payments.
+
+# **User Value**
+
+1. **Integrated accounts and cards.** Tonhub provides a seamless transition from storing to spending funds: the ability to open an account in digital dollars and issue a card directly through the application to use stablecoins as traditional payment instruments.
+2. **Single access point to digital currencies.** The user installs the application, creates their first wallet and gets the ability to purchase coins, perform [staking](/staking-pools), [open accounts](/holders/product-review/accounts-and-smart-contracts/accounts-and-contracts), exchange assets and use all ecosystem functions in a unified interface without the need to switch between multiple services.
+3. **Full control over assets.** The private key is stored exclusively with the user. Blocking or seizure of funds is impossible without gaining access to this key.
+4. **Simplicity and ease of use.** Tonhub was developed by the Whales team taking into account their own experience and analysis of shortcomings of existing wallets. The interface is maximally simplified, excludes redundant operations and use of technical terminology.
+5. **Open source.** The wallet has open source code, which provides the possibility of independent verification, suggestions for improvements and new features by any interested party. This approach increases the level of trust and transparency of the product's functioning.
+
+# **Key Product Features**
+
+- Storage and transfers of TON/Solana/tokens
+- Ability to open accounts, issue cards and send international transfers
+- Integrated staking through the largest staking provider [Ton Whales](/business-overview)
+- Ability to connect [Ledger](https://www.ledger.com/) cold wallet
+- Exchange of TON and tokens through integrated DEX
+- Wallet top-up in any of many available currencies thanks to integration with Changelly
+
+# Target Audience
+
+## Segment 1 – TON Advocates
+
+These are not just "crypto enthusiasts". These are people who fundamentally do not trust storing their assets with third parties (exchanges, custodial services). They actively participate in the TON ecosystem, hold TON, NFTs, tokens, believe in its future and are often technologically savvy "veterans" or ideological newcomers.\
+Their pain is seeing their assets "locked" in a wallet without a simple and secure (under their control!) way to use them in the real world. Existing cards from exchanges are a compromise for them, as they require transferring funds to a custodian.\
+Tonhub gives them what others don't — the ability to spend crypto from a card directly connected to THEIR non-custodial wallet. This is control + convenience. And, the best TON staking, a sense of belonging to "their own" (a project from TON pioneers), audited security — all this corresponds to their values.
+
+### Where to find them
+
+Deep inside the TON community (Telegram chats of developers, holders, NFT projects), on TON Discord servers, among active stakers, on Reddit (r/TONcoin), on Twitter among TON influencers and developers.
+
+## Segment 2 – Crypto Income Recipients ("Crypto Earners"): Freelancers, Creators, Gamers
+
+They earn in crypto, whether it's global freelancing, NFT sales, or P2E games. Their main problem is the complexity and cost of "landing" these earnings for everyday spending. Exchanges, P2P, exchangers — these are fees, time, risks and often an inconvenient process. They need the most seamless path from receiving crypto to paying for coffee.\
+Tonhub (through Holders SDK) offers direct spending from wallet balance through a card. This eliminates steps of withdrawing to exchange/exchanger, potentially reduces fees and speeds up the process. Simplicity and the ability to immediately use what's earned is the key value. The global nature of the card is important for freelancers and creators.
+
+### Where to find them
+
+Platforms and communities where crypto freelancers hang out (LaborX and others), NFT marketplaces (Getgems, OpenSea), Web3 creator and developer communities (Discord/Telegram), P2E gaming guilds and communities (especially TON games), thematic influencers.
+
+## Segment 3 – Relocants and other "citizens of the world"
+
+People living "across two-three countries", relocants who have faced limitations of traditional banks when moving or traveling.\
+It's difficult for them to manage finances through a bank of one country, they face high fees for cross-border operations, card blocks abroad, problems with income confirmation for local banks. Crypto (especially stablecoins) for them is a tool of financial flexibility and independence.\
+Tonhub offers a global payment instrument not tied to a bank of a specific country and under full user control (non-custodial). The card allows spending stablecoins, potentially minimizing conversion losses and bypassing banking restrictions. This is a tool for maintaining financial freedom in conditions of global mobility.\
+Important: This segment partially overlaps with Holders B2C, but Tonhub targets a more mass "nomad" who needs simplicity and convenience, not exclusive private banking.
+
+### Where to find them
+
+Communities of relocants and expats in popular hubs (Bali, Tbilisi, Lisbon, Dubai, Yerevan, Belgrade, etc.), digital nomad forums (Nomad List), Telegram chats about relocation, travel and life abroad blogs.
+
+# **Positioning and Tonhub's place in the Whales ecosystem**
+
+Tonhub is the flagship wallet of Whales AG holding, demonstrating reference integration with Holders technology. Tonhub's role is not direct competition with other wallets, but demonstration of Holders capabilities, stimulating partners to integrate "we're on the same wavelength, and here's how it can look in practice".
+
+- **Entry into digital dollar:** Tonhub provides a simple way to get and store digital dollars without understanding blockchains and infrastructure.
+- **Connecting link:** from Tonhub the user gets into Holders products (accounts and cards), TON Whales (staking) and PostCash (digital checks) — everything looks like a unified experience, not a set of disparate services.
+- **User-layer of the ecosystem:** if Whales CORP builds a global level for digital dollar, then Tonhub is the user interface to this level: the application through which people actually interact with currency, staking and payments.
+
+# **Monetization Model and Business Logic**
+
+Tonhub itself remains a free and non-custodial wallet for the user, and monetization occurs through services it connects people to within the Whales CORP ecosystem:
+
+- **Staking through **[**TON Whales**](/business-overview)
+
+ Users delegate TON from Tonhub to Ton Whales staking pools. Yield is shared between users and infrastructure, the validator earns commission from rewards.
+
+- **Accounts and cards through **[**Holders / @card**](/holders/business-review)
+
+ When a user opens an account in digital dollars and issues a card from Tonhub, the ecosystem earns on transaction fees.
+
+- **Exchange and bridges (**[**Dedust**](https://app.dedust.io/)**)**
+
+ When buying or exchanging cryptocurrencies through built-in partner services, the ecosystem receives a share of user fees. The share is not taken on top of the fee but allocated from the partner's commission.
+
+- **Ecosystem value growth**
+
+ The more active wallets and operations in Tonhub, the higher the turnover of staking, cards and exchanges, which means the revenue and capitalization of the entire Whales CORP group grows.\
+Thus, Tonhub is the entry point and user retention tool, while the main monetization occurs through connected infrastructure and fintech services of the holding.
+
+# Support, communities and channels
+
+Support is provided through Intercom service integrated directly into the wallet and agent work within Telegram channels:
+
+- https://help.holders.io/en/ - Intercom
+- [t.me/tonhubcomments](https://t.me/tonhubcomments) - Telegram chat
+- https://t.me/tonhub - Tonhub news channel
+- https://gettonhub.com/ - website
+
+# Key Metrics
+
+- MAU / DAU - daily and monthly active users
+- GEO - breakdown by countries
+- Retention - user return after 7/30/90 days
+
+# Logos
+
+<img
+  src="/images/Logo_tonhub_vert.svg"
+  alt="Logo Tonhub Vert"
+  title="Logo Tonhub Vert"
+  className="mr-auto"
+  style={{ width:"20%" }}
+/>
+
+---
+
+<img
+  src="/images/Logo_tonhub.svg"
+  alt="Logo Tonhub"
+  title="Logo Tonhub"
+  className="mr-auto"
+  style={{ width:"20%" }}
+/>
