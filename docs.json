@@ -162,7 +162,13 @@
         "pages": [
           "business-overview-1",
           "privacy-policy",
-          "terms-of-use"
+          "terms-of-use",
+          {
+            "group": "Product overview",
+            "pages": [
+              "wallet-management-creation-import-seed-phrase"
+            ]
+          }
         ]
       }
     ]
