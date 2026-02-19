@@ -57,7 +57,7 @@ Spam filter logic (automatic marking by amount/comment, known spam wallets, deny
 # Solana: SOL and SPL tokens
 
 [**SOL**](https://solana.com/) — native Solana balance; displayed in the Solana wallet section. Data is requested via RPC (balance, history).\
-[**SPL tokens**](https://spl.solana.com/)** -** the application gets the list of tokens by user's Solana address from the Tonhub backend: **POST** to `/solana/tokens/mainnet` (or devnet) with body `{ address }`. The response contains an array of tokens with fields: address (mint), symbol, name, decimals, logoURI, amount (balance), etc.\
+[**SPL tokens**](https://spl.solana.com/) - the application gets the list of tokens by user's Solana address from the Tonhub backend: **POST** to `/solana/tokens/mainnet` (or devnet) with body `{ address }`. The response contains an array of tokens with fields: address (mint), symbol, name, decimals, logoURI, amount (balance), etc.\
 **Who decides which tokens to show:** the backend. The application displays only what the API returns; there is no fixed list of "supported" SPL tokens in the application code. There are no display restrictions and by default Tonhub will display all tokens.\
 Spam filter and deny list for Solana are **not used** in Tonhub — small or suspicious Solana transactions are not marked as spam.
 
