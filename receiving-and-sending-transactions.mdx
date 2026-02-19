@@ -123,9 +123,15 @@ Structure is similar to sending SOL, but with specifics:
 
 - Application establishes SSE connection with Tonhub API (`mainnet-v4.tonhubapi.com` or `testnet-v4.tonhubapi.com`).
 - When new block appears, server sends list of changed addresses.
-- If user's address is in list, application requests new transactions. 2. Transaction requests:
+- If user's address is in list, application requests new transactions.
+
+2. Transaction requests:
+
 - Uses `fetchTransactionsPage` with cursor pagination.
-- Transactions are loaded in batches (usually 20–50). 3. Processing:
+- Transactions are loaded in batches (usually 20–50).
+
+3. Processing:
+
 - Parsing message bodies to determine operation type (regular transfer, jetton transfer, NFT, etc.).
 - Updating balances and transaction history in UI.
 
@@ -134,9 +140,15 @@ Structure is similar to sending SOL, but with specifics:
 1. Polling via RPC:
 
 - Periodic requests to Solana RPC to get transactions by address. No exact update interval - request is made each time when opening/enabling screen.
-- Uses `getSignaturesForAddress` and `getTransaction`. 2. Token account monitoring:
+- Uses `getSignaturesForAddress` and `getTransaction`.
+
+2. Token account monitoring:
+
 - For each known SPL token, corresponding ATA balance is checked.
-- Balance changes are interpreted as incoming/outgoing transactions. 3. Processing:
+- Balance changes are interpreted as incoming/outgoing transactions.
+
+3. Processing:
+
 - Parsing transaction instructions to determine operation type.
 - Updating SOL and SPL token balances.
 
