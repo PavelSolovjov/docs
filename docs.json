@@ -167,6 +167,7 @@
             "group": "Product overview",
             "pages": [
               "wallet-management-creation-import-seed-phrase",
+              "assets-ton-sol-tokens-nfts",
               "receiving-and-sending-transactions"
             ]
           }

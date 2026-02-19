@@ -1,0 +1,76 @@
+---
+title: "Assets: TON/SOL/tokens/NFTs"
+---
+
+# Supported Assets
+
+Tonhub displays and supports the following types of assets: native TON, jetton tokens (TON), NFTs on the TON network, as well as SOL and SPL tokens on the Solana network. Below is a description of how they are displayed, where the data comes from, and what limitations exist.
+
+# TON (native balance)
+
+- **What it is:** the native cryptocurrency of the TON network. Displayed on the main wallet screen as the primary balance.
+- **Data source:** balance and history are requested by TON wallet address via API/RPC. Updates when new blocks appear — through Blocks Watcher.
+- **Features:** fees for all operations in TON are paid in TON. Without a minimum TON balance on the account, you cannot send either TON or jettons (except gasless scenarios for specific tokens).
+
+# Jettons (tokens on the TON network)
+
+Jetton is a token standard in TON (similar to TRC-20). Each jetton has:
+
+- **Master contract** — defines the token type (symbol, name, decimal places).
+- **Jetton wallet** — a contract at the user's address that stores the balance of this token.
+
+### How Tonhub displays jettons
+
+The application gets the list of tokens and balances by TON address from the Tonhub backend: **Hints Full** request (`/hints/full/{address}`). The response contains a list of jetton wallets with balances and metadata. Users cannot manually "add" or "remove" a token in terms of changing the server list: only jettons for which your address has a jetton wallet and which the API returned are displayed. Hiding or marking as "spam" affects display in the application (see below).\
+For each token, the following is displayed:
+
+- **Name and symbol** (name, symbol) — from master contract metadata (cache/Tonhub API).
+- **Amount** (balance) — accounting for decimals.
+- **Icon** (image) — if provided by the metadata API.
+
+### Gasless for jettons
+
+For some jettons (e.g., USDT) with W5 wallet, fee payment in the token itself (gasless) is available. The application gets the list of such tokens from the gasless config on the server. More details — in the [Receiving and Sending](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0AFER97NTH?focus_section_id=temp:C:QSd99eab4bb6c26422990b5d9439) section.
+
+# NFTs on TON
+
+NFTs are non-fungible tokens that are not natively displayed in Tonhub. They can only be viewed by connecting the wallet to one of the marketplaces or installing the [corresponding dApp](https://tonhub.com/app/te6cckEBAwEAIwACAcgCAQAOR2V0Z2VtcwAmaHR0cHM6Ly9nZXRnZW1zLmlvL1JEoqU).
+
+### Sending and receiving NFTs
+
+Sending an NFT is sending a special message in TON (transferring an NFT item to another address). Receiving — to the same wallet address; after the transaction is included in a block, the NFT appears in the owner's asset list. Technically, these are the same principles as for regular TON transfers (signature, BOC, RPC).
+
+# Spam and risks: marking tokens and addresses
+
+### Backend verification
+
+For jettons, the API can return a **verification** field (e.g., whitelist / blacklist / none) and an **isScam** flag for the wallet. This is used for visual highlighting of suspicious tokens or addresses (e.g., "SCAM" marking in the interface for jetton or badge on avatar during transfer).
+
+### Manual list (deny list)
+
+Users can add addresses to a "manual spam filter" (deny list) in settings. Such addresses are displayed with a spam marking (badge on avatar) when sending, but **sending to them is not blocked** — the user can confirm the transfer. That is, protection from phishing and scammers is in the form of a warning, not a hard ban.
+
+### TON only
+
+Spam filter logic (automatic marking by amount/comment, known spam wallets, deny list) in Tonhub applies **only to TON and jettons**. Solana transactions (SOL and SPL tokens) are **not marked** as spam and do not go through this filter.
+
+# Solana: SOL and SPL tokens
+
+**SOL** — native Solana balance; displayed in the Solana wallet section. Data is requested via RPC (balance, history).\
+**SPL tokens:** the application gets the list of tokens by user's Solana address from the Tonhub backend: **POST** to `/solana/tokens/mainnet` (or devnet) with body `{ address }`. The response contains an array of tokens with fields: address (mint), symbol, name, decimals, logoURI, amount (balance), etc.\
+**Who decides which tokens to show:** the backend. The application displays only what the API returns; there is no fixed list of "supported" SPL tokens in the application code. There are no display restrictions and by default Tonhub will display all tokens.\
+Spam filter and deny list for Solana are **not used** in Tonhub — small or suspicious Solana transactions are not marked as spam.
+
+# Asset list management
+
+The wallet has two sections for displaying tokens:
+
+- **Savings accounts** — section contains known stablecoins and native currencies by default. Editing this section is not available.
+- **Tokens** — section displays all other TON blockchain tokens. This section supports editing.
+
+### Editing the Tokens section
+
+The "Hide" action is available on the token card. A hidden token disappears from the main list and moves to a separate **"Hidden tokens"** block (the block can be collapsed or expanded if needed). The token can be restored directly from this block — the "Show" button on the hidden token card returns it to the main list. The setting is saved locally (synchronized via cloud by `jettons-disabled` key).\
+For jettons linked to a Ledger wallet, a separate list of hidden tokens operates with similar logic: hiding moves the token to the hidden block, the "Show" button returns it to the main list.\
+The function of hiding and displaying individual tokens in SOL is not supported — all tokens from the API response are displayed.\
+The order of tokens (jettons) is determined automatically: verification (verified), balance presence, exchange rate, etc. are taken into account. There is **no** "pin" or "favorite" function to move a selected token to the top of the list in the application.
