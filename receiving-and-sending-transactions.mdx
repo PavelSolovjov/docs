@@ -68,7 +68,7 @@ TON transaction structure:
 1. Getting latest blockhash:
 
 - Request `getLatestBlockhash()` to Solana RPC node.
-- Blockhash is needed for transaction validity (usually valid ~60 seconds). 
+- Blockhash is needed for transaction validity (usually valid ~60 seconds).
 
 2. Building transaction:
 
@@ -102,10 +102,16 @@ Structure is similar to sending SOL, but with specifics:
 1. Token Account (ATA):
 
 - Each SPL token is stored in separate token account (Associated Token Account).
-- ATA address is computed deterministically from owner address and token mint address. 3. Automatic ATA creation:
+- ATA address is computed deterministically from owner address and token mint address.
+
+3. Automatic ATA creation:
+
 - When sending token, application checks for recipient's ATA existence.
 - If ATA doesn't exist, `createAssociatedTokenAccount` instruction is automatically added.
-- This requires additional SOL fee (~0.002–0.003 SOL). 4. Transaction structure:
+- This requires additional SOL fee (~0.002–0.003 SOL).
+
+4. Transaction structure:
+
 - Instruction 1 (if needed): `createAssociatedTokenAccount` for recipient.
 - Instruction 2: `createTransferInstruction` to transfer tokens from sender's ATA to recipient's ATA.
 
