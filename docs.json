@@ -166,7 +166,8 @@
           {
             "group": "Product overview",
             "pages": [
-              "wallet-management-creation-import-seed-phrase"
+              "wallet-management-creation-import-seed-phrase",
+              "receiving-and-sending-transactions"
             ]
           }
         ]
