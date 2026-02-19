@@ -22,18 +22,26 @@ title: "Receiving and sending transactions"
   - amount in nanotons
   - payload (comment or data)
   - `stateInit` (if recipient wallet activation is needed)
-  2. Creating external message:
+
+2. Creating external message:
+
 - An external message is created to the wallet smart contract.
 - If `seqno === 0` (first transaction), `init` is added for contract deployment.
-- The message is signed locally with private key (via `WalletContract.createTransfer`). 
-  3. Signing:
+- The message is signed locally with private key (via `WalletContract.createTransfer`).
+
+3. Signing:
+
 - Private key is extracted from secure storage after authentication (PIN/biometrics).
 - Signing is performed locally on the device; private key never leaves the device. 
-  4. Network transmission:
+
+4. Network transmission:
+
 - Signed message is serialized to BOC (Bag of Cells).
 - Sent to TON RPC node via `client.sendMessage(msg.toBoc())`.
 - Application registers transaction as "pending" for status tracking. 
-  5. Confirmation waiting:
+
+5. Confirmation waiting:
+
 - Application tracks status via `BlocksWatcher` (SSE connection to blockchain).
 - When transaction appears in block, status changes from "pending" to "confirmed".
 
@@ -60,20 +68,15 @@ TON transaction structure:
 1. Getting latest blockhash:
 
 - Request `getLatestBlockhash()` to Solana RPC node.
-- Blockhash is needed for transaction validity (usually valid ~60 seconds). 
-  2. Building transaction:
-- `SystemProgram.transfer` instruction is created. 
-  3. Adding comment (memo):
-- If there's a comment, instruction is added with `programId` = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr". 
-  4. Transaction signing:
+- Blockhash is needed for transaction validity (usually valid ~60 seconds). 2. Building transaction:
+- `SystemProgram.transfer` instruction is created. 3. Adding comment (memo):
+- If there's a comment, instruction is added with `programId` = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr". 4. Transaction signing:
 - Private key is extracted after authentication.
 - Transaction is signed locally via `transaction.sign`(keyPair).
-- Signing is performed on device. 
-  5. Serialization and sending:
+- Signing is performed on device. 5. Serialization and sending:
 - Transaction is serialized to base64 via `transaction.serialize().toString('base64')`.
 - Sent to Solana RPC via `client.sendEncodedTransaction(encodedTx)`.
-- Returns signature (base58), which is the transaction ID. 
-  6. Fallback mechanism:
+- Returns signature (base58), which is the transaction ID. 6. Fallback mechanism:
 - If main RPC is unavailable, public fallback client is used.
 
 # Sending SPL tokens (Solana)
@@ -84,12 +87,10 @@ Structure is similar to sending SOL, but with specifics:
 1. Token Account (ATA):
 
 - Each SPL token is stored in separate token account (Associated Token Account).
-- ATA address is computed deterministically from owner address and token mint address. 
-  3. Automatic ATA creation:
+- ATA address is computed deterministically from owner address and token mint address. 3. Automatic ATA creation:
 - When sending token, application checks for recipient's ATA existence.
 - If ATA doesn't exist, `createAssociatedTokenAccount` instruction is automatically added.
-- This requires additional SOL fee (~0.002–0.003 SOL). 
-  4. Transaction structure:
+- This requires additional SOL fee (~0.002–0.003 SOL). 4. Transaction structure:
 - Instruction 1 (if needed): `createAssociatedTokenAccount` for recipient.
 - Instruction 2: `createTransferInstruction` to transfer tokens from sender's ATA to recipient's ATA.
 
