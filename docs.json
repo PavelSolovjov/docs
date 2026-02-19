@@ -168,7 +168,8 @@
             "pages": [
               "wallet-management-creation-import-seed-phrase",
               "assets-ton-sol-tokens-nfts",
-              "receiving-and-sending-transactions"
+              "receiving-and-sending-transactions",
+              "ton-connect-and-application-integration"
             ]
           }
         ]
