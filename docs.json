@@ -109,8 +109,8 @@
           {
             "group": "Guides",
             "pages": [
-              "google-pay-ui",
               "apple-pay-ui",
+              "google-pay-ui",
               "card-operations"
             ]
           }
