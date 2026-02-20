@@ -38,26 +38,15 @@
                       "holders/product-review/accounts/trust-smart-contract"
                     ]
                   },
-                  {
-                    "group": "Account limits",
-                    "pages": [
-                      "Issuerblockchainlimits"
-                    ]
-                  },
+                  "Issuerblockchainlimits",
                   "holders/product-review/accounts-and-smart-contracts/account-brand"
                 ]
               },
+              "holders/product-review/onboarding/untitled-page",
               {
                 "group": "Bank cards",
                 "pages": [
                   "virtual-debit-bank-cards"
-                ]
-              },
-              {
-                "group": "Onboarding",
-                "pages": [
-                  "holders/product-review/onboarding/untitled-page",
-                  "holders/product-review/onboarding/onboarding-process"
                 ]
               },
               "holders/product-review/user-profile",
@@ -107,6 +96,7 @@
           {
             "group": "Guides",
             "pages": [
+              "holders/product-review/onboarding/onboarding-process",
               "holders/product-review/accounts/account-operations",
               "card-operations",
               "blockchainlimitsui",
