@@ -52,8 +52,7 @@
               {
                 "group": "Bank cards",
                 "pages": [
-                  "virtual-debit-bank-cards",
-                  "card-operations"
+                  "virtual-debit-bank-cards"
                 ]
               },
               {
@@ -67,20 +66,8 @@
               {
                 "group": "Contactless payments",
                 "pages": [
-                  {
-                    "group": "Apple Pay",
-                    "pages": [
-                      "apple-pay",
-                      "apple-pay-ui"
-                    ]
-                  },
-                  {
-                    "group": "Google Pay",
-                    "pages": [
-                      "google-pay",
-                      "google-pay-ui"
-                    ]
-                  }
+                  "apple-pay",
+                  "google-pay"
                 ]
               },
               {
@@ -117,6 +104,14 @@
                   "list-of-required-information-to-start-the-integration"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "google-pay-ui",
+              "apple-pay-ui",
+              "card-operations"
             ]
           }
         ]
