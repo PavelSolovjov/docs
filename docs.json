@@ -160,7 +160,8 @@
               "assets-ton-sol-tokens-nfts",
               "receiving-and-sending-transactions",
               "ton-connect-and-application-integration",
-              "fees"
+              "fees",
+              "staking-in-tonhub"
             ]
           }
         ]
