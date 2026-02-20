@@ -164,6 +164,12 @@
               "staking-in-tonhub",
               "apis"
             ]
+          },
+          {
+            "group": "User guides",
+            "pages": [
+              "user-settings-in-tonhub"
+            ]
           }
         ]
       }
