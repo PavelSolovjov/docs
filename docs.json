@@ -163,7 +163,8 @@
               "fees",
               "staking-in-tonhub",
               "apis",
-              "exchange-integrations"
+              "exchange-integrations",
+              "ledger-in-tonhub"
             ]
           },
           {
