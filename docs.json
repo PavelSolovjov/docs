@@ -101,7 +101,8 @@
               "card-operations",
               "blockchainlimitsui",
               "apple-pay-ui",
-              "google-pay-ui"
+              "google-pay-ui",
+              "holders/product-review/onboarding/issuing-account-statement-of-funds-movement"
             ]
           }
         ]
