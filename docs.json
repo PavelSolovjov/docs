@@ -161,7 +161,8 @@
               "receiving-and-sending-transactions",
               "ton-connect-and-application-integration",
               "fees",
-              "staking-in-tonhub"
+              "staking-in-tonhub",
+              "apis"
             ]
           }
         ]
