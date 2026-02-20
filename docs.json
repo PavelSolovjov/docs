@@ -30,7 +30,6 @@
                 "group": "Accounts & smart-contracts",
                 "pages": [
                   "holders/product-review/accounts-and-smart-contracts/Accountssmart-contractsoverview",
-                  "holders/product-review/accounts/account-operations",
                   {
                     "group": "Types of smart-contracts",
                     "pages": [
@@ -42,8 +41,7 @@
                   {
                     "group": "Account limits",
                     "pages": [
-                      "Issuerblockchainlimits",
-                      "blockchainlimitsui"
+                      "Issuerblockchainlimits"
                     ]
                   },
                   "holders/product-review/accounts-and-smart-contracts/account-brand"
@@ -109,9 +107,11 @@
           {
             "group": "Guides",
             "pages": [
+              "holders/product-review/accounts/account-operations",
+              "card-operations",
+              "blockchainlimitsui",
               "apple-pay-ui",
-              "google-pay-ui",
-              "card-operations"
+              "google-pay-ui"
             ]
           }
         ]
