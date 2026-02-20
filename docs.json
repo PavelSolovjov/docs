@@ -162,7 +162,8 @@
               "ton-connect-and-application-integration",
               "fees",
               "staking-in-tonhub",
-              "apis"
+              "apis",
+              "exchange-integrations"
             ]
           },
           {

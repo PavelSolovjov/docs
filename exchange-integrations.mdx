@@ -1,0 +1,73 @@
+---
+title: "Exchange Integrations"
+---
+
+The Tonhub application implements two cryptocurrency exchange options:
+
+- [**Changelly**](https://changelly.com) — exchange through the centralized partner service Changelly.
+- [**DeDust**](https://dedust.io) — swap through the [DeDust.io](http://DeDust.io) website in an embedded WebView using [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview).
+
+# General Access Scheme
+
+- **"Exchange" / "Swap" Screen:** from the main screen or products section, users can navigate to exchange method selection. When selecting **"Exchanges"**, a partner selection screen opens: [**DeDust.io**](http://DeDust.io) and [**Changelly**](https://changelly.com).
+- **DeDust:** clicking opens a fragment with WebView at [**https://tonhub.dedust.io/**](https://tonhub.dedust.io/) (integration via [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview)). Available only for **regular wallets**; when accessing through [**Ledger**](https://www.ledger.com), the DeDust option is not displayed in the exchanges list.
+- **Changelly:** clicking opens a **native exchange flow** (select "receive" currency → select "send" currency → enter amount → create order → order screen with deposit address). Additionally, the app provides a [**Changelly widget**](https://widget.changelly.com) (separate screen with WebView on [widget.changelly.com](http://widget.changelly.com)). Changelly is available for both regular wallets and [Ledger](https://www.ledger.com).
+
+# Changelly Integration
+
+[**Changelly**](https://changelly.com) — a partner cryptocurrency exchange service. Users specify a currency pair (what to send / what to receive) and amount; receive a deposit address and after funds arrive — exchange to the selected currency. In Tonhub, the integration is implemented as a widget ([Changelly](https://changelly.com) page in WebView).
+
+## Exchange Process
+
+- Through **"Exchanges"** → select "[Changelly](https://changelly.com)" → opens a separate screen with WebView on [widget.changelly.com](http://widget.changelly.com) **Swap** (select the asset the user wants to **receive**).
+- On the Swap screen, users select one of the currencies: [TON](https://ton.org), [USDT](https://tether.to) (usdton), [SOL](https://solana.com), [USDC](https://www.centre.io/usdc) (Solana). After selection, the **"send" currency list** opens (ChangellyListFragment) — list of [Changelly](https://changelly.com)-supported currencies for exchange to the selected one. This is followed by calculation (amount input, estimation, fees) and transaction creation through the Tonhub backend API. After creation, users proceed to the order screen (ChangellyOrderFragment): deposit address (payin), amount, rate, status. Users send funds to the specified address; the app can poll order status (resolve) and display updates.
+- **Widget:** separate screen (ChangellyFragment) opens [**https://widget.changelly.com**](https://widget.changelly.com) with parameters (e.g., fromDefault: ton, toDefault: usdton, merchant_id, v: 3). Before first opening, users accept [Changelly's terms and policy](https://changelly.com/terms-of-use) (flag saved locally). Widget is only available in mainnet; in testnet, a message is displayed that the service is only available in mainnet.
+
+## API and Backend
+
+All [Changelly](https://changelly.com) requests go through the Tonhub backend ([connect.tonhubapi.com](http://connect.tonhubapi.com)), the app does not call [Changelly API](https://docs.changelly.com) directly:
+
+- **GET /changelly/currencies?currencyTo=** — list of currencies that can be exchanged for the selected one (currencyTo: USD, SOL, USDC, etc.). Response contains an array of currencies with fields ticker, name, image, blockchain, network, etc.
+- **POST /changelly/estimate** — exchange estimation: request body `{ toCurrency, fromCurrency, amount }`. Response includes amount to receive, fees, rate, limits (min/max). The app checks limits and displays an error when exceeded (ChangellyLimitError).
+- **POST /changelly/transaction/create** — create exchange order. Request body: fromCurrency, toCurrency, network, amount, idempotencyKey, wallet (user's wallet address). Response includes order data: payinAddress, payoutAddress, amountExpectedFrom, amountExpectedTo, networkFee, status, etc. Upon creation (in mainnet), an analytics event may be sent (e.g., [Maestra](https://maestra.ai)).
+- **POST /changelly/transaction/details** — get order details by identifier.
+- **POST /changelly/transaction/resolve** — update/resolve order status (e.g., after user deposit).
+- **POST /changelly/transactions** — list of user's exchange transactions (request body with address/parameters).
+
+In the order, users see **payinAddress** (address to send the source currency to), order expiration (expiresAt), statuses (new, waiting, confirming, exchanging, sending, finished, failed, refunded, hold, expired, overdue, resolved). After sending funds, the app periodically requests status updates and displays results upon successful completion.
+
+# DeDust Integration
+
+[**DeDust**](https://dedust.io) — a decentralized exchange (DEX) and interface for swaps in the [TON network](https://ton.org) (including TON:left_right_arrow: jettons). In Tonhub, the integration is implemented by opening the [DeDust](https://dedust.io) partner page in WebView with wallet parameter substitution and [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview) for transaction signing. All swap logic (pair selection, calculation, transaction sending) is performed on the [DeDust website](https://dedust.io) side; the app only provides the wallet and bridge.
+
+## DeDust Access
+
+- Through **"Exchanges"** → select "[DeDust.io](http://DeDust.io)" → opens **DedustFragment**. DeDust is displayed in the exchanges list only if the wallet is not [Ledger](https://www.ledger.com); when accessing through [Ledger](https://www.ledger.com), the DeDust option is hidden.
+- Opens page [**https://tonhub.dedust.io/**](https://tonhub.dedust.io/) with substituted query parameters:
+  - **address** — current [TON](https://ton.org) wallet address (bounceable depending on user setting).
+  - **utm_source**, **utm_content**, **ref** — tonhub, extension, tonhub (source tag).
+  - **lang** — current app language.
+  - **currency** — user's selected primary currency (for displaying equivalents).
+  - **themeStyle** — light / dark according to app theme.
+  - **pushNotifications** — true/false depending on push notification permission.
+
+A [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview)-compatible bridge is injected into WebView (tonhubBridgeSource + injectionEngine): the [DeDust](https://dedust.io) page can call connect, sendTransaction, signData, etc., requests are processed by the app, users confirm operations in Tonhub. Thus, users remain in the app while the swap is executed on [DeDust's](https://dedust.io) side with transaction signing through Tonhub.
+
+## Legal Documents
+
+On first [DeDust](https://dedust.io) opening, a terms confirmation screen is displayed (ConfirmLegal): title, description, links to [DeDust's terms and privacy policy](https://tonhub.dedust.io/docs/) (tonhub.dedust.io/docs/...). After acceptance, the flag is saved in local storage (skipLegalDeDust key), and on subsequent launches, WebView opens immediately.
+
+# Useful Links
+
+**Changelly**
+
+- Widget: https://widget.changelly.com
+- Terms of Use: https://changelly.com/terms-of-use
+- Privacy Policy: https://changelly.com/privacy-policy
+- Transaction Tracking: https://changelly.com/track/
+
+**DeDust**
+
+- Tonhub Integration Page: https://tonhub.dedust.io/
+- Terms of Use: https://tonhub.dedust.io/docs/term-of-use.pdf
+- Privacy Policy: https://tonhub.dedust.io/docs/privacy.pdf
