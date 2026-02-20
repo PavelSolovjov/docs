@@ -104,7 +104,8 @@
               "google-pay-ui",
               "holders/product-review/onboarding/issuing-account-statement-of-funds-movement",
               "holders/product-review/onboarding/issuing-account-ownership-certificate",
-              "holders/product-review/onboarding/methods-for-confirming-online-transactions"
+              "holders/product-review/onboarding/methods-for-confirming-online-transactions",
+              "holders/product-review/onboarding/profile-data-modification"
             ]
           }
         ]
