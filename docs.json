@@ -170,6 +170,7 @@
           {
             "group": "User guides",
             "pages": [
+              "creating-deleting-adding-wallet",
               "user-settings-in-tonhub"
             ]
           }
