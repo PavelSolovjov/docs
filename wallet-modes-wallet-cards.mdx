@@ -1,0 +1,65 @@
+---
+title: "Wallet Modes (Wallet/Cards)"
+---
+
+On the main screen of Tonhub, the toggle switch under the balance card allows you to select one of two modes: **Wallet** and **Cards**. The mode is saved separately for each wallet and affects which balance is displayed, which tabs and product blocks are available.
+
+# Why two modes are needed
+
+- **Wallet** — the mode of a "regular" crypto wallet: balance on the blockchain (TON, staking, tokens, Solana if needed), transaction history on the network, app browser, general app settings.
+- **Cards** — Tonhub Cards (Holders) mode: balance for Holders cards and accounts, card and account transaction history, AI chat, Holders settings (cards, accounts, IBAN, etc.). Convenient when the user mainly uses Holders cards and accounts rather than the "raw" wallet on the blockchain.
+
+Switching does not change blockchain data or transfer funds: only what is displayed on the main screen and in the bottom tabs changes.
+
+# Wallet Mode
+
+<img
+  src="/images/2026-02-2318.08.30.jpg"
+  alt="2026 02 2318 08 30"
+  title="2026 02 2318 08 30"
+  className="mx-auto"
+  style={{ width:"20%" }}
+/>
+
+In this mode, entities related specifically to the wallet are displayed.\
+**What you will see on screen:**
+
+- **Card with total balance** in dollars or other currency (card background is black):
+  - Money in savings accounts
+  - Funds in staking
+- **Wallet address (TON or Solana)**.
+- **Operation buttons:** Receive, Send, Exchange.
+
+**Tabs at the bottom of the screen:**
+
+- **Home** — main screen with balance and available products (savings, staking, tokens).
+- **History** — all your blockchain transactions.
+- **Browser** — catalog of decentralized applications.
+- **More** — **general app settings** (theme, language, currency, security, contacts, etc.)
+
+# Cards mode
+
+In this mode, entities related to cards and accounts are displayed.\
+**What is shown:**
+
+- **Balance card:** sum of **Holders accounts and cards** (converted to fiat), not the TON balance in the blockchain. Card background is blue.
+- **Caption under balance:** if a Holders account is created — "Main account" and the address of this account; otherwise — "Owner" and wallet address.
+- **Action buttons** are the same (Receive/Top up, Send, etc.), but the context of tabs and products is oriented towards Holders.
+
+**Bottom tabs:**
+
+- **History** — list of operations for Holders cards/accounts (top-ups, debits, transfers between accounts, etc.). Wallet blockchain history is not shown here.
+- **AI chat** — tab is available (if user is already registered in Holders, not shown in "registration required" state).
+- **More** — Holders settings, not general app settings.
+
+# Summary table
+
+| Element                     | Wallet                                                | Cards                              |
+| :-------------------------- | :---------------------------------------------------- | :--------------------------------- |
+| **Balance on card**         | TON + staking + savings accounts + jettons            | Total funds in Holders accounts    |
+| **Card background**         | Neutral (matches theme)                               | Blue gradient                      |
+| **"History" tab**           | Blockchain transactions (TON, jettons, Solana)        | Holders card/account operations    |
+| **"Browser" tab**           | Shown                                                 | Hidden                             |
+| **"AI chat" tab**           | No                                                    | Shown (if user is in Holders)      |
+| **"More" tab**              | General app settings                                  | Holders settings (cards, accounts) |
+| **Products on home screen** | Savings accounts, staking, jettons, currency exchange | Holders cards/accounts             |

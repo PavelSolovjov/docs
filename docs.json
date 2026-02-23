@@ -164,7 +164,8 @@
               "staking-in-tonhub",
               "apis",
               "exchange-integrations",
-              "ledger-in-tonhub"
+              "ledger-in-tonhub",
+              "wallet-modes-wallet-cards"
             ]
           },
           {
