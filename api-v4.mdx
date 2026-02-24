@@ -1,0 +1,61 @@
+---
+title: "API v4"
+---
+
+# What is API v4 and what is it used for
+
+**TON API v4** is an internal HTTP API for working with the TON blockchain. It provides access to the historical state of the blockchain and to executing get-methods of contracts at a specified block number (seqno). The API retrieves data from a specialized blockchain indexer.
+
+# Main Purpose
+
+- **State at a specific block** — retrieving account, block, and transaction data not "as of now", but at a fixed masterchain seqno. This is needed for reproducible logic (auditing, calculations, simulations).
+- **Run get-method on historical block** — calling smart contract methods (e.g., getting staking status, pool data, jetton information) in the context of the state at a selected block. Public APIs usually only provide "current" state.
+- **High speed and predictable load** — reading from proprietary indexed database and emulation through specialized emulator farm when necessary, instead of relying on public limited APIs.
+
+# Which projects use this API
+
+The API v4 implementation and related infrastructure (ScyllaDB index, Emulator Farm) are used in ecosystem products for scenarios where historical state and calling get-methods at a given block are critical.
+
+1. **Staking platforms** - used for correct display of stake status and calculations at a selected point in time. Also used for displaying pool states.
+2. **Tonhub** - getting wallet states by address at a block. Needed for balances, metadata, and history tied to specific blockchain state.
+3. **General TON infrastructure** - can be used by any internal services that need fast and deterministic access to historical data.
+
+# API v4 Advantages
+
+## Historical state at a specific block
+
+Public APIs (e.g., TONAPI, other public indexers) are oriented towards **current** state: latest block, current balance, recent transactions.\
+Products need access to state at arbitrary masterchain seqno: "how it was at block N". This is needed for:
+
+- Auditing and reproducible calculations
+- Correct display of staking, pools, and jettons at a selected date/block
+- Simulations and tests with fixed state.
+
+Such requests for state "at block X" are either not supported by public APIs, or are limited and unpredictable in terms of delays and limits.
+
+## Run get-method on historical block
+
+A critical capability of API v4 is calling run get-method in the context of a selected block. Public APIs usually allow calling get-methods only for the current node state. Calling in the context of an old block requires either proprietary state indexing or emulation.\
+For staking, calls on historical blocks are specifically needed (e.g., getting staking status or pool data at a given seqno). This is not covered by typical third-party APIs.
+
+## Performance and scaling
+
+Proprietary indexing in **ScyllaDB** provides:
+
+- fast access to blocks, accounts, and transactions by keys suitable for product queries;
+- ability to scale cluster and settings for proprietary load.
+
+Public APIs have request limits (rate limit) shared among all users. For high-load scenarios (pool aggregation, staking, bulk checks) this is insufficient and unpredictable in terms of SLA.
+
+## Control over data format and SLA
+
+In API v4, response formats (blocks, accounts, transactions, run-method results) are fixed and tailored to internal clients. Third-party APIs can change contracts and versions without considering user needs. Proprietary stack (API v4 + ScyllaDB + Emulator Farm) provides full control over availability, index updates, and protocol versions.
+
+## Heavy get-method emulation
+
+Some get-methods are executed through **Emulator Farm**. This allows executing complex or heavy methods without load on public nodes and without third-party API limitations.\
+Public providers do not offer such dedicated emulation for historical blocks at the required volume and with the necessary control.
+
+## Hybrid approach
+
+For sending messages to the network, API v4 itself uses external API and proxies requests to corresponding endpoints. That is, third-party API is used where it is sufficient (transaction sending), while reading historical state and run get-method are provided only by proprietary API v4.
