@@ -165,7 +165,8 @@
               "apis",
               "exchange-integrations",
               "ledger-in-tonhub",
-              "wallet-modes-wallet-cards"
+              "wallet-modes-wallet-cards",
+              "token-verification"
             ]
           },
           {
