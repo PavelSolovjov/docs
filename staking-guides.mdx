@@ -1,0 +1,128 @@
+---
+title: "Staking guides"
+---
+
+# Pools in Tonhub
+
+The following staking pools are available in Tonhub:
+
+- **Nominators** - First proprietary pool with 25% commission. Open access for all users.
+- **Club** - Private pool for [NFT whales](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT) holders. 18% commission.
+- **Tonkeeper** - Partnership pool with [Tonkeeper non-custodial wallet](https://tonkeeper.com/). Open access, 25% commission.
+- **Whales Liquid** - Liquid pool that issues wsTON tokens instead of locking funds. The wsTON rate grows proportionally to staking yield.
+- **USDe liquid** - Third-party liquid pool for staking [USDe (Ethena)](https://ethena.fi/) token.
+- **Team** - Private pool for Whales team and top-15 NFT club participants. 5% commission.
+
+Sending funds to other pools through the wallet is also possible, but is done by sending a transaction with a comment to the pool address.
+
+# Requirements before starting
+
+1. The minimum amount for sending funds is 50 TON for all pools, except for the liquid pool, for which the minimum amount is 1 TON.
+2. [Tonhub wallet must be installed](https://tonhub.com/getApp) on your mobile device.
+3. It is necessary to ensure in advance that you have funds to pay the withdrawal fee. The total gas cost for a withdrawal operation can reach 0.4 TON — it is recommended to reserve this amount on your wallet balance.
+4. A withdrawal request can only be made from the wallet address from which the stake was sent. In case of loss of access to the wallet, fund recovery will be impossible.
+5. Sending funds from custodial wallets or cryptocurrency exchanges is strictly prohibited. Violation of this requirement will result in irreversible loss of funds.
+
+# Yield Calculator
+
+The yield calculator allows you to calculate the profit you will receive from staking over different periods. To access the calculator, click the Calculate button on any pool screen.\
+Enter the amount you plan to send to staking in the selected pool, and the calculator will display annual, monthly, and daily returns taking into account the pool commission.
+
+<img
+  src="/images/2025-12-3011.42.56(1).jpg"
+  alt="2025 12 3011 42 56(1)"
+  title="2025 12 3011 42 56(1)"
+  className="mx-auto"
+  style={{ width:"20%" }}
+/>
+
+<Info>
+  Please note: the overall staking yield may vary depending on the blockchain state. The calculated value is theoretical and reflects yield based on current staking metrics. You can check current staking yield metrics [on the calculator page](https://tonwhales.com/staking/compare) of the Ton Whales website.
+</Info>
+
+# When rewards are credited
+
+Rewards are credited to your staking balance upon completion of each full cycle in which your funds participated.\
+**Example of accrual timing calculation:**\
+If you send funds to staking on the 1st, and the current staking cycle ends on the 2nd at 6:00 PM, then:
+
+- Your funds will be accepted by the pool and begin participating in staking from the 2nd at 6:00 PM
+- The first profit accrual will occur at the end of the next full cycle — on the 4th at 6:00 AM (36 hours after starting participation in staking)
+
+# Deposit via Tonhub
+
+1. Tap the staking banner on the main screen
+
+<img
+  src="/images/2025-12-3011.31.05.jpg"
+  alt="2025 12 3011 31 05"
+  title="2025 12 3011 31 05"
+  className="mx-auto"
+  style={{ width:"29%" }}
+/>
+
+1. Select the pool you want to send funds to and click on it. Each pool displays the commission it charges. Note that the [Club](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A5N1EP20Z?focus_section_id=temp:C:YWX5cfb2c0f93624ab69ca5300c6) and [Team](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A5N1EP20Z?focus_section_id=temp:C:YWXe56abdad26634a02bd8f9a082) pools are private, and to send coins to them you must meet the following conditions:
+   - [Club](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A5N1EP20Z?focus_section_id=temp:C:YWX5cfb2c0f93624ab69ca5300c6) — на вашем кошельке должен находиться один из NFT из коллекции Whales Club.
+   - [Team](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A5N1EP20Z?focus_section_id=temp:C:YWXe56abdad26634a02bd8f9a082) — you must be a member of the whales team or be in the top-15 holders of NFTs from the Whales Club collection, and your wallet must be included in the list (a wallet can be added to the list by an [IAM team](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09KSN149SB) member).
+
+<img
+  src="/images/2025-12-3011.30.38.jpg"
+  alt="2025 12 3011 30 38"
+  title="2025 12 3011 30 38"
+  className="mx-auto"
+  style={{ width:"20%" }}
+/>
+
+3. On the main pool page, click the "Top Up" button.
+
+<img
+  src="/images/2025-12-3011.30.35(1).jpg"
+  alt="2025 12 3011 30 35(1)"
+  title="2025 12 3011 30 35(1)"
+  className="mx-auto"
+  style={{ width:"20%" }}
+/>
+
+4. Specify the amount you want to send to staking and click "Continue". For the liquid pool, the minimum amount is 1 TON, for all other pools — 50 TON. The pool will automatically calculate the annual yield based on the current staking returns.
+
+<img
+  src="/images/2025-12-3011.30.32.jpg"
+  alt="2025 12 3011 30 32"
+  title="2025 12 3011 30 32"
+  className="mx-auto"
+  style={{ width:"20%" }}
+/>
+
+5. Confirm the transaction. Note that you will need to pay gas (commission) for sending coins to staking in the amount of 0.2 TON. The remaining commission will be returned after sending. The pool will automatically leave 0.2 TON on your balance, which you can use to make withdrawals.
+6. Your coins will be displayed with a Pending deposit status and will start participating in staking after the end of the [current cycle](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN9463b5a12dda43468faa9afb3). Rewards will be credited to your staking balance at the end of [each full cycle](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN9463b5a12dda43468faa9afb3). Thus, the first reward will appear on your staking balance after the time remaining until the end of the [current cycle](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F0A63BTEZJL?focus_section_id=temp:C:eWN9463b5a12dda43468faa9afb3), plus one full cycle (36 hours).
+
+<img
+  src="/images/2025-12-3012.09.07(1).jpg"
+  alt="2025 12 3012 09 07(1)"
+  title="2025 12 3012 09 07(1)"
+  className="mx-auto"
+  style={{ width:"24%" }}
+/>
+
+After successfully sending coins to staking, they are displayed on the main pool screen with a Pending deposit status and are credited to the staking balance only after the current staking cycle is completed. You can track the progress of the current cycle using the information card on the main pool page.
+
+# Withdrawal from staking via Tonhub
+
+1. On the main Tonhub screen, tap the pool from which you want to withdraw funds in the Earnings section.
+2. On the main pool page, tap the Withdraw button.
+3. Specify the amount to withdraw from staking and tap "Continue".
+4. Confirm the withdrawal operation. The system will create a request to withdraw coins from staking. Please note that the operation incurs a fee of 0.2 TON. The unused portion of the fee will be returned after the request is processed.
+5. Coins requested for withdrawal will be displayed on the pool page with the status "Pending withdraw" and will remain in this state until the current staking cycle is completed.
+6. At the end of the cycle, the coins will receive the status "Ready for withdraw", which means they are ready to be withdrawn from the pool balance. Click on the corresponding card and confirm the withdrawal operation. Funds will arrive in your balance within a few minutes. This operation also charges a fee of 0.2 TON, with the unused portion being returned after the request is processed.
+
+<img
+  src="/images/2025-12-3012.09.07(1)-1.jpg"
+  alt="2025 12 3012 09 07(1) 1"
+  title="2025 12 3012 09 07(1) 1"
+  className="mx-auto"
+  style={{ width:"25%" }}
+/>
+
+# Cooldown Period
+
+During the first two hours of each staking cycle, a simplified period (cooldown) is in effect — a period in which validators are in a waiting state. During this time interval, users can perform deposit and withdrawal operations instantly, without needing to wait for the cycle to complete. When the simplified period is active in both pools, users have the ability to transfer funds between pools without losing income for the current cycle. Additionally, withdrawal operations during the cooldown period are executed in a single transaction instead of the standard two operations.
