@@ -4,102 +4,30 @@ title: "Whales blockchain indexer"
 
 # What is a blockchain indexer
 
-A blockchain indexer is a specialized tool that transforms raw blockchain data into a searchable structured database. Imagine a blockchain as a huge record book, where each page is a block with transactions. To quickly find the necessary information in this book, you need an index or catalog — this is exactly the role that an indexer performs.\
-Thanks to indexers, blockchain explorers, cryptocurrency wallets, analytical dashboards, and API services work. Without it, every time you need information, you would have to scan through the entire chain of blocks or rely on external services.\
-**TON Indexer** is a solution for indexing the TON (The Open Network) blockchain, developed by the Whales team. It collects blocks and transactions from the TON network, processes them, and stores them in the high-performance ScyllaDB database. As a result, a fast and convenient index is created for searching transactions by addresses, blocks, time, and other parameters.
+Indexers transform raw blockchain data into structured databases designed for searching and displaying information. Block explorers and other products (wallets, APIs, etc.) operate based on such databases. Blockchain nodes are not optimized for handling constant multiple queries, so data is extracted from the indexer.\
+In the Whales ecosystem, the indexer serves as the foundation for the v4 API, which in turn ensures the functioning of other company products.\
+**ton-indexer-go** is a TON (The Open Network) blockchain indexer created by the Whales team. It loads blocks and transactions from blockchain nodes, processes them, and stores structured data in **ScyllaDB**. The result is an index that allows quick searching of transactions by addresses, blocks, time, and other criteria.\
+Repository: https://github.com/whalescorp/ton-indexer-go\
+Language: [Go](https://golang.org/)
 
-# Key indexer capabilities
+# What the indexer is used for
 
-- **Transaction search by address** — retrieving complete operation history of any wallet or smart contract with convenient page navigation
-- **Wallet state history** — tracking balance changes and account data before and after each transaction
-- **Block index** — structured storage of all mainchain and shard blocks with their metadata
-- **Analytics and research** — foundation for creating blockchain explorers, analytical dashboards, and other services without the need for direct node network access
+- **Creating an index of account state history** — before and after each transaction (account states), including balance, code/data hashes, cells, and libraries.
+- **Creating a block index** — masterchain and shard blocks with metadata (seqno, shard, utime, BOC, etc.).
+- **Creating an index for analytics and explorers** — building block explorers, dashboards, and services that work on top of the index without direct queries to TON nodes.
 
-# Advantages of our solution
+# Differences from similar products
 
-- **Complete independence** — all data is stored in your own database. No dependency on external APIs or third-party services. Full control over data, its volume, and service quality
-- **Flexible data loading** — support for two operating modes: real-time synchronization with the TON network and fast import from ready data archives. This allows quick index deployment from scratch or processing historical data
-- **High performance** — using ScyllaDB ensures excellent performance when writing large volumes of data and horizontal scaling. Unlike many other solutions using PostgreSQL, our architecture is better suited for working with big data
-- **Deep indexing** — storing not only transactions and blocks, but also complete account states at each point in time. This is especially useful for analytics and explorers that need to show historical wallet states
-- **Optimized data structure** — special data organization for fast transaction history search by addresses without slow full database scanning operations
-- **Distributed processing** — ability to run multiple data processing processes simultaneously, significantly accelerating initial loading of large volumes of historical data
+- **Own index, own infrastructure** — data is stored in proprietary ScyllaDB. No dependency on third-party APIs (TON Center, TONAPI, etc.): full control over schema, history volume, and SLA.
+- **Two loading modes** — not only online synchronization from the network (archsync), but also import from archive (archimport + tximport). This allows quickly setting up an index from scratch using a ready dump or processing offline backups.
+- **ScyllaDB (Cassandra-compatible)** — chosen for high write load and large data volumes, horizontal scaling. Many other solutions (e.g., TON Center API v3) use PostgreSQL — a different scaling and query model.
+- **Deep state indexing** — stores not only transactions and blocks, but also account states (before/after transaction), cells, and libraries. This is convenient for explorers and analytics that need "account state at a point in time". However, note that proofs are not stored completely.
+- **LT-buckets** — special structure for fast pagination of transaction history by address by logical time without heavy scan queries.
+- **Distributed import** — when working with archives, multiple workers (archimport, tximport) coordinate through the database, allowing parallelization of initial loading.
 
 # Operating modes
 
-The indexer can work in two main modes:
+The indexer supports two main scenarios:
 
-1. **Real-time synchronization** — connecting to the TON network through special servers, receiving new blocks as they appear, and immediate writing to the database. This mode ensures data relevance
-2. **Archive import** — processing ready files with historical blockchain data. Used for quickly creating an index from the very beginning of TON history or for processing data backups
-
-# System architecture
-
-## Data acquisition
-
-The system receives data from two main sources:
-
-- Online synchronization — loaded either from the TON network in real-time or from archive files
-- Archive extraction — additionally requested for each transaction to preserve the complete picture of changes
-
-## Online synchronization
-
-In real-time mode, the system:
-
-- Connects to the TON network and tracks the appearance of new blocks
-- Downloads mainchain blocks and related shard blocks
-- Extracts all transactions from blocks and converts them to a convenient indexing format
-- Groups transactions by addresses and writes them to the database
-- For each transaction, requests and saves the state of affected accounts
-
-## Archive import
-
-When working with archive data:
-
-- The system reads archive files with packed blocks
-- Multiple processes can simultaneously process different parts of the archive
-- Blocks are parsed and indexed into the database
-- Transactions are saved to temporary files for subsequent processing
-- A separate process reads saved transactions and writes them to the final database structure
-
-## Data storage
-
-All data is stored in the ScyllaDB database in the following main tables:
-
-- **Blocks** — information about all mainchain and shard blocks with their metadata
-- **Transactions** — all transactions linked to addresses, blocks, and timestamps
-- **Time indexes** — special structures for fast transaction search by addresses
-- **Account states** — snapshots of wallet and contract states before and after each transaction
-- **Service tables** — information about synchronization and import progress
-
-# How real-time synchronization works
-
-1. **Startup and coordination** — the system starts and coordinates through the database with other possible instances to avoid work duplication
-2. **Work scope determination** — the system determines from which block to start synchronization and up to which block to catch up with the network
-3. **Data source selection** — depending on the lag size, the optimal data source is chosen: for small lags, fast servers are used, for large ones — archive sources
-4. **Batch processing** — blocks are processed in groups to increase efficiency:
-   1. Mainchain blocks are loaded
-   2. For each block, related shard blocks are found and loaded
-   3. All transactions are extracted and converted to index format
-   4. Transactions are grouped by addresses to optimize writing
-5. **Parallel writing** — simultaneous writing of blocks, transactions, and account states to the database
-6. **Progress tracking** — after successful processing of each block group, synchronization progress information is updated
-7. **Monitoring** — the system provides metrics for tracking performance and synchronization status
-
-# How archive import works
-
-1. **Archive preparation** — a directory with archive files is placed on disk, each file contains blocks of a specific range
-2. **Block processing** — multiple processes simultaneously:
-   1. Get a list of all archive files
-   2. Coordinate through the database so each file is processed only once
-   3. For each file, load information about previous blocks to understand shard connections
-   4. Parse blocks from the archive and write them to the database
-   5. Save transactions to temporary files for subsequent processing
-   6. Mark completion of file block processing in the database
-3. **Transaction processing** — separate processes:
-   1. Read temporary files with transactions
-   2. Check that blocks for this file have already been processed
-   3. Group transactions by addresses and optimize them for writing
-   4. Write transactions and indexes to the database
-   5. Mark completion of file transaction processing
-4. **Progress monitoring** — special utilities show what part of the archive has already been processed by blocks and transactions, which is convenient for tracking import progress of large archives
-
-As a result, archive data is transformed into the same database structure as with online synchronization, ensuring uniform access to historical and current data.
+1. **Online synchronization (archsync)** — connects to TON via Lite Client (lite servers), synchronizes new blocks in real-time, and writes data to ScyllaDB.
+2. **Archive import (archimport + tximport)** — reads ready block dumps from disk (archive packages) and transactions, then imports them into the same ScyllaDB. Used for initial history loading or processing offline dumps.
