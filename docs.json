@@ -132,7 +132,8 @@
               "liquid-staking-pool",
               "whales-club",
               "whales-blockchain-indexer",
-              "api-v4"
+              "api-v4",
+              "whales-connect"
             ]
           },
           {
