@@ -23,6 +23,7 @@
           "holders/business-review",
           "holders/glossary",
           "holders/privacy-notes",
+          "holders/cards-terms-and-conditions",
           {
             "group": "Product review",
             "pages": [
@@ -108,8 +109,7 @@
               "holders/product-review/onboarding/profile-data-modification",
               "holders/product-review/onboarding/pricing"
             ]
-          },
-          "holders/cards-terms-and-conditions"
+          }
         ]
       },
       {
