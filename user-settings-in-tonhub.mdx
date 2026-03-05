@@ -28,7 +28,7 @@ In Tonhub, users can change the app's appearance, language, display currency, ad
 # Interface Language
 
 **Screen:** Settings → "Language".\
-**Available languages:** 
+**Available languages:**
 
 - English
 - Русский
@@ -78,12 +78,12 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Screen:** Settings → "Spam filter".\
 **Settings:**
 
-- **Minimum amount:** TON transactions with amounts **below** the specified threshold (in TON) are automatically marked as spam. User enters value in TON; it's saved in nano-TON. Used only for **TON** (and TON jettons); Solana transactions are not marked by this rule.
+- **Minimum amount:** TON transactions with amounts **below** the specified threshold (in TON) are automatically marked as spam. User enters value in TON; it's saved in nano-TON. Used only for **TON** (and TON tokens); Solana transactions are not marked by this rule.
 - **Don't show comments on SPAM transactions:** toggle. If enabled, comments (payload) on transactions marked as spam are not displayed in the list.
 - **Manual list (deny list):** addresses that the user manually added to "spam". Such addresses show a spam badge when sending, but **sending is not blocked** — user can confirm the transfer. In the spam filter screen, you can view the list and remove addresses from blocking ("unblock").
 
 **Where stored:** minimum amount and "don't show comments" flag — locally (or in app shared storage); deny list is stored in address book context (contacts/deny list). Deny list synchronization between devices depends on implementation (e.g., cloud storage by key).\
-**Note:** "spam" marking by amount and deny list applies only to TON network operations (and jetton display). Solana transactions don't go through this filter.
+**Note:** "spam" marking by amount and deny list applies only to TON network operations (and token display). Solana transactions don't go through this filter.
 
 # Wallet Settings (name, avatar, color)
 
