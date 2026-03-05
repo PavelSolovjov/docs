@@ -2,11 +2,11 @@
 title: "Fees"
 ---
 
-# TON and jettons: transfers
+# TON and tokens: transfers
 
 ### What makes up the fee
 
-The fee for sending [TON](https://ton.org) or jetton transactions on the [TON network](https://ton.org) is estimated locally in the application based on the current network configuration (config) and message parameters. The calculation includes:
+The fee for sending [TON](https://ton.org) or token transactions on the [TON network](https://ton.org) is estimated locally in the application based on the current network configuration (config) and message parameters. The calculation includes:
 
 - **Storage:** fee for using contract cells; depends on data volume and network rates.
 - **Import message:** fee for processing incoming external message that the user initiates the transaction with.
@@ -17,19 +17,19 @@ The total amount is shown in nano-TON and displayed to the user before confirmat
 
 ### Who pays
 
-The fee is always paid by the sender in TON. Without sufficient TON balance in the account, neither TON nor jettons can be sent (exception — gasless scenario for supported jettons, see below).
+The fee is always paid by the sender in TON. Without sufficient TON balance in the account, neither TON nor tokens can be sent (exception — gasless scenario for supported jettons, see below).
 
 ### Where it's shown
 
-Before sending a transfer (TON or jetton), the preview screen displays a line with the fee in TON and, if necessary, the fiat equivalent. For simple transfers, a "Network fee" block is used with a brief description (and a "more details" button, if available).
+Before sending a transfer (TON or token), the preview screen displays a line with the fee in TON and, if necessary, the fiat equivalent. For simple transfers, a "Network fee" block is used with a brief description (and a "more details" button, if available).
 
 # Gasless
 
-**Gasless** — the ability to pay the fee for jetton transfer in the token itself (for example, in [USDT](https://tether.to)), rather than in TON. The TON fee is paid for the user by a **relayer** ([Tonhub](https://tonhub.com) service); the equivalent is deducted from the user in the transferred token.
+**Gasless** — the ability to pay the fee for token transfer in the token itself (for example, in [USDT](https://tether.to)), rather than in TON. The TON fee is paid for the user by a **relayer** ([Tonhub](https://tonhub.com) service); the equivalent is deducted from the user in the transferred token.
 
 ## When available
 
-- Supported only for **specific jettons** (list is set by backend config: `gas_jettons`).
+- Supported only for **specific** tokens (list is set by backend config: `gas_jettons`).
 - Available only for **W5** wallet (v5R1); gasless is not offered for other wallet versions.
 - Configuration (token list and relayer address) is requested from [Tonhub API](https://tonhub.com): `gasless/mainnet` or `gasless/testnet` → `config`. The config specifies `relay_address` and `gas_jettons` array (master_id).
 
