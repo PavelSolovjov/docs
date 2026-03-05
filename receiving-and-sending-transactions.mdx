@@ -45,18 +45,18 @@ title: "Receiving and sending transactions"
 - Application tracks status via `BlocksWatcher` (SSE connection to blockchain).
 - When transaction appears in block, status changes from "pending" to "confirmed".
 
-# Sending jettons (TON tokens)
+# Sending TON tokens
 
-Sending jetton is sending an internal message to the sender's jetton-wallet address.
+Sending token is sending an internal message to the sender's token-wallet address.
 
-- Sender in Tonhub signs and sends an external TON transaction to their jetton-wallet with token transfer instruction.
+- Sender in Tonhub signs and sends an external TON transaction to their token-wallet with token transfer instruction.
 - This external transaction goes to the sender's main wallet contract.
-- Jetton-wallet sends internal message to recipient's jetton-wallet (or creates it if needed).
+- Token-wallet sends internal message to recipient's token-wallet (or creates it if needed).
 
 TON transaction structure:
 
-- In the payload of message to jetton-wallet:
-  - `op_code` = `0xf8a7ea5` (Jetton Transfer)
+- In the payload of message to token-wallet:
+  - `op_code` = `0xf8a7ea5` (token Transfer)
   - token amount
   - recipient address
   - address for excess return (usually sender's address)
@@ -132,7 +132,7 @@ Structure is similar to sending SOL, but with specifics:
 
 3. Processing:
 
-- Parsing message bodies to determine operation type (regular transfer, jetton transfer, NFT, etc.).
+- Parsing message bodies to determine operation type (regular transfer, token transfer, etc.).
 - Updating balances and transaction history in UI.
 
 ## Solana
@@ -155,7 +155,7 @@ Structure is similar to sending SOL, but with specifics:
 # Transaction amount limits
 
 **TON, SOL** — no minimum sending amount restrictions. User can send 0, however system will display zero transaction warning. Incoming transactions under 0.1 TON (user-configurable value) are automatically classified as SPAM, and notifications for such operations are not sent. SOL transactions are not marked as spam. Maximum transaction amount is limited by balance size minus fees.\
-**Tokens** — minimum jetton transfer amount must exceed zero. Exact minimum value is determined by specific token characteristics (usually one smallest unit, e.g. 0.000001 for USDT). TON fee is paid by sender, except when using gasless transactions.
+**Tokens** — minimum token transfer amount must exceed zero. Exact minimum value is determined by specific token characteristics (usually one smallest unit, e.g. 0.000001 for USDT). TON fee is paid by sender, except when using gasless transactions.
 
 # Transaction Statuses
 
@@ -179,7 +179,7 @@ Failed:
 # Why a user might "not see" an incoming transaction
 
 - Wrong network. TON: testnet is selected in the app, but the transfer came to mainnet (or vice versa). Addresses in mainnet and testnet differ (different format/flag). Need to check the network switch and ensure the sender used the address and network corresponding to the one selected in Tonhub. Solana: mainnet is selected, but the transfer was made in devnet (or vice versa). History and balance are requested separately for mainnet and devnet. Check the network with the sender and in Tonhub (if there's a switch).
-- Wrong asset / wrong screen. TON: incoming jetton or NFT is displayed in the tokens/NFT sections, not in the "main" TON history. If the user only looks at the native TON transfer list, they won't see token deposits. Solana: incoming SPL token is visible in the balance and history of the specific token (by ATA). If the token isn't added to the list or the user only looks at SOL history, incoming token transfers can be missed.
+- Wrong asset / wrong screen. TON: incoming token is displayed in the tokens sections, not in the "main" TON history. If the user only looks at the native TON transfer list, they won't see token deposits. Solana: incoming SPL token is visible in the balance and history of the specific token (by ATA). If the token isn't added to the list or the user only looks at SOL history, incoming token transfers can be missed.
 - RPC lag and update delay. TON: data comes through Tonhub API and BlocksWatcher. During delays or SSE interruptions, transaction list updates may come with delay. Manual refresh (pull-to-refresh) or reopening the screen helps. Solana: transaction list isn't polled by timer, but updates when opening the screen and when returning to the app. If RPC or indexer lags, new incoming transactions will only appear at the next such update. Recommendation: refresh manually or wait and reopen the screen.
 - Address not activated (TON). Transfer came to an address that has never sent a transaction (contract not deployed). Such incoming transfers may not display in history until first wallet activation. User should perform first outgoing transaction (or activation), after which balance and history should update.
 - Sender error or rollback. Transaction didn't make it to a block (rejected by network, insufficient fee from sender, expired blockhash in Solana, etc.). Recipient physically received nothing, so there's no transaction in their history. Need to check transaction status and hash in explorer with sender (TON / Solana).
@@ -212,7 +212,7 @@ In Solana, transactions have limited lifetime by `lastValidBlockHeight`. Tonhub 
 - **Contacts.** The app implements a contacts section that allows saving familiar addresses and assigning names to them. When sending or receiving transactions, the contact name is automatically displayed to the user, providing confidence in the correct recipient selection.
 - **Blocked addresses (deny list / spam).** Some addresses are automatically marked by the wallet as spam, helping avoid accidental fund transfers to them. The list of such addresses is stored on the backend and can be supplemented manually. Sending to such addresses isn't completely blocked — only visual indication is implemented to warn the user.
 - **Restricted addresses.** For addresses marked as restricted (e.g., certain staking pools), a dialog with warning message is displayed before sending. Sending is only possible after explicit user confirmation ("Continue anyway"). This feature is related to smart contract limitations, not phishing protection.
-- **Domains (.ton).** When entering a .ton domain, the system performs address resolution and checks correspondence of resolved address to target before sending (including jetton transactions). If mismatch is detected, `transfer.error.invalidDomain` error is displayed. This reduces risk of address substitution through fake domains.
+- **Domains (.ton).** When entering a .ton domain, the system performs address resolution and checks correspondence of resolved address to target before sending (including token transactions). If mismatch is detected, `transfer.error.invalidDomain` error is displayed. This reduces risk of address substitution through fake domains.
 - **Network mismatch warning.** If user is in mainnet but entered address has testnet format (or vice versa), system displays warning and requests confirmation (`transfer.error.addressIsForTestnet`). This helps prevent accidental fund transfers to wrong network.
 
 # Gas when sending
