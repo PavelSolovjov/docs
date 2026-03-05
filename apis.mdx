@@ -2,7 +2,7 @@
 title: "APIs"
 ---
 
-The Tonhub application connects to the [**connect.tonhubapi.com**](http://connect.tonhubapi.com) backend and related services for transaction history, jetton/NFT balances, staking, gasless, TON Connect, and other functions. Below is a **list of used APIs with descriptions of each**: why it's needed and how it's used in the application.
+The Tonhub application connects to the [**connect.tonhubapi.com**](http://connect.tonhubapi.com) backend and related services for transaction history, token balances, staking, gasless, TON Connect, and other functions. Below is a **list of used APIs with descriptions of each**: why it's needed and how it's used in the application.
 
 # Tonhub API Architecture
 
@@ -11,9 +11,9 @@ The Tonhub application connects to the [**connect.tonhubapi.com**](http://connec
 Tonhub backend APIs are divided into 8 main functional groups:
 
 1. **Core TON and Solana data:** Transaction history, operation statuses, network and wallet settings, contract information. Includes TON RPC (mainnet-v4/[testnet-v4.tonhubapi.com](http://testnet-v4.tonhubapi.com)) for reading blockchain state. These APIs provide balance display, operation history, and fee calculation.
-2. **Asset information:** Data about jettons (hints, full information, metadata, rates, wallet transactions), NFTs, rates and prices (v2/price, v2/rates, token/info). Everything needed for asset lists, their fiat value, and token selection during transfers.
+2. **Asset information:** Data about tokens (hints, full information, metadata, rates, wallet transactions), rates and prices (v2/price, v2/rates, token/info). Everything needed for asset lists, their fiat value, and token selection during transfers.
 3. **Staking:** Information about pool participation (member/info, member/liquid/info), liquid pool parameters, USDe data (rate, APY, participant). Additionally uses a separate [**staking-indexer.whales-api.com**](http://staking-indexer.whales-api.com) service for election status, nominators, and pool APY.
-4. **Gasless transfers:** Settings (list of supported tokens, relayer), fee calculation in tokens, sending signed transactions through relayer. Works only for supported jettons from W5 wallets.
+4. **Gasless transfers:** Settings (list of supported tokens, relayer), fee calculation in tokens, sending signed transactions through relayer. Works only for supported tokens from W5 wallets.
 5. **TON Connect and wallet interaction:** TON Connect bridge (`/tonconnect`), connection commands (connect/command, grant, revoke, answer), wallet-request management (create, respond, list). Provides dApp-to-wallet connection and handling of incoming signature/transfer requests.
 6. **Application settings and catalogs:** Application configuration, versions, metadata and application catalog, reviews and reports, banners (tonhub, Holders, advertising), allowed domains list (protect). Determines available features, displayed applications, and browser content.
 7. **Currency exchange:** Changelly integration — currencies, rate estimation, creation and tracking of exchange operation status. Separate function within the application.
@@ -28,7 +28,7 @@ Auxiliary APIs include: cloud storage (storage/read, write) for settings synchro
 - **TON Connect:** Bridge (`/tonconnect`) and connection protocol for message exchange with wallet. TON Connect specification and application manifest are public — dApps connect to wallet through this interface.
 - Documented public Tonhub endpoints, if officially announced in documentation for dApp developers or partners.
 
-**Internal APIs (Tonhub application only):** All other APIs are used exclusively by the Tonhub application: transactions (v1/v2/v3), hints, jettons/metadata, NFT, Solana (account, tokens, transactions, fees), staking (member/info, liquid, usde), gasless (config, estimate, send), connect/command, connect/grant, connect/revoke, connect/answer, wallet-request, storage, appconfig, banners, rates (v2/price, v2/rates), Changelly, push, client-error, service-address, balances/old, protect/allowed-domains and others.
+**Internal APIs (Tonhub application only):** All other APIs are used exclusively by the Tonhub application: transactions (v1/v2/v3), hints, tokens, Solana (account, tokens, transactions, fees), staking (member/info, liquid, usde), gasless (config, estimate, send), connect/command, connect/grant, connect/revoke, connect/answer, wallet-request, storage, appconfig, banners, rates (v2/price, v2/rates), Changelly, push, client-error, service-address, balances/old, protect/allowed-domains and others.
 
 <Info>
   Important: The format of requests and responses, limits and contracts of internal APIs may change without notice. Stability and backward compatibility guarantees are provided only for public APIs (TON Connect and officially documented endpoints).
@@ -64,11 +64,11 @@ Auxiliary APIs include: cloud storage (storage/read, write) for settings synchro
 
 ### GET `/contract/info/{address}`
 
-**Purpose:** general contract information by address (state, code). Used when parsing contracts and checking types (including jetton, NFT).
+**Purpose:** general contract information by address (state, code). Used when parsing contracts and checking types (including tokens).
 
 ### GET `/metadata/{address}`
 
-**Purpose:** contract metadata by address (name, symbol, image, etc.). Applied for displaying data about jettons and other contracts when not only balances but also asset descriptions are needed.
+**Purpose:** contract metadata by address (name, symbol, image, etc.). Applied for displaying data about tokens and other contracts when not only balances but also asset descriptions are needed.
 
 ### GET `/net/{network}/elections/latest`
 
@@ -82,53 +82,47 @@ Auxiliary APIs include: cloud storage (storage/read, write) for settings synchro
 
 **Purpose:** annual percentage yield (APY) from the latest elections. Displayed in the staking section as a yield reference.
 
-# Jettons (TON tokens)
+# TON tokens
 
 ### GET `/hints/{address}?version=1`
 
-**Purpose:** brief jetton hints for the specified TON address (version 1). Used in scenarios where a compact list without full metadata is sufficient.
+**Purpose:** brief token hints for the specified TON address (version 1). Used in scenarios where a compact list without full metadata is sufficient.
 
 ### GET `/hints/full/{address}`
 
-**Purpose:** full list of jettons by address with balances, names, symbols, icons, and verification flags (query `isTestnet=true` for testnet). **Main source** for the assets screen: token list, "Savings" block, token selection during transfers. The response also contains `addressesIndex` for quick search by master address.
+**Purpose:** full list of tokens by address with balances, names, symbols, icons, and verification flags (query `isTestnet=true` for testnet). **Main source** for the assets screen: token list, "Savings" block, token selection during transfers. The response also contains `addressesIndex` for quick search by master address.
 
 ### GET `/hints/extra/{address}`
 
-**Purpose:** additional "currencies" or hints by address (extra currency hints). Displayed in the same block as jettons, as a separate type of cards in the assets list.
+**Purpose:** additional "currencies" or hints by address (extra currency hints). Displayed in the same block as tokens, as a separate type of cards in the assets list.
 
 ### GET `/jettons/metadata?address={master}`
 
-**Purpose:** jetton master contract metadata (name, symbol, decimals, image, LP data if needed). Used when current name, logo, and exact number of decimal places are needed for display or calculations.
+**Purpose:**token master contract metadata (name, symbol, decimals, image, LP data if needed). Used when current name, logo, and exact number of decimal places are needed for display or calculations.
 
 ### POST `/jettons/wallet/address`
 
-**Purpose:** calculating the user's jetton-wallet address for a given master. Body: `address` (owner), `master`, `isTestnet`, `seqno`. Needed when forming jetton transfers and checking if the user has a wallet for the given token.
+**Purpose:** calculating the user's token-wallet address for a given master. Body: `address` (owner), `master`, `isTestnet`, `seqno`. Needed when forming token transfers and checking if the user has a wallet for the given token.
 
 ### GET `/jettons/wallet/{walletAddress}`
 
-**Purpose:** jetton-wallet data by wallet address (query: isTestnet). Used to get balance and metadata for a specific jetton-wallet when only the contract address is known.
+**Purpose:** jetton-wallet data by wallet address (query: isTestnet). Used to get balance and metadata for a specific token-wallet when only the contract address is known.
 
 ### POST `/jettons/wallet/transactions`
 
-**Purpose:** transaction history for jetton-wallet. Body contains address and pagination/filtering parameters. Needed for the transaction history screen for individual tokens.
+**Purpose:** transaction history for token-wallet. Body contains address and pagination/filtering parameters. Needed for the transaction history screen for individual tokens.
 
 ### GET `/jettons/rates/{key}?isTestnet=`
 
-**Purpose:** jetton rates (prices) by key (usually master address). Used to display balance in fiat and for sorting/filtering tokens by value.
+**Purpose:** token rates (prices) by key (usually master address). Used to display balance in fiat and for sorting/filtering tokens by value.
 
 ### GET `/mintless/jettons/{address}`
 
-**Purpose:** list of "mintless" jettons by owner address — tokens without separate mint. Used for completeness of the assets list and correct display of such tokens.
+**Purpose:** list of "mintless" tokens by owner address — tokens without separate mint. Used for completeness of the assets list and correct display of such tokens.
 
 ### GET `/mintless/jettons/...` (payload)
 
-**Purpose:** getting payload for operations with mintless jettons (used in fetchJettonPayload). Needed when forming transfers or requests to such contracts.
-
-# NFT
-
-### GET `/nfts/{address}?first=&after=`
-
-**Purpose:** list of NFTs by owner address with pagination (`first` — number of records, `after` — cursor). **Main source** for the NFT screen in the wallet: name, collection, image, sale data if needed.
+**Purpose:** getting payload for operations with mintless tokens (used in fetchJettonPayload). Needed when forming transfers or requests to such contracts.
 
 # Solana
 
@@ -202,7 +196,7 @@ Auxiliary APIs include: cloud storage (storage/read, write) for settings synchro
 
 ### GET `/gasless/{network}/config`
 
-**Purpose:** gasless sending configuration: list of jetton masters for which gasless is available, and relayer address (relay_address). Based on this config, the application decides whether to show the user the "pay fee in token" option during transfers (only for W5 and listed tokens).
+**Purpose:** gasless sending configuration: list of token masters for which gasless is available, and relayer address (relay_address). Based on this config, the application decides whether to show the user the "pay fee in token" option during transfers (only for W5 and listed tokens).
 
 ### POST `/gasless/{network}/estimate`
 
@@ -254,7 +248,7 @@ Auxiliary APIs include: cloud storage (storage/read, write) for settings synchro
 
 ### POST `/storage/read`
 
-**Purpose:** reading data by key (key — e.g., publicKey in base64). Used for syncing settings between devices (including hidden jettons list — jettons-disabled).
+**Purpose:** reading data by key (key — e.g., publicKey in base64). Used for syncing settings between devices (including hidden tokens list — tokens-disabled).
 
 ### POST `/storage/write`
 
