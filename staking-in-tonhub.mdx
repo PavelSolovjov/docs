@@ -70,7 +70,7 @@ The interface shows the pool fee (withdraw fee + receipt) before withdrawal so t
 
 # Liquid staking (Whales Liquid, wsTON)
 
-[Liquid staking](/liquid-staking-pool) in Tonhub is represented by the Whales Liquid product: users delegate TON to a contract and receive wrapped TON - wsTON token (jetton), which can be stored, transferred, or exchanged, while the underlying TON continues to participate in staking.
+[Liquid staking](/liquid-staking-pool) in Tonhub is represented by the Whales Liquid product: users delegate TON to a contract and receive wrapped TON - wsTON token, which can be stored, transferred, or exchanged, while the underlying TON continues to participate in staking.
 
 ### How it works
 
@@ -78,7 +78,7 @@ The interface shows the pool fee (withdraw fee + receipt) before withdrawal so t
 - **rateDeposit** / **rateWithdraw** — TON:left_right_arrow: wsTON conversion rates.
 - **extras**: minStake, depositFee, withdrawFee, receiptPrice, poolFee (%), roundEnd, proxyStakeUntil, etc.
 - **balances** — protocol volumes (supply, total balance, pending withdraw, etc.).
-- **Deposit:** user sends TON to contract with liquid deposit body (op from LiquidStakingContract: storeLiquidDeposit); in return, wsTON jettons are credited at current rateDeposit.
+- **Deposit:** user sends TON to contract with liquid deposit body (op from LiquidStakingContract: storeLiquidDeposit); in return, wsTON token are credited at current rateDeposit.
 - **Withdrawal:** user sends **liquid withdraw** message specifying wsTON amount (storeLiquidWithdraw); after processing and unlocking, they receive TON back at rateWithdraw. Fees (withdrawFee, receiptPrice) are accounted for in display.
 
 TON-equivalent balance is shown based on wsTON balance and rateWithdraw. APY and pool fee (poolFee) are displayed in the Whales Liquid card (when data is available from API and useStakingApy).
