@@ -195,7 +195,11 @@
         "language": "ru",
         "tabs": [
           {
-            "tab": "Whales Space"
+            "tab": "Whales Space",
+            "pages": [
+              "o-nas",
+              "obzor-produktov"
+            ]
           }
         ]
       }
