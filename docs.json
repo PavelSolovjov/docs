@@ -191,16 +191,11 @@
           }
         ]
       },
-
       {
         "language": "ru",
         "tabs": [
           {
-            "tab": "О Whales",
-            "pages": [
-              "ru/business-review",
-              "ru/main-products"
-            ]
+            "tab": "Whales обзор"
           }
         ]
       }
