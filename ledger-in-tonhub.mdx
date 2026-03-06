@@ -7,7 +7,7 @@ In Tonhub, you can use the **Ledger** hardware wallet to store keys and sign tra
 # Purpose and Capabilities
 
 **Ledger** is a hardware device, a cold wallet (Nano S, Nano X, Nano S Plus, etc.) with the **TON** application installed (via Ledger Live). Keys never leave the device, and confirmation of transfers and signatures is performed on the Ledger.\
-In Tonhub, Ledger is used as a separate wallet type: the user connects the device via USB (HID) on Android or via Bluetooth (BLE) on iOS and Android, selects one of the accounts (indices 0–9), and can then view balance, send TON and jettons, stake, use Holders, and connect dApps via TON Connect. Transaction and data signing is always performed on the Ledger. You can connect an unlimited number of cold wallets.\
+In Tonhub, Ledger is used as a separate wallet type: the user connects the device via USB (HID) on Android or via Bluetooth (BLE) on iOS and Android, selects one of the accounts (indices 0–9), and can then view balance, send TON and tokens, stake, use Holders, and connect dApps via TON Connect. Transaction and data signing is always performed on the Ledger. You can connect an unlimited number of cold wallets.\
 Minimum TON application version on Ledger: 2.4.1. With an older version, the application will show a message asking to update the TON application in Ledger Live.
 
 # Ledger Connection
@@ -61,7 +61,7 @@ The "selected Ledger account" state is stored in the app (`ledgerSelected` in ap
 
 # Transaction Signing
 
-When sending TON or jettons from a Ledger wallet, the app forms an operation order (LedgerOrder) and opens the Ledger signing screen (LedgerSignTransfer). The user sees a summary: recipient, amount, fee, jetton data if needed.\
+When sending TON or tokens from a Ledger wallet, the app forms an operation order (LedgerOrder) and opens the Ledger signing screen (LedgerSignTransfer). The user sees a summary: recipient, amount, fee, token data if needed.\
 Signing is performed via `tonTransport` (TonTransport from `@ton-community/ton-ledger`): message construction, calling the signing method on device via account path (`pathFromAccountNumber(addr.acc, isTestnet)`).\
 **Important:** the TON application must be open and the device unlocked on Ledger. Otherwise signing will fail.
 
