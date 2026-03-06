@@ -15,7 +15,7 @@
         "language": "en",
         "tabs": [
           {
-            "tab": "About Whales",
+            "tab": "Whales Space",
             "pages": [
               "business-review",
               "main-products"
@@ -195,7 +195,7 @@
         "language": "ru",
         "tabs": [
           {
-            "tab": "Whales обзор"
+            "tab": "Whales Space"
           }
         ]
       }
