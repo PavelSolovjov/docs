@@ -59,7 +59,7 @@
                 ]
               },
               {
-                "group": "Bank statements",
+                "group": "VASP statements",
                 "pages": [
                   "holders/product-review/bank-statements",
                   "holders/product-review/account-ownership-certificate"
