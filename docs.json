@@ -8,185 +8,205 @@
     "dark": "#6d0000"
   },
   "favicon": "/images/NEW2.svg",
+
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "About Whales",
-        "pages": [
-          "business-review",
-          "main-products"
-        ]
-      },
-      {
-        "tab": " Holders",
-        "pages": [
-          "holders/business-review",
-          "holders/glossary",
-          "holders/privacy-notes",
-          "holders/cards-terms-and-conditions",
+        "language": "en",
+        "tabs": [
           {
-            "group": "Product review",
+            "tab": "About Whales",
             "pages": [
+              "business-review",
+              "main-products"
+            ]
+          },
+          {
+            "tab": " Holders",
+            "pages": [
+              "holders/business-review",
+              "holders/glossary",
+              "holders/privacy-notes",
+              "holders/cards-terms-and-conditions",
               {
-                "group": "Accounts & smart-contracts",
+                "group": "Product review",
                 "pages": [
-                  "holders/product-review/accounts-and-smart-contracts/Accountssmart-contractsoverview",
                   {
-                    "group": "Types of smart-contracts",
+                    "group": "Accounts & smart-contracts",
                     "pages": [
-                      "holders/product-review/accounts/solana-smart-contracts",
-                      "holders/product-review/accounts/ton-and-usdt-smart-contracts",
-                      "holders/product-review/accounts/trust-smart-contract"
+                      "holders/product-review/accounts-and-smart-contracts/Accountssmart-contractsoverview",
+                      {
+                        "group": "Types of smart-contracts",
+                        "pages": [
+                          "holders/product-review/accounts/solana-smart-contracts",
+                          "holders/product-review/accounts/ton-and-usdt-smart-contracts",
+                          "holders/product-review/accounts/trust-smart-contract"
+                        ]
+                      },
+                      "Issuerblockchainlimits",
+                      "holders/product-review/accounts-and-smart-contracts/account-brand"
                     ]
                   },
-                  "Issuerblockchainlimits",
-                  "holders/product-review/accounts-and-smart-contracts/account-brand"
-                ]
-              },
-              "holders/product-review/onboarding/untitled-page",
-              {
-                "group": "Bank cards",
-                "pages": [
-                  "virtual-debit-bank-cards"
-                ]
-              },
-              "holders/product-review/user-profile",
-              {
-                "group": "Contactless payments",
-                "pages": [
-                  "apple-pay",
-                  "google-pay"
-                ]
-              },
-              {
-                "group": "Statements and certificates",
-                "pages": [
-                  "holders/product-review/bank-statements",
-                  "holders/product-review/account-ownership-certificate"
-                ]
-              },
-              "holders/product-review/trust-and-vesting",
-              "holders/product-review/user-transaction-confirmation-mechanism"
-            ]
-          },
-          {
-            "group": "Funds flow",
-            "pages": [
-              "funds-flow-overview",
-              "treasure-wallets"
-            ]
-          },
-          {
-            "group": "Integration guides",
-            "pages": [
-              {
-                "group": "For wallets",
-                "pages": [
-                  "integration-gides/technical-integration/techdoc",
-                  "integration-gides/technical-integration/webviewbridgeapis"
+                  "holders/product-review/onboarding/untitled-page",
+                  {
+                    "group": "Bank cards",
+                    "pages": [
+                      "virtual-debit-bank-cards"
+                    ]
+                  },
+                  "holders/product-review/user-profile",
+                  {
+                    "group": "Contactless payments",
+                    "pages": [
+                      "apple-pay",
+                      "google-pay"
+                    ]
+                  },
+                  {
+                    "group": "Statements and certificates",
+                    "pages": [
+                      "holders/product-review/bank-statements",
+                      "holders/product-review/account-ownership-certificate"
+                    ]
+                  },
+                  "holders/product-review/trust-and-vesting",
+                  "holders/product-review/user-transaction-confirmation-mechanism"
                 ]
               },
               {
-                "group": "For banks",
+                "group": "Funds flow",
                 "pages": [
-                  "list-of-required-information-to-start-the-integration"
+                  "funds-flow-overview",
+                  "treasure-wallets"
+                ]
+              },
+              {
+                "group": "Integration guides",
+                "pages": [
+                  {
+                    "group": "For wallets",
+                    "pages": [
+                      "integration-gides/technical-integration/techdoc",
+                      "integration-gides/technical-integration/webviewbridgeapis"
+                    ]
+                  },
+                  {
+                    "group": "For banks",
+                    "pages": [
+                      "list-of-required-information-to-start-the-integration"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "User guides",
+                "pages": [
+                  "holders/product-review/onboarding/onboarding-process",
+                  "holders/product-review/accounts/account-operations",
+                  "card-operations",
+                  "blockchainlimitsui",
+                  "apple-pay-ui",
+                  "google-pay-ui",
+                  "holders/product-review/onboarding/issuing-account-statement-of-funds-movement",
+                  "holders/product-review/onboarding/issuing-account-ownership-certificate",
+                  "holders/product-review/onboarding/methods-for-confirming-online-transactions",
+                  "holders/product-review/onboarding/profile-data-modification",
+                  "holders/product-review/onboarding/pricing"
                 ]
               }
             ]
           },
           {
-            "group": "User guides",
+            "tab": "Ton Whales",
             "pages": [
-              "holders/product-review/onboarding/onboarding-process",
-              "holders/product-review/accounts/account-operations",
-              "card-operations",
-              "blockchainlimitsui",
-              "apple-pay-ui",
-              "google-pay-ui",
-              "holders/product-review/onboarding/issuing-account-statement-of-funds-movement",
-              "holders/product-review/onboarding/issuing-account-ownership-certificate",
-              "holders/product-review/onboarding/methods-for-confirming-online-transactions",
-              "holders/product-review/onboarding/profile-data-modification",
-              "holders/product-review/onboarding/pricing"
+              "business-overview",
+              "glossary",
+              "ton-staking-mechanism",
+              {
+                "group": "Products review",
+                "pages": [
+                  "staking-pools",
+                  "whales-validators",
+                  {
+                    "group": "Smart-contracts",
+                    "pages": [
+                      "smart-contract-nominators",
+                      "smart-contract-dao"
+                    ]
+                  },
+                  "liquid-staking-pool",
+                  "whales-club",
+                  "whales-blockchain-indexer",
+                  "api-v4",
+                  "whales-connect"
+                ]
+              },
+              {
+                "group": "User guides",
+                "pages": [
+                  "deposit-withdraw-via-tonhub",
+                  "deposit-withdraw-via-tonwhales-com",
+                  "deposit-withdraw-whales-liquid-pool",
+                  "deposit-withdraw-via-transaction",
+                  "deposit-withdraw-via-ledger",
+                  "deposit-withdraw-via-tonkeeper"
+                ]
+              },
+              "bounty-program"
+            ]
+          },
+          {
+            "tab": "Tonhub",
+            "pages": [
+              "business-overview-1",
+              "privacy-policy",
+              "terms-of-use",
+              {
+                "group": "Product overview",
+                "pages": [
+                  "wallet-management-creation-import-seed-phrase",
+                  "assets-ton-sol-tokens-nfts",
+                  "receiving-and-sending-transactions",
+                  "ton-connect-and-application-integration",
+                  "fees",
+                  "staking-in-tonhub",
+                  "apis",
+                  "exchange-integrations",
+                  "ledger-in-tonhub",
+                  "wallet-modes-wallet-cards",
+                  "token-verification"
+                ]
+              },
+              {
+                "group": "User guides",
+                "pages": [
+                  "creating-deleting-adding-wallet",
+                  "user-settings-in-tonhub",
+                  "staking-guides",
+                  "browser-usage",
+                  "accounts-and-cards-opening"
+                ]
+              }
             ]
           }
         ]
       },
+
       {
-        "tab": "Ton Whales",
-        "pages": [
-          "business-overview",
-          "glossary",
-          "ton-staking-mechanism",
+        "language": "ru",
+        "tabs": [
           {
-            "group": "Products review",
+            "tab": "О Whales",
             "pages": [
-              "staking-pools",
-              "whales-validators",
-              {
-                "group": "Smart-contracts",
-                "pages": [
-                  "smart-contract-nominators",
-                  "smart-contract-dao"
-                ]
-              },
-              "liquid-staking-pool",
-              "whales-club",
-              "whales-blockchain-indexer",
-              "api-v4",
-              "whales-connect"
-            ]
-          },
-          {
-            "group": "User guides",
-            "pages": [
-              "deposit-withdraw-via-tonhub",
-              "deposit-withdraw-via-tonwhales-com",
-              "deposit-withdraw-whales-liquid-pool",
-              "deposit-withdraw-via-transaction",
-              "deposit-withdraw-via-ledger",
-              "deposit-withdraw-via-tonkeeper"
-            ]
-          },
-          "bounty-program"
-        ]
-      },
-      {
-        "tab": "Tonhub",
-        "pages": [
-          "business-overview-1",
-          "privacy-policy",
-          "terms-of-use",
-          {
-            "group": "Product overview",
-            "pages": [
-              "wallet-management-creation-import-seed-phrase",
-              "assets-ton-sol-tokens-nfts",
-              "receiving-and-sending-transactions",
-              "ton-connect-and-application-integration",
-              "fees",
-              "staking-in-tonhub",
-              "apis",
-              "exchange-integrations",
-              "ledger-in-tonhub",
-              "wallet-modes-wallet-cards",
-              "token-verification"
-            ]
-          },
-          {
-            "group": "User guides",
-            "pages": [
-              "creating-deleting-adding-wallet",
-              "user-settings-in-tonhub",
-              "staking-guides",
-              "browser-usage",
-              "accounts-and-cards-opening"
+              "ru/business-review",
+              "ru/main-products"
             ]
           }
         ]
       }
     ]
   },
+
   "logo": "/images/NEW2.svg",
   "navbar": {
     "links": [
