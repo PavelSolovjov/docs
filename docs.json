@@ -255,7 +255,8 @@
               {
                 "group": "Gaps vs. Industry Best Practices",
                 "pages": [
-                  "critical-p0-required-before-production-billing"
+                  "critical-p0-required-before-production-billing",
+                  "high-priority-p1"
                 ]
               }
             ]
