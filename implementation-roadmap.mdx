@@ -1,0 +1,140 @@
+---
+title: "Implementation Roadmap"
+---
+
+## Phase 1 — Production Readiness (P0)
+
+### 1.1 — PDF Invoice Generation
+
+Files: `api/lib/pdf-invoice.ts` (new), `api/routes/instance-admin.ts`\
+UI: `Download PDF` button in `InvoiceSection` detail dialog
+
+### 1.2 — Mark Invoice as Paid
+
+```text
+ALTER TABLE invoices ADD COLUMN paid_at TIMESTAMPTZ;
+ALTER TABLE invoices ADD COLUMN payment_ref TEXT;
+```
+
+Files: `api/routes/instance-admin.ts` (`mark_invoice_paid` action)\
+\
+UI: `Mark as Paid` button in `InvoiceSection` (owner/admin only)
+
+### 1.3 — Backfill billing\_period
+
+```text
+UPDATE fee_ledger SET billing_period = DATE_TRUNC('month', created_at)::DATE
+WHERE billing_period IS NULL;
+```
+
+## Phase 2 — Credit Notes & Dunning (P1)
+
+### 2.1 — Credit Notes
+
+```text
+CREATE TABLE credit_notes (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id    UUID NOT NULL REFERENCES instances(id),
+  invoice_id     UUID NOT NULL REFERENCES invoices(id),
+  credit_number  TEXT NOT NULL,
+  amount_usdc    NUMERIC(18,6) NOT NULL,
+  reason         TEXT NOT NULL,
+  status         TEXT DEFAULT 'draft' CHECK (status IN ('draft','issued','applied','void')),
+  issued_at      TIMESTAMPTZ,
+  created_at     TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### 2.2 — Overdue Cron \+ Email
+
+Files: `api/queue/billing-cron.ts` (nightly job)\
+\
+Files: `api/routes/instance-admin.ts` (trigger email on `finalize_invoice`)
+
+## Phase 3 — Distribution Model (P0 for distribution use cases)
+
+### 3.1 — Merchant Distribution Fields
+
+```text
+ALTER TABLE merchants
+  ADD COLUMN merchant_type TEXT DEFAULT 'standard'
+    CHECK (merchant_type IN ('standard','agent','reseller')),
+  ADD COLUMN agent_commission_pct NUMERIC(5,3) DEFAULT 0,
+  ADD COLUMN settlement_currency TEXT DEFAULT 'USD',
+  ADD COLUMN settlement_period_days INT DEFAULT 30,
+  ADD COLUMN country TEXT;
+```
+
+### 3.2 — Distribution Tiers
+
+```text
+ALTER TABLE fee_tiers
+  ADD COLUMN rebate_pct NUMERIC(5,3) DEFAULT 0,
+  ADD COLUMN rebate_volume_tiers JSONB DEFAULT '[]',
+  ADD COLUMN rebate_settlement_delay_days INT DEFAULT 7;
+```
+
+### 3.3 — Settlement & Rebate Tables
+
+Migration 044: `merchant_settlements` \+ `merchant_rebates` (full DDL in §6)
+
+### 3.4 — Settlement API Actions
+
+New actions in `instance-admin.ts`:
+
+- `generate_settlement` — create settlement statement for merchant \+ period\
+- `finalize_settlement` — issue to merchant\
+- `mark_settlement_paid` — record payment, trigger rebate calculation\
+- `list_settlements` — paginated list per instance\
+- `get_settlement` — detail \+ line items\
+- `list_rebates` — rebate notices per instance\
+- `mark_rebate_paid` — record rebate payment \+ tx\_hash\
+
+### 3.5 — Settlement UI
+
+New sub-tabs in `RevenueTab`:
+
+- `Settlements` — per-merchant statements, generate/finalize/mark-paid\
+- `Rebates` — rebate notices, status, payment recording\
+
+## Phase 4 — Fee Collection Automation (P1)
+
+### 4.1 — Collection Retry Queue
+
+Retry job using `next_retry_at` \+ `collection_attempts`. Exponential backoff (`1h × 2^attempts`). Max 5 attempts → `abandoned`.
+
+### 4.2 — `billing_mode` Enforcement
+
+In `collectCreationFee()`: if `instance.settings.billing_mode === 'invoice'` → set `collection_status = 'invoiced'`, skip on-chain transfer.
+
+## Phase 5 — Analytics & Reconciliation (P2)
+
+### 5.1 — Nightly Reconciliation Job
+
+Compare fee\_ledger sums vs. cheque count expectations.
+
+### 5.2 — Volume Tier Auto-Upgrade
+
+Monthly check against `volume_threshold_monthly`.
+
+### 5.3 — Revenue Charts
+
+12-month rolling trend in `AdminB2BDashboardTab`.
+
+## Phase 6 — USDC Rate Documentation (P1)
+
+```text
+ALTER TABLE invoices
+  ADD COLUMN rate_at_invoice NUMERIC(12,6) DEFAULT 1.0,
+  ADD COLUMN rate_source TEXT DEFAULT 'assumed_peg',
+  ADD COLUMN subtotal_usd NUMERIC(18,6),
+  ADD COLUMN total_usd NUMERIC(18,6);
+
+ALTER TABLE fee_ledger
+  ADD COLUMN usdc_rate_at_collection NUMERIC(12,6),
+  ADD COLUMN usd_fmv NUMERIC(12,6);
+```
+
+## Phase 7 — Branded PDF (Gotenberg) (P2)
+
+Add `gotenberg/gotenberg:8` container to `docker-compose.yml`. Create `api/templates/` with HTML invoice and settlement templates supporting instance branding (logo, colors, USDC wallet QR code).
