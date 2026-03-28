@@ -208,7 +208,8 @@
               {
                 "group": "Fee Architecture",
                 "pages": [
-                  "fee-types"
+                  "fee-types",
+                  "fee-tiers"
                 ]
               }
             ]

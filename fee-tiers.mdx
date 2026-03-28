@@ -1,0 +1,23 @@
+---
+title: "Fee Tiers"
+---
+
+Platform-level configurable schedules assigned to merchants. Stored in `fee_tiers` (no `instance_id` — platform-global).
+
+```text
+interface FeeConfig {
+  creation_fee_pct: number;           // e.g. 2.0
+  creation_fee_flat: number;          // e.g. 0.25 USDC
+  creation_fee_min: number;           // e.g. 0.25 USDC
+  claim_fee_pct: number;              // e.g. 0.0
+  claim_fee_flat: number;             // e.g. 0.0
+  changelly_markup_pct: number;       // e.g. 0.5
+  bridge_developer_fee_pct: number;   // e.g. 1.0
+  // Planned additions for distribution:
+  rebate_pct: number;                 // e.g. 1.5
+  rebate_volume_tiers: VolumeTier[];  // [{threshold_usdc: 50000, rebate_pct: 2.0}]
+  rebate_settlement_delay_days: number; // e.g. 7
+}
+```
+
+Fee tiers are managed by the platform admin via the **System** tab (`AdminFeeTiersTab`).
