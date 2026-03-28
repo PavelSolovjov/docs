@@ -231,7 +231,8 @@
                   "invoice-number-format",
                   "settlement-statement-states",
                   "rebate-notice-states",
-                  "generate-platform-invoice"
+                  "generate-platform-invoice",
+                  "finalize-invoice"
                 ]
               }
             ]
