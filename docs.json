@@ -237,7 +237,8 @@
                   "invoice-line-items"
                 ]
               },
-              "database-schema-reference"
+              "database-schema-reference",
+              "api-reference"
             ]
           }
         ]
