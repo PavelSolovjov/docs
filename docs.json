@@ -238,7 +238,8 @@
                 ]
               },
               "database-schema-reference",
-              "api-reference"
+              "api-reference",
+              "frontend-ui"
             ]
           }
         ]

@@ -1,0 +1,64 @@
+---
+title: "Frontend UI"
+---
+
+Billing UI lives in `/instance/dashboard` → `InstanceDashboard.tsx`, Revenue tab.
+
+## Revenue Tab Structure
+
+Uses **manual **`useState`** button navigation** (nested Radix `<TabsList>` does not render due to React context collision — see `CLAUDE.md` Known Caveats).
+
+- Revenue tab
+  - Overview
+  - Invoices
+  - Export
+  - Fee Ledger
+
+### Overview
+
+- KPI cards (Collected / Pending / Failed / Gross)
+- fee type × status table
+- per-merchant collected / pending table
+
+### Invoices
+
+- Generate form
+- invoice list
+- detail dialog
+- line items
+- Finalize
+- Void
+
+### Export
+
+- Date range
+- Download CSV
+
+### Fee Ledger
+
+- Status filter
+- paginated table (50/page)
+
+## Planned additions
+
+- **Settlements** sub-tab — settlement statement list per merchant, generate / mark-paid actions
+- **Rebates** sub-tab — rebate notices list, paid / pending status
+
+## Status Pills
+
+| Status | Color | Meaning |
+| :-- | :-- | :-- |
+| `draft` | gray | Created, not issued |
+| `issued` | blue | Formally issued, awaiting payment |
+| `void` | red | Cancelled |
+| `unpaid` | yellow | Payment due |
+| `paid` | green | Confirmed |
+| `overdue` | red | Past due |
+| `waived` | gray | Waived by admin |
+| `pending` | yellow | Rebate scheduled, not yet paid |
+
+## Access Control
+
+Revenue tab: `owner`, `admin`, `finance`, `viewer` — all can view.
+
+Generate / Finalize / Void / Mark Paid: `owner`, `admin` only \+ backend secure session check.
