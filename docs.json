@@ -239,7 +239,9 @@
               },
               "database-schema-reference",
               "api-reference",
-              "frontend-ui"
+              "frontend-ui",
+              "billing-mode-feature-flag",
+              "audit-trail-and-compliance"
             ]
           }
         ]
