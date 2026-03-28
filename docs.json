@@ -242,7 +242,13 @@
               "frontend-ui",
               "billing-mode-feature-flag",
               "audit-trail-and-compliance",
-              "usdc-accounting-specifics"
+              "usdc-accounting-specifics",
+              {
+                "group": "Open-Source Solutions Analysis",
+                "pages": [
+                  "lago-full-billing-infrastructure"
+                ]
+              }
             ]
           }
         ]
