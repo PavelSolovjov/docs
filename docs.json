@@ -218,7 +218,8 @@
                 "group": "Fee Ledger — Core Financial Record",
                 "pages": [
                   "entry-lifecycle",
-                  "blling-period-assignment"
+                  "blling-period-assignment",
+                  "retry-infrastructure"
                 ]
               }
             ]
