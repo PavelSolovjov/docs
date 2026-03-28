@@ -1,0 +1,10 @@
+---
+title: "Blling Period Assignment"
+---
+
+`billing_period` stores the first day of the calendar month (e.g. `2026-03-01`). Added in migration 035. Pre-035 entries have `NULL` and are handled with a fallback in invoice generation:
+
+```text
+WHERE (billing_period = $periodDate
+   OR (billing_period IS NULL AND DATE_TRUNC('month', created_at) = $periodDate))
+```

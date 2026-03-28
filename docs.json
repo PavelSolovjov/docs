@@ -217,7 +217,8 @@
               {
                 "group": "Fee Ledger — Core Financial Record",
                 "pages": [
-                  "entry-lifecycle"
+                  "entry-lifecycle",
+                  "blling-period-assignment"
                 ]
               }
             ]
