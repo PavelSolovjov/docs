@@ -210,7 +210,8 @@
                 "pages": [
                   "fee-types",
                   "fee-tiers",
-                  "per-merchant-collection-limits"
+                  "per-merchant-collection-limits",
+                  "on-chain-collection-pipeline"
                 ]
               }
             ]
