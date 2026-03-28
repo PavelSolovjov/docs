@@ -233,7 +233,8 @@
                   "rebate-notice-states",
                   "generate-platform-invoice",
                   "finalize-invoice",
-                  "void-invoice"
+                  "void-invoice",
+                  "invoice-line-items"
                 ]
               }
             ]
