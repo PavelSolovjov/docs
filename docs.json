@@ -230,7 +230,8 @@
                   "platform-invoice-states",
                   "invoice-number-format",
                   "settlement-statement-states",
-                  "rebate-notice-states"
+                  "rebate-notice-states",
+                  "generate-platform-invoice"
                 ]
               }
             ]

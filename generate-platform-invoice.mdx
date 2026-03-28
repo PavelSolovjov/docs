@@ -1,0 +1,18 @@
+---
+title: "Generate Platform Invoice"
+---
+
+**Route action**: `generate_invoice`\
+**Access**: `owner` or `admin` \+ secure session (passkey re-auth)
+
+Input:
+
+`{ "billingPeriod": "2026-03" }`
+
+Process:
+
+1. Check for existing invoice for this period (409 if duplicate — `invoices_instance_period` index)
+2. Aggregate `fee_ledger` collected fees for the period by `fee_type`
+3. Reject 422 if no collected fees
+4. Increment `invoice_seq`, generate number
+5. Insert `invoices` \+ `invoice_line_items` (one per fee type)
