@@ -192,7 +192,13 @@
           {
             "tab": "PostCash",
             "pages": [
-              "business-model-overview"
+              "business-model-overview",
+              {
+                "group": "Distribution & Agency Model",
+                "pages": [
+                  "consignment-distribution-cheque-as-commodity"
+                ]
+              }
             ]
           }
         ]
