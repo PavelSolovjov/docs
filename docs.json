@@ -222,6 +222,12 @@
                   "retry-infrastructure",
                   "fee-breakdown-json"
                 ]
+              },
+              {
+                "group": "Invoice & Settlement Document Lifecycle",
+                "pages": [
+                  "invoice-and-settlement-document-lifecycle"
+                ]
               }
             ]
           }
