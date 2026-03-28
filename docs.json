@@ -209,7 +209,8 @@
                 "group": "Fee Architecture",
                 "pages": [
                   "fee-types",
-                  "fee-tiers"
+                  "fee-tiers",
+                  "per-merchant-collection-limits"
                 ]
               }
             ]
