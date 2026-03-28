@@ -228,7 +228,8 @@
                 "pages": [
                   "invoice-and-settlement-document-lifecycle",
                   "platform-invoice-states",
-                  "invoice-number-format"
+                  "invoice-number-format",
+                  "settlement-statement-states"
                 ]
               }
             ]
