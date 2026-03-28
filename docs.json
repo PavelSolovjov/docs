@@ -236,7 +236,8 @@
                   "void-invoice",
                   "invoice-line-items"
                 ]
-              }
+              },
+              "database-schema-reference"
             ]
           }
         ]
