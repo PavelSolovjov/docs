@@ -227,7 +227,8 @@
                 "group": "Invoice & Settlement Document Lifecycle",
                 "pages": [
                   "invoice-and-settlement-document-lifecycle",
-                  "platform-invoice-states"
+                  "platform-invoice-states",
+                  "invoice-number-format"
                 ]
               }
             ]
