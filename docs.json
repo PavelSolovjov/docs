@@ -257,7 +257,8 @@
                 "pages": [
                   "critical-p0-required-before-production-billing",
                   "high-priority-p1",
-                  "medium-priority-p2"
+                  "medium-priority-p2",
+                  "what-is-already-correct"
                 ]
               }
             ]
