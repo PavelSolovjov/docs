@@ -247,7 +247,9 @@
                 "group": "Open-Source Solutions Analysis",
                 "pages": [
                   "lago-full-billing-infrastructure",
-                  "pdfmake-pdf-invoice-generation-recommended"
+                  "pdfmake-pdf-invoice-generation-recommended",
+                  "gotenberg-branded-pdf-microservice-recommended-for-customer-facing-docs",
+                  "rejected-solutions"
                 ]
               }
             ]
