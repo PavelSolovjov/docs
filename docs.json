@@ -204,6 +204,12 @@
                   "document-types-in-distribution",
                   "data-model-requirements-for-distribution"
                 ]
+              },
+              {
+                "group": "Fee Architecture",
+                "pages": [
+                  "fee-types"
+                ]
               }
             ]
           }
