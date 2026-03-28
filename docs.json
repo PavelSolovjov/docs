@@ -229,7 +229,8 @@
                   "invoice-and-settlement-document-lifecycle",
                   "platform-invoice-states",
                   "invoice-number-format",
-                  "settlement-statement-states"
+                  "settlement-statement-states",
+                  "rebate-notice-states"
                 ]
               }
             ]
