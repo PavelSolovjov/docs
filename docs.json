@@ -246,7 +246,8 @@
               {
                 "group": "Open-Source Solutions Analysis",
                 "pages": [
-                  "lago-full-billing-infrastructure"
+                  "lago-full-billing-infrastructure",
+                  "pdfmake-pdf-invoice-generation-recommended"
                 ]
               }
             ]
