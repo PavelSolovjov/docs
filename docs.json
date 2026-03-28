@@ -219,7 +219,8 @@
                 "pages": [
                   "entry-lifecycle",
                   "blling-period-assignment",
-                  "retry-infrastructure"
+                  "retry-infrastructure",
+                  "fee-breakdown-json"
                 ]
               }
             ]
