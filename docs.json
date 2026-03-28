@@ -226,7 +226,8 @@
               {
                 "group": "Invoice & Settlement Document Lifecycle",
                 "pages": [
-                  "invoice-and-settlement-document-lifecycle"
+                  "invoice-and-settlement-document-lifecycle",
+                  "platform-invoice-states"
                 ]
               }
             ]

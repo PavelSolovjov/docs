@@ -1,0 +1,16 @@
+---
+title: "Platform Invoice States"
+---
+
+Invoices use the following state transitions:
+
+- **draft → issued → paid** — normal path
+- **draft → void** — pre-payment error
+- **issued → void** — exceptional post-issuance error; use a credit note if already paid
+
+Payment status values:
+
+- **unpaid**
+- **paid**
+- **overdue**
+- **waived**
