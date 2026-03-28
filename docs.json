@@ -241,7 +241,8 @@
               "api-reference",
               "frontend-ui",
               "billing-mode-feature-flag",
-              "audit-trail-and-compliance"
+              "audit-trail-and-compliance",
+              "usdc-accounting-specifics"
             ]
           }
         ]

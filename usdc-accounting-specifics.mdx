@@ -1,0 +1,53 @@
+---
+title: "USDC Accounting Specifics"
+---
+
+## Invoice Denomination
+
+Invoices denominated in **USDC** (~\$1.00 USD, Circle-managed peg).
+
+Recommended columns (partially implemented):
+
+```text
+subtotal_usdc   NUMERIC(18,6)   -- primary
+subtotal_usd    NUMERIC(18,6)   -- USD equivalent (planned)
+rate_at_invoice NUMERIC(12,6)   -- USD/USDC at issuance (planned)
+rate_source     TEXT            -- 'circle_api' | 'assumed_peg' (planned)
+```
+
+## Settlement Documents in Non-USD Currencies
+
+Settlement statements (§2.5) involve FX conversion when the merchant operates in a non-USD currency. Store:
+
+```text
+face_value_usdc     NUMERIC(18,6)   -- always in USDC
+settlement_currency TEXT            -- e.g. 'EUR'
+fx_rate             NUMERIC(12,6)   -- USDC → settlement_currency at settlement date
+fx_rate_source      TEXT            -- 'ecb', 'coinbase', 'manual'
+amount_due          NUMERIC(18,6)   -- face_value_usdc × fx_rate, in settlement_currency
+```
+
+This is the authoritative amount the merchant owes. The FX rate is fixed at the time the settlement statement is **issued**, not at payment time — protecting both parties from rate drift during the payment window.
+
+## Revenue Recognition
+
+Under IRS guidance (Notice 2014-21, Rev. Rul. 2023-14):
+
+- USDC received = ordinary income at FMV at receipt time
+- FMV for USDC ≈ \$1.0000 (trivial, but must be documented)
+- Store `usdc_rate_at_collection` and `usd_fmv` on every `fee_ledger` collected entry (planned)\
+
+## On-Chain Payment Proof
+
+`fee_ledger.collection_tx_hash` and `merchant_settlements.payment_ref` (Solana tx sig for crypto payments) are the immutable receipts. Verifiable at [solscan.io](http://solscan.io).
+
+## Invoice Payment Instructions
+
+```text
+Payment Network: Solana (Mainnet)
+Payment Token: USDC (SPL)
+Payment Address: [platform USDC wallet]
+Memo: [invoice_number or settlement_number]
+Amount: [total_usdc] USDC
+Rate Source: Circle USD/USDC (at invoice date)
+```
