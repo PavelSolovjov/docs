@@ -251,6 +251,12 @@
                   "gotenberg-branded-pdf-microservice-recommended-for-customer-facing-docs",
                   "rejected-solutions"
                 ]
+              },
+              {
+                "group": "Gaps vs. Industry Best Practices",
+                "pages": [
+                  "critical-p0-required-before-production-billing"
+                ]
               }
             ]
           }
