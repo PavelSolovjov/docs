@@ -1,0 +1,13 @@
+---
+title: "Medium Priority (P2)"
+---
+
+| Gap | Impact | Solution |
+| :-- | :-- | :-- |
+| No reconciliation job | Silent ledger drift | Nightly reconciliation query \+ <br />alert |
+| No per-cheque invoice <br />line items | Aggregated by fee type only | Option for detailed line items |
+| No volume tier auto-upgrade | `volume_threshold_monthly` <br />unused | Monthly volume check \+ <br />tier assignment |
+| No breakage fee | Expired funded cheques <br />unresolved | Phase 2: fund return mechanism |
+| No agent commission tracking | Merchant's end-customer <br />markup not tracked | Add `agent_commission_pct` <br />to merchants |
+| `merchant_type` not modeled | Agent vs. reseller <br />distinction missing | Migration 042 |
+| DB immutability not enforced | App-level only | PostgreSQL rules on <br />`fee_ledger` |
