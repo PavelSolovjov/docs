@@ -213,6 +213,12 @@
                   "per-merchant-collection-limits",
                   "on-chain-collection-pipeline"
                 ]
+              },
+              {
+                "group": "Fee Ledger — Core Financial Record",
+                "pages": [
+                  "entry-lifecycle"
+                ]
               }
             ]
           }
@@ -220,6 +226,7 @@
       },
       {
         "language": "ru",
+        "hidden": true,
         "tabs": [
           {
             "tab": "Whales Space",
