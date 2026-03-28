@@ -1,0 +1,10 @@
+---
+title: "Void Invoice"
+---
+
+```text
+UPDATE invoices SET status='void', void_reason=$reason
+WHERE id=$id AND instance_id=$instanceId AND status != 'void'
+```
+
+**Policy**: Void for pre-payment errors. Invoice number is retired, never reused. For post-payment corrections: use credit note (planned — see §14).

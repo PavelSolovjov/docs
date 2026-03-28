@@ -232,7 +232,8 @@
                   "settlement-statement-states",
                   "rebate-notice-states",
                   "generate-platform-invoice",
-                  "finalize-invoice"
+                  "finalize-invoice",
+                  "void-invoice"
                 ]
               }
             ]
