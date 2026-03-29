@@ -1,12 +1,12 @@
 ---
-title: "Gotenberg — Branded PDF Microservice (Recommended for Customer-Facing Docs)"
+title: "Gotenberg — брендированный PDF-микросервис, рекомендован для customer-facing документов"
 ---
 
 **GitHub**: [https://github.com/gotenberg/gotenberg](https://github.com/gotenberg/gotenberg)\
 **License**: MIT\
 **Docker image**: `gotenberg/gotenberg:8`
 
-Accepts HTML via HTTP POST, returns PDF. No Node.js required — pure Docker container.
+Принимает HTML через HTTP POST и возвращает PDF. Node.js не требуется, это чистый Docker-контейнер.
 
 ```text
 const form = new FormData();
@@ -17,4 +17,4 @@ const res = await fetch("http://gotenberg:3000/forms/chromium/convert/html", {
 const pdf = await res.arrayBuffer();
 ```
 
-Use for: branded customer-facing settlement statements with logos, QR codes, and custom typography.
+Использовать для: брендированных customer-facing settlement statements с логотипами, QR-кодами и кастомной типографикой.

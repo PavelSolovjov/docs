@@ -2,11 +2,11 @@
 title: "Frontend UI"
 ---
 
-Billing UI lives in `/instance/dashboard` → `InstanceDashboard.tsx`, Revenue tab.
+Billing UI находится в `/instance/dashboard` → `InstanceDashboard.tsx`, вкладка `Revenue`.
 
-## Revenue Tab Structure
+## Структура вкладки Revenue
 
-Uses **manual **`useState`** button navigation** (nested Radix `<TabsList>` does not render due to React context collision — see `CLAUDE.md` Known Caveats).
+Используется **ручная навигация кнопками на `useState`**. Вложенный Radix `<TabsList>` не рендерится из-за конфликта React context, подробнее см. `CLAUDE.md`, раздел `Known Caveats`.
 
 - Revenue tab
   - Overview
@@ -39,26 +39,26 @@ Uses **manual **`useState`** button navigation** (nested Radix `<TabsList>` does
 - Status filter
 - paginated table (50/page)
 
-## Planned additions
+## Запланированные дополнения
 
-- **Settlements** sub-tab — settlement statement list per merchant, generate / mark-paid actions
-- **Rebates** sub-tab — rebate notices list, paid / pending status
+- Подвкладка **Settlements** — список settlement statements по merchant, действия generate и mark-paid
+- Подвкладка **Rebates** — список rebate notices и статусы paid / pending
 
-## Status Pills
+## Status pills
 
-| Status | Color | Meaning |
+| Статус | Цвет | Значение |
 | :-- | :-- | :-- |
-| `draft` | gray | Created, not issued |
-| `issued` | blue | Formally issued, awaiting payment |
-| `void` | red | Cancelled |
-| `unpaid` | yellow | Payment due |
-| `paid` | green | Confirmed |
-| `overdue` | red | Past due |
-| `waived` | gray | Waived by admin |
-| `pending` | yellow | Rebate scheduled, not yet paid |
+| `draft` | gray | Создан, но еще не выпущен |
+| `issued` | blue | Формально выпущен, ожидает оплаты |
+| `void` | red | Отменен |
+| `unpaid` | yellow | Оплата ожидается |
+| `paid` | green | Подтвержден как оплаченный |
+| `overdue` | red | Просрочен |
+| `waived` | gray | Списан решением администратора |
+| `pending` | yellow | Rebate запланирован, но еще не выплачен |
 
-## Access Control
+## Контроль доступа
 
-Revenue tab: `owner`, `admin`, `finance`, `viewer` — all can view.
+Вкладку `Revenue` могут просматривать `owner`, `admin`, `finance`, `viewer`.
 
-Generate / Finalize / Void / Mark Paid: `owner`, `admin` only \+ backend secure session check.
+Действия `Generate`, `Finalize`, `Void`, `Mark Paid` доступны только для `owner` и `admin`, плюс проверка secure session на backend.

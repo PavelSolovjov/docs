@@ -1,140 +1,140 @@
 ---
-title: "Treasury & Lending — Executive Summary"
+title: "Treasury и lending — краткое резюме"
 ---
 
-> **Audience**: CFO, COO, platform owners\
-> **Purpose**: Alignment on the multi-currency lending model, credit risk appetite, and operating procedures\
-> **Status**: Concept under review — prior to implementation\
-> **Technical documentation**: `TREASURY.md` (for the development team)
+> **Аудитория**: CFO, COO, владельцы платформы\
+> **Цель**: согласовать multi-currency lending model, подход к credit risk appetite и операционные процедуры\
+> **Статус**: концепт на этапе review, до реализации\
+> **Техническая документация**: `TREASURY.md`, для команды разработки
 
-## 1. Why the Treasury Module Is Needed
+## 1. Зачем нужен treasury-модуль
 
-The platform’s business model assumes that merchants take cheque batches **on consignment** and settle with the Issuer only after the cheques are sold — typically on a monthly basis. This means there is a funding gap of up to 30 days between the moment cheque batches are shipped to the merchant and the moment payment is received.
+Бизнес-модель платформы предполагает, что merchants берут batch-партии чеков **на реализацию** и рассчитываются с Issuer только после продажи чеков, обычно ежемесячно. Это означает, что между моментом отгрузки batch-партии merchant и моментом получения оплаты возникает funding gap до 30 дней.
 
-To keep the platform operating continuously during this period, external funding is required. The treasury module is designed to solve exactly this problem: it sources credit lines from investors and lenders and allocates them to merchant funding in line with the platform’s configured risk appetite.
+Чтобы платформа продолжала работать без перебоев в этот период, требуется внешнее финансирование. Treasury-модуль как раз решает эту задачу: он привлекает credit lines от инвесторов и lenders и распределяет их на merchant funding в соответствии с заданным для платформы risk appetite.
 
-**Simple model:**
+**Упрощенная модель:**
 
 `Lenders → Credit lines → Platform → Merchant funding → Settlement → Repayment to lenders`
 
-The platform earns on the spread:
+Платформа зарабатывает на спреде:
 
 **merchant fee income − interest expense on credit lines = net carry**
 
-## 2. Platform Lenders
+## 2. Lenders платформы
 
-The platform’s lenders may include:
+Источниками funding для платформы могут быть:
 
-- Platform owners and investors (direct loans)
-- External lenders (companies, funds, individuals)
-- In the future: decentralized liquidity protocols (DeFi)
+- Владельцы платформы и инвесторы, через прямые займы
+- Внешние lenders: компании, фонды, частные лица
+- В будущем - децентрализованные liquidity protocols, то есть DeFi
 
-Each lender may open one or more **credit lines** with individual terms.
+Каждый lender может открыть одну или несколько **credit lines** со своими индивидуальными условиями.
 
 | Parameter | Description |
 | :-- | :-- |
-| Currency | USDC, USD, EUR, USDT — multi-currency support |
-| Type | Revolving or term |
-| Limit | Maximum amount available under the line |
-| Interest rate | Fixed or floating (SOFR / EURIBOR \+ spread) |
-| Maturity | Expiry date of the line |
-| Collateral | Unsecured at the initial stage |
+| Currency | USDC, USD, EUR, USDT, поддерживается мультивалютность |
+| Type | Revolving или term |
+| Limit | Максимальная сумма, доступная в рамках линии |
+| Interest rate | Fixed или floating, например SOFR / EURIBOR \+ spread |
+| Maturity | Дата истечения линии |
+| Collateral | На первом этапе без обеспечения |
 
-### Revolving Line
+### Revolving line
 
-This is the primary type of facility. As amounts are repaid, the limit is restored and becomes available for reuse. Each individual drawdown has its own repayment term, for example 45 days. The line remains active until its expiry date or until a decision is made to close it.
+Это основной тип линии. По мере погашения использованных сумм лимит восстанавливается и снова становится доступным. У каждого отдельного drawdown есть свой срок возврата, например 45 дней. Сама линия остается активной до даты истечения или до отдельного решения о ее закрытии.
 
-## 3. Lender Restrictions: Eligibility Matrix
+## 3. Ограничения lenders: eligibility matrix
 
-Different lenders have different levels of risk tolerance. The treasury module allows the platform to define **which lenders’ funds may not be used to finance which merchants**.
+У разных lenders разный уровень толерантности к риску. Treasury-модуль позволяет платформе задавать, **какие средства каких lenders нельзя использовать для финансирования конкретных merchants**.
 
-Examples of restrictions:
+Примеры ограничений:
 
 | Restriction | Example |
 | :-- | :-- |
-| Minimum merchant credit rating | A conservative lender finances only merchants rated A or B |
-| Instance exclusion | A lender does not want exposure to a specific market, such as a certain country |
-| Instance exclusivity | A lender works only with a specific partner |
-| Per-merchant limit | No more than \$5,000 from a given line to a single merchant |
-| Per-instance limit | No more than 30% of the line allocated to one instance |
+| Minimum merchant credit rating | Консервативный lender финансирует только merchants с рейтингом A или B |
+| Instance exclusion | Lender не хочет экспозиции к конкретному рынку, например отдельной стране |
+| Instance exclusivity | Lender работает только с одним конкретным партнером |
+| Per-merchant limit | Не более \$5,000 из одной линии на одного merchant |
+| Per-instance limit | Не более 30% линии может быть распределено на один instance |
 
-These rules are applied automatically whenever a funding decision is made for a cheque batch.
+Эти правила применяются автоматически каждый раз, когда система принимает решение о funding для batch-партии чеков.
 
-## 4. Merchant Credit Profile
+## 4. Credit profile merchant
 
-Each merchant is assigned a **credit profile** by the platform.
+Каждому merchant платформа присваивает **credit profile**.
 
 | Parameter | Description |
 | :-- | :-- |
-| Credit limit | Maximum amount of open batches at any one time |
-| Current exposure | Amount of shipped but not yet paid batches |
-| Credit rating | A / B / C / D — assigned manually |
-| Settlement term | Standard 30 days, configurable |
-| Preferred settlement currency | Currency in which the merchant settles |
+| Credit limit | Максимальный объем открытых batch-партий в любой момент |
+| Current exposure | Сумма по уже отгруженным, но еще не оплаченным batch-партиям |
+| Credit rating | A / B / C / D, назначается вручную |
+| Settlement term | Стандартно 30 дней, параметр настраивается |
+| Preferred settlement currency | Валюта, в которой merchant рассчитывается |
 
-The **credit rating** affects funding eligibility. Conservative lenders may refuse to finance merchants rated C or lower. Ratings are managed manually by the finance team.
+**Credit rating** влияет на eligibility для funding. Консервативные lenders могут отказаться финансировать merchants с рейтингом C и ниже. Сам рейтинг управляется вручную командой finance.
 
-### Automatic Blocking on Overdue Settlement
+### Автоматическая блокировка при overdue settlement
 
-If a merchant fails to settle beyond the allowed threshold, 3 days by default, the platform automatically:
+Если merchant не закрывает settlement дольше допустимого порога, по умолчанию это 3 дня, платформа автоматически:
 
-1. Blocks shipment of new batches to that merchant
-2. Records the fact and date of the block
-3. Notifies the instance administrator
+1. Блокирует отгрузку новых batch-партий этому merchant
+2. Фиксирует сам факт блокировки и ее дату
+3. Уведомляет администратора instance
 
-Unblocking is manual only and requires administrator confirmation.
+Разблокировка выполняется только вручную и требует подтверждения администратора.
 
-## 5. Aggregated Settlement Balance
+## 5. Aggregated settlement balance
 
-The platform maintains a single **liquidity pool** — an aggregate of available funds across all active credit lines.
+Платформа поддерживает единый **liquidity pool**, то есть совокупность доступных средств по всем активным credit lines.
 
-### Account Structure
+### Структура счетов
 
-To manage liquidity allocation between instances, the platform uses an internal account structure:
+Для управления распределением ликвидности между instances платформа использует внутреннюю структуру счетов:
 
 `Platform pool (all credit lines) → Instance account A / Instance account B / Reserve account`
 
-The CFO and COO may **manually rebalance allocated limits** across instances through the administrative interface. This allows liquidity to be managed flexibly without changing the terms of the underlying credit lines.
+CFO и COO могут **вручную ребалансировать выделенные лимиты** между instances через административный интерфейс. Это дает возможность гибко управлять ликвидностью, не меняя условия базовых credit lines.
 
-## 6. Risk Appetite and Allocation Strategy
+## 6. Risk appetite и allocation strategy
 
-When a cheque batch is shipped to a merchant, the system automatically selects which credit line should fund it. The decision is based on the configured **allocation strategy**.
+Когда batch-партия чеков отгружается merchant, система автоматически выбирает, какая credit line должна ее профинансировать. Решение принимается на основе настроенной **allocation strategy**.
 
 | Strategy | Logic | When to Use |
 | :-- | :-- | :-- |
-| Currency match | Fund from a line in the merchant’s settlement currency | To eliminate FX risk |
-| Lowest cost | Use the line with the lowest interest rate | To optimize funding cost |
-| Maturity match | Use a line whose maturity covers the merchant settlement period | To avoid maturity mismatch |
-| Maximum availability | Use the line with the largest unused balance | To deploy liquidity quickly |
-| Balanced | Distribute usage evenly across all lines | To diversify dependency |
+| Currency match | Использовать линию в settlement currency merchant | Чтобы убрать FX risk |
+| Lowest cost | Использовать линию с минимальной процентной ставкой | Чтобы минимизировать стоимость funding |
+| Maturity match | Использовать линию, maturity которой перекрывает settlement period merchant | Чтобы избежать maturity mismatch |
+| Maximum availability | Использовать линию с наибольшим свободным остатком | Чтобы быстрее развернуть ликвидность |
+| Balanced | Равномерно распределять использование между всеми линиями | Чтобы снизить зависимость от одного источника |
 
-In addition to the selected strategy, the system applies **hard risk appetite constraints**:
+Помимо выбранной стратегии, система применяет **жесткие ограничения risk appetite**:
 
 - Maximum share of any one merchant in the total pool, for example no more than 20%
 - Maximum utilization of a single credit line, for example no more than 40%
 - Maximum debt-to-equity ratio
 - Minimum remaining maturity required for a line to be used
 
-## 7. FX Risk
+## 7. FX risk
 
-The platform operates across multiple currencies. When the currency of a credit line differs from the merchant’s settlement currency, the platform **takes FX risk**.
+Платформа работает сразу с несколькими валютами. Когда валюта credit line отличается от settlement currency merchant, платформа **берет на себя FX risk**.
 
-**Policy:** FX risk is recorded explicitly and reflected in reporting. For each drawdown from a foreign-currency line, the exchange rate is fixed on the transaction date. Upon settlement, the actual profit or loss from FX differences is reflected in the carry P&L report.
+**Политика:** FX risk учитывается явно и отражается в отчетности. Для каждого drawdown из линии в иностранной валюте курс фиксируется на дату транзакции. Во время settlement фактическая прибыль или убыток от курсовой разницы отражается в отчете carry P&L.
 
-At the initial stage, no hedging is planned. The recommended approach is to prioritize the **currency match** strategy in order to minimize open FX exposure.
+На первом этапе хеджирование не планируется. Рекомендуемый подход - отдавать приоритет стратегии **currency match**, чтобы минимизировать открытую валютную экспозицию.
 
-## 8. Treasury Economics (Carry P&L)
+## 8. Экономика treasury, carry P&L
 
-The platform earns on the **spread** between merchant income and the cost of funding.
+Платформа зарабатывает на **спреде** между merchant income и стоимостью funding.
 
 | Item | Description |
 | :-- | :-- |
-| **Income** | Merchant fees (issuance, redemption, exchange) |
-| **Expense** | Interest on credit lines |
-| **FX differences** | Gain / loss from currency mismatch |
-| **Net carry** | Income minus expense |
+| **Income** | Merchant fees, то есть issuance, redemption и exchange |
+| **Expense** | Проценты по credit lines |
+| **FX differences** | Прибыль или убыток из-за currency mismatch |
+| **Net carry** | Доход минус расходы |
 
-**Key performance indicators:**
+**Ключевые метрики:**
 
 | Metric | Meaning |
 | :-- | :-- |
@@ -145,39 +145,39 @@ The platform earns on the **spread** between merchant income and the cost of fun
 | Overdue settlement ratio | Percentage of total volume that is overdue |
 | Pool utilization | Percentage of total available limit currently used |
 
-If the interest rate on credit lines exceeds fee income, the platform effectively subsidizes operations from its own funds. This may be acceptable during the growth phase, provided the situation is tracked and controlled explicitly.
+Если процентная ставка по credit lines выше, чем fee income, платформа фактически субсидирует операции за счет собственных средств. На фазе роста это может быть приемлемо, если ситуация явно отслеживается и контролируется.
 
-## 9. Risk Management
+## 9. Управление рисками
 
-### Liquidity Risk (Maturity Mismatch)
+### Liquidity risk, maturity mismatch
 
-Situation: a credit line expires before the merchant settles.
+Ситуация: credit line истекает раньше, чем merchant завершает settlement.
 
-Control: the system identifies and displays the amount of such “problem drawdowns” in the dashboard. If a mismatch exists, the CFO is notified.
+Контроль: система находит такие "problem drawdowns" и показывает их сумму в dashboard. Если mismatch существует, CFO получает уведомление.
 
-### Merchant Credit Risk
+### Merchant credit risk
 
-Situation: a merchant does not pay.
+Ситуация: merchant не платит.
 
-Control: automatic blocking of new batches upon overdue settlement; credit rating is downgraded manually; managed by the COO.
+Контроль: автоматическая блокировка новых batch-партий при overdue settlement, ручное понижение credit rating, управление со стороны COO.
 
-### Concentration Risk
+### Concentration risk
 
-Situation: too much of the liquidity pool is concentrated in a single merchant or a single line.
+Ситуация: слишком большая часть liquidity pool сконцентрирована на одном merchant или на одной линии.
 
-Control: concentration limits defined in the risk appetite settings.
+Контроль: concentration limits, заданные в настройках risk appetite.
 
-### FX Risk
+### FX risk
 
-Situation: the exchange rate moves between drawdown and settlement.
+Ситуация: курс меняется между моментом drawdown и settlement.
 
-Control: explicit accounting, reflection in carry P&L, and priority given to the currency match strategy.
+Контроль: явный учет, отражение в carry P&L и приоритет стратегии currency match.
 
-## 10. Operational Controls
+## 10. Операционные контроли
 
-### Four-Eyes Principle
+### Принцип four-eyes
 
-The initiator of a financial operation and its approver must **always be different people**. The system must not allow one employee to complete the full operation cycle alone.
+Инициатор финансовой операции и ее утверждающий должны **всегда быть разными людьми**. Система не должна позволять одному сотруднику в одиночку пройти весь цикл операции.
 
 | Operation | Initiated By | Approved By |
 | :-- | :-- | :-- |
@@ -187,13 +187,13 @@ The initiator of a financial operation and its approver must **always be differe
 | Changing risk appetite | Finance / Administrator | Owner |
 | Rebalancing internal accounts | Finance | Administrator / Owner |
 
-### Velocity Limits
+### Velocity limits
 
-Limits on the volume of drawdowns from a single line per day serve as protection against mistakes and abuse. These limits are configured individually for each line.
+Лимиты на объем drawdowns из одной линии в день служат защитой от ошибок и злоупотреблений. Эти лимиты настраиваются отдельно для каждой линии.
 
-### Notifications
+### Уведомления
 
-The system automatically notifies finance and operations teams of the following events:
+Система автоматически уведомляет finance и operations-команды о следующих событиях:
 
 | Event | Recipient |
 | :-- | :-- |
@@ -204,15 +204,15 @@ The system automatically notifies finance and operations teams of the following 
 | Large drawdown | CFO, Finance |
 | Merchant frozen due to overdue settlement | Instance Administrator |
 
-## 11. Audit and Compliance
+## 11. Audit и compliance
 
-All operations are recorded in an immutable audit log, including:
+Все операции записываются в неизменяемый audit log, включая:
 
 - who performed the action and when
 - before / after values
 - IP address and confirmation of additional authentication
 
-Financial records such as drawdowns, interest accruals, and allocations **cannot be modified or deleted** once created. They may only be moved to a final status, such as repaid or defaulted.
+Финансовые записи, такие как drawdowns, начисление процентов и allocations, **нельзя изменить или удалить** после создания. Их можно только перевести в финальный статус, например `repaid` или `defaulted`.
 
 ## 12. Implementation Phases
 

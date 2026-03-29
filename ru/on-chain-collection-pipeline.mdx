@@ -1,15 +1,15 @@
 ---
-title: "On-Chain Collection Pipeline"
+title: "On-chain pipeline сбора комиссий"
 ---
 
-**Source**: `api/routes/check-balance.ts` — `collectCreationFee()`
+**Источник**: `api/routes/check-balance.ts` — функция `collectCreationFee()`
 
-1. **Atomic lock**: `FOR UPDATE SKIP LOCKED` → prevents double-collection
-2. **Platform-direct cheques** → waived
-3. **Merchant fee wallet check** → waived if not set up
-4. `checkMerchantLimits()` → log error if exceeded, leave pending
+1. **Atomic lock**: `FOR UPDATE SKIP LOCKED`, чтобы не допустить двойного сбора
+2. **Platform-direct cheques** → получают статус `waived`
+3. **Проверка merchant fee wallet** → если кошелек не настроен, также `waived`
+4. `checkMerchantLimits()` → при превышении лимитов пишет ошибку в лог и оставляет статус `pending`
 5. **SPL transferChecked**: `merchant_fee_wallet → platform_wallet`
-6. Success → `collected` \+ `tx_hash`\
-   Failure → `pending` \+ `collection_error` (cheque unaffected)
+6. Успех → `collected` \+ `tx_hash`\
+   Ошибка → `pending` \+ `collection_error`, сам cheque при этом не затрагивается
 
-**Critical property**: Fee collection is **non-blocking**. Failure records the fee without interrupting the cheque lifecycle.
+**Критически важное свойство**: сбор комиссий является **non-blocking**. Даже при неудаче запись о комиссии сохраняется, но жизненный цикл cheque не прерывается.

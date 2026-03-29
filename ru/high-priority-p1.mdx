@@ -1,13 +1,13 @@
 ---
-title: "High Priority (P1)"
+title: "Высокий приоритет (P1)"
 ---
 
-| Gap | Impact | Solution |
+| Пробел | Последствие | Решение |
 | :-- | :-- | :-- |
-| No credit notes | Post-payment corrections <br />require void \+ re-invoice | Migration 039: <br />`credit_notes` table |
-| No automated dunning | Overdue invoices not <br />flagged automatically | Nightly cron: <br />mark overdue \+ email |
-| No USDC rate storage | Revenue recognized <br />without documented rate | Migrations 040–041: <br />rate columns |
-| No collection retry job | `failed` fees accumulate | Retry queue via `next_retry_at` \+ <br />`collection_attempts` |
-| `billing_mode` not enforced | `invoice` mode still triggers <br />on-chain collection | Gate in `collectCreationFee()` |
-| No settlement FX rate lock | Rate drift risk during <br />payment window | Lock FX on statement issuance, <br />not payment |
-| No rebate calculation logic | Rebate tiers designed <br />but not computed | Implement post-settlement <br />rebate job |
+| Нет credit notes | Исправления после оплаты <br />требуют `void` \+ повторного invoice | Миграция `039`: <br />таблица `credit_notes` |
+| Нет автоматического dunning | Просроченные invoices <br />не помечаются автоматически | Ночной cron: <br />mark overdue \+ email |
+| Нет хранения курса USDC | Выручка признается <br />без задокументированного курса | Миграции `040–041`: <br />поля для курса |
+| Нет retry-job для сбора | Комиссии со статусом `failed` накапливаются | Retry queue через `next_retry_at` \+ <br />`collection_attempts` |
+| `billing_mode` не enforced | Режим `invoice` все еще запускает <br />on-chain collection | Gate в `collectCreationFee()` |
+| Нет FX rate lock для settlement | Риск дрейфа курса в течение <br />платежного окна | Фиксировать FX при выпуске statement, <br />а не в момент оплаты |
+| Нет логики расчета rebate | Rebate tiers спроектированы, <br />но не вычисляются | Реализовать post-settlement <br />rebate job |

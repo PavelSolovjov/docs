@@ -1,5 +1,5 @@
 ---
-title: "Retry Infrastructure"
+title: "Retry-инфраструктура"
 ---
 
-`collection_attempts` (INT) and `next_retry_at` (TIMESTAMPTZ) columns exist (migration 035) as scaffolding for a future automated retry queue. No retry job is implemented yet — see §14 roadmap.
+Колонки `collection_attempts`, тип `INT`, и `next_retry_at`, тип `TIMESTAMPTZ`, уже существуют, они добавлены миграцией `035` как заготовка под будущую автоматическую retry-очередь. Сам retry-job пока не реализован, см. roadmap в §14.

@@ -1,28 +1,28 @@
 ---
-title: "Agency Agreement — Tax Optimization for Merchants"
+title: "Agency agreement — налоговая оптимизация для merchants"
 ---
 
-Rather than the merchant buying and reselling cheques (which creates a large revenue base for local tax), the merchant acts as a **commission agent** of the issuer.
+Вместо того чтобы merchant покупал и перепродавал чеки, что создает большую выручку для локального налогообложения, merchant действует как **commission agent** issuer.
 
-## Legal distinction
+## Юридическое различие
 
-| Model | Merchant Revenue Base | Tax Exposure |
+| Модель | Налоговая база merchant | Налоговая нагрузка |
 | :-- | :-- | :-- |
-| **Reseller** | Full sale price (e.g. €97) | High — full VAT on €97 |
-| **Agent** | Agent commission only (e.g. €0.50) | Low — VAT only on €0.50 |
+| **Reseller** | Полная цена продажи, например €97 | Высокая, полный VAT на €97 |
+| **Agent** | Только agent commission, например €0.50 | Низкая, VAT только на €0.50 |
 
-Under the agency model:
+В agency-модели:
 
-- The merchant sells **on behalf of the issuer**, not on their own account
-- The merchant's declared revenue = **agent's remuneration only** (the markup they retain)
-- The face value pass-through is not the merchant's revenue — it flows through to the issuer
-- This is the standard structure used by payment intermediaries, prepaid card distributors, and gift card networks globally
+- Merchant продает **от имени issuer**, а не от собственного лица
+- Декларируемая выручка merchant = только **вознаграждение агента**, то есть удержанная им наценка
+- Передача номинала не является выручкой merchant, эта сумма проходит дальше к issuer
+- Это стандартная структура, которую используют платежные посредники, дистрибьюторы prepaid-карт и gift card networks по всему миру
 
-## What this means for the platform's document model
+## Что это означает для document model платформы
 
-The merchant does not receive a normal sales invoice from the issuer for each batch. Instead:
+Merchant не получает обычный sales invoice от issuer на каждый batch. Вместо этого используется следующий набор документов:
 
-1. **Agency Agreement** (contract, outside platform scope) — establishes the legal relationship
-2. **Agent's Report** (агентский отчёт) — periodic document from merchant to issuer: "I sold X cheques, collected €Y, remitting €Z, keeping €W as my commission"
-3. **Settlement Statement** — from issuer confirming receipt and reconciling the period
-4. **Rebate Notice** — from issuer to merchant: "your rebate for this period is \$X"
+1. **Agency Agreement**, то есть договор вне платформы, который задает юридические отношения
+2. **Agent's Report**, периодический документ от merchant к issuer: "я продал X чеков, собрал €Y, перечисляю €Z и удерживаю €W как свою комиссию"
+3. **Settlement Statement**, документ от issuer, подтверждающий получение средств и сверку за период
+4. **Rebate Notice**, документ от issuer к merchant: "ваш rebate за этот период составляет \$X"

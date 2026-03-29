@@ -1,18 +1,18 @@
 ---
-title: "Consignment Distribution — Cheque as Commodity"
+title: "Consignment distribution — cheque как товар"
 ---
 
-A USDC cheque is not just a digital instrument — in the distribution model it is a product with a face value that acts as its price tag. The issuer manufactures batches, and merchants are distributors who sell these products to end customers.
+USDC cheque - это не просто цифровой инструмент. В distribution-модели он рассматривается как товар с номиналом, который выступает его ценником. Issuer производит batch-партии, а merchants выступают как дистрибьюторы, продающие этот продукт конечным клиентам.
 
 ![Scheme21](/images/Scheme21.png)
 
-## Key Financial Events
+## Ключевые финансовые события
 
-| Event | Effect on Merchant Debt |
+| Событие | Влияние на долг merchant |
 | :-- | :-- |
-| Batch shipped to merchant | Contingent liability created for cheques in stock |
-| Cheque activated (sold) | Liability fixed and increased by the face value |
-| Cheque returned (unsold) | Liability reduced by the face value |
-| Cheque expired unactivated | Returned to issuer and liability cancelled |
-| Settlement payment received | Debt cleared by the paid amount |
-| Rebate paid by issuer | Separate credit to merchant and not a debt reduction |
+| Batch отгружен merchant | По чекам на складе возникает contingent liability |
+| Cheque активирован, то есть продан | Обязательство фиксируется и увеличивается на номинал |
+| Cheque возвращен, то есть не продан | Обязательство уменьшается на номинал |
+| Срок cheque истек без активации | Он возвращается issuer, а обязательство аннулируется |
+| Получен settlement payment | Долг уменьшается на оплаченный объем |
+| Issuer выплатил rebate | Это отдельный credit merchant и не уменьшение долга |

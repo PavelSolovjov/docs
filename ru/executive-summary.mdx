@@ -1,69 +1,69 @@
 ---
-title: "Billing & Accounting — Executive Summary"
+title: "Billing и accounting — краткое резюме"
 ---
 
-> **Audience**: CFO, COO, platform owners\
-> **Purpose**: Alignment on the billing business model, commercial terms, and operating processes\
-> **Status**: Concept under review — prior to implementation\
-> **Technical documentation**: `BILLING.md` (for the development team)
+> **Аудитория**: CFO, COO, владельцы платформы\
+> **Цель**: согласовать billing-модель, коммерческие условия и операционные процессы\
+> **Статус**: концепт на этапе review, до реализации\
+> **Техническая документация**: `BILLING.md`, для команды разработки
 
-## 1. What the Billing Module Is
+## 1. Что такое billing-модуль
 
-PostCash is a platform for issuing and distributing digital cheques (prepaid instruments) in USDC. The billing module is responsible for end-to-end accounting of financial flows within the platform, from collecting merchant fees to invoicing instance operators and generating settlement documents for distribution relationships.
+PostCash - это платформа для выпуска и распространения цифровых чеков, то есть prepaid-инструментов, в USDC. Billing-модуль отвечает за сквозной учет финансовых потоков внутри платформы: от сбора merchant fees до выставления инвойсов операторам инстансов и генерации settlement-документов для distribution-отношений.
 
-The module serves three purposes:
+У модуля три основные задачи:
 
-1. **Accounting** — every fee charged and collected by the platform is recorded in an immutable ledger.
-2. **Invoicing** — monthly invoices are issued to instance operators for infrastructure usage.
-3. **Merchant settlements** — agency reports and settlement documents are generated for distribution transactions.
+1. **Accounting** - каждая комиссия, начисленная и собранная платформой, записывается в неизменяемый ledger.
+2. **Invoicing** - операторам инстансов выставляются ежемесячные invoices за использование инфраструктуры.
+3. **Merchant settlements** - для distribution-транзакций формируются agency reports и settlement-документы.
 
-## 2. Business Model: Platform Revenue Sources
+## 2. Бизнес-модель: источники выручки платформы
 
-The platform generates revenue on two levels.
+Платформа генерирует выручку на двух уровнях.
 
-### Level 1 — Infrastructure Fees (already implemented)
+### Уровень 1 — Infrastructure fees, уже реализованы
 
-The platform charges a fee for each issued cheque. The fee is collected automatically from the merchant’s wallet when the cheque is funded.
+Платформа взимает комиссию за каждый выпущенный чек. Комиссия автоматически списывается с кошелька merchant в момент, когда чек фондируется.
 
-| Fee Type | Charged To | Collection Method |
+| Тип комиссии | С кого списывается | Как собирается |
 | :-- | :-- | :-- |
-| Issuance fee | Merchant | Collected automatically when the cheque is funded (blockchain) |
-| Redemption fee | Recipient | Deducted from the cheque value upon redemption |
-| Exchange markup | Recipient | Embedded in the FX rate |
-| Fiat on-ramp fee | Recipient | Added to the bank transfer amount |
+| Issuance fee | Merchant | Автоматически собирается при фондировании чека, через блокчейн |
+| Redemption fee | Recipient | Удерживается из номинала чека в момент redemption |
+| Exchange markup | Recipient | Встроена в FX rate |
+| Fiat on-ramp fee | Recipient | Добавляется к сумме банковского перевода |
 
-Pricing plans are configured individually for each merchant through the fee tier system. The default rate is 2% plus a fixed component, with a minimum of 0.25 USDC per cheque.
+Тарифные планы настраиваются отдельно для каждого merchant через систему fee tiers. Базовая ставка по умолчанию составляет 2% плюс фиксированная часть, с минимумом 0.25 USDC на один чек.
 
-### Level 2 — Distribution Model (agency structure)
+### Уровень 2 — Distribution model, agency-структура
 
-The instance operator (the Issuer) distributes physical cheque batches through merchant distributors. In this model, the cheque is treated as a product with a face value.
+Оператор инстанса, то есть Issuer, распространяет физические batch-партии чеков через merchant-дистрибьюторов. В этой модели чек рассматривается как продукт с номиналом.
 
-**Key principles of the model:**
+**Ключевые принципы модели:**
 
-- The merchant takes a batch of cheques **on consignment**, rather than purchasing it outright.
-- The merchant sells the cheque to the end customer and immediately **activates** it, for example at the point of sale.
-- The merchant settles with the Issuer for the face value of activated cheques **once per settlement period**, typically monthly.
-- Unfunded or unsold cheques that are not sold within the allowed period are **returned**, and the merchant’s obligation is cancelled.
+- Merchant принимает batch чеков **на реализацию**, а не выкупает его полностью.
+- Merchant продает чек конечному клиенту и сразу **активирует** его, например в точке продаж.
+- Merchant рассчитывается с Issuer по номиналу активированных чеков **один раз за settlement-период**, обычно ежемесячно.
+- Нефондированные или непроданные чеки, не реализованные в течение допустимого срока, **возвращаются**, а обязательство merchant аннулируется.
 
-## 3. Distribution Model: Merchant Economics
+## 3. Distribution model: экономика merchant
 
-### Merchant compensation structure
+### Структура вознаграждения merchant
 
-The merchant receives income in two forms, intentionally separated for tax optimization purposes.
+Merchant получает доход в двух формах, которые намеренно разделены для целей налоговой оптимизации.
 
-**Form 1 — Agency commission (upfront, paid by the customer)**
+**Форма 1 — Agency commission, upfront и оплачивается клиентом**
 
-The merchant adds a small markup to the cheque face value when selling to the end customer. This is the merchant’s declared revenue and taxable base.
+Merchant добавляет небольшую наценку к номиналу чека при продаже конечному клиенту. Это и есть декларируемая выручка merchant и его налогооблагаемая база.
 
-_Example:_ a \$100 USDC cheque → the customer pays €92.46 (at the FX rate plus a 0.5% markup) → the merchant remits €92.00 to the Issuer and keeps €0.46.
+_Пример:_ чек на \$100 USDC → клиент платит €92.46, по FX-курсу плюс наценка 0.5% → merchant перечисляет €92.00 Issuer и оставляет себе €0.46.
 
-**Form 2 — Retroactive bonus (post-settlement, paid by the Issuer)**
+**Форма 2 — Retroactive bonus, post-settlement и выплачивается Issuer**
 
-After successful settlement for the period, the Issuer pays the merchant a bonus based on settled transaction volume. This bonus is a payment from a foreign legal entity and typically benefits from a more favorable tax treatment.
+После успешного settlement за период Issuer выплачивает merchant бонус, основанный на объеме подтвержденных транзакций. Такой бонус является выплатой от иностранного юридического лица и обычно подпадает под более выгодный налоговый режим.
 
-_Example:_ settled volume of \$10,000 USDC → 1.5% bonus → \$150 USDC.
+_Пример:_ settled volume \$10,000 USDC → бонус 1.5% → \$150 USDC.
 
-**Combined merchant economics:**
+**Совокупная экономика merchant:**
 
 | Item | Amount |
 | :-- | :-- |
@@ -72,59 +72,59 @@ _Example:_ settled volume of \$10,000 USDC → 1.5% bonus → \$150 USDC.
 | Remitted to Issuer | €9,200 |
 | Agency commission | €46 (declared revenue) |
 | Retroactive bonus | \$150 USDC |
-| **Total merchant income** | ~\$200 equivalent (~2.0% of turnover) |
-| **Taxable base** | €46 (agency commission only) |
+| **Total merchant income** | эквивалент ~\$200, около 2.0% оборота |
+| **Taxable base** | €46, только agency commission |
 
-### Legal structure
+### Юридическая структура
 
-The model is structured as an **agency agreement** (principal — Issuer, agent — Merchant).
+Модель строится как **agency agreement**, где principal - это Issuer, а agent - Merchant.
 
-- The merchant sells **on behalf of the Issuer**, not in its own name.
-- The merchant’s revenue equals only the agency commission, not the full sale price.
-- The Issuer is incorporated in an offshore jurisdiction (UAE / BVI / Singapore) and is not a tax resident in the merchant’s operating countries.
-- This is a cross-border B2B supply model: VAT in the merchant’s jurisdiction applies only to the agency commission under the reverse charge mechanism.
-- **The merchant remains fully responsible for its own local tax compliance.** The platform assumes no liability.
+- Merchant продает **от имени Issuer**, а не от собственного имени.
+- Выручка merchant равна только agency commission, а не полной цене продажи.
+- Issuer зарегистрирован в офшорной юрисдикции, например UAE, BVI или Singapore, и не является налоговым резидентом стран, в которых работает merchant.
+- Это трансграничная B2B-модель поставки: VAT в юрисдикции merchant применяется только к agency commission по механизму reverse charge.
+- **Merchant полностью отвечает за собственное локальное налоговое соответствие.** Платформа не несет за это ответственности.
 
-## 4. Document Flow
+## 4. Поток документов
 
-### Platform level (Platform → Instance Operator)
+### Уровень платформы, Platform → Instance Operator
 
-| Document | Content | Frequency |
+| Документ | Содержимое | Частота |
 | :-- | :-- | :-- |
-| **Platform invoice** | Total infrastructure usage fees for the month | Monthly |
-| **Fee ledger extract** | Detailed breakdown by transaction | On demand / CSV |
+| **Platform invoice** | Общие инфраструктурные комиссии за месяц | Ежемесячно |
+| **Fee ledger extract** | Детализация по транзакциям | По запросу / CSV |
 
-Invoice statuses: Draft → Issued → Paid / Overdue / Voided
+Статусы invoice: `Draft → Issued → Paid / Overdue / Voided`
 
-### Distribution level (Issuer ↔ Merchant)
+### Уровень distribution, Issuer ↔ Merchant
 
-| Document | Prepared By | Content |
+| Документ | Кто готовит | Содержимое |
 | :-- | :-- | :-- |
-| **Settlement statement** | Issuer → Merchant | Amount due for activated cheques during the period |
-| **Agency report** | Merchant → Issuer | Sales report and remitted amounts |
-| **Bonus notice** | Issuer → Merchant | Retroactive bonus amount payable |
+| **Settlement statement** | Issuer → Merchant | Сумма к оплате за активированные чеки за период |
+| **Agency report** | Merchant → Issuer | Отчет о продажах и перечисленных суммах |
+| **Bonus notice** | Issuer → Merchant | Сумма retroactive bonus к выплате |
 
-## 5. Billing Modes
+## 5. Billing modes
 
-The platform supports two fee collection modes.
+Платформа поддерживает два режима сбора комиссий.
 
 | Mode | Description | Status |
 | :-- | :-- | :-- |
-| **Automatic (on-chain)** | Fees are collected immediately for each transaction via blockchain | Live |
-| **Invoice-based** | Fees are accumulated and invoiced monthly | Planned |
+| **Automatic, on-chain** | Комиссии собираются сразу по каждой транзакции через блокчейн | Live |
+| **Invoice-based** | Комиссии накапливаются и выставляются раз в месяц | Planned |
 
-The mode is configured separately for each instance. Invoice-based billing is designed for large merchants with established settlement processes, removing the need to keep funds in the platform wallet at all times.
+Режим настраивается отдельно для каждого instance. Invoice-based billing предназначен для крупных merchants с налаженными settlement-процессами, чтобы не было необходимости постоянно держать средства в кошельке платформы.
 
-## 6. Access Control
+## 6. Контроль доступа
 
-Each billing function has a configurable access level. Permissions are assigned by role.
+У каждой billing-функции есть настраиваемый уровень доступа. Права назначаются по ролям.
 
-**Platform-level roles**: Owner, Administrator, Finance, Developer\
-**Instance-level roles**: Owner, Administrator, Finance, Viewer
+**Роли уровня платформы**: `Owner`, `Administrator`, `Finance`, `Developer`\
+**Роли уровня instance**: `Owner`, `Administrator`, `Finance`, `Viewer`
 
-**Default principle**: the **Finance** role has full access to all billing functions. Administrators can selectively restrict or expand access for each function through the permissions editor.
+**Принцип по умолчанию**: роль **Finance** имеет полный доступ ко всем billing-функциям. Администраторы могут выборочно ограничивать или расширять доступ к каждой функции через редактор permissions.
 
-**Financial actions requiring re-authentication** (additional passkey confirmation):
+**Финансовые действия, требующие повторной аутентификации**, то есть дополнительного подтверждения через passkey:
 
 - Invoice finalization and voiding
 - Payment confirmation
@@ -132,23 +132,23 @@ Each billing function has a configurable access level. Permissions are assigned 
 - Changes to merchant credit rating
 - Manual credit freeze / unfreeze
 
-## 7. Controls and Compliance
+## 7. Controls и compliance
 
-### Immutability of financial records
+### Неизменяемость финансовых записей
 
-The fee ledger is **append-only**. Historical records cannot be modified or deleted. This ensures integrity of the financial history and supports audit requirements.
+Fee ledger является **append-only**. Исторические записи нельзя изменять или удалять. Это обеспечивает целостность финансовой истории и поддерживает требования аудита.
 
 ### Audit trail
 
-Every administrative action involving financial data is logged: who made the change, when it was made, what was changed, and the before/after values. The log itself is not editable.
+Каждое административное действие, затрагивающее финансовые данные, логируется: кто внес изменение, когда это произошло, что именно изменилось и как выглядели значения до и после. Сам лог не редактируется.
 
 ### Reconciliation
 
-The platform produces monthly reconciliation snapshots to compare actual collected fees with expected fees. Any discrepancies are flagged for manual review.
+Платформа формирует ежемесячные reconciliation snapshots, чтобы сравнивать фактически собранные комиссии с ожидаемыми. Любые расхождения помечаются для ручной проверки.
 
-## 8. Current Implementation Status
+## 8. Текущий статус реализации
 
-| Function | Status |
+| Функция | Статус |
 | :-- | :-- |
 | On-chain fee collection | Live |
 | Fee ledger | Live |
@@ -161,22 +161,22 @@ The platform produces monthly reconciliation snapshots to compare actual collect
 | Bonus notices | Planned |
 | CSV export for accounting | Live |
 
-## 9. Open Questions for Approval
+## 9. Открытые вопросы на согласование
 
 **9.1 Pricing plans**\
-Are the baseline fees approved? (Default: 2% \+ 0.25 USDC.) Are special terms needed for certain merchant categories?
+Согласованы ли базовые комиссии, то есть 2% \+ 0.25 USDC по умолчанию? Нужны ли специальные условия для отдельных категорий merchant?
 
 **9.2 Settlement period**\
-The standard period is 30 days. Should exceptions be supported for major partners?
+Стандартный период составляет 30 дней. Нужно ли поддерживать исключения для крупных партнеров?
 
 **9.3 Retroactive bonus rates**\
-What is the base bonus rate, and what volume tiers should apply for higher rebates? (The draft documentation assumes 1.5%, with a \$50k/month threshold.)
+Какая базовая bonus rate должна использоваться и какие volume tiers нужны для более высоких rebate? В текущем черновике предполагается 1.5% и порог \$50k в месяц.
 
 **9.4 Payment delinquency**\
-What should be considered overdue? What is the collection procedure? Should shipment of new cheque batches be blocked automatically?
+Что считать overdue? Какой должен быть порядок взыскания? Нужно ли автоматически блокировать отгрузку новых batch-партий чеков?
 
 **9.5 Issuer jurisdiction**\
-Has the Issuer’s incorporation jurisdiction been confirmed? This affects the legal structure of the agency agreements.
+Подтверждена ли юрисдикция регистрации Issuer? Это влияет на юридическую структуру agency agreements.
 
 **9.6 Settlement currency**\
-Which currencies will merchants use to settle with the Issuer? Who sets the FX rate, and as of what date?
+В каких валютах merchants будут рассчитываться с Issuer? Кто устанавливает FX rate и на какую дату он фиксируется?

@@ -1,13 +1,13 @@
 ---
-title: "Medium Priority (P2)"
+title: "Средний приоритет (P2)"
 ---
 
-| Gap | Impact | Solution |
+| Пробел | Последствие | Решение |
 | :-- | :-- | :-- |
-| No reconciliation job | Silent ledger drift | Nightly reconciliation query \+ <br />alert |
-| No per-cheque invoice <br />line items | Aggregated by fee type only | Option for detailed line items |
-| No volume tier auto-upgrade | `volume_threshold_monthly` <br />unused | Monthly volume check \+ <br />tier assignment |
-| No breakage fee | Expired funded cheques <br />unresolved | Phase 2: fund return mechanism |
-| No agent commission tracking | Merchant's end-customer <br />markup not tracked | Add `agent_commission_pct` <br />to merchants |
-| `merchant_type` not modeled | Agent vs. reseller <br />distinction missing | Migration 042 |
-| DB immutability not enforced | App-level only | PostgreSQL rules on <br />`fee_ledger` |
+| Нет reconciliation-job | Невидимый drift в ledger | Ночной reconciliation query \+ <br />alert |
+| Нет per-cheque invoice <br />line items | Все агрегировано только по типу комиссии | Добавить опцию детальных line items |
+| Нет auto-upgrade для volume tier | `volume_threshold_monthly` <br />не используется | Ежемесячная проверка объема \+ <br />назначение tier |
+| Нет breakage fee | Истекшие профондированные чеки <br />остаются без обработки | Фаза 2: механизм возврата фондов |
+| Нет учета agent commission | Наценка merchant для конечного клиента <br />не отслеживается | Добавить `agent_commission_pct` <br />в `merchants` |
+| `merchant_type` не смоделирован | Нет различия между agent и reseller | Миграция `042` |
+| Не enforced immutability на уровне БД | Сейчас только app-level логика | PostgreSQL rules для <br />`fee_ledger` |

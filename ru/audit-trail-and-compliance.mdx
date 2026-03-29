@@ -1,38 +1,38 @@
 ---
-title: "Audit Trail & Compliance"
+title: "Audit trail и compliance"
 ---
 
-## `audit_log` Coverage
+## Покрытие `audit_log`
 
-All significant admin actions logged with `instance_id`, `actor_id`, `action`, `entity_type`, `entity_id`, before/after JSONB, `ip_address`, `created_at`.
+Все значимые admin actions логируются вместе с `instance_id`, `actor_id`, `action`, `entity_type`, `entity_id`, JSONB со значениями до и после, `ip_address` и `created_at`.
 
-Financial actions covered:
+Покрываются следующие финансовые действия:
 
-- Invoice generation, finalization, void
-- Fee collection success and failure
-- Settlement creation and payment
-- Rebate calculation and payment
-- System wallet operations
+- Генерация invoice, finalization и `void`
+- Успешный и неуспешный сбор комиссий
+- Создание settlement и фиксация оплаты
+- Расчет rebate и его выплата
+- Операции системного кошелька
 
-## `fee_ledger` Immutability
+## Неизменяемость `fee_ledger`
 
-Append-only by design:
+По дизайну это append-only структура:
 
-- Financial amounts (`fee_amount`, `gross_amount`, `net_amount`) are **never updated after insert**
-- Only status fields transition
-- No deletions
+- Финансовые суммы, то есть `fee_amount`, `gross_amount`, `net_amount`, **никогда не обновляются после insert**
+- Изменяются только status fields
+- Удалений нет
 
-**Recommended**: Enforce at DB level:
+**Рекомендация**: дополнительно enforce это на уровне БД:
 
 ```text
 CREATE RULE no_delete_fee_ledger AS ON DELETE TO fee_ledger DO INSTEAD NOTHING;
 ```
 
-Currently enforced at application level only.
+Сейчас это enforced только на уровне приложения.
 
 ## Reconciliation
 
-No automated reconciliation exists. Recommended nightly query:
+Автоматического reconciliation пока нет. Рекомендуемый nightly query:
 
 ```text
 SELECT
@@ -47,9 +47,9 @@ GROUP BY fl.instance_id, DATE_TRUNC('month', fl.created_at)
 ORDER BY fl.instance_id, month DESC;
 ```
 
-## Regulatory Considerations
+## Регуляторные аспекты
 
-- **KYC**: Required for [Bridge.xyz](http://Bridge.xyz) fiat onramp (Persona). Stored per customer in `bridge_customers`.
-- **Cross-border tax**: The platform does not manage merchants' local tax obligations. The agency structure (§2.3) separates the issuer's tax position from the merchant's.
-- **Complete on-chain history**: All Solana tx signatures stored on cheque and fee records. Independently verifiable.
-- **Demo isolation**: `instances.settings.demo_mode = true` gates all real blockchain operations.
+- **KYC**: требуется для fiat onramp через [Bridge.xyz](http://Bridge.xyz), используется Persona. Данные хранятся по каждому клиенту в `bridge_customers`.
+- **Cross-border tax**: платформа не управляет локальными налоговыми обязательствами merchants. Agency-структура, см. §2.3, отделяет налоговую позицию issuer от позиции merchant.
+- **Полная on-chain history**: все Solana tx signatures сохраняются в cheque- и fee-записях и могут быть проверены независимо.
+- **Demo isolation**: `instances.settings.demo_mode = true` блокирует все реальные blockchain operations.

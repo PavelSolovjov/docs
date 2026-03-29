@@ -1,5 +1,5 @@
 ---
-title: "Database Schema Reference"
+title: "Справочник по схеме базы данных"
 ---
 
 ## `fee_ledger`
@@ -102,7 +102,7 @@ CREATE TABLE invoice_line_items (
 );
 ```
 
-## `merchant_settlements` (planned)
+## `merchant_settlements`, планируется
 
 ```text
 CREATE TABLE merchant_settlements (
@@ -134,7 +134,7 @@ CREATE UNIQUE INDEX settlements_merchant_period
   ON merchant_settlements(merchant_id, period_start, period_end);
 ```
 
-## `merchant_rebates` (planned)
+## `merchant_rebates`, планируется
 
 ```text
 CREATE TABLE merchant_rebates (
