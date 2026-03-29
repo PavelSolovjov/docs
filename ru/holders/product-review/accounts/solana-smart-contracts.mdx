@@ -1,13 +1,13 @@
 ---
-title: "SOLANA smart-contracts"
+title: "SOLANA смарт-контракты"
 ---
 
-# Smart Contract
+# Смарт-контракт
 
 A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed on the network, without intermediaries, according to predefined rules.\
 The structure of [USDC](https://www.circle.com/usdc) and USDY contracts is based on one blockchain, so a unified description is used.
 
-# What is USDC
+# Что такое USDC
 
 [USDC](https://www.circle.com/usdc) (short for USD Coin) is a stablecoin created in 2018, designed to maintain stable value by pegging to a reserve asset. In the case of USDC, it is backed by the US dollar in a 1:1 ratio, meaning each token can be exchanged for one US dollar or equivalent asset stored in reserve. This makes USDC less volatile compared to other cryptocurrencies.\
 It is owned and managed by [Centre](https://www.centre.io/), a consortium created by [Circle](https://www.circle.com/) and [Coinbase](https://www.coinbase.com/), which ensures trust and transparency in its management. These two major companies are responsible for the development, issuance, and management of this coin. Circle controls the issuance and redemption of [USDC](https://www.circle.com/usdc), while Coinbase plays a key role in distributing the token across various platforms and exchanges, ensuring its wide availability and usage.\
@@ -15,7 +15,7 @@ Currently, there are approximately 28 billion [USDC](https://www.circle.com/usdc
 [USDC](https://www.circle.com/usdc) is a stablecoin operating on multiple blockchain networks, such as [Solana](https://solana.com/), [Ethereum](https://ethereum.org/), [Tron](https://tron.network/) and others. Each network uses a specific contract address to manage [USDC](https://www.circle.com/usdc) transactions.\
 [USDC](https://www.circle.com/usdc) in Holders is available to all clients [with European residency](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FNDP3PT7) who have completed onboarding on Walleexer.
 
-# What is USDY
+# Что такое USDY
 
 [Ondo US Dollar Yield (USDY)](https://ondo.finance/usdy) is a tokenized financial instrument that combines the convenience of stablecoin usage with yield from ultra-safe US Treasury bonds and bank deposits. It is primarily designed for investors outside the United States.
 
@@ -26,13 +26,13 @@ Currently, there are approximately 28 billion [USDC](https://www.circle.com/usdc
 [USDY](https://ondo.finance/usdy) bridges the gap between traditional finance and decentralized ecosystems by tokenizing low-risk investment in [US Treasury bonds](https://www.treasurydirect.gov/). This allows investors worldwide to earn yield (~4.25% annually) that is typically only available to institutional players, while providing 24/7 liquidity through blockchain. Unlike regular stablecoins, USDY's value is not simply pegged to the dollar — it is directly backed by yield-generating assets, creating a hybrid product that combines stability and passive income.\
 [USDY](https://ondo.finance/usdy) in Holders is currently in testing phase, but will be available to all clients with European residency who have completed onboarding on Walleexer.
 
-# History
+# История
 
 The Solana contract was written by Holders in January 2025 and allowed users to use [USDC](https://www.circle.com/usdc) as their account currency. One of the problems that the company solved by introducing this contract was the absence of an EU license for the [USDT token](https://tether.to/en/), which was being used as the primary currency for opening accounts at that time. Since the main application at the time of writing the contract was the mobile wallet Tonhub, the company had to add Solana blockchain support to the wallet, thereby making it multi-currency.\
 Since the company's main application at the time of contract development was the mobile wallet [Tonhub](https://gettonhub.com/), it was necessary to add Solana blockchain support to it, which made the wallet multi-currency.\
 The contract for the increasingly popular [USDY](https://ondo.finance/usdy) token was implemented in November 2025 as an alternative to [USDC](https://www.circle.com/usdc), since storing funds in this token allows users not only to pay with it but also to receive additional income from holding it.
 
-# How the contract works in simple terms
+# Как контракт работает простыми словами
 
 1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account, passing the corresponding command to the controller.
 2. The controller creates a contract and transfers ownership rights to the user's wallet .
@@ -43,13 +43,13 @@ The contract for the increasingly popular [USDY](https://ondo.finance/usdy) toke
 7. When returning funds, the amount is transferred from the treasure wallet back to the user's contract balance.
 8. If the user initiates a withdrawal to an external account, the contract implements multi-signature and sends the funds.
 
-# General Information
+# Общая информация
 
 Blockchain: [Solana](https://solana.com/)\
 Location: https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src\\\\\\\\\\\\\\\\ **Language:**[Rust](https://rust-lang.org/)\
 License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
-# Contract Roles
+# Роли контракта
 
 ## **Contract Owner (wallet authority)**
 
@@ -126,7 +126,7 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 A role that has the right to update contract code. On Solana, you can update code immediately for all contracts associated with an account.\
 According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however, changes to contract logic are allowed.
 
-# Main Operations and Scenarios
+# Основные операции и сценарии
 
 ### 1. **Deploy (**`deploy`**)**
 
@@ -188,7 +188,7 @@ Approximate price for creating such a contract — **approximately 0.015 SOL (1.
 
 To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected — an additional fee that increases the chance of confirmation during high load. This allows faster transaction processing. The user pays gas only when topping up the contract; all other payments are already covered by the service. Gas for account top-up in Solana is fixed - **0.000005 SOL (0.00005 USD at Sol/USDT rate \$100).**
 
-# Implementation Features
+# Особенности реализации
 
 ### 1. State structure and data serialization
 
@@ -229,7 +229,7 @@ The contract provides numerous checks and errors — for example, for limit viol
 
 The contract uses signature verification, `has_one`, proper management of `seeds` and `bump` to protect against unauthorized actions. Participants must carefully control private keys and follow call procedures.
 
-# Data Structure and Storage
+# Структура данных и хранение
 
 ### Main storage fields (`state`):
 

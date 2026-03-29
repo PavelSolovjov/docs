@@ -1,18 +1,18 @@
 ---
-title: "TRUST smart-contract"
+title: "TRUST смарт-контракт"
 ---
 
-# Smart Contract
+# Смарт-контракт
 
 A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.
 
-# General Information
+# Общая информация
 
 Blockchain: [Solana](https://solana.com/)\
 Repository: https://github.com/whalescorp/holders-vesting-sol/\\\\ **Language:**[Rust](https://rust-lang.org/)\
 License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
-# Contract Operation Flowchart
+# Блок-схема работы контракта
 
 ![Image(3)(1)](/images/image\(3\)\(1\).png)
 
@@ -38,7 +38,7 @@ Further actions occur cyclically depending on the unlock period:
 
 - Issuer passes information about the payout and updated balance to the database and decides whether to initiate the next cycle.
 
-# Contract Roles
+# Роли контракта
 
 1. **Config Authority**:
    1. Responsible for creating and managing vesting configurations.
@@ -53,7 +53,7 @@ Further actions occur cyclically depending on the unlock period:
    1. Receives tokens according to the vesting schedule.
    2. Can participate in receiving tokens during their distribution.
 
-# Main Operations and Scenarios
+# Основные операции и сценарии
 
 1. **Configuration creation (**`create_config`**)** - initialization of a new vesting configuration with specific parameters, including configurator and controller.
 2. **Controller change (**`set_controller`**)** - updating the controller for an existing configuration.
@@ -62,7 +62,7 @@ Further actions occur cyclically depending on the unlock period:
 5. **Removing beneficiary (**`remove_beneficiary`**)** - removes a beneficiary from the vesting recipients list, ensuring that minimum requirements for the number of beneficiaries are met.
 6. **Token claim (**`claim`**)** - allows a beneficiary to request tokens according to vesting conditions, checking available funds and time constraints.
 
-# Inflation Calculation
+# Расчет инфляции
 
 The `VestingV0` structure has an `inflation_rate_per_interval` field that is responsible for the inflation percentage. This parameter allows setting inflation rates for a given interval.\
 The `total_release_amount_with_inflation_at` method in the `VestingV0` structure calculates the total amount of tokens that can be released, taking into account the specified inflation:
@@ -93,7 +93,7 @@ pub fn total_release_amount_with_inflation_at(&self, unix_timestamp: i64) -> Opt
 
 The method calculates the number of intervals that have passed since the beginning of vesting and, depending on this, increases the amount based on the specified inflation. Through a loop, iteration occurs over intervals and accumulation of the amount depending on inflation. This approach allows dynamic calculation of payout amounts, depending on time and established inflation, which provides flexibility in managing financial flows.
 
-# Data Structure
+# Структура данных
 
 ## **Config**
 

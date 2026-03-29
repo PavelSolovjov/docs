@@ -1,13 +1,13 @@
 ---
-title: "TON smart-contracts"
+title: "TON смарт-контракты"
 ---
 
-# Smart Contract
+# Смарт-контракт
 
 A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
 The structure of [TON (TON)](https://ton.org/en) and [USDT (TON)](https://tether.to/en/) contracts is based on one blockchain, so a unified description is used.
 
-# What is Toncoin (TON)
+# Что такое Toncoin (TON)
 
 [Toncoin (TON)](https://ton.org/) is the native cryptocurrency of [The Open Network (TON)](https://ton.org/), a decentralized blockchain created for fast transactions and convenient integration with the [Telegram](https://telegram.org/) ecosystem.
 
@@ -19,7 +19,7 @@ The structure of [TON (TON)](https://ton.org/en) and [USDT (TON)](https://tether
 Toncoin emerged as part of Telegram's 2017 blockchain initiative (Telegram Open Network). After [Telegram](https://telegram.org/) exited the project in 2020 due to [regulatory complications](https://www.forbes.ru/newsroom/tehnologii/385325-sec-ostanovila-vypusk-kriptovalyuty-ton-pavla-durova), management was transferred to the community under the leadership of TON Foundation. The main task of Toncoin is to provide decentralized digital identity, asset ownership and convenient payments within the [Telegram](https://telegram.org/) messenger.\
 TON in Holders is available to all clients who have European residency and have completed Walleexer onboarding.
 
-# What is Tether USDt (USDT)
+# Что такое Tether USDt (USDT)
 
 Tether [USDt (USDT)](https://tether.to/en/) is a stable cryptocurrency developed by Tether, based on blockchain technology and pegged to the US dollar at a 1:1 ratio. It was created to combine the stability of traditional money with the convenience and speed of cryptocurrency transactions.
 
@@ -32,11 +32,11 @@ USDT is issued on many blockchains, such as [Ethereum (ERC-20)](https://ethereum
 [Tether](https://tether.to/) company issues and destroys [USDT](https://tether.to/en/) depending on demand and availability of reserves, which include cash, [US Treasury bonds](https://www.treasurydirect.gov/) (worth \$127 billion as of 2025) and other assets. Management is centralized and belongs to [Tether Holdings Ltd.](https://tether.to/), which faces regulatory oversight but holds [68% of the stablecoin market](https://coinmarketcap.com/view/stablecoin/).\
 Currently, support for USDT smart contracts in Holders has been discontinued due to the implementation of new European regulation (EU regulation [**MiCA (Regulation (EU) 2023/1114)**](https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng)).
 
-# History
+# История
 
 The TON contract became the first contract launched in the project in June 2023. With its help, it became possible to conduct transactions on the TON network. Later, the [USDT](https://tether.to/en/) contract was launched. Based on these contracts, the company's first product was implemented - prepaid cards. In the first versions of the contracts, there was no possibility of direct top-up (direct sending of funds to the contract address). This functionality was added in the current final version in March 2024. Currently, opening new [USDT](https://tether.to/en/) accounts is suspended due to MiCA regulatory requirements. According to [Article 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) of the MiCA (EU) 2023/1114 regulation, only licensed issuers can issue and offer stablecoins in the EU. Tether has not obtained such a license, therefore public offering and listing of [USDT](https://tether.to/en/) on regulated EU exchanges is prohibited.
 
-# How the contract works in simple terms
+# Как контракт работает простыми словами
 
 1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account by sending the corresponding command to the Controller authority.
 2. The Controller creates a contract and transfers ownership rights to the user's wallet (wallet authority).
@@ -46,13 +46,13 @@ The TON contract became the first contract launched in the project in June 2023.
 6. The formed package is transferred to the Holders treasury wallet.
 7. When returning funds, the amount is transferred from the treasury wallet back to the user's contract balance.
 
-# General Information
+# Общая информация
 
 Blockchain: [TON](https://ton.org/)\
 Location: https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\\\\\\\\\\\\\\\\ **Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
 License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
-# Contract Roles
+# Роли контракта
 
 ## **Contract Owner (wallet authority)**
 
@@ -125,7 +125,7 @@ A role that has administrative rights over a set of contracts.
 A role that has the right to update contract code. In TON — updates happen for each contract individually, as each has its own version (similar to Ethereum). \
 According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however changes to contract logic are allowed.
 
-# Main Operations
+# Основные операции
 
 1. **Account deployment (**`deploy`**)**
 
@@ -198,7 +198,7 @@ Gas for account top-up in TON — **approximately 0.01 TON (0.018 USD at TON/USD
 In the TON network, a smart contract pays for [storage of occupied space](https://docs.ton.org/foundations/fees) - including code, data and balance (account representation). When TON balance drops below the set threshold, the account can be frozen or deleted. Storage cost is approximately 0.01 nanoTON per byte per day (the value cannot be fractional, but the cost is approximate). This fee is deducted from the gas amount in each transaction to maintain the contract in working condition. \
 In practice, for contract freezing or deletion, [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) interaction with the contract is necessary, which in real conditions happens extremely rarely. Consequently, even with complete exhaustion of balance for paying storage fees, the contract will be frozen only in case of active interaction with it from network participants (e.g., when funds arrive at the contract balance). In the absence of such interaction, the contract continues to function with zero balance. When funds arrive, the storage fee is deducted immediately.
 
-# Data Structure and Storage
+# Структура данных и хранение
 
 The contract contains parameters, reservations and account state, divided into logical blocks:
 
@@ -215,7 +215,7 @@ The contract contains parameters, reservations and account state, divided into l
 
 All data is serialized and deserialized using `load_data()` and `store_data()` methods, ensuring integrity and security.
 
-# Audits
+# Аудиты
 
 1. A smart contract audit was conducted by the Ton Core team. No critical vulnerabilities were found during the audit.
 2. A smart contract audit was performed by [Trail of Bits](https://www.trailofbits.com/). No critical vulnerabilities were found, and all identified minor issues were resolved.

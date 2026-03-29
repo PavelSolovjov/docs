@@ -1,26 +1,26 @@
 ---
-title: "Trust & vesting"
-description: "Description of Trust and Vesting products"
+title: "Trust и vesting"
+description: "Описание продуктов Trust и Vesting"
 ---
 
-# What is Trust and vesting
+# Что такое Trust и vesting
 
 Trust - a legal structure where a settlor transfers assets to a trustee for management in the interests of beneficiaries according to the terms of a trust agreement.\
 Vesting - the gradual acquisition of rights to assets (shares, options, tokens) according to a schedule or upon meeting certain conditions.
 
-# History of Trust and Vesting
+# История Trust и vesting
 
 The first mentions of trusts date back to feudal Europe. During this historical period, a vassal could transfer property under seigneurial custody to their suzerain (including the king), receiving protection and patronage for their family in return. Knights could appeal to the king or abbey for estate management in case of uncertainty about their own return from military campaigns. Guarantees of obligation fulfillment depended on the current local law and the suzerain's favor, while abuse of guardianship powers was a common phenomenon.\
 Vesting appeared around the same time in the form of feudal fiefs: land rights confirmed by service to the suzerain; loss of service meant complete or partial loss of rights. In the mid-20th century, companies began using vesting to retain key employees. Deferred compensation plans and pension schemes using vesting appeared. Similar plans are used today.
 
-# What Trust is Used For
+# Для чего используется Trust
 
 - **Asset protection and management (family and corporate inheritance)** - trust allows structured planning of inheritance transfer between generations. The settlor can place assets in trust and set up automatic payments to beneficiaries according to a specified schedule. This is especially useful for large family fortunes, where it's important to ensure gradual transfer of assets to children or grandchildren, avoiding lump-sum receipt of large amounts by unprepared heirs.
 - **Employee retention and motivation** - companies can use trust to create long-term employee motivation programs. Issuing token options through trust structure allows tying employee compensation to company's long-term results. This is especially relevant for startups where funds are limited but growth potential exists. Employees receive tokens or options gradually, which incentivizes them to stay with the company and work for its development. Such scheme also helps startups retain key specialists during periods of uncertainty.
 - **Risk mitigation in custody** - transfer and subsequent distribution of custody amounts in specific portions at equal time intervals.
 - **Organization of regular payments** - trust provides a reliable mechanism for systematic financial obligations with guaranteed execution. The settlor can set up automatic payments for various purposes: paying for children's or dependents' education, alimony obligations, scholarship programs, supporting elderly relatives, or regular financial assistance. This is especially valuable for situations requiring long-term financial discipline and protection from impulsive spending. For example, parents can deposit funds for a child's education with automatic monthly payments throughout the entire study period, eliminating the risk of misuse of funds. Trust structure guarantees obligation fulfillment even if the settlor's life circumstances change, since funds are already transferred to management and protected from external influences.
 
-# Trust in Holders
+# Trust в Holders
 
 In Holders, trust is implemented as a secure way to receive funds on a fixed schedule. The settlor sets the amount and payment period, while the beneficiary automatically receives transfers without need for manual management. To provide this functionality, a specialized product has been developed — Private Trust, based [on smart contract](/holders/product-review/accounts/trust-smart-contract). The product's functionality includes creating a non-custodial trust account, providing access to a selected Holders user, account funding, and setting up automatic payments. The system supports ten different time intervals for payments, ensuring its applicability in various use case scenarios.\
 In the future, integration with trust structures in jurisdictions where this institution has state regulation is planned, which will allow using the system for inheritance payments and gifts.\
@@ -42,7 +42,7 @@ In Holders, funds sent to Trust cannot be withdrawn, ensuring reliability and tr
 **Important:** Currently, the automatic [trust contract](/holders/product-review/accounts/trust-smart-contract) stop function when beneficiary account is closed is not implemented. The contract will continue making fund transfers when positive balance exists. Return of funds sent to closed account is impossible.\
 **Example: Settlor** configures contract for weekly payments of 100 USDC from contract creation moment. After 10 days, **Settlor** first funds [the contract ](/holders/product-review/accounts/trust-smart-contract)with 50 USDC. By this time, debt forms for two overdue weekly payments totaling 200 USDC. The received 50 USDC is immediately transferred to beneficiary as partial debt repayment. Then **Settlor** adds another 500 USDC. This amount remains on [contract](/holders/product-review/accounts/trust-smart-contract) balance until the next payment due date. When the next payment occurs, 100 USDC (current payment) plus 150 USDC (remaining debt) is deducted from balance. Remaining funds (250 USDC) are saved on account for subsequent payments.
 
-# Legal Support of the Solution
+# Юридическая поддержка решения
 
 [Smart contract](/holders/product-review/accounts/trust-smart-contract) represents a technological mechanism for obligation execution, while legal relations with the user are regulated by corresponding agreement. Program code does not possess independent legal force and functions exclusively within the user agreement framework, which is signed with each account creation in the service. The version of document signed by user is recorded and stored in database with possibility of updating during subsequent terms of use updates. In the future, the list of documents needed for trust opening will be expanded.\
 **Main points:**
@@ -53,9 +53,9 @@ In Holders, funds sent to Trust cannot be withdrawn, ensuring reliability and tr
 **Taxation:**\
 An important feature of trust structure is the possibility of tax optimization for beneficiary (depends on trust jurisdiction and beneficiary residence). Particularly, when the main trust asset is a token with growth potential (for example, [USDY](https://ondo.finance/usdy)), token market price increase does not qualify as beneficiary income. Since token quantity remains unchanged and only their market value changes, this change is considered property revaluation, not income receipt. Tax obligations arise exclusively at asset realization moment and are subject to capital gains tax.
 
-# User Interface
+# Пользовательский интерфейс
 
-## From Trustee Side
+## Со стороны trustee
 
 1. **Settlor** clicks "Add new product" button on wallet main page.
 2. In the opened list selects "Private Trust".
@@ -114,7 +114,7 @@ An important feature of trust structure is the possibility of tax optimization f
      style={{ width:"24%" }}
    />
 
-## From Beneficiary Side
+## Со стороны beneficiary
 
 1. The beneficiary opens the possibility to receive funds from trust accounts on their account.
 2. After the **Settlor** creates the trust account, an information card is displayed on the beneficiary's account page showing the amount and payment schedule.

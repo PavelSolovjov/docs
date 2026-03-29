@@ -1,19 +1,19 @@
 ---
-title: "Account brand"
-description: "This document explains what account and user brands are in Holders, which brands exist, how they affect where accounts are shown and what notifications users receive, and how the brand verification flow controls brand-based account display."
+title: "Бренд счета"
+description: "Этот документ объясняет, что такое бренд счета и бренд пользователя в Holders, какие бренды существуют, как они влияют на отображение счетов и уведомления и как работает схема верификации бренда."
 ---
 
-# What is an account brand
+# Что такое бренд счета
 
 An account brand is an identifier that indicates the source of account creation in the system. For example, if an account was created through the [Tonhub](https://gettonhub.com/) mobile application, its brand will be "Tonhub". When creating an account, the brand is recorded in a special database field. For all accounts created before the brand system implementation (before December 19, 2024), the "Holders" brand is set by default.\
 The brand system enables statistics tracking and settlements with partners whose client applications were used to create accounts. Additionally, the brand determines restrictions on account display in various client applications.\
 A user can have accounts with different brands if they used different clients to create them.
 
-# What is a user brand
+# Что такое бренд пользователя
 
 A user brand is an identifier that indicates the source of a user's appearance in the system. This identifier is determined during the user's first session and is saved in the user profile. The profile brand affects the list of push notifications that will be sent to the user (for example, notification text for the [Tonhub](https://gettonhub.com/) brand and the [@card](https://t.me/card) bot will differ).
 
-# What brands exist
+# Какие бренды существуют
 
 Currently, the following brands exist:
 
@@ -22,7 +22,7 @@ Currently, the following brands exist:
 - **Tonkeeper** — accounts created in the [Tonkeeper](https://tonkeeper.com/) partner wallet.
 - **@card Bot** — accounts created in the [bot](https://t.me/card). Displayed in the bot or web version.
 
-# Displaying accounts with different brands in different clients
+# Отображение счетов с разными брендами в разных клиентах
 
 | Brand / Client | Holders (WEB) | Tonhub | Tonkeeper | Bot @card |
 | :------------- | :------------ | :----- | :-------- | :-------- |
@@ -31,7 +31,7 @@ Currently, the following brands exist:
 | Tonkeeper      | Yes           | No     | Yes       | Yes       |
 | Bot @card      | Yes           | No     | No        | Yes       |
 
-# Brand Verification Scheme
+# Схема верификации бренда
 
 ![Screenshot2025 10 13at13 22 56](/images/Screenshot2025-10-13at13.22.56.png)
 
