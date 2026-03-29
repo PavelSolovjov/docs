@@ -1,58 +1,52 @@
 ---
-title: "Deposit/withdraw via tonwhales.com"
+title: "Ввод и вывод через tonwhales.com"
 ---
 
-# What is [tonwhales.com](http://tonwhales.com)
+# Что такое [tonwhales.com](http://tonwhales.com)
 
-The [tonwhales.com](http://tonwhales.com) website provides a [web interface for staking](https://tonwhales.com/staking) and [TON](https://ton.org/) token analytics across all Ton Whales pools, requiring no additional software installation. The site supports direct wallet connection through [TON Connect 2.0](https://docs.ton.org/develop/dapps/ton-connect/overview) technology.\
-The site contains the following sections:
+Сайт [tonwhales.com](http://tonwhales.com) предоставляет [веб-интерфейс для стейкинга](https://tonwhales.com/staking) и аналитики токена [TON](https://ton.org/) по всем пулам Ton Whales, без необходимости устанавливать дополнительное программное обеспечение. Сайт поддерживает прямое подключение кошельков через технологию [TON Connect 2.0](https://docs.ton.org/develop/dapps/ton-connect/overview).\
+На сайте доступны следующие разделы:
 
-- Staking — information about all active staking pools, interface for sending and withdrawing stakes, holder rankings across various pools.
-- Validator statistics — current information about the current composition of TON validators.
-- Pool comparison — ability to compare different pools by profitability.
-- Explorer — tool for monitoring transactions in the [TON blockchain](https://ton.org/).
-- Tonhub — section with useful utilities for the Tonhub wallet.
-- Club — section dedicated to the [whale NFT club](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT).
-- Staking — information about all active staking pools, interface for sending and withdrawing stakes, holder rankings across various pools.
-- Validator statistics — current information about the current composition of TON validators.
-- Pool comparison — ability to compare different pools by profitability.
-- Explorer — tool for monitoring transactions in the TON blockchain.
-- Tonhub — section with useful utilities for the Tonhub wallet.
-- Club — section dedicated to the whale NFT club.
+- Staking — информация обо всех активных стейкинг-пулах, интерфейс для отправки и вывода стейков, рейтинги держателей по различным пулам.
+- Validator statistics — актуальная информация о текущем составе валидаторов TON.
+- Pool comparison — возможность сравнивать разные пулы по доходности.
+- Explorer — инструмент для отслеживания транзакций в [блокчейне TON](https://ton.org/).
+- Tonhub — раздел с полезными утилитами для кошелька Tonhub.
+- Club — раздел, посвященный [клубу whale NFT](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT).
 
-# Pools on [tonwhales.com](http://tonwhales.com)
+# Пулы на [tonwhales.com](http://tonwhales.com)
 
-- **Nominators** - [First proprietary pool](https://tonwhales.com/staking/pool/nominators). Technical support for the pool infrastructure is provided by the Whales team. The pool operates in open mode and is available to all users. Pool commission is 25%.
-- **Club** - Private pool for holders of [whale NFTs](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT). Commission is 18%.
-- **Tonkeeper** - Partner pool with [non-custodial Tonkeeper wallet](https://tonkeeper.com/). Open access, commission is 25%.
-- **Whales Liquid** - Liquid pool that issues wsTON tokens instead of locking funds. The wsTON rate grows proportionally to staking profitability.
-- **Team** - Private pool for the Whales team and top-15 NFT club participants. Commission is 5%.
-- **P2P** - Open pool launched in partnership with international staking provider [P2P.org](http://P2P.org). Pool commission is 15%.
-- **Ledger** - Open pool launched in partnership with [Ledger](https://www.ledger.com/) cold wallet. Pool commission is 20%.
+- **Nominators** — [первый собственный пул](https://tonwhales.com/staking/pool/nominators). Техническую поддержку инфраструктуры обеспечивает команда Whales. Пул работает в открытом режиме и доступен всем пользователям. Комиссия пула составляет 25%.
+- **Club** — приватный пул для держателей [whale NFT](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT). Комиссия составляет 18%.
+- **Tonkeeper** — партнерский пул с [некостодиальным кошельком Tonkeeper](https://tonkeeper.com/). Открытый доступ, комиссия составляет 25%.
+- **Whales Liquid** — ликвидный пул, который выпускает токены wsTON вместо блокировки средств. Курс wsTON растет пропорционально доходности стейкинга.
+- **Team** — приватный пул для команды Whales и топ-15 участников NFT-клуба. Комиссия составляет 5%.
+- **P2P** — открытый пул, запущенный в партнерстве с международным стейкинг-провайдером [P2P.org](http://P2P.org). Комиссия пула составляет 15%.
+- **Ledger** — открытый пул, запущенный в партнерстве с холодным кошельком [Ledger](https://www.ledger.com/). Комиссия пула составляет 20%.
 
-# Requirements before starting
+# Требования перед началом
 
-1. The minimum amount for sending funds is 50 TON for all Ton Whales poola and 10 for P2P & Ledger, except for the liquid pool, for which the minimum amount is 1 TON.
-2. Tonhub wallet must be installed on your mobile device.
-3. It is necessary to ensure in advance that you have funds to pay the commission for withdrawing funds. The total gas cost for a withdrawal operation can reach 0.4 TON — it is recommended to reserve this amount on your wallet balance.
-4. A withdrawal request can only be made from the wallet address from which the stake was sent. In case of loss of access to the wallet, fund recovery will be impossible.
-5. Sending funds from custodial wallets or cryptocurrency exchanges is strictly prohibited. If this requirement is violated, funds will be irretrievably lost.
+1. Минимальная сумма для отправки средств составляет 50 TON для всех пулов Ton Whales и 10 TON для P2P и Ledger, кроме ликвидного пула, где минимальная сумма равна 1 TON.
+2. На мобильном устройстве должен быть установлен кошелек Tonhub.
+3. Необходимо заранее убедиться, что у вас есть средства для оплаты комиссии за вывод. Общая стоимость газа для операции вывода может достигать 0.4 TON, поэтому рекомендуется держать такую сумму на балансе кошелька.
+4. Запрос на вывод можно сделать только с адреса кошелька, с которого был отправлен стейк. При потере доступа к кошельку восстановить средства будет невозможно.
+5. Отправка средств с кастодиальных кошельков или криптовалютных бирж строго запрещена. При нарушении этого требования средства будут безвозвратно утеряны.
 
-# When rewards are credited
+# Когда начисляются награды
 
-Rewards are credited to the staking balance upon completion of each full cycle in which your funds participated.\
-**Example of crediting time calculation:**\
-If you send funds to staking on the 1st day, and the current staking cycle ends on the 2nd day at 18:00, then:
+Награды зачисляются на стейкинговый баланс после завершения каждого полного цикла, в котором участвовали ваши средства.\
+**Пример расчета времени начисления:**\
+Если вы отправили средства в стейкинг 1-го числа, а текущий стейкинговый цикл заканчивается 2-го числа в 18:00, то:
 
-- Your funds will be accepted by the pool and begin participating in staking from the 2nd day at 18:00
-- The first profit crediting will occur at the end of the next full cycle — on the 4th day at 06:00 (36 hours after starting participation in staking)
+- ваши средства будут приняты пулом и начнут участвовать в стейкинге со 2-го числа в 18:00,
+- первое начисление прибыли произойдет в конце следующего полного цикла, то есть 4-го числа в 06:00, через 36 часов после начала участия в стейкинге.
 
-# Deposit via website
+# Пополнение через сайт
 
-1. Go to [the staking page](https://tonwhales.com/staking) and select the pool you want to send funds to by clicking on its image. Note that Team and Club pools have restrictions, please review them before sending funds to these pools.
-2. If you are using a mobile wallet that supports TON Connect, you can connect it to the site by clicking the Connect wallet button. This will simplify the process of sending funds.
-3. Select one of the pool queues and click Stake. Compare the yield of the queues, and if it's the same, choose the one where the staking cycle will end sooner — this way you'll start earning profit earlier. More about queues.
-4. Enter the amount you want to send to staking and select the transaction method:
+1. Перейдите [на страницу стейкинга](https://tonwhales.com/staking) и выберите пул, в который хотите отправить средства, нажав на его изображение. Обратите внимание, что у пулов Team и Club есть ограничения, поэтому перед отправкой средств внимательно ознакомьтесь с их условиями.
+2. Если вы используете мобильный кошелек с поддержкой TON Connect, подключите его к сайту с помощью кнопки Connect wallet. Это упростит процесс отправки средств.
+3. Выберите одну из очередей пула и нажмите Stake. Сравните доходность очередей и, если она одинаковая, выберите ту, где стейкинговый цикл закончится раньше: так вы начнете получать прибыль быстрее. Подробнее об очередях.
+4. Введите сумму, которую хотите отправить в стейкинг, и выберите способ совершения транзакции:
 
 <img
   src="/images/Screenshot2025-12-30at15.31.01.png"
@@ -72,9 +66,9 @@ If you send funds to staking on the 1st day, and the current staking cycle ends 
   style={{ width:"42%" }}
 />
 
-- **Via Tonhub.** If you didn't connect your wallet in step 2, scan the QR code with the camera inside Tonhub. You'll only need to confirm sending coins to staking. Note that you need to pay gas (commission) for sending coins to staking in the amount of 0.2 TON. The remaining commission will be returned after sending. The pool will automatically leave 0.2 TON on your balance, which you can use to make withdrawals. Coins will start participating in staking after the current cycle ends. Profit will be credited to the staking balance at the end of each full cycle. Thus, the first profit will appear on the staking balance after the time remaining until the end of the current cycle, plus one full cycle (36 hours).
-- **Via another wallet.** This method allows you to send coins to staking from any non-custodial wallet that supports TON.
-  1. Click on the Stake via any wallet button
+- **Через Tonhub.** Если вы не подключали кошелек на шаге 2, отсканируйте QR-код камерой внутри Tonhub. Вам останется только подтвердить отправку монет в стейкинг. Обратите внимание, что за отправку монет в стейкинг потребуется заплатить газ, то есть комиссию, в размере 0.2 TON. Неиспользованная часть комиссии будет возвращена после отправки. Пул автоматически оставит на вашем балансе 0.2 TON, которые можно использовать для вывода. Монеты начнут участвовать в стейкинге после завершения текущего цикла. Прибыль будет зачисляться на стейкинговый баланс в конце каждого полного цикла. Поэтому первая прибыль появится после времени, оставшегося до конца текущего цикла, плюс одного полного цикла, то есть через 36 часов.
+- **Через другой кошелек.** Этот способ позволяет отправить монеты в стейкинг из любого некостодиального кошелька с поддержкой TON.
+  1. Нажмите кнопку Stake via any wallet.
 
 <img
   src="/images/Screenshot2025-12-30at15.31.19.png"
@@ -84,21 +78,21 @@ If you send funds to staking on the 1st day, and the current staking cycle ends 
   style={{ width:"34%" }}
 />
 
-2. Copy the pool address or scan the QR code in your wallet application
-3. Send coins to the specified address with the comment (memo) Deposit. Note that you need to pay gas (fee) for sending coins to staking in the amount of 0.2 TON. The remaining fee will be returned after sending.
-4. In the response transaction, you will receive a message that the stake has been accepted. If the stake was not accepted, check the comment you specified — it should be written with a capital letter and without extra spaces.
+2. Скопируйте адрес пула или отсканируйте QR-код в приложении кошелька.
+3. Отправьте монеты на указанный адрес с комментарием, то есть memo, `Deposit`. Обратите внимание, что за отправку монет в стейкинг потребуется заплатить газ, то есть комиссию, в размере 0.2 TON. Неиспользованная часть комиссии будет возвращена после отправки.
+4. В ответной транзакции вы получите сообщение о том, что стейк принят. Если стейк не был принят, проверьте указанный комментарий: он должен быть написан с заглавной буквы и без лишних пробелов.
 
 <Info>
-  The liquid pool operates somewhat differently from classic pools. Read more about it in the [Whales Liquid](/liquid-staking-pool) section.
+  Ликвидный пул работает немного иначе, чем классические пулы. Подробнее об этом читайте в разделе [Whales Liquid](/liquid-staking-pool).
 </Info>
 
-# Withdrawal via [tonwhales.com](http://tonwhales.com)
+# Вывод через [tonwhales.com](http://tonwhales.com)
 
-1. Go to [the staking section](https://tonwhales.com/staking) of the [tonwhales.com](http://tonwhales.com) website
-2. If you are using a mobile wallet that supports TON Connect, you can connect it to the site by clicking the Connect wallet button. This will simplify the withdrawal process, as the site will immediately show which pool your funds are in.
-3. Select the pool and queue from which you want to withdraw funds.
-4. Click the Withdraw button
-5. Enter the amount you want to withdraw. For withdrawal, as with deposits, there are two options available:
+1. Перейдите в [раздел стейкинга](https://tonwhales.com/staking) сайта [tonwhales.com](http://tonwhales.com).
+2. Если вы используете мобильный кошелек с поддержкой TON Connect, подключите его к сайту через кнопку Connect wallet. Это упростит процесс вывода, поскольку сайт сразу покажет, в каком пуле находятся ваши средства.
+3. Выберите пул и очередь, из которых хотите вывести средства.
+4. Нажмите кнопку Withdraw.
+5. Укажите сумму, которую хотите вывести. Для вывода, как и для пополнения, доступны два варианта:
 
 <img
   src="/images/Screenshot2025-12-30at16.07.06.png"
@@ -108,13 +102,13 @@ If you send funds to staking on the 1st day, and the current staking cycle ends 
   style={{ width:"34%" }}
 />
 
-- **Via Tonhub.** If you didn't connect your wallet in step 2, scan the QR code with the camera inside Tonhub. You'll only need to confirm sending the withdrawal request. Note that you need to pay gas (fee) for withdrawing coins in the amount of 0.2 TON.
-- **Via another wallet.**
-  - Click the Withdraw via any wallet button.
-  - Copy the pool address or scan the QR code in your wallet application
-  - Send a transaction to the pool address with the comment (memo) Withdraw.
-- You have created a withdrawal request. It needs to be repeated after the end of the nearest staking cycle. Funds will arrive in your wallet balance within a couple of minutes.
+- **Через Tonhub.** Если вы не подключали кошелек на шаге 2, отсканируйте QR-код камерой внутри Tonhub. Вам останется только подтвердить отправку запроса на вывод. Обратите внимание, что за вывод монет потребуется заплатить газ, то есть комиссию, в размере 0.2 TON.
+- **Через другой кошелек.**
+  - Нажмите кнопку Withdraw via any wallet.
+  - Скопируйте адрес пула или отсканируйте QR-код в приложении кошелька.
+  - Отправьте транзакцию на адрес пула с комментарием, то есть memo, `Withdraw`.
+- Вы создали запрос на вывод. Его нужно повторить после завершения ближайшего стейкингового цикла. Средства поступят на баланс кошелька в течение нескольких минут.
 
-# Cooldown period
+# Период cooldown
 
-During the first two hours of each staking cycle, a simplified period (cooldown) is active — a period in which validators are in a waiting state. During this time interval, users can perform deposit and withdrawal operations instantly, without needing to wait for the cycle to complete. When the cooldown period is active in both pools, users have the ability to transfer funds between pools without losing income for the current cycle. Additionally, withdrawal operations during the cooldown period are executed in one transaction instead of the standard two operations.
+В течение первых двух часов каждого стейкингового цикла действует упрощенный период, то есть cooldown, когда валидаторы находятся в режиме ожидания. В этот промежуток пользователи могут мгновенно выполнять операции пополнения и вывода, не дожидаясь завершения цикла. Когда период cooldown активен сразу в обоих пулах, пользователи могут переводить средства между пулами без потери дохода за текущий цикл. Кроме того, операции вывода в этот период выполняются одной транзакцией вместо стандартных двух.

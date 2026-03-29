@@ -1,94 +1,94 @@
 ---
-title: "Whales validators"
+title: "Валидаторы Whales"
 ---
 
-# What are validators
+# Что такое валидаторы
 
-A validator (node) is a server in the [blockchain](https://ton.org/) that verifies and adds blocks. The validator locks their coins (stake), gains the right to propose/confirm blocks and receives rewards for this.\
-The number of validators is determined by a network configuration parameter fixed in the configuration contract. This parameter is set through a general vote of all validators. In the [TON blockchain](https://ton.org/), the number of validators is currently limited to 375 participants.
+Валидатор (нода) — это сервер в [блокчейне](https://ton.org/), который проверяет и добавляет блоки. Валидатор блокирует свои монеты в стейке, получает право предлагать и подтверждать блоки и получает за это награду.\
+Количество валидаторов определяется параметром конфигурации сети, закрепленным в конфигурационном контракте. Этот параметр устанавливается через общее голосование всех валидаторов. В [блокчейне TON](https://ton.org/) количество валидаторов в настоящий момент ограничено 375 участниками.
 
-# Validator requirements
+# Требования к валидатору
 
-1. Validator hardware compliance with current minimum technical specifications. Current configuration is available at: https://t.me/tonstatus/102 .
-2. Software compliance with the latest required version. Information about the current version and updates can be tracked in the [@tonstatus](https://t.me/tonstatus/) channel.
-3. Ensuring constant network connection. A validator cannot disconnect when participating in a staking cycle. All disconnections result in penalty sanctions.
-4. The minimum required amount of locked coins must exceed the indicator of the validator [occupying 375th place at the current moment.](https://tonwhales.com/staking/stats/validators) The current minimum amount of coins is approximately 680,000 TON. In case of insufficient own coins for locking, the validator turns to [nominators](https://docs.ton.org/participate/staking/nominator-pool).
-5. The maximum amount of locked coins is not limited, however, in one round no validator can control more than 1/3 (≈33.33%) of the total stake amount of all validators. Otherwise, they will not be able to participate in staking.
+1. Аппаратное обеспечение валидатора должно соответствовать актуальным минимальным техническим требованиям. Текущая конфигурация доступна по ссылке: https://t.me/tonstatus/102 .
+2. Программное обеспечение должно соответствовать последней обязательной версии. Информацию об актуальной версии и обновлениях можно отслеживать в канале [@tonstatus](https://t.me/tonstatus/).
+3. Необходимо обеспечивать постоянное сетевое подключение. Валидатор не может отключаться во время участия в стейкинговом цикле. Все отключения приводят к штрафным санкциям.
+4. Минимально необходимый объем заблокированных монет должен превышать показатель валидатора, [занимающего на текущий момент 375-е место](https://tonwhales.com/staking/stats/validators). На данный момент минимальная сумма составляет около 680 000 TON. Если собственных монет для блокировки недостаточно, валидатор обращается к [номинаторам](https://docs.ton.org/participate/staking/nominator-pool).
+5. Максимальный объем заблокированных монет не ограничен, однако в одном раунде ни один валидатор не может контролировать более 1/3 (≈33,33%) от общего объема стейка всех валидаторов. В противном случае он не сможет участвовать в стейкинге.
 
-As a rule, the main network load is processed by the first hundred validators, while the rest are in reserve and connect as needed. For this reason, validator operators strive to avoid getting into the first hundred to reduce operational loads, since high load can lead to validator failures and, consequently, to penalty sanctions.
+Как правило, основная нагрузка сети обрабатывается первой сотней валидаторов, а остальные находятся в резерве и подключаются по мере необходимости. По этой причине операторы валидаторов стараются не попадать в первую сотню, чтобы снижать операционную нагрузку, поскольку высокая нагрузка может привести к сбоям валидатора и, как следствие, к штрафам.
 
-# Validation economics
+# Экономика валидации
 
-## Validator profitability
+## Доходность валидатора
 
-Validators receive rewards for processing transactions and creating new blocks. Validator profitability consists of several components:
+Валидаторы получают награды за обработку транзакций и создание новых блоков. Доходность валидатора состоит из нескольких компонентов:
 
-1. **Base reward** - fixed reward for participating in block validation
-2. **Transaction fees** - percentage of all fees collected in processed blocks
-3. **Storage reward** - additional rewards for supporting network archival data
+1. **Базовая награда** — фиксированная награда за участие в валидации блоков
+2. **Комиссии за транзакции** — доля от всех комиссий, собранных в обработанных блоках
+3. **Награда за хранение** — дополнительные вознаграждения за поддержку архивных данных сети
 
-The average annual yield (APY) for validators in the [TON network](https://ton.org/) is approximately 2-4%, but may vary depending on:
+Средняя годовая доходность (APY) валидаторов в [сети TON](https://ton.org/) составляет примерно 2-4%, но может меняться в зависимости от:
 
-- Total amount of locked coins in the network
-- Network activity and transaction volume
-- Validator position (top-100 receive more load and rewards)
-- Validator efficiency
+- Общего объема заблокированных монет в сети
+- Активности сети и объема транзакций
+- Позиции валидатора в рейтинге, так как топ-100 получает больше нагрузки и наград
+- Эффективности работы валидатора
 
-## Validation round structure
+## Структура раунда валидации
 
-The validation cycle in TON is divided into rounds lasting **18 hours** each. Each round consists of several stages:
+Цикл валидации в TON делится на раунды продолжительностью **18 часов** каждый. Каждый раунд состоит из нескольких этапов:
 
-1. **Application period** - validators submit applications to participate in the next round
-2. **Validator elections** - the system selects the top-375 validators by stake size
-3. **Active validation** - validators process transactions and create blocks
-4. **Reward distribution** - rewards are distributed among participants
+1. **Период подачи заявок** — валидаторы подают заявки на участие в следующем раунде
+2. **Выборы валидаторов** — система выбирает топ-375 валидаторов по размеру стейка
+3. **Активная валидация** — валидаторы обрабатывают транзакции и создают блоки
+4. **Распределение наград** — награды распределяются между участниками
 
-## Penalties and risks
+## Штрафы и риски
 
-Validators are responsible for stable operation and may be penalized in the following cases:
+Валидаторы отвечают за стабильную работу и могут быть оштрафованы в следующих случаях:
 
-### Types of penalties
+### Виды штрафов
 
-- **Missing blocks** - if a validator did not propose a block in their turn
-- **Signing invalid blocks** - confirming incorrect data
-- **Extended disconnection** - losing network connection for a critical time
-- **Double signing** - attempting to sign two conflicting blocks
+- **Пропуск блоков** — если валидатор не предложил блок в свою очередь
+- **Подпись некорректных блоков** — подтверждение неверных данных
+- **Длительное отключение** — потеря сетевого подключения на критическое время
+- **Двойная подпись** — попытка подписать два конфликтующих блока
 
-### Penalty amounts
+### Размеры штрафов
 
-Penalties can range from **0.5% to 100%** of the staked amount depending on the severity of the violation:
+Штрафы могут составлять от **0,5% до 100%** от застейканной суммы в зависимости от серьезности нарушения:
 
-- Minor violations (single misses) - 0.5-2% of stake
-- Medium violations (systematic failures) - 5-10% of stake
-- Critical violations (attack attempts) - up to 100% of stake (full confiscation)
+- Незначительные нарушения, например разовые пропуски, — 0,5-2% стейка
+- Средние нарушения, например систематические сбои, — 5-10% стейка
+- Критические нарушения, например попытки атаки, — до 100% стейка, то есть полная конфискация
 
-# Validators in Ton Whales
+# Валидаторы в Ton Whales
 
-Ton Whales operate their own validators and allow nominators to send their coins to staking and share rewards with us. Currently, the team maintains 43 validators, whose status can be monitored [in the dashboard within the Grafana interface](https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f). The DevOps team is responsible for validator operations. Validator monitoring is carried out around the clock, seven days a week. Validator software updates are performed exactly on schedule as recommended by the [Ton Foundation](https://ton.org/).
+Ton Whales управляет собственными валидаторами и позволяет номинаторам отправлять свои монеты в стейкинг и делить награды вместе с нами. Сейчас команда поддерживает 43 валидатора, статус которых можно отслеживать [в дашборде Grafana](https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f). За работу валидаторов отвечает команда DevOps. Мониторинг валидаторов ведется круглосуточно, семь дней в неделю. Обновления программного обеспечения валидаторов выполняются строго по графику в соответствии с рекомендациями [Ton Foundation](https://ton.org/).
 
-# Ton Whales validator monitoring
+# Мониторинг валидаторов Ton Whales
 
-Software for sending metrics to a unified monitoring system in [Grafana](https://grafana.com/) is installed on each validator in the whale ecosystem. The system displays various performance indicators of Ton Whales validators
+На каждом валидаторе в экосистеме Whales установлено ПО для отправки метрик в единую систему мониторинга на базе [Grafana](https://grafana.com/). Система отображает различные показатели производительности валидаторов Ton Whales.
 
 - https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f
 
-# Partner validators
+# Партнерские валидаторы
 
-Partner validators represent a specialized category of validation nodes in the Ton Whales ecosystem, whose technical maintenance and operation are delegated to external partner organizations based on corresponding cooperation agreements.
+Партнерские валидаторы представляют собой отдельную категорию узлов валидации в экосистеме Ton Whales, техническое сопровождение и эксплуатация которых делегированы внешним партнерским организациям на основании соответствующих соглашений о сотрудничестве.
 
-## Partnership model
+## Модель партнерства
 
-Ton Whales applies a delegated management model for partner validators, where the company provides smart contracts and staking pool infrastructure, while partners take responsibility for technical support of validation nodes. This model allows expanding geographical presence and increasing network decentralization while maintaining high reliability standards.
+Ton Whales использует делегированную модель управления партнерскими валидаторами, при которой компания предоставляет смарт-контракты и инфраструктуру стейкинг-пулов, а партнеры берут на себя ответственность за техническое обслуживание валидаторных нод. Такая модель позволяет расширять географическое присутствие и повышать децентрализацию сети, сохраняя при этом высокие стандарты надежности.
 
-## Partnership with ePN
+## Партнерство с ePN
 
-The main partner of Ton Whales in the validation field is [ePN](https://epn.bz/) company, which provides technical support for the [Tonkeeper](https://tonkeeper.com/) partner pool infrastructure. This partnership was established in February 2023 as part of an agreement with the non-custodial Tonkeeper wallet team.
+Главным партнером Ton Whales в области валидации является компания [ePN](https://epn.bz/), которая обеспечивает техническую поддержку инфраструктуры партнерского пула [Tonkeeper](https://tonkeeper.com/). Это партнерство было установлено в феврале 2023 года в рамках соглашения с командой некостодиального кошелька Tonkeeper.
 
-### Technical characteristics of the Tonkeeper partner pool
+### Технические характеристики партнерского пула Tonkeeper
 
-- **Pool commission**: 25% of received rewards
-- **Operating mode**: open access for all users
-- **Technical maintenance**: [ePN](https://epn.bz/) team
-- **Management**: decentralized DAO contract
+- **Комиссия пула**: 25% от полученных наград
+- **Режим работы**: открытый доступ для всех пользователей
+- **Техническое обслуживание**: команда [ePN](https://epn.bz/)
+- **Управление**: децентрализованный DAO-контракт
 
-The pool operates through a queue system with multiple active addresses to ensure operational continuity.
+Пул работает через систему очередей с несколькими активными адресами, что обеспечивает непрерывность операций.

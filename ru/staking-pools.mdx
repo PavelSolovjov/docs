@@ -1,137 +1,137 @@
 ---
-title: "Staking pools"
+title: "Стейкинг-пулы"
 ---
 
-# What is a staking pool
+# Что такое стейкинг-пул
 
-A staking pool is [a smart contract-based](/smart-contract-nominators) service that allows multiple users to combine their tokens for joint participation in staking, proportional distribution of rewards according to each participant's contribution size, and eliminates the need to run their own validator.\
-Ton Whales staking pools are divided into proprietary pools — fully owned by Ton Whales, and partner pools — launched jointly with partners.
+Стейкинг-пул — это сервис [на базе смарт-контракта](/smart-contract-nominators), который позволяет нескольким пользователям объединять свои токены для совместного участия в стейкинге, пропорционально распределять награды в зависимости от вклада каждого участника и не запускать собственный валидатор.\
+Стейкинг-пулы Ton Whales делятся на собственные пулы, полностью принадлежащие Ton Whales, и партнерские пулы, которые запускаются совместно с партнерами.
 
-# Ton Whales Partner Pools
+# Партнерские пулы Ton Whales
 
-A partner pool is a staking pool launched jointly with a partner. Typically, Whales launch and are responsible for all pool infrastructure, while the partner attracts nominators to it, although there are cases where the infrastructure also falls on the partner, and Whales only provide the smart contract. The commission received from nominators in the partner pool is divided in a pre-agreed ratio between Whales and the partner using a [DAO contract](/smart-contract-dao).
+Партнерский пул — это стейкинг-пул, запущенный совместно с партнером. Обычно Whales запускают и обслуживают всю инфраструктуру пула, а партнер привлекает в него номинаторов, хотя бывают случаи, когда инфраструктура также находится на стороне партнера, а Whales предоставляют только смарт-контракт. Комиссия, полученная от номинаторов в партнерском пуле, делится между Whales и партнером в заранее согласованной пропорции с помощью [DAO-контракта](/smart-contract-dao).
 
 <Info>
-  ## Why can't a partner launch a pool independently if the contract is open source?
+  ## Почему партнер не может запустить пул самостоятельно, если контракт с открытым исходным кодом?
 
-  1. Despite the contract being open source, expensive security audits are necessary for its safe use. Whales provides the results of conducted audits to partners after signing a cooperation agreement.
-  2. The staker is proprietary software and is a critically important component for pool functionality. Access to the staker's source code is provided to partners exclusively after contract signing.
-  1. Whales provides comprehensive technical support to partners at all stages of setup, deployment, and launch of staking pools.
+  1. Несмотря на открытый исходный код контракта, для его безопасного использования необходимы дорогостоящие аудиты безопасности. Whales предоставляет результаты проведенных аудитов партнерам после подписания соглашения о сотрудничестве.
+  2. Стейкер является проприетарным ПО и критически важным компонентом для работы пула. Доступ к исходному коду стейкера предоставляется партнерам только после подписания договора.
+  3. Whales оказывает партнерам полную техническую поддержку на всех этапах настройки, развертывания и запуска стейкинг-пулов.
 </Info>
 
-# Nominators DAO Contract
+# DAO-контракт номинаторов
 
-A decentralized [smart contract](/smart-contract-dao) with three main functions:
+Децентрализованный [смарт-контракт](/smart-contract-dao) с тремя основными функциями:
 
-- **Proposal voting** — the contract maintains a list of participants and their share weights. Any DAO participant can create a proposal representing a set of predefined actions. Other participants vote for or against by sending corresponding messages to the contract address.
-- **Staking revenue distribution** — all received income is distributed among DAO participants according to pre-established shares.
-- Staking pool management - the contract can make changes to pool operation parameters if a corresponding proposal is approved through voting.
+- **Голосование по предложениям** — контракт хранит список участников и веса их долей. Любой участник DAO может создать предложение, представляющее собой набор заранее определенных действий. Остальные участники голосуют за или против, отправляя соответствующие сообщения на адрес контракта.
+- **Распределение доходов от стейкинга** — весь поступающий доход распределяется между участниками DAO согласно заранее установленным долям.
+- **Управление стейкинг-пулом** — контракт может вносить изменения в параметры работы пула, если соответствующее предложение было одобрено голосованием.
 
-The contract is deployed before the partner pool launch, and all subsequent pool parameter changes are made exclusively through this contract, ensuring fair procedures and absolute transparency of operations.
+Контракт разворачивается до запуска партнерского пула, и все последующие изменения параметров пула выполняются исключительно через него, что обеспечивает честность процедур и полную прозрачность операций.
 
-# Tonkeeper Partner Pool
+# Партнерский пул Tonkeeper
 
-The pool was launched in February 2023 as part of a partnership agreement with the [Tonkeeper non-custodial wallet](https://tonkeeper.com/) team. At launch, this pool was the only one integrated into the Tonkeeper wallet. Technical support for the pool infrastructure is provided by the [ePN](https://epn.bz/) team. The pool operates in open mode and is available to all users. The pool commission is 25%.
+Пул был запущен в феврале 2023 года в рамках партнерского соглашения с командой [некостодиального кошелька Tonkeeper](https://tonkeeper.com/). На момент запуска этот пул был единственным, интегрированным в кошелек Tonkeeper. Техническую поддержку инфраструктуры пула обеспечивает команда [ePN](https://epn.bz/). Пул работает в открытом режиме и доступен всем пользователям. Комиссия пула составляет 25%.
 
-## Pool Queue Addresses
+## Адреса очередей пула
 
 **Tonkeeper #1**\
-Pool: `EQAA_5_dizuA1w6OpzTSYvXhvUwYTDNTW_MZDdZ0CGKeeper`\
+Пул: `EQAA_5_dizuA1w6OpzTSYvXhvUwYTDNTW_MZDdZ0CGKeeper`\
 **Tonkeeper #2**\
-Pool: `EQDvvBmP3wUcjoXPY1jHfT4-fgb294imVYH5EHdLnAKeeper`
+Пул: `EQDvvBmP3wUcjoXPY1jHfT4-fgb294imVYH5EHdLnAKeeper`
 
-# P2P Partner Pool
+# Партнерский пул P2P
 
-The pool was launched in July 2025 in partnership with one of the largest multi-currency staking platforms [P2P.org](http://P2P.org) and is displayed in the pool list on the P2P website as the main pool for TON staking. Technical support for the pool infrastructure is provided by the P2P team. The pool operates in open mode and is available to all users. The pool commission is 15%. The pool does not use DAO since in this case Whales only provides the contract.
+Пул был запущен в июле 2025 года в партнерстве с одной из крупнейших мультивалютных стейкинг-платформ [P2P.org](http://P2P.org) и отображается в списке пулов на сайте P2P как основной пул для стейкинга TON. Техническую поддержку инфраструктуры пула обеспечивает команда P2P. Пул работает в открытом режиме и доступен всем пользователям. Комиссия пула составляет 15%. DAO в этом пуле не используется, так как в данном случае Whales предоставляет только контракт.
 
-## Pool Queue Addresses
+## Адрес очереди пула
 
-Pool: `EQAwYg4_Y9LnDJ_zSDCxEHs-BvpHZQM6GQ-2AZBnxeP2PxTW`
+Пул: `EQAwYg4_Y9LnDJ_zSDCxEHs-BvpHZQM6GQ-2AZBnxeP2PxTW`
 
-# Ledger Partner Pool
+# Партнерский пул Ledger
 
-The pool was launched in July 2025 as part of a partnership agreement with the [Ledger hardware wallet](https://www.ledger.com/) team with P2P partner participation. The pool is integrated into the Ledger Live application as the main solution for TON staking. Technical support for the pool infrastructure is provided by the P2P team. The pool operates in open mode and is available to all users. The pool commission is 20%. Pool management is carried out without using DAO, since Whales acts exclusively as a smart contract provider.
+Пул был запущен в июле 2025 года в рамках партнерского соглашения с командой [аппаратного кошелька Ledger](https://www.ledger.com/) при участии партнера P2P. Пул интегрирован в приложение Ledger Live как основное решение для стейкинга TON. Техническую поддержку инфраструктуры пула обеспечивает команда P2P. Пул работает в открытом режиме и доступен всем пользователям. Комиссия пула составляет 20%. Управление пулом осуществляется без DAO, поскольку Whales выступает исключительно поставщиком смарт-контракта.
 
-## Pool Queue Addresses
+## Адрес очереди пула
 
-Pool: `EQAL1QRD508kA3pYrYaLID7Xr5wBtBy-lwlF5oUKneP2PxTW`
+Пул: `EQAL1QRD508kA3pYrYaLID7Xr5wBtBy-lwlF5oUKneP2PxTW`
 
-# Whales Nominators Pool
+# Пул Whales Nominators
 
-[The first proprietary pool](https://tonwhales.com/staking/pool/nominators) of Whales opened on March 14, 2022. Technical support for the pool infrastructure is provided by the Whales team. The pool operates in open mode and is available to all users. The pool commission is 25%.
+[Первый собственный пул](https://tonwhales.com/staking/pool/nominators) Whales был открыт 14 марта 2022 года. Техническую поддержку инфраструктуры пула обеспечивает команда Whales. Пул работает в открытом режиме и доступен всем пользователям. Комиссия пула составляет 25%.
 
-## Queue Addresses
+## Адреса очередей
 
 nominators 1: `EQCkR1cGmnsE45N4K0otPl5EnxnRakmGqeJUNua5fkWhales`\
 nominators 2: `EQCY4M6TZYnOMnGBQlqi_nyeaIB1LeBFfGgP4uXQ1VWhales`
 
-# Whales Club Pool
+# Пул Whales Club
 
-A private pool available exclusively to holders of [whale NFTs](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT). After funds are sent, the system checks for the presence of a whale NFT from the specified collection at the sender's address, and only if it exists is the stake accepted for processing. The pool was launched in August 2022. The pool commission is 18%.
+Закрытый пул, доступный исключительно держателям [whale NFT](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT). После отправки средств система проверяет наличие whale NFT из указанной коллекции на адресе отправителя, и только при его наличии стейк принимается в обработку. Пул был запущен в августе 2022 года. Комиссия пула составляет 18%.
 
-## Queue Addresses
+## Адреса очередей
 
 Club1: `EQDFvnxuyA2ogNPOoEj1lu968U4PP8_FzJfrOWUsi_o1CLUB`\
 Club2: `EQA_cc5tIQ4haNbMVFUD1d0bNRt17S7wgWEqfP_xEaTACLUB`
 
-## How NFT Wallet Verification Works
+## Как работает проверка NFT-кошелька
 
-When a user initiates staking in the club pool, the staker compares the user's address with NFT owner addresses from its own API.\
-If the owner's address does not match current NFT holders, the staker blocks sending the user's stake to the validator, and funds remain on the contract until withdrawal. This verification procedure is performed each time a user sends a stake.\
-Page data is indexed by a proprietary indexer using v4 API.
+Когда пользователь инициирует стейкинг в клубном пуле, стейкер сравнивает адрес пользователя с адресами владельцев NFT из собственного API.\
+Если адрес владельца не совпадает с текущими держателями NFT, стейкер блокирует отправку стейка пользователя валидатору, и средства остаются на контракте до вывода. Эта процедура проверки выполняется каждый раз, когда пользователь отправляет стейк.\
+Данные страницы индексируются собственным индексером с использованием API v4.
 
-### How the Indexer Works
+### Как работает индексер
 
-For indexers, an NFT represents an entity that implements the open [TON NFT standard](https://github.com/ton-blockchain/TEPs/blob/master/text/0062-nft-standard.md). The standard is a document defining methods that must be present in NFTs, including the format of returned and accepted data. When implementing these methods, an object is classified as an NFT. In fact, an NFT can represent any entity that has these methods.\
-Each NFT has an owner — an address recorded in the owner field of the NFT contract. When transferring an NFT, this field in the contract changes without actual asset movement. The `Transfer` method is used to change ownership. The current owner must send a transaction from their own address with a payload containing the `Transfer` command and the new owner's address. Such transactions are usually formed automatically through [TON Connect](https://docs.ton.org/ecosystem/ton-connect/overview) when transferring NFTs, for example, through the [Getgems.io](http://Getgems.io) platform.\
-Indexers analyze all blockchain transactions to identify new NFT creation. When detecting a corresponding transaction, the system checks the recipient's hash code and compares it with known NFT hash codes to determine collection membership. Since most NFTs are standard, their hash codes are usually known. Indexers call the `getnftdata` get-method, which returns the NFT index, collection address, and owner. The obtained data is stored in a database for subsequent use.
+Для индексеров NFT представляет собой сущность, реализующую открытый [стандарт TON NFT](https://github.com/ton-blockchain/TEPs/blob/master/text/0062-nft-standard.md). Стандарт — это документ, который определяет методы, обязательные для NFT, включая формат возвращаемых и принимаемых данных. Если объект реализует эти методы, он классифицируется как NFT. По сути, NFT может представлять любую сущность, в которой есть такие методы.\
+У каждого NFT есть владелец — адрес, записанный в поле владельца контракта NFT. При передаче NFT это поле в контракте меняется без фактического перемещения актива. Для смены владельца используется метод `Transfer`. Текущий владелец должен отправить транзакцию со своего адреса с payload, содержащим команду `Transfer` и адрес нового владельца. Такие транзакции обычно формируются автоматически через [TON Connect](https://docs.ton.org/ecosystem/ton-connect/overview) при передаче NFT, например через платформу [Getgems.io](http://Getgems.io).\
+Индексеры анализируют все транзакции блокчейна, чтобы обнаруживать создание новых NFT. При обнаружении соответствующей транзакции система проверяет хэш-код получателя и сравнивает его с известными хэш-кодами NFT, чтобы определить принадлежность к коллекции. Поскольку большинство NFT стандартные, их хэш-коды обычно известны. Индексеры вызывают get-метод `getnftdata`, который возвращает индекс NFT, адрес коллекции и владельца. Полученные данные сохраняются в базе данных для дальнейшего использования.
 
-### What Happens If You Move an NFT from a Wallet with Active Stake
+### Что произойдет, если переместить NFT с кошелька с активным стейком
 
-If the stake has already been sent to the elector, it will remain there and participate in staking until funds are withdrawn. However, on repeat deposits, the staker will not send funds after checking for NFT presence, even if the user already has some amount in staking. The amount will remain in pending status and await NFT appearance or withdrawal.
+Если стейк уже отправлен электоратору, он останется там и продолжит участвовать в стейкинге до вывода средств. Однако при повторных депозитах стейкер не отправит средства после проверки наличия NFT, даже если у пользователя уже есть некоторая сумма в стейкинге. Эта сумма останется в статусе pending и будет ждать появления NFT или вывода средств.
 
 <Info>
-  Please note: when listing an NFT for sale, the owner's address changes to the marketplace address, which for the staker means the actual absence of the NFT in the wallet. Therefore, even if the wallet owns an NFT but has listed it for sale, the staker will not allow its stake to pass to the elector.
+  Обратите внимание: при выставлении NFT на продажу адрес владельца меняется на адрес маркетплейса, что для стейкера означает фактическое отсутствие NFT в кошельке. Поэтому даже если NFT принадлежит кошельку, но выставлен на продажу, стейкер не пропустит его стейк к электоратору.
 </Info>
 
-# Whales Team Pool
+# Пул команды Whales
 
-[Private pool](https://tonwhales.com/staking/pool/team), available exclusively to Whales team members and [top-15 NFT club participants according to rating](https://tonwhales.com/club/members). The pool was launched in September 2022 and is currently the most advantageous in terms of commission size (as of December 25, 2025). When funds are received, the system automatically checks for the presence of the sender's address in a specialized list hosted in an [Airtable](https://www.airtable.com/) table. Staking is accepted for processing only upon confirmation of the user's address presence in the table. The pool commission is 5%.
+[Приватный пул](https://tonwhales.com/staking/pool/team), доступный исключительно членам команды Whales и [топ-15 участникам NFT-клуба по рейтингу](https://tonwhales.com/club/members). Пул был запущен в сентябре 2022 года и сейчас является самым выгодным по размеру комиссии (по состоянию на 25 декабря 2025 года). При поступлении средств система автоматически проверяет наличие адреса отправителя в специальном списке, размещенном в таблице [Airtable](https://www.airtable.com/). Стейкинг принимается в обработку только после подтверждения присутствия адреса пользователя в таблице. Комиссия пула составляет 5%.
 
-## Queue Addresses
+## Адреса очередей
 
 Team1: `EQCOj4wEjXUR59Kq0KeXUJouY5iAcujkmwJGsYX7qPnITEAM`\
 Team2: `EQBI-wGVp_x0VFEjd7m9cEUD3tJ_bnxMSp0Tb9qz757ATEAM`
 
-## How Rating Verification Works
+## Как работает проверка рейтинга
 
-Automation of rating updates in the club's top is not implemented. Address verification occurs through a table in the Airtable service, where wallet addresses of the top 15 club members by rating and team members are manually entered.\
-When sending user funds to the elector, the staker queries the table. It checks whether the table contains the wallet address of the user attempting to send funds to the pool. If the table contains the address, funds are sent to the elector. If there is no corresponding entry, the amount will remain in pending status and await the appearance of an entry or withdrawal.
+Автоматизация обновления рейтинга в клубном топе не реализована. Проверка адресов происходит через таблицу в сервисе Airtable, куда вручную вносятся адреса кошельков 15 участников клуба с наивысшим рейтингом и членов команды.\
+При отправке средств пользователя электоратору стейкер делает запрос к таблице. Он проверяет, содержится ли в ней адрес кошелька пользователя, который пытается отправить средства в пул. Если адрес найден, средства отправляются электоратору. Если соответствующей записи нет, сумма остается в статусе pending и ожидает появления записи или вывода.
 
-### How Rating is Calculated
+### Как рассчитывается рейтинг
 
-A user's rating is the sum of ratings of all their whales and a bonus for completing their profile in Whales Club. For more details on rating formation, read this document. The rating of all users is displayed on the [club's top-15 page](https://tonwhales.com/club/members).
+Рейтинг пользователя — это сумма рейтингов всех его whales и бонус за заполнение профиля в Whales Club. Подробнее о формировании рейтинга можно прочитать в соответствующем документе. Рейтинг всех пользователей отображается на [странице топ-15 клуба](https://tonwhales.com/club/members).
 
-### Adding an Address to Team Pool
+### Добавление адреса в Team Pool
 
-1. The user contacts support with a request to add their address to the team pool.
-2. The support operator checks the user's rating and compares it with the ratings of top-15 participants.
-3. If the user meets the top-15 criteria, the operator updates the list: removes the address of the participant who left the top-15 and adds the address of the new participant.
-4. Changes typically take effect within one hour. The operator informs the client about this time interval.
-5. After making changes, the client gains the ability to send funds to the pool.
+1. Пользователь обращается в поддержку с просьбой добавить его адрес в командный пул.
+2. Оператор поддержки проверяет рейтинг пользователя и сравнивает его с рейтингами участников из топ-15.
+3. Если пользователь соответствует критериям топ-15, оператор обновляет список: удаляет адрес участника, который выбыл из топ-15, и добавляет адрес нового участника.
+4. Изменения обычно вступают в силу в течение одного часа. Оператор сообщает клиенту об этом временном интервале.
+5. После внесения изменений клиент получает возможность отправлять средства в пул.
 
 <Info>
-  **Important.** When first depositing funds into the pool through the Tonhub interface or the [tonwhales.com](http://tonwhales.com) website, the user will receive a warning about the need to ensure that their address is added to the pool. This warning is displayed regardless of the actual presence of the address in the table and is purely informational in nature.
+  **Важно.** При первом внесении средств в пул через интерфейс Tonhub или сайт [tonwhales.com](http://tonwhales.com) пользователь увидит предупреждение о необходимости убедиться, что его адрес добавлен в пул. Это предупреждение отображается вне зависимости от фактического наличия адреса в таблице и носит исключительно информационный характер.
 </Info>
 
-# Profit Calculation
+# Расчет прибыли
 
-Information about staking profit for any participant can be viewed [on the statistics page](https://tonwhales.com/staking/address/UQCv4CtPY5SKmoC7YzMQ0bWM2MMQxA9FtATp_Cr9tJfcFPPS) by specifying the wallet address. The page displays profit for the last week, as well as the participant's yield in each pool for the entire participation period. Statistical data is generated based on Ton Whales' proprietary staking indexer.
+Информацию о прибыли от стейкинга для любого участника можно посмотреть [на странице статистики](https://tonwhales.com/staking/address/UQCv4CtPY5SKmoC7YzMQ0bWM2MMQxA9FtATp_Cr9tJfcFPPS), указав адрес кошелька. Страница показывает прибыль за последнюю неделю, а также доходность участника в каждом пуле за весь период участия. Статистические данные формируются на основе собственного стейкинг-индексера Ton Whales.
 
-# Staking Fees
+# Комиссии за стейкинг
 
-Commissions from partner pools are withdrawn to wallets specified in the DAO of these pools or transferred monthly (as in the case with P2P). Commissions from proprietary pools remain on the controller.
+Комиссии из партнерских пулов выводятся на кошельки, указанные в DAO этих пулов, либо переводятся ежемесячно, как в случае с P2P. Комиссии из собственных пулов остаются на контроллере.
 
-# Pool Comparison
+# Сравнение пулов
 
-The [tonwhales.com](http://tonwhales.com) website features a [yield calculator](https://tonwhales.com/staking/compare) that allows comparing pools with each other and calculating potential profit in pools by specifying the stake amount. Users can enter the amount they want to send to staking and optionally specify yield and TON rate. The [calculator](https://tonwhales.com/staking/compare) will show what amount the user will receive when staking in each of the pools.
+На сайте [tonwhales.com](http://tonwhales.com) есть [калькулятор доходности](https://tonwhales.com/staking/compare), который позволяет сравнивать пулы между собой и рассчитывать потенциальную прибыль в пулах по заданной сумме стейка. Пользователь может ввести сумму, которую хочет отправить в стейкинг, а также при желании указать доходность и курс TON. [Калькулятор](https://tonwhales.com/staking/compare) покажет, какую сумму пользователь получит при стейкинге в каждом из пулов.

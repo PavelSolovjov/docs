@@ -1,147 +1,146 @@
 ---
-title: "Smart-contract DAO"
+title: "Смарт-контракт DAO"
 ---
 
-# General Data
+# Общие данные
 
-**Link:** [https://github.com/tonwhales/nominators-dao](https://github.com/tonwhales/nominators-dao\\)
+**Ссылка:** [https://github.com/tonwhales/nominators-dao](https://github.com/tonwhales/nominators-dao\\)
 
-**License:** [MIT](https://opensource.org/licenses/MIT)
+**Лицензия:** [MIT](https://opensource.org/licenses/MIT)
 
-**Language:** [Tact](https://tact-lang.org/)
+**Язык:** [Tact](https://tact-lang.org/)
 
-# What is a DAO contract
+# Что такое DAO-контракт
 
-This is a DAO smart contract that automatically:
+Это DAO-смарт-контракт, который автоматически:
 
-- stores a common "bank" of funds,
-- distributes incoming revenue among participants according to predefined shares,
-- gives participants the ability to vote on important actions (proposals),
-- manages an external staking contract (or pool) through which revenue is earned.
+- хранит общий "банк" средств,
+- распределяет входящий доход между участниками по заранее заданным долям,
+- дает участникам возможность голосовать по важным действиям и предложениям,
+- управляет внешним стейкинг-контрактом или пулом, через который формируется доход.
 
-# How it works
+# Как это работает
 
-- Fixed participant shares
+- Фиксированные доли участников
 
-There is a list of participants with shares (for example, 10%, 15%, 5%, etc.). When money comes into the DAO (income, withdrawal from pool, etc.), the contract automatically distributes it strictly according to these shares. No manual "who gets how much" — everything is hardcoded.
+Есть список участников с долями, например 10%, 15%, 5% и так далее. Когда в DAO поступают деньги, будь то доход, вывод из пула или другой источник, контракт автоматически распределяет их строго по этим долям. Никакого ручного расчета, кому сколько положено: все зашито в коде.
 
-- Common bank and minimum balance
+- Общий банк и минимальный баланс
 
-The contract always maintains a minimum balance to avoid "zeroing out" and continue operating. Withdrawing money from the pool (or initiating staking operations) is only possible if the DAO has sufficient funds.
+Контракт всегда поддерживает минимальный остаток, чтобы не "обнуляться" и продолжать работу. Вывод средств из пула или запуск стейкинговых операций возможен только в том случае, если у DAO достаточно средств.
 
-- Voting on proposals
+- Голосование по предложениям
 
-Any participant can create a "proposal" — a set of actions that the contract should execute (for example, transfer funds, change manager address, perform technical operations).
+Любой участник может создать "proposal" — набор действий, которые должен выполнить контракт, например перевод средств, смену адреса управляющего или выполнение технических операций.
 
-- For decision-making, a certain number of participants need to vote for or against (approximately two-thirds, but minimum two).
-- One participant — one vote per specific proposal.
-- If enough "for" votes are collected — the contract automatically executes the actions embedded in the proposal. If "against" — the proposal is considered rejected.
-- No trust in people, trust in code
+- Для принятия решения определенное количество участников должно проголосовать за или против, обычно это около двух третей, но не менее двух голосов.
+- Один участник — один голос по каждому конкретному предложению.
+- Если набрано достаточно голосов "за", контракт автоматически выполняет действия, заложенные в предложение. Если набрано достаточно голосов "против", предложение считается отклоненным.
+- Не доверие людям, а доверие к коду
 
-All rules — who is a participant, what shares, how many votes needed, how money is divided — are written in the smart contract. They cannot be changed retroactively without going through a formal procedure (voting and proposal execution). This reduces the risk of "bypass" agreements and human factor.
+Все правила, то есть кто является участником, какие у них доли, сколько голосов нужно и как делятся деньги, записаны в смарт-контракте. Их нельзя изменить задним числом без прохождения формальной процедуры, то есть голосования и исполнения предложения. Это снижает риск неформальных договоренностей в обход правил и уменьшает влияние человеческого фактора.
 
-# What the contract gives to partners
+# Что контракт дает партнерам
 
-- Transparent and automatic revenue distribution among all participants according to clear rules.
-- Formalized decision-making: any important actions go through voting, the result of which cannot be "rigged".
-- Minimal operational burden: no manual payments and manual control — everything is implemented in code.
-- Predictability and stability: the contract is protected from "zeroing out" through minimum balance and balance checks before risky actions.
+- Прозрачное и автоматическое распределение доходов между всеми участниками по четким правилам.
+- Формализованное принятие решений: любые важные действия проходят через голосование, результат которого нельзя "подкрутить".
+- Минимальную операционную нагрузку: не нужны ручные выплаты и ручной контроль, все реализовано в коде.
+- Предсказуемость и устойчивость: контракт защищен от "обнуления" за счет минимального баланса и проверок баланса перед рискованными действиями.
 
-# Structure and main entities
+# Структура и основные сущности
 
-**DAOWithSplitter** - main DAO contract.\
-Stores:
+**DAOWithSplitter** — основной DAO-контракт.\
+Хранит:
 
-- `managable: Address` — address of the managed staking contract / pool.
-- `members: map[Int]Int` — set of participants:
-  - Key — hash of participant's address (basechain only, `workchain = 0`);
-  - Value — "weight"/share of participant (integer).
-- `denominator: Int` — common denominator for share calculation (sum of all member weights ≤ denominator).
-- `withdrawFee: Int` — fixed amount sent to `managable` when requesting stake withdrawal.
+- `managable: Address` — адрес управляемого стейкинг-контракта или пула.
+- `members: map[Int]Int` — набор участников:
+  - Ключ — хэш адреса участника, только basechain, `workchain = 0`
+  - Значение — вес или доля участника в виде целого числа
+- `denominator: Int` — общий знаменатель для расчета долей, сумма всех весов участников не превышает это значение.
+- `withdrawFee: Int` — фиксированная сумма, отправляемая в `managable` при запросе на вывод стейка.
 
-**Proposal** - auxiliary contract for voting on one proposal.\
-Stores:
+**Proposal** — вспомогательный контракт для голосования по одному предложению.\
+Хранит:
 
-- `owner: Address` — DAO address (initiator/owner of the proposal).
-- `members: map[Int]Int` — local copy of participant shares at the time of proposal creation.
-- `votesNeeded: Int` — number of votes needed for decision-making.
-- `agreed, disagreed` — counters for "for" and "against" votes.
-- `proposal: map[Int]ProposedMessage` — set of messages to be executed in case of acceptance.
+- `owner: Address` — адрес DAO, то есть инициатор и владелец предложения.
+- `members: map[Int]Int` — локальную копию долей участников на момент создания предложения.
+- `votesNeeded: Int` — количество голосов, необходимое для принятия решения.
+- `agreed, disagreed` — счетчики голосов "за" и "против".
+- `proposal: map[Int]ProposedMessage` — набор сообщений, которые будут исполнены в случае принятия предложения.
 
-**ProposedMessage** - description of one outgoing message that will be sent by DAO upon successful voting:
+**ProposedMessage** — описание одного исходящего сообщения, которое DAO отправит после успешного голосования:
 
 - `to: Address, value: Int, mode: Int, bounce: Bool, body: Cell`.
 
-## Key constants
+## Ключевые константы
 
-- `PROPOSAL_MINIMUM_BALANCE` — minimum balance required for safe proposal creation.
-- `DAO_MINIMUM_BALANCE` — minimum balance on DAO account, below which fund withdrawal is not allowed.
+- `PROPOSAL_MINIMUM_BALANCE` — минимальный баланс, необходимый для безопасного создания предложения.
+- `DAO_MINIMUM_BALANCE` — минимальный баланс на счете DAO, ниже которого вывод средств недопустим.
 
-# Voting and proposal logic
+# Логика голосования и предложений
 
-1. Proposal creation (`CreateProposal` message)
-   1. Sender must be a DAO participant (`members` contains their hash).
-   2. Message account (`ctx.value`) must have \> 2 × PROPOSAL_MINIMUM_BALANCE — to cover deployment and proposal contract operation.
-1. Voting in `Proposal` contract `receive("Agree")` and `receive("Disagree")`:
-   1. Only allowed for basechain addresses (`wc == 0`) present in `members` with non-zero weight.
-   2. One participant can vote only once — after voting, their weight in `members` is zeroed.
-   3. If number of "for" votes ≥ `votesNeeded`:
-      1. `executeProposal()` is called:
-         1. `Proposal` contract sends `ExecuteProposal` message with `messages` map to DAO.
-   1. If number of "against" votes ≥ `votesNeeded`:
-      1. `terminateProposal()` is called:
-         1. text message `"Terminated"` goes to DAO.
-2. Proposal execution in DAO (`receive(proposal: ExecuteProposal)`)
-   1. DAO checks that sender is the correct proposal contract:
-   2. Recalculates `StateInit` of expected `Proposal` based on current DAO state and received `messages`;
-   3. Compares `ctx.sender` with address computed from this `StateInit`.
+1. Создание предложения, сообщение `CreateProposal`
+   1. Отправитель должен быть участником DAO, то есть его хэш должен присутствовать в `members`.
+   2. На счете сообщения `ctx.value` должно быть больше, чем `2 × PROPOSAL_MINIMUM_BALANCE`, чтобы покрыть деплой и работу контракта предложения.
+2. Голосование в контракте `Proposal` через `receive("Agree")` и `receive("Disagree")`
+   1. Голосовать могут только адреса из basechain, то есть `wc == 0`, которые присутствуют в `members` и имеют ненулевой вес.
+   2. Один участник может проголосовать только один раз: после голосования его вес в `members` обнуляется.
+   3. Если количество голосов "за" больше либо равно `votesNeeded`:
+      1. Вызывается `executeProposal()`
+      2. Контракт `Proposal` отправляет в DAO сообщение `ExecuteProposal` с картой `messages`.
+   4. Если количество голосов "против" больше либо равно `votesNeeded`:
+      1. Вызывается `terminateProposal()`
+      2. В DAO уходит текстовое сообщение `"Terminated"`.
+3. Исполнение предложения в DAO через `receive(proposal: ExecuteProposal)`
+   1. DAO проверяет, что отправитель является корректным контрактом предложения.
+   2. Пересчитывает `StateInit` ожидаемого `Proposal` на основе текущего состояния DAO и полученной карты `messages`.
+   3. Сравнивает `ctx.sender` с адресом, вычисленным из этого `StateInit`.
 
-- compares `ctx.sender` with address computed from this `StateInit`.
-  - If check passes, DAO sequentially sends all `ProposedMessage`:
-    - Each entry in `messages` becomes a regular `send()` with specified fields.
+- Если проверка проходит, DAO последовательно отправляет все `ProposedMessage`.
+- Каждая запись в `messages` становится обычным `send()` с указанными полями.
 
-# Distribution mechanics
+# Механика распределения
 
 `splitAndSend(value: Int)`
 
-- Calculates `splittable = value / denominator * denominator` and distributes only this "divisible" part.
-- If `splittable ≤ 0`, does nothing.
-- Iteratively traverses `members` dictionary via `nativeDictGetMin` / `nativeDictGetNext`:
-- For each participant:
-  - Extracts `memberShare`.
-  - Converts hash key to `Address` (basechain).
-- Sends to participant:
-  - `value = splittable / denominator * memberShare`.
-  - In `body` — comment like: `"X/Y of Z (whales revenue share)"`, where:
-    - `X` — participant's share,
-    - `Y` — denominator,
-    - `Z` — total distributed amount.
+- Вычисляет `splittable = value / denominator * denominator` и распределяет только эту "делимую" часть.
+- Если `splittable ≤ 0`, ничего не делает.
+- Итеративно проходит по словарю `members` через `nativeDictGetMin` и `nativeDictGetNext`.
+- Для каждого участника:
+  - извлекает `memberShare`,
+  - преобразует хэш-ключ в `Address` basechain.
+- Затем отправляет участнику:
+  - `value = splittable / denominator * memberShare`
+  - в `body` комментарий вида `"X/Y of Z (whales revenue share)"`, где:
+    - `X` — доля участника,
+    - `Y` — знаменатель,
+    - `Z` — общая распределяемая сумма.
 
-# Incoming messages to DAO
+# Входящие сообщения в DAO
 
-`"Topup DAO"` - DAO top-up without additional logic; message is simply accepted.\
-`"Terminated"` - service message for synchronization with proposal contract; no additional actions performed.\
-`"Withdraw"` - sender must be a DAO participant.\
-Checks that: `myBalance() - withdrawFee > DAO_MINIMUM_BALANCE`.
+`"Topup DAO"` — пополнение DAO без дополнительной логики, сообщение просто принимается.\
+`"Terminated"` — служебное сообщение для синхронизации с контрактом предложения, дополнительных действий не выполняется.\
+`"Withdraw"` — отправитель должен быть участником DAO.\
+Проверяется условие: `myBalance() - withdrawFee > DAO_MINIMUM_BALANCE`.
 
-- If condition is met:
-  - DAO sends `WithdrawStake` message to `managable` with:
-    - random `queryId`,
-    - fixed `gasLimit`,
-    - `stake = 0` (actual stake size is determined by external contract).
+- Если условие выполнено:
+  - DAO отправляет в `managable` сообщение `WithdrawStake` с:
+    - случайным `queryId`,
+    - фиксированным `gasLimit`,
+    - `stake = 0`, поскольку фактический размер стейка определяется внешним контрактом.
 
-`"Gift"` - any user can send funds with this text.
+`"Gift"` — любой пользователь может отправить средства с этим текстом.
 
-- DAO retains `DAO_MINIMUM_BALANCE` as minimum balance, the rest (`ctx.value - DAO_MINIMUM_BALANCE`) if positive is distributed via `splitAndSend`.
+- DAO сохраняет `DAO_MINIMUM_BALANCE` как неснижаемый остаток, а остальную часть, то есть `ctx.value - DAO_MINIMUM_BALANCE`, если она положительна, распределяет через `splitAndSend`.
 
-`WithdrawStakeResponse` and `WithdrawStakeDelayed` - these messages come from `managable` after stake withdrawal operations completion.
+`WithdrawStakeResponse` и `WithdrawStakeDelayed` — это сообщения, которые приходят от `managable` после завершения операций по выводу стейка.
 
-- Similar to `"Gift"`:
-  - `DAO_MINIMUM_BALANCE` is subtracted from incoming value,
-  - Remaining amount (if \> 0) is distributed among participants via `splitAndSend`.
+- По логике они обрабатываются аналогично `"Gift"`:
+  - из входящей суммы вычитается `DAO_MINIMUM_BALANCE`,
+  - оставшаяся сумма, если она больше нуля, распределяется между участниками через `splitAndSend`.
 
-# Get methods
+# Get-методы
 
-`memberShare(addr: Address): Int` - returns participant's weight by their address. If address is not a participant — throws error.\
-`membersCount(): Int` - counts number of entries in `members` dictionary.\
-`minimumVotes(): Int` - returns minimum number of votes needed for decision-making.
+`memberShare(addr: Address): Int` — возвращает вес участника по его адресу. Если адрес не относится к участникам, выбрасывается ошибка.\
+`membersCount(): Int` — считает количество записей в словаре `members`.\
+`minimumVotes(): Int` — возвращает минимальное число голосов, необходимое для принятия решения.
