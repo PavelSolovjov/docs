@@ -1,16 +1,16 @@
 ---
-title: "Migration Summary"
+title: "Сводка по миграциям"
 ---
 
-| Migration | Description | Status |
+| Миграция | Описание | Статус |
 | :-- | :-- | :-- |
-| `035-billing-period-fee-ledger.sql` | Add `billing_period`, <br />`collection_attempts`, <br />`next_retry_at` to `fee_ledger` | Done |
-| `036-invoices.sql` | Create `invoices` \+ `invoice_line_items` | Done |
-| `037-invoices-period-unique.sql` | Unique index <br />`(instance_id, billing_period)` | Done |
-| `038-backfill-billing-period.sql` | Backfill `billing_period` from `created_at` | Planned |
-| `039-credit-notes.sql` | `credit_notes` table | Planned |
-| `040-invoice-payment-fields.sql` | `paid_at`, `payment_ref` on `invoices` | Planned |
-| `041-invoice-rate-fields.sql` | USDC rate columns on `invoices` \+ <br />`fee_ledger` | Planned |
-| `042-merchant-distribution-fields.sql` | `merchant_type`, `agent_commission_pct`, <br />`settlement_currency`, `country` | Planned |
-| `043-distribution-tiers.sql` | `rebate_pct`, `rebate_volume_tiers`, <br />delay on `fee_tiers` | Planned |
-| `044-merchant-settlements.sql` | `merchant_settlements` \+ <br />`merchant_rebates` tables | Planned |
+| `035-billing-period-fee-ledger.sql` | Добавляет `billing_period`, <br />`collection_attempts` и <br />`next_retry_at` в `fee_ledger` | Готово |
+| `036-invoices.sql` | Создает `invoices` и `invoice_line_items` | Готово |
+| `037-invoices-period-unique.sql` | Создает уникальный индекс <br />`(instance_id, billing_period)` | Готово |
+| `038-backfill-billing-period.sql` | Заполняет `billing_period` на основе `created_at` | Запланировано |
+| `039-credit-notes.sql` | Таблица `credit_notes` | Запланировано |
+| `040-invoice-payment-fields.sql` | Поля `paid_at` и `payment_ref` в `invoices` | Запланировано |
+| `041-invoice-rate-fields.sql` | Поля курса USDC в `invoices` и <br />`fee_ledger` | Запланировано |
+| `042-merchant-distribution-fields.sql` | `merchant_type`, `agent_commission_pct`, <br />`settlement_currency`, `country` | Запланировано |
+| `043-distribution-tiers.sql` | `rebate_pct`, `rebate_volume_tiers` и <br />задержка в `fee_tiers` | Запланировано |
+| `044-merchant-settlements.sql` | Таблицы `merchant_settlements` и <br />`merchant_rebates` | Запланировано |

@@ -1,13 +1,13 @@
 ---
-title: "Per-Merchant Collection Limits"
+title: "Лимиты сбора по merchant"
 ---
 
-Enforced in `api/fees.ts → checkMerchantLimits()`:
+Проверяются в `api/fees.ts`, функция `checkMerchantLimits()`:
 
-| Limit | Default | Enforcement |
+| Лимит | Значение по умолчанию | Как проверяется |
 | :-- | :-- | :-- |
-| Per operation | 10 USDC | In-memory check |
-| Daily | 500 USDC | `SUM` query on `fee_ledger WHERE created_at >= today` |
-| Monthly | 10,000 USDC | `SUM` query on `fee_ledger WHERE created_at >= month_start` |
+| На одну операцию | 10 USDC | Проверка в памяти |
+| Дневной | 500 USDC | `SUM`-запрос по `fee_ledger WHERE created_at >= today` |
+| Месячный | 10,000 USDC | `SUM`-запрос по `fee_ledger WHERE created_at >= month_start` |
 
-Exceeding a limit is non-blocking — the cheque works, the fee entry stays `pending` for manual review.
+Превышение лимита не блокирует работу, чек продолжает работать, а запись о комиссии остается в статусе `pending` для ручной проверки.

@@ -1,13 +1,13 @@
 ---
-title: "Billing Mode Feature Flag"
+title: "Фича-флаг billing mode"
 ---
 
-`billing_mode` in `instances.settings` (feature flag):
+`billing_mode` в `instances.settings`, это feature flag:
 
-| Mode | Description | Status |
+| Режим | Описание | Статус |
 | :-- | :-- | :-- |
-| `on_chain` | Fees auto-collected per cheque via SPL delegate | Implemented |
-| `invoice` | Fees accumulated, invoiced monthly, collected off-chain | Scaffolded, not enforced |
-| `hybrid` | On-chain for creation, invoice for others | Planned |
+| `on_chain` | Комиссии автоматически собираются по каждому чеку через SPL delegate | Реализовано |
+| `invoice` | Комиссии накапливаются, инвойсятся ежемесячно и собираются off-chain | Подготовлено, но еще не enforced |
+| `hybrid` | Для creation используется on-chain, для остальных комиссий invoice | Запланировано |
 
-When `billing_mode = 'invoice'`: `collectCreationFee()` should skip the on-chain transfer and set `collection_status = 'invoiced'` instead. The fee then appears in the monthly invoice as a line item for off-chain collection. This gate is not yet implemented.
+Когда `billing_mode = 'invoice'`, функция `collectCreationFee()` должна пропускать on-chain перевод и вместо этого устанавливать `collection_status = 'invoiced'`. После этого комиссия попадает в ежемесячный invoice как отдельная строка для off-chain сбора. Сейчас этот gate еще не реализован.

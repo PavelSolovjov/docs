@@ -1,14 +1,14 @@
 ---
-title: "Platform Invoice States"
+title: "Статусы platform invoice"
 ---
 
-Invoices use the following state transitions:
+Для инвойсов используются следующие переходы состояний:
 
-- **draft → issued → paid** — normal path
-- **draft → void** — pre-payment error
-- **issued → void** — exceptional post-issuance error; use a credit note if already paid
+- **draft → issued → paid** — нормальный сценарий
+- **draft → void** — ошибка до оплаты
+- **issued → void** — исключительная ошибка после выпуска; если уже оплачено, нужно использовать credit note
 
-Payment status values:
+Возможные значения платежного статуса:
 
 - **unpaid**
 - **paid**

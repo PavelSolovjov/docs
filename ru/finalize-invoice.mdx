@@ -1,7 +1,7 @@
 ---
-title: "Finalize Invoice"
+title: "Финализация инвойса"
 ---
 
-Sets `status='issued'`, `issued_at=NOW()`, `due_at=NOW()+30 days`.
+Устанавливает `status='issued'`, `issued_at=NOW()`, `due_at=NOW()+30 days`.
 
-Once issued: treat as legally binding. Do not modify — void or credit note only.
+После выпуска документ считается юридически значимым. Изменять его нельзя, допускается только `void` или `credit note`.

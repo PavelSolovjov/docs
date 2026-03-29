@@ -1,12 +1,12 @@
 ---
-title: "What Is Already Correct"
+title: "Что уже сделано правильно"
 ---
 
-- Append-only `fee_ledger` with status state machine
-- Unique invoice per period (`invoices_instance_period` index)
-- Secure session (passkey re-auth) for all financial mutations
-- Non-blocking fee collection — cheques work even if fees fail
-- Atomic invoice number generation via JSONB sequence
-- Multi-tenant isolation — all financial queries include `instance_id`
-- CSV export for external accounting
-- On-chain collection with atomic lock (`FOR UPDATE SKIP LOCKED`)
+- `fee_ledger` работает как append-only ledger со state machine по статусам
+- Один уникальный invoice на период, через индекс `invoices_instance_period`
+- Защищенная сессия, включая повторную passkey-аутентификацию, для всех финансовых изменений
+- Неблокирующий сбор комиссий: чеки продолжают работать, даже если сбор fee не удался
+- Атомарная генерация номера invoice через JSONB sequence
+- Изоляция multi-tenant: все финансовые запросы включают `instance_id`
+- Экспорт в CSV для внешнего учета
+- On-chain сбор с атомарной блокировкой через `FOR UPDATE SKIP LOCKED`

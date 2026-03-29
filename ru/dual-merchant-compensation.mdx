@@ -1,12 +1,12 @@
 ---
-title: "Dual Merchant Compensation"
+title: "Двухуровневая компенсация merchant"
 ---
 
-Merchants receive compensation in two layers, designed to minimize their visible upfront margin (tax base) while providing meaningful economic incentive via the back-end rebate.
+Merchant получает компенсацию в двух слоях. Такая модель нужна, чтобы минимизировать видимую upfront-маржу, то есть налоговую базу, и при этом дать заметный экономический стимул через backend rebate.
 
-## Layer 1 — Agent Commission (Upfront, from Customer)
+## Уровень 1 — Agent commission, upfront от клиента
 
-The merchant charges end customers a small markup on top of the face value equivalent. This is their declared commission revenue.
+Merchant берет с конечного клиента небольшую наценку сверх эквивалента номинала. Это и есть его декларируемая комиссионная выручка.
 
 ```text
 End customer pays: face_value_equiv_in_fiat + agent_commission
@@ -21,11 +21,11 @@ Example:
   Merchant remits to issuer: €92.00
 ```
 
-The `agent_commission_pct` is set by the merchant and is their minimum viable margin. The platform should track this for reporting but does not enforce or collect it — it's between the merchant and their customer.
+Поле `agent_commission_pct` задается самим merchant и отражает его минимально приемлемую маржу. Платформа должна учитывать это значение для отчетности, но не должна его enforce или собирать, это отношения между merchant и его клиентом.
 
-## Layer 2 — Rebate (Post-Settlement, from Issuer)
+## Уровень 2 — Rebate, post-settlement от issuer
 
-After the merchant successfully settles a period (remits face value to issuer), the issuer pays a **rebate** as an incentive. The rebate is structured as a percentage of the settled volume and may be tiered by volume.
+После того как merchant успешно закрывает settlement за период, то есть перечисляет номинал issuer, issuer выплачивает **rebate** как мотивационную выплату. Rebate рассчитывается как процент от подтвержденного объема и может зависеть от volume tier.
 
 ```text
 Rebate = settled_volume_usdc × rebate_pct
@@ -36,20 +36,20 @@ Example:
   Volume tier: >$50k/month → 2.0% rebate
 ```
 
-## Why rebate, not a higher commission
+## Почему rebate, а не просто более высокая комиссия
 
-- Commission is visible to end customers and creates local tax exposure for the merchant
-- Rebate is a B2B payment from a foreign entity, typically with different (often more favorable) tax treatment
-- Rebate is contingent on settlement, incentivizing merchants to settle promptly
-- Rebate rates can be negotiated per merchant without changing the customer-facing price\
+- Комиссия видна конечному клиенту и создает локальную налоговую нагрузку для merchant
+- Rebate - это B2B-выплата от иностранной компании, которая обычно имеет другой, часто более выгодный налоговый режим
+- Rebate зависит от settlement, а значит мотивирует merchants закрывать периоды без задержек
+- Rebate rates можно согласовывать индивидуально по merchant, не меняя цену для конечного клиента\
 
-## Rebate trigger conditions
+## Условия срабатывания rebate
 
-- Merchant must have settled the period (payment confirmed)
-- Rebate is calculated after `settlement_delay_days` from payment confirmation
-- Rebate is paid in USDC (on-chain) or in fiat by wire, per agreement\
+- Merchant должен закрыть settlement за период, то есть оплата должна быть подтверждена
+- Rebate рассчитывается после `settlement_delay_days` от момента подтверждения оплаты
+- Rebate выплачивается либо в USDC on-chain, либо в fiat банковским переводом, в зависимости от договоренности\
 
-## Combined Merchant Economics
+## Совокупная экономика merchant
 
 ```text
 Sold: 100 cheques × $100 = $10,000 USDC face value

@@ -1,35 +1,35 @@
 ---
-title: "Implementation Roadmap"
+title: "План реализации"
 ---
 
-## Phase 1 — Production Readiness (P0)
+## Фаза 1 — Готовность к production (P0)
 
-### 1.1 — PDF Invoice Generation
+### 1.1 — Генерация PDF invoice
 
-Files: `api/lib/pdf-invoice.ts` (new), `api/routes/instance-admin.ts`\
-UI: `Download PDF` button in `InvoiceSection` detail dialog
+Файлы: `api/lib/pdf-invoice.ts` (новый), `api/routes/instance-admin.ts`\
+UI: кнопка `Download PDF` в диалоге деталей `InvoiceSection`
 
-### 1.2 — Mark Invoice as Paid
+### 1.2 — Отметка invoice как оплаченного
 
 ```text
 ALTER TABLE invoices ADD COLUMN paid_at TIMESTAMPTZ;
 ALTER TABLE invoices ADD COLUMN payment_ref TEXT;
 ```
 
-Files: `api/routes/instance-admin.ts` (`mark_invoice_paid` action)\
+Файлы: `api/routes/instance-admin.ts`, действие `mark_invoice_paid`\
 \
-UI: `Mark as Paid` button in `InvoiceSection` (owner/admin only)
+UI: кнопка `Mark as Paid` в `InvoiceSection`, только для `owner/admin`
 
-### 1.3 — Backfill billing\_period
+### 1.3 — Заполнение `billing_period` задним числом
 
 ```text
 UPDATE fee_ledger SET billing_period = DATE_TRUNC('month', created_at)::DATE
 WHERE billing_period IS NULL;
 ```
 
-## Phase 2 — Credit Notes & Dunning (P1)
+## Фаза 2 — Credit notes и dunning (P1)
 
-### 2.1 — Credit Notes
+### 2.1 — Credit notes
 
 ```text
 CREATE TABLE credit_notes (
@@ -45,15 +45,15 @@ CREATE TABLE credit_notes (
 );
 ```
 
-### 2.2 — Overdue Cron \+ Email
+### 2.2 — Cron для overdue \+ email
 
-Files: `api/queue/billing-cron.ts` (nightly job)\
+Файлы: `api/queue/billing-cron.ts`, ночная задача\
 \
-Files: `api/routes/instance-admin.ts` (trigger email on `finalize_invoice`)
+Файлы: `api/routes/instance-admin.ts`, отправка email при `finalize_invoice`
 
-## Phase 3 — Distribution Model (P0 for distribution use cases)
+## Фаза 3 — Distribution model (P0 для distribution-сценариев)
 
-### 3.1 — Merchant Distribution Fields
+### 3.1 — Поля distribution для merchant
 
 ```text
 ALTER TABLE merchants
@@ -65,7 +65,7 @@ ALTER TABLE merchants
   ADD COLUMN country TEXT;
 ```
 
-### 3.2 — Distribution Tiers
+### 3.2 — Уровни distribution
 
 ```text
 ALTER TABLE fee_tiers
@@ -74,54 +74,54 @@ ALTER TABLE fee_tiers
   ADD COLUMN rebate_settlement_delay_days INT DEFAULT 7;
 ```
 
-### 3.3 — Settlement & Rebate Tables
+### 3.3 — Таблицы settlement и rebate
 
-Migration 044: `merchant_settlements` \+ `merchant_rebates` (full DDL in §6)
+Миграция `044`: `merchant_settlements` и `merchant_rebates`, полный `DDL` см. в §6
 
-### 3.4 — Settlement API Actions
+### 3.4 — Settlement API actions
 
-New actions in `instance-admin.ts`:
+Новые действия в `instance-admin.ts`:
 
-- `generate_settlement` — create settlement statement for merchant \+ period\
-- `finalize_settlement` — issue to merchant\
-- `mark_settlement_paid` — record payment, trigger rebate calculation\
-- `list_settlements` — paginated list per instance\
-- `get_settlement` — detail \+ line items\
-- `list_rebates` — rebate notices per instance\
-- `mark_rebate_paid` — record rebate payment \+ tx\_hash\
+- `generate_settlement` — создать settlement statement для merchant и периода\
+- `finalize_settlement` — выпустить документ для merchant\
+- `mark_settlement_paid` — зафиксировать оплату и запустить расчет rebate\
+- `list_settlements` — постраничный список по инстансу\
+- `get_settlement` — детали и line items\
+- `list_rebates` — rebate notices по инстансу\
+- `mark_rebate_paid` — зафиксировать выплату rebate и `tx_hash`\
 
 ### 3.5 — Settlement UI
 
-New sub-tabs in `RevenueTab`:
+Новые подвкладки в `RevenueTab`:
 
-- `Settlements` — per-merchant statements, generate/finalize/mark-paid\
-- `Rebates` — rebate notices, status, payment recording\
+- `Settlements` — statements по мерчантам, генерация, выпуск и отметка оплаты\
+- `Rebates` — rebate notices, статусы и фиксация выплат\
 
-## Phase 4 — Fee Collection Automation (P1)
+## Фаза 4 — Автоматизация сбора комиссий (P1)
 
-### 4.1 — Collection Retry Queue
+### 4.1 — Очередь повторных попыток сбора
 
-Retry job using `next_retry_at` \+ `collection_attempts`. Exponential backoff (`1h × 2^attempts`). Max 5 attempts → `abandoned`.
+Повторная задача использует `next_retry_at` и `collection_attempts`. Применяется exponential backoff по формуле `1h × 2^attempts`. Максимум 5 попыток, после чего статус становится `abandoned`.
 
-### 4.2 — `billing_mode` Enforcement
+### 4.2 — Enforcement для `billing_mode`
 
-In `collectCreationFee()`: if `instance.settings.billing_mode === 'invoice'` → set `collection_status = 'invoiced'`, skip on-chain transfer.
+В `collectCreationFee()`: если `instance.settings.billing_mode === 'invoice'`, то нужно установить `collection_status = 'invoiced'` и пропустить on-chain перевод.
 
-## Phase 5 — Analytics & Reconciliation (P2)
+## Фаза 5 — Аналитика и сверка (P2)
 
-### 5.1 — Nightly Reconciliation Job
+### 5.1 — Ночная задача сверки
 
-Compare fee\_ledger sums vs. cheque count expectations.
+Сравнивает суммы в `fee_ledger` с ожидаемыми значениями на основе количества чеков.
 
-### 5.2 — Volume Tier Auto-Upgrade
+### 5.2 — Автообновление volume tier
 
-Monthly check against `volume_threshold_monthly`.
+Ежемесячная проверка относительно `volume_threshold_monthly`.
 
-### 5.3 — Revenue Charts
+### 5.3 — Графики выручки
 
-12-month rolling trend in `AdminB2BDashboardTab`.
+Скользящий 12-месячный тренд в `AdminB2BDashboardTab`.
 
-## Phase 6 — USDC Rate Documentation (P1)
+## Фаза 6 — Документирование курса USDC (P1)
 
 ```text
 ALTER TABLE invoices
@@ -135,6 +135,6 @@ ALTER TABLE fee_ledger
   ADD COLUMN usd_fmv NUMERIC(12,6);
 ```
 
-## Phase 7 — Branded PDF (Gotenberg) (P2)
+## Фаза 7 — Брендированный PDF через Gotenberg (P2)
 
-Add `gotenberg/gotenberg:8` container to `docker-compose.yml`. Create `api/templates/` with HTML invoice and settlement templates supporting instance branding (logo, colors, USDC wallet QR code).
+Добавить контейнер `gotenberg/gotenberg:8` в `docker-compose.yml`. Создать `api/templates/` с HTML-шаблонами invoice и settlement, поддерживающими брендинг инстанса: логотип, цвета и QR-код USDC-кошелька.

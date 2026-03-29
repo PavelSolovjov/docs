@@ -1,18 +1,18 @@
 ---
-title: "Generate Platform Invoice"
+title: "Генерация platform invoice"
 ---
 
-**Route action**: `generate_invoice`\
-**Access**: `owner` or `admin` \+ secure session (passkey re-auth)
+**Действие route**: `generate_invoice`\
+**Доступ**: `owner` или `admin` \+ защищенная сессия, включая повторную passkey-аутентификацию
 
-Input:
+Входные данные:
 
 `{ "billingPeriod": "2026-03" }`
 
-Process:
+Процесс:
 
-1. Check for existing invoice for this period (409 if duplicate — `invoices_instance_period` index)
-2. Aggregate `fee_ledger` collected fees for the period by `fee_type`
-3. Reject 422 if no collected fees
-4. Increment `invoice_seq`, generate number
-5. Insert `invoices` \+ `invoice_line_items` (one per fee type)
+1. Проверить, существует ли уже инвойс за этот период, при дубликате вернуть `409`, используется индекс `invoices_instance_period`
+2. Агрегировать собранные комиссии из `fee_ledger` за период по полю `fee_type`
+3. Вернуть `422`, если собранных комиссий нет
+4. Увеличить `invoice_seq` и сгенерировать номер
+5. Создать записи в `invoices` и `invoice_line_items`, по одной строке на каждый тип комиссии

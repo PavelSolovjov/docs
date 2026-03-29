@@ -1,8 +1,8 @@
 ---
-title: "Blling Period Assignment"
+title: "Назначение billing period"
 ---
 
-`billing_period` stores the first day of the calendar month (e.g. `2026-03-01`). Added in migration 035. Pre-035 entries have `NULL` and are handled with a fallback in invoice generation:
+`billing_period` хранит первый день календарного месяца, например `2026-03-01`. Поле добавлено в миграции `035`. Записи, созданные до `035`, имеют значение `NULL` и обрабатываются через fallback при генерации invoice:
 
 ```text
 WHERE (billing_period = $periodDate
