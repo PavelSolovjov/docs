@@ -306,6 +306,6 @@
     "default": "system"
   },
   "search": {
-    "prompt": "Search or ask AI"
+    "prompt": "Search"
   }
 }
