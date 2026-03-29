@@ -194,6 +194,7 @@
             "pages": [
               "business-model-overview",
               "executive-summary",
+              "treasury-and-lending-executive-summary",
               {
                 "group": "Distribution & Agency Model",
                 "pages": [
@@ -265,8 +266,7 @@
               "implementation-roadmap",
               "appendix-a-migration-summary",
               "key-file-reference",
-              "distribution-model-glossary",
-              "treasury-and-lending-executive-summary"
+              "distribution-model-glossary"
             ]
           }
         ]
