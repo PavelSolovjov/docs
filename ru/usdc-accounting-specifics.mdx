@@ -1,12 +1,12 @@
 ---
-title: "USDC Accounting Specifics"
+title: "Особенности учета USDC"
 ---
 
-## Invoice Denomination
+## Номинация invoice
 
-Invoices denominated in **USDC** (~\$1.00 USD, Circle-managed peg).
+Invoices номинируются в **USDC**, примерно \$1.00 USD, с peg, поддерживаемым Circle.
 
-Recommended columns (partially implemented):
+Рекомендуемые колонки, часть уже реализована:
 
 ```text
 subtotal_usdc   NUMERIC(18,6)   -- primary
@@ -15,9 +15,9 @@ rate_at_invoice NUMERIC(12,6)   -- USD/USDC at issuance (planned)
 rate_source     TEXT            -- 'circle_api' | 'assumed_peg' (planned)
 ```
 
-## Settlement Documents in Non-USD Currencies
+## Settlement-документы в валютах, отличных от USD
 
-Settlement statements (§2.5) involve FX conversion when the merchant operates in a non-USD currency. Store:
+Settlement statements, см. §2.5, требуют FX conversion, если merchant работает в валюте, отличной от USD. Следует хранить:
 
 ```text
 face_value_usdc     NUMERIC(18,6)   -- always in USDC
@@ -27,21 +27,21 @@ fx_rate_source      TEXT            -- 'ecb', 'coinbase', 'manual'
 amount_due          NUMERIC(18,6)   -- face_value_usdc × fx_rate, in settlement_currency
 ```
 
-This is the authoritative amount the merchant owes. The FX rate is fixed at the time the settlement statement is **issued**, not at payment time — protecting both parties from rate drift during the payment window.
+Это authoritative amount, то есть итоговая сумма, которую merchant должен заплатить. FX rate фиксируется в момент **выпуска** settlement statement, а не в момент оплаты, что защищает обе стороны от rate drift в течение платежного окна.
 
-## Revenue Recognition
+## Признание выручки
 
-Under IRS guidance (Notice 2014-21, Rev. Rul. 2023-14):
+Согласно guidance от IRS, включая `Notice 2014-21` и `Rev. Rul. 2023-14`:
 
-- USDC received = ordinary income at FMV at receipt time
-- FMV for USDC ≈ \$1.0000 (trivial, but must be documented)
-- Store `usdc_rate_at_collection` and `usd_fmv` on every `fee_ledger` collected entry (planned)\
+- полученный USDC = ordinary income по FMV на момент получения
+- FMV для USDC ≈ \$1.0000, это тривиально, но все равно должно быть задокументировано
+- для каждой collected entry в `fee_ledger` следует хранить `usdc_rate_at_collection` и `usd_fmv`, это запланировано\
 
-## On-Chain Payment Proof
+## On-chain подтверждение оплаты
 
-`fee_ledger.collection_tx_hash` and `merchant_settlements.payment_ref` (Solana tx sig for crypto payments) are the immutable receipts. Verifiable at [solscan.io](http://solscan.io).
+`fee_ledger.collection_tx_hash` и `merchant_settlements.payment_ref`, то есть Solana tx sig для crypto payments, являются неизменяемыми подтверждениями оплаты. Их можно проверить через [solscan.io](http://solscan.io).
 
-## Invoice Payment Instructions
+## Инструкции по оплате invoice
 
 ```text
 Payment Network: Solana (Mainnet)

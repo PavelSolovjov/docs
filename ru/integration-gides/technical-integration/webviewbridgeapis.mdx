@@ -1,37 +1,37 @@
 ---
-title: "WebView Bridge APIs"
-description: "Technical documentation for JavaScript bridge APIs that must be injected into WebView for integration with the Holders web application."
+title: "API мостов WebView"
+description: "Техническая документация по JavaScript bridge API, которые нужно внедрить в WebView для интеграции с веб-приложением Holders."
 ---
 
-# Architecture
+# Архитектура
 
 ![Screenshot2026 01 27at18 51 38](/images/Screenshot2026-01-27at18.51.38.png)
 
-**Important:** All examples in this documentation use the Tonnub mobile wallet as a reference. After deploying the corresponding environments by the Holders team, it is necessary to adapt the paths and names according to your wallet's naming.
+**Важно:** Во всех примерах этой документации мобильный кошелек Tonhub используется как референсная реализация. После развертывания соответствующих окружений командой Holders нужно адаптировать пути и названия под нейминг вашего кошелька.
 
-## How It Works
+## Как это работает
 
-1. **Pre-content injection**: JavaScript code is injected into WebView before the page loads via `injectedJavaScriptBeforeContentLoaded`
-2. **Bidirectional communication**: The web app sends messages via `window.ReactNativeWebView.postMessage()`, and the native app responds via `webView.injectJavaScript()`
-3. **Promise-based API**: Most methods return Promises and use callbacks to receive results
+1. **Инъекция до загрузки контента**: JavaScript-код внедряется в WebView до загрузки страницы через `injectedJavaScriptBeforeContentLoaded`
+2. **Двунаправленная коммуникация**: веб-приложение отправляет сообщения через `window.ReactNativeWebView.postMessage()`, а нативное приложение отвечает через `webView.injectJavaScript()`
+3. **API на основе Promise**: большинство методов возвращают `Promise` и используют callbacks для получения результатов
 
-# API Priorities
+# Приоритеты API
 
 | API               | Priority    | Necessity                                              |
 | :---------------- | :---------- | :----------------------------------------------------- |
-| TonConnect Bridge | 🔴 Critical | Connection and transactions                            |
-| Main Button API   | 🔴 High     | Action button                                          |
-| DApp Client API   | 🔴 High     | Closing and navigation (minimum `closeApp`, `openUrl`) |
-| Auth API          | 🔴 High     | Operation security                                     |
-| Status Bar API    | 🟡 Medium   | Safe area insets                                       |
-| Toaster API       | 🟡 Medium   | User notifications                                     |
-| Wallet API        | 🟡 Medium   | Only for Apple/Google Pay cards                        |
-| Emitter API       | 🟡 Medium   | State synchronization                                  |
-| Support API       | 🟢 Low      | Intercom (Optional)                                    |
+| TonConnect Bridge | 🔴 Critical | Подключение и транзакции                               |
+| Main Button API   | 🔴 High     | Кнопка действия                                        |
+| DApp Client API   | 🔴 High     | Закрытие и навигация, минимум `closeApp`, `openUrl`    |
+| Auth API          | 🔴 High     | Безопасность операций                                  |
+| Status Bar API    | 🟡 Medium   | Отступы safe area                                      |
+| Toaster API       | 🟡 Medium   | Пользовательские уведомления                           |
+| Wallet API        | 🟡 Medium   | Только для карт Apple Pay и Google Pay                 |
+| Emitter API       | 🟡 Medium   | Синхронизация состояния                                |
+| Support API       | 🟢 Low      | Intercom, опционально                                  |
 
-# Communication Mechanism
+# Механизм обмена сообщениями
 
-## Message Format from WebView to Native
+## Формат сообщения из WebView в native
 
 ```
 interface WebViewMessage {
@@ -43,7 +43,7 @@ interface WebViewMessage {
 }
 ```
 
-## Response Format from Native to WebView
+## Формат ответа из native в WebView
 
 ```
 interface NativeResponse {
@@ -54,7 +54,7 @@ interface NativeResponse {
 }
 ```
 
-## Basic Injection Pattern
+## Базовый паттерн инъекции
 
 ```
 // Inject API into window object
@@ -75,13 +75,13 @@ const injectedJS = `
 `;
 ```
 
-# TonConnect Bridge
+# Мост TonConnect
 
 **Window Object:**`window.tonhub`\
-**Purpose:** Implementation of TonConnect v2 protocol for wallet connection and transaction signing.\
-**Priority:** Critical (required for operation)
+**Назначение:** реализация протокола TonConnect v2 для подключения кошелька и подписания транзакций.\
+**Приоритет:** критический, обязателен для работы
 
-## TypeScript Interface
+## Интерфейс TypeScript
 
 ```
 interface TonConnectInjectedBridge {

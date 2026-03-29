@@ -4,59 +4,59 @@ title: "Активы: TON/SOL/токены"
 
 # Поддерживаемые активы
 
-Tonhub displays and supports the following types of assets: native [TON](https://ton.org/), [tokens](https://docs.ton.org/develop/dapps/asset-processing/jettons) (TON), as well as [SOL](https://solana.com/) and [tokens](https://spl.solana.com/) on the Solana network. Below is a description of how they are displayed, where the data comes from, and what limitations exist.
+Tonhub отображает и поддерживает следующие типы активов: нативный [TON](https://ton.org/), [tokens](https://docs.ton.org/develop/dapps/asset-processing/jettons) в сети TON, а также [SOL](https://solana.com/) и [tokens](https://spl.solana.com/) в сети Solana. Ниже описано, как эти активы показываются, откуда берутся данные и какие ограничения существуют.
 
 # Токены в сети TON
 
-Each token has:
+У каждого token есть:
 
-- **Master contract** — defines the token type (symbol, name, decimal places).
-- **Token wallet** — a contract at the user's address that stores the balance of this token.
+- **Master contract** — определяет тип token, его symbol, name и количество decimal places.
+- **Token wallet** — контракт по адресу пользователя, в котором хранится баланс этого token.
 
 ### Как Tonhub отображает токены
 
-The application gets the list of tokens and balances by TON address from the Tonhub backend: **Hints Full** request (`/hints/full/{address}`). The response contains a list of token wallets with balances and metadata. Users cannot manually "add" or "remove" a token in terms of changing the server list: only tokens for which your address has a token wallet and which the API returned are displayed. Hiding or marking as "spam" affects display in the application (see below).\
-For each token, the following is displayed:
+Приложение получает список tokens и balances по TON address с backend Tonhub через запрос **Hints Full**, путь `/hints/full/{address}`. В ответе приходит список token wallets с balances и metadata. Пользователь не может вручную "добавить" или "удалить" token в смысле изменения server list: отображаются только те tokens, для которых у вашего address есть token wallet и которые вернул API. Скрытие или пометка как spam влияет только на отображение внутри приложения, см. ниже.\
+Для каждого token показываются:
 
-- **Name and symbol** (name, symbol) — from master contract metadata (cache/Tonhub API).
-- **Amount** (balance) — accounting for decimals.
-- **Icon** (image) — if provided by the metadata API.
+- **Name и symbol**, то есть `name` и `symbol`, из metadata master contract, через cache или Tonhub API.
+- **Amount**, то есть balance, с учетом decimals.
+- **Icon**, то есть image, если она передана в metadata API.
 
 ### Gasless для токенов
 
-For some tokens (e.g., [USDT](https://tether.to/)) with [W5 wallet](https://docs.ton.org/participate/wallets/contracts#wallet-v5), fee payment in the token itself (gasless) is available. The application gets the list of such tokens from the gasless config on the server. More details — in the [Receiving and Sending](/receiving-and-sending-transactions) section.
+Для некоторых tokens, например [USDT](https://tether.to/), при использовании [W5 wallet](https://docs.ton.org/participate/wallets/contracts#wallet-v5) доступна оплата fee прямо в этом token, то есть gasless. Приложение получает список таких tokens из gasless config на сервере. Подробнее об этом см. в разделе [Receiving and Sending](/receiving-and-sending-transactions).
 
 # Спам и риски: маркировка токенов и адресов
 
 ### Проверка на backend
 
-For tokens, the API can return a **verification** field (e.g., whitelist / blacklist / none) and an **isScam** flag for the wallet. This is used for visual highlighting of suspicious tokens or addresses (e.g., "SCAM" marking in the interface for token or badge on avatar during transfer).
+Для tokens API может возвращать поле **verification**, например `whitelist`, `blacklist` или `none`, а также флаг **isScam** для wallet. Это используется для визуального выделения подозрительных tokens или addresses, например через пометку `SCAM` в интерфейсе token или badge на avatar во время transfer.
 
 ### Ручной список (deny list)
 
-Users can add addresses to a "manual spam filter" (deny list) in settings. Such addresses are displayed with a spam marking (badge on avatar) when sending, but **sending to them is not blocked** — the user can confirm the transfer. That is, protection from phishing and scammers is in the form of a warning, not a hard ban.
+Пользователь может добавлять addresses в "manual spam filter", то есть deny list, в настройках. Такие addresses показываются с пометкой spam, badge на avatar, при отправке, но **сама отправка не блокируется** — пользователь все равно может подтвердить transfer. То есть защита от phishing и мошенников реализована в виде предупреждения, а не жесткого запрета.
 
 ### Только TON
 
-Spam filter logic (automatic marking by amount/comment, known spam wallets, deny list) in Tonhub applies **only to TON and tokens**. Solana transactions (SOL and SPL tokens) are **not marked** as spam and do not go through this filter.
+Логика spam filter, включая автоматическую пометку по сумме или comment, известные spam wallets и deny list, в Tonhub применяется **только к TON и tokens**. Solana transactions, то есть SOL и SPL tokens, как spam **не маркируются** и через этот фильтр не проходят.
 
 # Solana: SOL и токены
 
-[**SOL**](https://solana.com/) — native Solana balance; displayed in the Solana wallet section. Data is requested via RPC (balance, history).\
-[**Tokens**](https://spl.solana.com/) - the application gets the list of tokens by user's Solana address from the Tonhub backend: **POST** to `/solana/tokens/mainnet` (or devnet) with body `{ address }`. The response contains an array of tokens with fields: address (mint), symbol, name, decimals, logoURI, amount (balance), etc.\
-**Who decides which tokens to show:** the backend. The application displays only what the API returns; there is no fixed list of "supported" tokens in the application code. There are no display restrictions and by default Tonhub will display all tokens.\
-Spam filter and deny list for Solana are **not used** in Tonhub — small or suspicious Solana transactions are not marked as spam.
+[**SOL**](https://solana.com/) — нативный баланс Solana, он показывается в разделе Solana wallet. Данные запрашиваются через RPC, это balance и history.\
+[**Tokens**](https://spl.solana.com/) - приложение получает список tokens по Solana address пользователя с backend Tonhub через **POST** на `/solana/tokens/mainnet`, либо `devnet`, с body `{ address }`. В ответе приходит массив tokens с полями `address`, это `mint`, `symbol`, `name`, `decimals`, `logoURI`, `amount`, то есть balance, и так далее.\
+**Кто решает, какие tokens показывать:** backend. Приложение отображает только то, что вернул API; фиксированного списка "supported" tokens в коде приложения нет. Ограничений на отображение тоже нет, поэтому по умолчанию Tonhub показывает все tokens.\
+Spam filter и deny list для Solana в Tonhub **не используются** — маленькие или подозрительные Solana transactions как spam не помечаются.
 
 # Управление списком активов
 
-The wallet has two sections for displaying tokens:
+В кошельке есть два раздела для отображения tokens:
 
-- **Savings accounts** — section contains known stablecoins and native currencies by default. Editing this section is not available.
-- **Tokens** — section displays all other TON blockchain tokens. This section supports editing.
+- **Savings accounts** — этот раздел по умолчанию содержит известные stablecoins и нативные currencies. Редактировать его нельзя.
+- **Tokens** — этот раздел показывает все остальные tokens блокчейна TON. Этот раздел можно редактировать.
 
 ### Редактирование раздела Tokens
 
-The "Hide" action is available on the token card. A hidden token disappears from the main list and moves to a separate **"Hidden tokens"** block (the block can be collapsed or expanded if needed). The token can be restored directly from this block — the "Show" button on the hidden token card returns it to the main list. The setting is saved locally (synchronized via cloud by `jettons-disabled` key).\
-For tokens linked to a [Ledger wallet](https://www.ledger.com/), a separate list of hidden tokens operates with similar logic: hiding moves the token to the hidden block, the "Show" button returns it to the main list.\
-The function of hiding and displaying individual tokens in SOL is not supported — all tokens from the API response are displayed.\
-The order of tokens is determined automatically: verification (verified), balance presence, exchange rate, etc. are taken into account. There is **no** "pin" or "favorite" function to move a selected token to the top of the list in the application.
+На token card доступно действие `Hide`. Скрытый token исчезает из основного списка и перемещается в отдельный блок **Hidden tokens**, который можно свернуть или развернуть. Восстановить token можно прямо из этого блока: кнопка `Show` на карточке скрытого token возвращает его в основной список. Настройка сохраняется локально и синхронизируется через cloud по ключу `jettons-disabled`.\
+Для tokens, привязанных к [Ledger wallet](https://www.ledger.com/), работает отдельный список скрытых tokens с похожей логикой: скрытие перемещает token в hidden block, а кнопка `Show` возвращает его назад.\
+Функция скрытия и отображения отдельных tokens в SOL не поддерживается — показываются все tokens, которые вернул API.\
+Порядок tokens определяется автоматически: учитываются verification, например `verified`, наличие balance, exchange rate и другие параметры. Функции `pin` или `favorite`, которая поднимала бы выбранный token наверх списка, в приложении **нет**.

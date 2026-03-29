@@ -2,8 +2,8 @@
 title: "Пользовательские настройки в Tonhub"
 ---
 
-In Tonhub, users can change the app's appearance, language, display currency, address format, spam filter, security settings, and personal data for each wallet. Below are **all available settings**, where they are located, and how they are saved.\
-**Where to open settings:** main screen → "Settings" tab. Some options apply to the entire app, while others apply to the selected wallet (name, avatar, color are set in wallet settings / by tapping on the wallet card).
+В Tonhub пользователь может менять внешний вид приложения, язык, валюту отображения, формат адресов, spam filter, security settings и персональные данные для каждого кошелька. Ниже перечислены **все доступные настройки**, где они находятся и как сохраняются.\
+**Где открыть настройки:** главный экран → вкладка `Settings`. Часть опций применяется ко всему приложению, а часть относится только к выбранному кошельку, например имя, avatar и color задаются в wallet settings или по нажатию на карточку кошелька.
 
 <img
   src="/images/2026-02-2015.57.03.jpg"
@@ -15,20 +15,20 @@ In Tonhub, users can change the app's appearance, language, display currency, ad
 
 # Тема (light / dark / system)
 
-**Screen:** Settings → "Theme".\
-**Options:**
+**Экран:** `Settings` → `Theme`.\
+**Опции:**
 
-- **Light** — light background, dark text.
-- **Dark** — dark background, light text.
-- **System** — automatically follows the device's system theme (light/dark depending on OS settings).
+- **Light** — светлый фон и темный текст.
+- **Dark** — темный фон и светлый текст.
+- **System** — автоматически следует системной теме устройства, светлой или темной, в зависимости от настроек ОС.
 
-**Where stored:** locally on device (`themeStyle` key in app storage). When changing theme, the navigation bar (NavBar) color is also updated.\
-**Default:** "System".
+**Где хранится:** локально на устройстве, ключ `themeStyle` в app storage. При смене темы также обновляется цвет navigation bar, `NavBar`.\
+**Значение по умолчанию:** `System`.
 
 # Язык интерфейса
 
-**Screen:** Settings → "Language".\
-**Available languages:**
+**Экран:** `Settings` → `Language`.\
+**Доступные языки:**
 
 - English
 - Русский
@@ -39,91 +39,91 @@ In Tonhub, users can change the app's appearance, language, display currency, ad
 - Italiano
 - Português
 
-Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langResources`). On first launch, if no language is selected, the system language may be used (`getLocales()[0].languageCode`).\
-**Where stored:** locally (`languageState` key). After changing language, the app restarts to apply translations to all screens.\
-**Default:** system language or saved value.
+Коды: `en`, `ru`, `uk`, `es`, `de`, `fr`, `it`, `pt`. Список задается в приложении через `langResources`. При первом запуске, если язык не выбран, может использоваться системный язык устройства, `getLocales()[0].languageCode`.\
+**Где хранится:** локально, ключ `languageState`. После смены языка приложение перезапускается, чтобы применить переводы ко всем экранам.\
+**По умолчанию:** системный язык или ранее сохраненное значение.
 
 # Поисковая система (в браузере)
 
-**Screen:** Settings → "Search engine".\
-**Options:**
+**Экран:** `Settings` → `Search engine`.\
+**Опции:**
 
-- **Google** — search through Google when entering a query in the app browser address bar (WebView).
-- **DuckDuckGo** — search through DuckDuckGo.
+- **Google** — поиск через Google при вводе запроса в адресную строку встроенного браузера приложения, `WebView`.
+- **DuckDuckGo** — поиск через DuckDuckGo.
 
-**Where stored:** in app shared storage (`searchEngine` key, shared storage). Used when substituting search URL when user enters text in the app browser address field.\
-**Default:** DuckDuckGo.
+**Где хранится:** в app shared storage, ключ `searchEngine`. Используется при подстановке search URL, когда пользователь вводит текст в адресную строку встроенного браузера.\
+**По умолчанию:** `DuckDuckGo`.
 
 # Основная валюта (для отображения сумм)
 
-**Screen:** Settings → "Primary currency".\
-**Options:** USD, EUR, RUB, GBP, CHF, CNY, KRW, IDR, INR, JPY. The interface displays currency symbol and label (e.g., U.S. Dollar for USD).\
-**Where stored:** in **Tonhub cloud storage** (by `primaryCurrency-v1` key), linked to device/account. This allows preserving currency choice when reinstalling the app (if using the same key).\
-**Default:** USD.\
-**Usage:** balances, transaction amounts, fees, and fiat equivalents are displayed in the selected currency (using exchange rates from backend).
+**Экран:** `Settings` → `Primary currency`.\
+**Опции:** `USD`, `EUR`, `RUB`, `GBP`, `CHF`, `CNY`, `KRW`, `IDR`, `INR`, `JPY`. В интерфейсе отображаются symbol и label валюты, например `U.S. Dollar` для `USD`.\
+**Где хранится:** в **Tonhub cloud storage**, ключ `primaryCurrency-v1`, привязан к устройству или аккаунту. Это позволяет сохранить выбор валюты при переустановке приложения, если используется тот же ключ.\
+**По умолчанию:** `USD`.\
+**Использование:** balances, transaction amounts, fees и fiat equivalents показываются в выбранной валюте, с использованием exchange rates с backend.
 
 # Формат TON-адреса (bounceable / non-bounceable)
 
-**Screen:** Settings → "New address format".\
-**Options:**
+**Экран:** `Settings` → `New address format`.\
+**Опции:**
 
 - **Bounceable.** If the recipient is a contract that is not yet deployed or cannot process the request, TON is returned minus the processing fee.
 - **Non-bounceable.** If the contract doesn't exist, TON will be lost (spent on network fees).
 
-**Where stored:** locally (`bounceableWalletFormat` key). Affects how TON addresses are displayed and copied (when receiving, in contacts, in data provided to dApps, etc.).\
-**Default:** `true` (bounceable). In code for "new" scenarios, non-bounceable may be used by default; actual value is taken from storage.
+**Где хранится:** локально, ключ `bounceableWalletFormat`. Влияет на то, как TON-адреса отображаются и копируются, например при получении, в contacts, в данных для dApps и так далее.\
+**По умолчанию:** `true`, то есть bounceable. В коде для некоторых "new" сценариев non-bounceable может использоваться по умолчанию, но фактическое значение берется из storage.
 
 # Спам-фильтр
 
-**Screen:** Settings → "Spam filter".\
-**Settings:**
+**Экран:** `Settings` → `Spam filter`.\
+**Настройки:**
 
-- **Minimum amount:** TON transactions with amounts **below** the specified threshold (in TON) are automatically marked as spam. User enters value in TON; it's saved in nano-TON. Used only for **TON** (and TON tokens); Solana transactions are not marked by this rule.
-- **Don't show comments on SPAM transactions:** toggle. If enabled, comments (payload) on transactions marked as spam are not displayed in the list.
-- **Manual list (deny list):** addresses that the user manually added to "spam". Such addresses show a spam badge when sending, but **sending is not blocked** — user can confirm the transfer. In the spam filter screen, you can view the list and remove addresses from blocking ("unblock").
+- **Minimum amount:** TON transactions с суммой **ниже** заданного порога, в TON, автоматически помечаются как spam. Пользователь вводит значение в TON, а сохраняется оно в nano-TON. Используется только для **TON**, включая TON tokens; Solana transactions по этому правилу не маркируются.
+- **Don't show comments on SPAM transactions:** toggle. Если включен, comments, то есть payload, у транзакций, помеченных как spam, не показываются в списке.
+- **Manual list, deny list:** адреса, которые пользователь вручную добавил в "spam". Такие адреса показываются с spam badge при отправке, но **отправка не блокируется**, пользователь может подтвердить перевод. На экране spam filter можно посмотреть список и удалить адреса из блокировки, то есть `unblock`.
 
-**Where stored:** minimum amount and "don't show comments" flag — locally (or in app shared storage); deny list is stored in address book context (contacts/deny list). Deny list synchronization between devices depends on implementation (e.g., cloud storage by key).\
-**Note:** "spam" marking by amount and deny list applies only to TON network operations (and token display). Solana transactions don't go through this filter.
+**Где хранится:** minimum amount и флаг "don't show comments" - локально, либо в app shared storage; deny list хранится в address book context, в contacts/deny list. Синхронизация deny list между устройствами зависит от реализации, например через cloud storage по ключу.\
+**Примечание:** пометка "spam" по сумме и deny list применяется только к операциям в TON network и к отображению tokens. Solana transactions через этот фильтр не проходят.
 
 # Настройки кошелька (имя, аватар, цвет)
 
-**Screen:** tapping on selected wallet card on main screen or in switcher → "Wallet settings" (or wallet editing screen).\
-**Parameters (per wallet):**
+**Экран:** нажатие на карточку выбранного кошелька на главном экране или в switcher → `Wallet settings`, либо экран редактирования кошелька.\
+**Параметры, для каждого wallet отдельно:**
 
-- **Name:** arbitrary wallet name (text). Displayed on card and in wallet list. For Ledger, device name can be set.
-- **Avatar:** selecting avatar image from set (index). For Ledger, avatar doesn't change (remains null).
-- **Color:** selecting color from palette (index in color array). Used for wallet card styling.
+- **Name:** произвольное имя кошелька, текст. Показывается на карточке и в списке кошельков. Для Ledger можно задать имя устройства.
+- **Avatar:** выбор avatar image из набора, по index. Для Ledger avatar не меняется и остается `null`.
+- **Color:** выбор color из palette, index в массиве цветов. Используется для оформления wallet card.
 
-**Where stored:** in app shared storage by `walletsSettings` key; value is object like `{ [addressKey]: { name, avatar, color } }`. Key is linked to wallet address (or Ledger identifier). Data is local.\
-**Default:** name — "Wallet N" (N = number in list) or Ledger name; avatar and color are computed from address hash (deterministically) if user hasn't changed them.
+**Где хранится:** в app shared storage, ключ `walletsSettings`; значение имеет вид `{ [addressKey]: { name, avatar, color } }`. Ключ привязан к адресу кошелька, либо к Ledger identifier. Данные локальные.\
+**По умолчанию:** имя - это `Wallet N`, где `N` номер в списке, либо имя Ledger; avatar и color вычисляются детерминированно из address hash, если пользователь их не менял.
 
 # Безопасность (PIN, биометрия, блокировка приложения)
 
-**Screen:** Settings → "Security". Available only for regular wallets (not for Ledger-only scenario).\
-**Settings:**
+**Экран:** `Settings` → `Security`. Доступно только для обычных wallets, не для Ledger-only сценария.\
+**Настройки:**
 
-- **PIN code:** setting, changing, or removing PIN for unlocking key access and confirming operations. Status (set / not set) is stored in secure storage (SecureStore / Keychain).
-- **Biometrics:** enabling/disabling login and operation confirmation via Face ID (iOS) or fingerprint / face (Android). Available only if PIN is already set. Status stored in app (useBiometricsState).
-- **Lock app with auth:** when enabled, app requests PIN or biometrics when returning from background (or when opening). Separate toggle in "Security" section.
+- **PIN code:** установка, изменение или удаление PIN для разблокировки доступа к ключам и подтверждения операций. Статус, установлен или нет, хранится в secure storage, то есть SecureStore или Keychain.
+- **Biometrics:** включение или отключение входа и подтверждения операций через Face ID на iOS или отпечаток пальца / распознавание лица на Android. Доступно только если PIN уже задан. Статус хранится в приложении, `useBiometricsState`.
+- **Lock app with auth:** если включено, приложение запрашивает PIN или biometrics при возврате из background, либо при открытии. Это отдельный toggle в разделе `Security`.
 
-**Where stored:** PIN and keys — in OS secure storage (Keychain / Keystore); "use biometrics" and "lock on exit" flags — in app settings (locally).\
-**Note:** these options don't "configure" the backend — they only affect local unlocking and operation confirmation on the device.
+**Где хранится:** PIN и keys - в secure storage ОС, то есть Keychain или Keystore; флаги `use biometrics` и `lock on exit` - в app settings локально.\
+**Примечание:** эти настройки не конфигурируют backend, они влияют только на локальную разблокировку и подтверждение операций на устройстве.
 
 # Контакты (адресная книга)
 
-**Screen:** Settings → "Contacts".\
-**What it is:** list of saved contacts — name and TON or Solana address. User can add, edit, and delete contacts. When transferring, selecting a contact substitutes the address and displays the name; contacts are also used for "known wallet" marking and connection with deny list (if address is added to spam, it remains in contacts/deny list with marking).\
-**Where stored:** in address book context (AddressBookContext); data can be saved locally and synchronized when needed (depends on implementation). Deny list (manual spam) is linked to this same section.
+**Экран:** `Settings` → `Contacts`.\
+**Что это:** список сохраненных contacts, имя и TON или Solana address. Пользователь может добавлять, редактировать и удалять contacts. При переводе выбор контакта подставляет адрес и показывает имя; contacts также используются для пометки "known wallet" и связки с deny list, если адрес добавлен в spam, он остается в contacts/deny list с соответствующей пометкой.\
+**Где хранится:** в address book context, `AddressBookContext`; данные могут сохраняться локально и синхронизироваться при необходимости, в зависимости от реализации. Deny list, то есть manual spam, привязан к этому же разделу.
 
 # Другие настройки
 
-The "Settings" section also includes items that are not user "options" but lead to important screens:
+Раздел `Settings` также включает пункты, которые не являются пользовательскими "опциями", а ведут на важные экраны:
 
-- **Key backup** — go to seed phrase and backup instructions.
-- **Holders accounts** — go to Holders (cards, accounts); visible when Holders product is available.
-- **Legacy wallet migration** — shown if there's balance on old addresses; go to migration.
-- **Support** — links to Telegram, support form, Holders, Tonhub.
-- **Rate app** — go to app store (rating/review).
-- **Terms of Service** and **Privacy Policy** — opening corresponding pages.
-- **Delete account / disconnect wallet** — removing wallet from app or disconnecting Ledger (depending on context).
-- **Developer tools** — appears after several taps on app version; access to debug screens (logs, storage, etc.).
+- **Key backup** — переход к seed phrase и инструкциям по backup.
+- **Holders accounts** — переход в Holders, то есть cards и accounts; отображается, когда продукт Holders доступен.
+- **Legacy wallet migration** — показывается, если на старых адресах есть balance; ведет на migration.
+- **Support** — ссылки на Telegram, форму поддержки, Holders и Tonhub.
+- **Rate app** — переход в app store для оценки и отзыва.
+- **Terms of Service** и **Privacy Policy** — открытие соответствующих страниц.
+- **Delete account / disconnect wallet** — удаление wallet из приложения или отключение Ledger, в зависимости от контекста.
+- **Developer tools** — появляется после нескольких нажатий на версию приложения; дает доступ к debug screens, logs, storage и другим инструментам.

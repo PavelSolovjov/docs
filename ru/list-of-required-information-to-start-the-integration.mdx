@@ -1,13 +1,13 @@
 ---
-title: "List of required information to start the integration"
+title: "Список необходимой информации для начала интеграции"
 ---
 
-# **Stage 1: Environment Setup, Integration Conditions, and Access Provisioning**
+# **Этап 1: Настройка среды, условия интеграции и предоставление доступов**
 
-## **Providing API Documentation from Holders Partner**
+## **Предоставление API-документации со стороны партнера Holders**
 
-1. The documentation you provide must contain a detailed description of all resources, endpoints (including URLs, HTTP methods, headers), request parameters, and response formats (JSON).
-2. You must provide examples of the complete payment/refund process in the form of real webhook examples for transactions (including clearing) for the following processes:
+1. Предоставляемая вами документация должна содержать подробное описание всех ресурсов, эндпоинтов, включая URL, HTTP-методы, заголовки, параметры запросов и форматы ответов (JSON).
+2. Необходимо предоставить примеры полного процесса оплаты и возврата в виде реальных webhook-примеров по транзакциям, включая clearing, для следующих процессов:
    1. decision_request and notification (with all types)
       1. online payments
       2. offline payments
@@ -23,187 +23,187 @@ title: "List of required information to start the integration"
    3. decline (with all types)
       1. after decision_request
       2. as notification
-3. You must provide detailed information on transaction processing methods for all types of operations.
-4. Detailed description of all available endpoints covering the complete card lifecycle (issuance, activation, blocking, data viewing), user management, balance checking, transaction history retrieval, as well as endpoints for additional services: [methods checklist](https://docs.google.com/spreadsheets/d/1MyeDlhjFGQIWkF2-8jHmQ74Z28t9sJRX-SWyoMYNCj0/edit?gid=1349998777#gid=1349998777) for the partner.
-5. Provide a comprehensive list of possible error codes, their meanings, and recommended actions when they occur. Specify API versioning information.
+3. Нужно предоставить подробную информацию о методах обработки транзакций для всех типов операций.
+4. Нужен детальный обзор всех доступных эндпоинтов, покрывающих полный жизненный цикл карты: выпуск, активацию, блокировку, просмотр данных, управление пользователями, проверку баланса, получение истории транзакций, а также эндпоинты для дополнительных сервисов. Для ориентира используйте [methods checklist](https://docs.google.com/spreadsheets/d/1MyeDlhjFGQIWkF2-8jHmQ74Z28t9sJRX-SWyoMYNCj0/edit?gid=1349998777#gid=1349998777) для партнера.
+5. Предоставьте полный список возможных кодов ошибок, их значения и рекомендуемые действия при их возникновении. Также укажите информацию о версии API.
 
-## **Providing Stable Access to Environments**
+## **Предоставление стабильного доступа к окружениям**
 
-Provide working access credentials (API keys, endpoint URLs) for access to an isolated Sandbox (test) API environment.
+Предоставьте рабочие учетные данные доступа, включая API-ключи и URL эндпоинтов, для изолированного Sandbox API-окружения.
 
-- Test environment evaluation criteria:
-  - Ability to complete a full KYC process for the client that is as close to production as possible
-  - Card issuance
-  - Card data retrieval
-  - Ability to test transactions and webhooks
-- Clearly describe the procedure for obtaining and provide separate access to the Production API environment. Specify all configuration or behavior differences of the Production environment compared to Sandbox.
+- Критерии оценки тестового окружения:
+  - Возможность пройти полный KYC-процесс для клиента максимально близко к production-сценарию
+  - Выпуск карты
+  - Получение карточных данных
+  - Возможность тестировать транзакции и webhook-и
+- Четко опишите процедуру получения доступа к Production API и предоставьте отдельный доступ в это окружение. Укажите все различия в конфигурации или поведении между Production и Sandbox.
 
-## **Card Design Coordination, Approval, and Customization**
+## **Согласование, утверждение и кастомизация дизайна карты**
 
-- Describe the Partner's internal process for coordinating and approving bank card designs, including requirements for file formats, design elements, and review timelines.
-- Coordinate the final layout, including placement of logos, mandatory text (e.g., terms of use, issuing bank contacts), and other elements.
-- Confirm receipt of the card design provided by the Holders team in SVG (Scalable Vector Graphics) format and its technical suitability for use. SVG format is necessary for quality printing and image scaling. Alternatively, agree on another format acceptable to the Partner.
-- Define clear and realistic timelines for technical implementation of the approved card design in Partner systems and its display in interfaces (e.g., through iframe). Specify required formats and methods for delivering final design files.
+- Опишите внутренний процесс согласования и утверждения дизайнов банковских карт у партнера, включая требования к форматам файлов, дизайн-элементам и срокам ревью.
+- Согласуйте финальный макет, включая расположение логотипов, обязательного текста, например условий использования и контактов банка-эмитента, а также прочих элементов.
+- Подтвердите получение дизайна карты, подготовленного командой Holders в формате SVG, и его техническую пригодность к использованию. Формат SVG нужен для качественной печати и масштабирования изображения. Если требуется, согласуйте другой формат, приемлемый для партнера.
+- Зафиксируйте понятные и реалистичные сроки технической реализации утвержденного дизайна карты в системах партнера и его отображения в интерфейсах, например через iframe. Укажите нужные форматы и способы передачи финальных дизайн-файлов.
 
-## **Customization and Detailed Card Data Display**
+## **Кастомизация и отображение детальных карточных данных**
 
-- Provide detailed technical information on implementing iframe or other secure methods for displaying sensitive card data (full card number, CVV, expiration date). Include code examples for embedding and description of transmitted parameters. Note that our PCI DSS level is SAQ; we are not fully PCI DSS compliant.
-- Clarify availability and list all available minimal customization options for iframe appearance (if applicable, e.g., passing background parameters, fonts, or availability of CSS classes for style overrides) to bring the appearance as close as possible to the Holders application design.
-- Describe security measures implemented in the iframe to prevent unauthorized access to card data.
+- Предоставьте подробную техническую информацию по реализации iframe или других безопасных способов отображения чувствительных данных карты: полного номера карты, CVV и срока действия. Добавьте примеры встраивания и описание передаваемых параметров. Важно: наш уровень PCI DSS соответствует SAQ, полной PCI DSS-compliance у нас нет.
+- Уточните, какие минимальные возможности кастомизации внешнего вида iframe доступны, если это применимо: передача параметров фона, шрифтов, наличие CSS-классов для переопределения стилей, чтобы внешний вид был максимально близок к дизайну приложения Holders.
+- Опишите меры безопасности, реализованные в iframe для предотвращения несанкционированного доступа к карточным данным.
 
-## **Currencies and Calculations**
+## **Валюты и расчеты**
 
-Provide the following information:
+Предоставьте следующую информацию:
 
-- Report the account currency in your system
-- Supported currencies for payments
-- What is contained in the transaction:
-  - Amount in transaction currency
-  - Amount in account currency
-  - Is it possible to display the transaction amount in USDT/USDC along with the fiat amount?
-- What size should the settlement balance be and in what currency
-- In what currency will payments be accepted
-- Clarify the process for paying Partner services (settlements with Holders)
+- Укажите валюту счета в вашей системе
+- Перечислите поддерживаемые валюты для платежей
+- Опишите, какие данные содержатся в транзакции:
+  - Сумма в валюте транзакции
+  - Сумма в валюте счета
+  - Можно ли показывать сумму транзакции в USDT/USDC вместе с фиатной суммой
+- Уточните, каким должен быть settlement-баланс и в какой валюте он ведется
+- В какой валюте будут приниматься платежи
+- Опишите процесс оплаты услуг партнера, то есть settlement-расчеты с Holders
 
-## **3DS Support**
+## **Поддержка 3DS**
 
-- What types of 3DS are supported:
-  - Confirmation button in the application
-  - SMS from Partner
-  - Webhook from Partner to Holders so Holders can control the message sending process
-- Is a 3DS password required
-- Who sends SMS
-- At what moments will the Partner send SMS, and at what moments will Holders:
-  - For example, when adding cards to Apple/Google Pay — Partner may send SMS independently of other settings.
+- Какие типы 3DS поддерживаются:
+  - Кнопка подтверждения в приложении
+  - SMS от партнера
+  - Webhook от партнера в Holders, чтобы Holders мог управлять процессом отправки сообщений
+- Требуется ли 3DS-пароль
+- Кто отправляет SMS
+- В какие моменты SMS отправляет партнер, а в какие Holders:
+  - Например, при добавлении карт в Apple Pay или Google Pay партнер может отправлять SMS независимо от остальных настроек.
 
-## **Card Design for Apple/Google Pay**
+## **Дизайн карты для Apple Pay и Google Pay**
 
-If necessary: is it required to provide a separate card design for display in Apple/Google Pay.
+Если это требуется, уточните, нужен ли отдельный дизайн карты для отображения в Apple Pay и Google Pay.
 
-## **KYC Requirements**
+## **Требования к KYC**
 
-Collect requirements for the list of mandatory documents depending on the region.\
-Questionnaire:
+Соберите требования к перечню обязательных документов в зависимости от региона.\
+Опросник:
 
-- How is data transmitted to the Partner side, options:
-  - API: sending documents and complete client data set
+- Как передаются данные на сторону партнера, возможные варианты:
+  - API: отправка документов и полного набора клиентских данных
   - Sumsub share token
-  - Simplified verification, e.g., address only
-  - Only Holders performs client verification, additional verification is not required, Partner may conduct it upon request based on documents provided by the client.
-- List of countries and corresponding list of required documents with detailed description. Is proof of address needed and what are the document requirements:
-  - Document number requirements
-  - Correspondence between address-confirming document and ID
-  - Address requirements
-  - Is it necessary to request additional document numbers through a data entry form in addition to uploading main documents?
+  - Упрощенная верификация, например только адрес
+  - Только Holders проводит проверку клиента, дополнительная верификация не требуется, а партнер может провести ее по запросу на основе документов, предоставленных клиентом.
+- Предоставьте список стран и соответствующий перечень обязательных документов с подробным описанием. Нужен ли proof of address и какие требования предъявляются к документам:
+  - Требования к номеру документа
+  - Соответствие документа, подтверждающего адрес, удостоверению личности
+  - Требования к адресу
+  - Нужно ли дополнительно запрашивать номера документов через форму ввода данных помимо загрузки основных документов
 
-# **Stage 2: Contractual and Legal Aspects**
+# **Этап 2: Договорные и юридические аспекты**
 
-At this stage, all commercial, operational, and legal aspects of cooperation must be finalized and legally formalized.
+На этом этапе должны быть окончательно согласованы и юридически оформлены все коммерческие, операционные и правовые аспекты сотрудничества.
 
-## **Agreement Finalization and Signing**
+## **Финализация и подписание договора**
 
-- Carefully review and provide comments on the Term Sheet proposed by Holders, which establishes key commercial and operational cooperation conditions. The Term Sheet serves as the basis for the final contract.
-- Coordinate and finalize all key commercial conditions, including:
-  - Complete money exchange process (and crypto — if applicable) — whether commissions are included. Who performs the exchange: Partner or Holders; and which exchange can be used within the region if we perform the exchange.
-  - Monthly subscription fee amount and grace period conditions at project start.
-  - Cost of issuing each virtual and/or physical card.
-  - Amount and conditions of commissions for transactions, chargeback processing, and refunds (if applicable).
-  - Rates and conditions for additional payment services (ACH, RTP, Push to Card, Venmo, PayPal), including possible minimum volumes or additional setup costs.
-  - Detailed exclusivity conditions (geography, term, specific services).
-  - Invoice payment conditions and settlement currency.
+- Внимательно изучите и прокомментируйте предложенный Holders Term Sheet, который фиксирует ключевые коммерческие и операционные условия сотрудничества. Term Sheet служит основой для финального договора.
+- Согласуйте и окончательно определите все ключевые коммерческие условия, включая:
+  - Полный процесс обмена денежных средств, а при необходимости и криптовалюты: включены ли комиссии, кто выполняет обмен, партнер или Holders, и какую биржу можно использовать в регионе, если обмен выполняем мы.
+  - Размер ежемесячной подписки и условия льготного периода на старте проекта.
+  - Стоимость выпуска каждой виртуальной и или физической карты.
+  - Размер и условия комиссий за транзакции, обработку chargeback-ов и refund-ов, если применимо.
+  - Тарифы и условия по дополнительным платежным сервисам: ACH, RTP, Push to Card, Venmo, PayPal, включая возможные минимальные объемы или дополнительные затраты на подключение.
+  - Подробные условия эксклюзивности: география, срок, конкретные сервисы.
+  - Условия оплаты инвойсов и валюта settlement-расчетов.
 
-Based on the agreed Term Sheet, finalize the main contract text. Ensure clarity of formulations, especially in parts concerning party responsibilities, dispute resolution procedures, termination conditions, and liability limitations.
+На основе согласованного Term Sheet подготовьте финальный текст основного договора. Особое внимание уделите ясности формулировок в разделах о зонах ответственности сторон, порядке урегулирования споров, условиях расторжения и ограничениях ответственности.
 
-- Organize signing of the final contract by authorized representatives of both companies.
+- Организуйте подписание финального договора уполномоченными представителями обеих компаний.
 
-## **User Agreement Provision and Coordination**
+## **Предоставление и согласование пользовательских соглашений**
 
-- Provide complete and current texts of the main issuer's Terms of Service, as well as Partner's own Terms of Service (if they exist and apply to Holders end users).
-- Confirm that the provided texts are final and can be integrated into Holders user onboarding.
-- Clarify whether the Partner has special requirements for displaying and accepting these terms by users in the Holders application (e.g., need for separate checkboxes for each document).
+- Предоставьте полные и актуальные тексты основных Terms of Service эмитента, а также собственных Terms of Service партнера, если они существуют и применяются к конечным пользователям Holders.
+- Подтвердите, что предоставленные тексты являются финальными и могут быть встроены в onboarding пользователей Holders.
+- Уточните, есть ли у партнера особые требования к отображению и акцепту этих документов пользователями в приложении Holders, например необходимость отдельных чекбоксов для каждого документа.
 
-## **Responsibility Zone Confirmation and Detailing**
+## **Подтверждение и детализация зон ответственности**
 
-- Formally confirm that the Partner is fully responsible for compliance with all applicable regulatory requirements (federal and state) and issuing bank card rules.
-- Describe in detail the interaction process for AML/KYC procedures. Confirm that the Partner performs final verification and makes client decisions but receives necessary data from Holders. Describe the format and protocol for KYC data transmission. Alternatively, discuss and establish a different model.
-- Clarify interaction procedures with the issuing bank and regulators in case of requests or incidents related to Holders users.
+- Формально подтвердите, что партнер полностью отвечает за соблюдение всех применимых регуляторных требований, как федеральных, так и локальных, а также правил банка-эмитента карт.
+- Подробно опишите процесс взаимодействия по AML/KYC-процедурам. Подтвердите, что партнер выполняет финальную проверку и принимает решения по клиенту, получая при этом необходимые данные от Holders. Опишите формат и протокол передачи KYC-данных. Либо обсудите и зафиксируйте альтернативную модель.
+- Уточните процедуры взаимодействия с банком-эмитентом и регуляторами в случае запросов или инцидентов, связанных с пользователями Holders.
 
-## For partners providing legal entity
+## Для партнеров, предоставляющих юридическое лицо
 
-### **Providing Secure Access to Infrastructure Services**
+### **Предоставление безопасного доступа к инфраструктурным сервисам**
 
-Provide administrative access to the following cloud services and accounts registered under the Partner's legal entity. Transfer must be carried out using [GPG encryption](https://gnupg.org/) (public GPG key will be provided by the Holders team):
+Предоставьте административный доступ к следующим облачным сервисам и аккаунтам, зарегистрированным на юридическое лицо партнера. Передача доступов должна выполняться с использованием [GPG encryption](https://gnupg.org/); публичный GPG-ключ предоставит команда Holders:
 
-- [Amazon Web Services (AWS)](https://aws.amazon.com/): required for deploying Holders core infrastructure (Kubernetes, databases, queues, etc.).
-- [Cloudflare](https://www.cloudflare.com/): used for DNS management, CDN, and web application protection. Access to the domain that will be used to launch Holders services is needed.
-- [Temporal.io](http://Temporal.io): required for managing complex workflows, Essentials plan is sufficient at start. Corporate Google or Microsoft accounts are needed. AWS Temporal is not suitable!
-- [GitHub](https://github.com/): for collaborative work on infrastructure code and configurations (access to organization or repositories for corporate account).
-- [Grafana Cloud](https://grafana.com/): for setting up monitoring systems and collecting service performance metrics.
+- [Amazon Web Services (AWS)](https://aws.amazon.com/): нужен для развертывания основной инфраструктуры Holders, включая Kubernetes, базы данных, очереди и другие сервисы.
+- [Cloudflare](https://www.cloudflare.com/): используется для управления DNS, CDN и защиты веб-приложения. Понадобится доступ к домену, на котором будут запускаться сервисы Holders.
+- [Temporal.io](http://Temporal.io): необходим для управления сложными workflow-процессами; на старте достаточно плана Essentials. Нужны корпоративные Google- или Microsoft-аккаунты. AWS Temporal не подходит.
+- [GitHub](https://github.com/): нужен для совместной работы над инфраструктурным кодом и конфигурациями, то есть доступ к организации или репозиториям для корпоративного аккаунта.
+- [Grafana Cloud](https://grafana.com/): нужен для настройки мониторинга и сбора метрик производительности сервисов.
 
 <Info>
-  _Important Security Note:_ When configuring and administering these services by the Holders team, access to the specified services, especially AWS, must be performed from a dedicated secure workstation (for example, Mac mini or dedicated Windows server) located at the legal entity's premises and having a static IP address. This is necessary to minimize the risk of blocks from cloud providers due to suspicious activity or atypical IP addresses.
+  _Важное замечание по безопасности:_ при настройке и администрировании этих сервисов командой Holders доступ к указанным системам, особенно AWS, должен выполняться с отдельной защищенной рабочей станции, например Mac mini или выделенного Windows-сервера, расположенного на площадке юридического лица и имеющего статический IP-адрес. Это необходимо, чтобы минимизировать риск блокировок со стороны облачных провайдеров из-за подозрительной активности или нетипичных IP-адресов.
 </Info>
 
-Provide contact details of the responsible person from the Partner's side managing these accounts for prompt resolution of possible access issues.
+Предоставьте контактные данные ответственного сотрудника со стороны партнера, который управляет этими аккаунтами, чтобы можно было оперативно решать возможные вопросы с доступом.
 
-# **Stage 3: Service Configuration, Functionality and Support**
+# **Этап 3: Настройка сервиса, функциональность и поддержка**
 
-At this stage, it is necessary to clarify all technical and operational details of the provided service, its functionality and support processes.
+На этом этапе необходимо уточнить все технические и операционные детали предоставляемого сервиса, его функциональности и процессов поддержки.
 
-## **Confirmation of Complete List of Available Services and Tariffs**
+## **Подтверждение полного списка доступных сервисов и тарифов**
 
-- Provide a comprehensive list of all services available to Holders through the Partner's API, including not only card issuance, but all available payment and transfer methods (ACH, Check, RTP, Push to Card, Prepaid Visa, Venmo, PayPal).
-- Provide final and current tariffs for each of the confirmed services. If pricing depends on transaction volumes, provide the corresponding tariff grid. Indicate the presence of minimum fees or hidden charges (if any).
-- Confirm the absence of additional fees for activating the listed services.
+- Предоставьте полный перечень всех сервисов, доступных Holders через API партнера, включая не только выпуск карт, но и все доступные способы платежей и переводов: ACH, Check, RTP, Push to Card, Prepaid Visa, Venmo, PayPal.
+- Предоставьте финальные и актуальные тарифы для каждого подтвержденного сервиса. Если стоимость зависит от объемов транзакций, приложите соответствующую тарифную сетку. Укажите наличие минимальных комиссий или скрытых сборов, если они есть.
+- Подтвердите отсутствие дополнительных платежей за активацию перечисленных сервисов.
 
-## **Clarification and Documentation of Transaction Processing Details**
+## **Уточнение и документирование деталей обработки транзакций**
 
-- Finally confirm the presence or absence of a Webhooks mechanism for asynchronous notification of the Holders system about transaction status changes (for example, successful authorization, settlement confirmation, authorization reversal, refund).
-- If Webhooks are absent, provide clear recommendations for the API polling mechanism: recommended request frequency, specific endpoints for status checking, parameters for transaction filtering, methods for identifying changes.
-- Describe in detail the current process for handling foreign currency (FX) transactions.
-- Provide a complete description of all possible transaction statuses in the Partner's system and describe the typical transaction lifecycle from authorization to final settlement or cancellation/refund. Clarify how these statuses are reflected in API responses or polling data.
+- Финально подтвердите наличие или отсутствие механизма Webhooks для асинхронного уведомления системы Holders об изменениях статусов транзакций, например успешной авторизации, подтверждении settlement, реверсале авторизации или refund.
+- Если Webhooks отсутствуют, дайте четкие рекомендации по polling-механизму API: рекомендуемая частота запросов, конкретные эндпоинты для проверки статуса, параметры фильтрации транзакций и способы выявления изменений.
+- Подробно опишите действующий процесс обработки валютных, то есть FX, транзакций.
+- Предоставьте полное описание всех возможных статусов транзакций в системе партнера и опишите типовой жизненный цикл транзакции от авторизации до финального settlement или отмены и возврата. Уточните, как эти статусы отражаются в API-ответах или в данных polling-запросов.
 
-## **Clarification of Card Functionality and Limits**
+## **Уточнение функциональности карты и лимитов**
 
-- Provide exact limits for withdrawal/debit operations: maximum amount per operation, daily limit, monthly limit. Specify associated fees.
-- Officially confirm the current geography of card usage. Indicate whether expansion of regions is planned in the future and describe the roadmap (if available).
-  - List of countries whose residents Holders can onboard
-  - List of countries where Holders can conduct transactions
-  - Is there a requirement for phone number to match the card issuing country?
-  - Is there a list of countries/country codes for phone numbers where 3DS codes cannot be sent or where separate agreements with local operators are required?
+- Укажите точные лимиты на операции снятия и списания: максимальная сумма на одну операцию, дневной лимит и месячный лимит. Уточните связанные комиссии.
+- Официально подтвердите текущую географию использования карт. Укажите, планируется ли расширение регионов в будущем, и опишите roadmap, если он существует.
+  - Список стран, резидентов которых Holders может онбордить
+  - Список стран, в которых пользователи Holders могут проводить транзакции
+  - Есть ли требование, чтобы номер телефона соответствовал стране выпуска карты
+  - Существует ли список стран или телефонных кодов, на которые нельзя отправлять 3DS-коды, либо где требуются отдельные соглашения с локальными операторами
 
-## **Reconciliations**
+## **Сверки**
 
-- Reconciliation process: provide examples of documents and their format for reconciliation. For example:
-  - weekly transaction report
-  - monthly invoice report with all expenses charged to us, broken down by categories
+- По процессу reconciliation предоставьте примеры документов и их форматов, используемых для сверки. Например:
+  - еженедельный отчет по транзакциям
+  - ежемесячный инвойс-отчет со всеми расходами, выставленными нам, с разбивкой по категориям
 
-## **Support Process Organization**
+## **Организация процесса поддержки**
 
-- Provide clear contact details (email, phone, support portal) for contacting L2 support for technical and operational issues related to the Partner's platform.
-- Describe in detail the process for registering and handling requests from the Holders team.
-- Confirm the agreed SLA, including guaranteed first response time (for example, within 4 business hours) and target resolution time for incidents of different criticality (for example, critical — 8 hours, standard — 24 hours).
-- Describe the escalation process within the Partner's support service if the problem is not resolved at L2 level within the target time.
+- Предоставьте понятные контактные данные для связи с L2-поддержкой по техническим и операционным вопросам платформы партнера: email, телефон, support-портал.
+- Подробно опишите процесс регистрации и обработки обращений от команды Holders.
+- Подтвердите согласованный SLA, включая гарантированное время первого ответа, например в течение 4 рабочих часов, и целевое время решения инцидентов разной критичности, например критические за 8 часов, стандартные за 24 часа.
+- Опишите процесс эскалации внутри службы поддержки партнера, если проблема не была решена на уровне L2 в целевой срок.
 
-## **Controller Setup and Launch and Top-ups**
+## **Настройка контроллера, запуск и пополнения**
 
-If the Partner's legal entity is used, it is assumed that the Partner tops up service wallets. Depending on the Partner's experience, methods for exchanging to the required currency can be recommended — for example, as well as approximate amounts in dollars that should be exchanged at the current rate.\
+Если используется юридическое лицо партнера, предполагается, что именно партнер пополняет сервисные кошельки. В зависимости от опыта партнера можно рекомендовать способы обмена в нужную валюту, а также примерные суммы в долларах, которые следует обменять по текущему курсу.\
 **TON**
 
-- TON Deploy — 2 TON (for deployment only)
-- TON Authority — 2 TON (for \>100 returns/withdrawals from treasury)
+- TON Deploy — 2 TON, только для деплоя
+- TON Authority — 2 TON, для более чем 100 возвратов и выводов из treasury
 
-After the technical integration team (or other script owner who creates wallets with TON/USDT endings and necessary access) generates an address:
+После того как команда технической интеграции, либо другой владелец скрипта, который создает кошельки с окончаниями TON и USDT и выдает нужные доступы, сгенерирует адрес:
 
-- 50–100 TON (for creating user smart contract accounts and updating their state)
+- 50–100 TON для создания пользовательских smart contract accounts и обновления их состояния
 
 **Solana**
 
-- Solana Authority — 0.0005 SOL (for 100 returns/withdrawals from treasury)
-- Solana Controller — 2 SOL (for creating ~250 user smart contract accounts and updating their state)
+- Solana Authority — 0.0005 SOL, для 100 возвратов и выводов из treasury
+- Solana Controller — 2 SOL, для создания примерно 250 пользовательских smart contract accounts и обновления их состояния
 
-It is necessary to send instructions in the format:
+Необходимо отправлять инструкции в формате:
 
-- Wallet — currency amount
+- Wallet — сумма в валюте
 
-Total currency amount (including gas that will need to be paid for transfers).
+Общая сумма в валюте должна учитывать и gas, который потребуется оплатить за переводы.
