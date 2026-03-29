@@ -1,5 +1,5 @@
 ---
-title: "User settings in Tonhub"
+title: "Пользовательские настройки в Tonhub"
 ---
 
 In Tonhub, users can change the app's appearance, language, display currency, address format, spam filter, security settings, and personal data for each wallet. Below are **all available settings**, where they are located, and how they are saved.\
@@ -13,7 +13,7 @@ In Tonhub, users can change the app's appearance, language, display currency, ad
   style={{ width:"22%" }}
 />
 
-# Theme (light / dark / system)
+# Тема (light / dark / system)
 
 **Screen:** Settings → "Theme".\
 **Options:**
@@ -25,7 +25,7 @@ In Tonhub, users can change the app's appearance, language, display currency, ad
 **Where stored:** locally on device (`themeStyle` key in app storage). When changing theme, the navigation bar (NavBar) color is also updated.\
 **Default:** "System".
 
-# Interface Language
+# Язык интерфейса
 
 **Screen:** Settings → "Language".\
 **Available languages:**
@@ -43,7 +43,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** locally (`languageState` key). After changing language, the app restarts to apply translations to all screens.\
 **Default:** system language or saved value.
 
-# Search Engine (in browser)
+# Поисковая система (в браузере)
 
 **Screen:** Settings → "Search engine".\
 **Options:**
@@ -54,7 +54,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** in app shared storage (`searchEngine` key, shared storage). Used when substituting search URL when user enters text in the app browser address field.\
 **Default:** DuckDuckGo.
 
-# Primary Currency (for amount display)
+# Основная валюта (для отображения сумм)
 
 **Screen:** Settings → "Primary currency".\
 **Options:** USD, EUR, RUB, GBP, CHF, CNY, KRW, IDR, INR, JPY. The interface displays currency symbol and label (e.g., U.S. Dollar for USD).\
@@ -62,7 +62,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Default:** USD.\
 **Usage:** balances, transaction amounts, fees, and fiat equivalents are displayed in the selected currency (using exchange rates from backend).
 
-# TON Address Format (bounceable / non-bounceable)
+# Формат TON-адреса (bounceable / non-bounceable)
 
 **Screen:** Settings → "New address format".\
 **Options:**
@@ -73,7 +73,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** locally (`bounceableWalletFormat` key). Affects how TON addresses are displayed and copied (when receiving, in contacts, in data provided to dApps, etc.).\
 **Default:** `true` (bounceable). In code for "new" scenarios, non-bounceable may be used by default; actual value is taken from storage.
 
-# Spam Filter
+# Спам-фильтр
 
 **Screen:** Settings → "Spam filter".\
 **Settings:**
@@ -85,7 +85,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** minimum amount and "don't show comments" flag — locally (or in app shared storage); deny list is stored in address book context (contacts/deny list). Deny list synchronization between devices depends on implementation (e.g., cloud storage by key).\
 **Note:** "spam" marking by amount and deny list applies only to TON network operations (and token display). Solana transactions don't go through this filter.
 
-# Wallet Settings (name, avatar, color)
+# Настройки кошелька (имя, аватар, цвет)
 
 **Screen:** tapping on selected wallet card on main screen or in switcher → "Wallet settings" (or wallet editing screen).\
 **Parameters (per wallet):**
@@ -97,7 +97,7 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** in app shared storage by `walletsSettings` key; value is object like `{ [addressKey]: { name, avatar, color } }`. Key is linked to wallet address (or Ledger identifier). Data is local.\
 **Default:** name — "Wallet N" (N = number in list) or Ledger name; avatar and color are computed from address hash (deterministically) if user hasn't changed them.
 
-# Security (PIN, biometrics, app lock)
+# Безопасность (PIN, биометрия, блокировка приложения)
 
 **Screen:** Settings → "Security". Available only for regular wallets (not for Ledger-only scenario).\
 **Settings:**
@@ -109,13 +109,13 @@ Codes: en, ru, uk, es, de, fr, it, pt. The list is defined in the app (`langReso
 **Where stored:** PIN and keys — in OS secure storage (Keychain / Keystore); "use biometrics" and "lock on exit" flags — in app settings (locally).\
 **Note:** these options don't "configure" the backend — they only affect local unlocking and operation confirmation on the device.
 
-# Contacts (address book)
+# Контакты (адресная книга)
 
 **Screen:** Settings → "Contacts".\
 **What it is:** list of saved contacts — name and TON or Solana address. User can add, edit, and delete contacts. When transferring, selecting a contact substitutes the address and displays the name; contacts are also used for "known wallet" marking and connection with deny list (if address is added to spam, it remains in contacts/deny list with marking).\
 **Where stored:** in address book context (AddressBookContext); data can be saved locally and synchronized when needed (depends on implementation). Deny list (manual spam) is linked to this same section.
 
-# Other Settings
+# Другие настройки
 
 The "Settings" section also includes items that are not user "options" but lead to important screens:
 

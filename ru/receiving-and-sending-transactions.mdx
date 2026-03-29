@@ -1,8 +1,8 @@
 ---
-title: "Receiving and sending transactions"
+title: "Получение и отправка транзакций"
 ---
 
-# Sending TON transactions
+# Отправка TON-транзакций
 
 <Info>
   Please note: sending a transaction is an irreversible process. It is impossible to cancel the sending after confirmation.
@@ -45,7 +45,7 @@ title: "Receiving and sending transactions"
 - Application tracks status via `BlocksWatcher` (SSE connection to blockchain).
 - When transaction appears in block, status changes from "pending" to "confirmed".
 
-# Sending TON tokens
+# Отправка TON-токенов
 
 Sending token is sending an internal message to the sender's token-wallet address.
 
@@ -63,7 +63,7 @@ TON transaction structure:
   - `forward_ton_amount` - fee for token delivery to recipient
   - `forward_payload` - comment, if any
 
-# Sending Solana transactions
+# Отправка Solana-транзакций
 
 1. Getting latest blockhash:
 
@@ -94,7 +94,7 @@ TON transaction structure:
 
 - If main RPC is unavailable, public fallback client is used.
 
-# Sending SPL tokens (Solana)
+# Отправка SPL-токенов (Solana)
 
 Structure is similar to sending SOL, but with specifics:
 
@@ -115,7 +115,7 @@ Structure is similar to sending SOL, but with specifics:
 - Instruction 1 (if needed): `createAssociatedTokenAccount` for recipient.
 - Instruction 2: `createTransferInstruction` to transfer tokens from sender's ATA to recipient's ATA.
 
-# Transaction monitoring
+# Мониторинг транзакций
 
 ## TON
 
@@ -152,12 +152,12 @@ Structure is similar to sending SOL, but with specifics:
 - Parsing transaction instructions to determine operation type.
 - Updating SOL and SPL token balances.
 
-# Transaction amount limits
+# Лимиты суммы транзакций
 
 **TON, SOL** — no minimum sending amount restrictions. User can send 0, however system will display zero transaction warning. Incoming transactions under 0.1 TON (user-configurable value) are automatically classified as SPAM, and notifications for such operations are not sent. SOL transactions are not marked as spam. Maximum transaction amount is limited by balance size minus fees.\
 **Tokens** — minimum token transfer amount must exceed zero. Exact minimum value is determined by specific token characteristics (usually one smallest unit, e.g. 0.000001 for USDT). TON fee is paid by sender, except when using gasless transactions.
 
-# Transaction Statuses
+# Статусы транзакций
 
 Pending (awaiting confirmation):
 
@@ -176,7 +176,7 @@ Failed:
 - Transaction rejected by the network (insufficient funds, invalid address, etc.).
 - Application shows error to user.
 
-# Why a user might "not see" an incoming transaction
+# Почему пользователь может «не видеть» входящую транзакцию
 
 - Wrong network. TON: testnet is selected in the app, but the transfer came to mainnet (or vice versa). Addresses in mainnet and testnet differ (different format/flag). Need to check the network switch and ensure the sender used the address and network corresponding to the one selected in Tonhub. Solana: mainnet is selected, but the transfer was made in devnet (or vice versa). History and balance are requested separately for mainnet and devnet. Check the network with the sender and in Tonhub (if there's a switch).
 - Wrong asset / wrong screen. TON: incoming token is displayed in the tokens sections, not in the "main" TON history. If the user only looks at the native TON transfer list, they won't see token deposits. Solana: incoming SPL token is visible in the balance and history of the specific token (by ATA). If the token isn't added to the list or the user only looks at SOL history, incoming token transfers can be missed.
@@ -184,30 +184,30 @@ Failed:
 - Address not activated (TON). Transfer came to an address that has never sent a transaction (contract not deployed). Such incoming transfers may not display in history until first wallet activation. User should perform first outgoing transaction (or activation), after which balance and history should update.
 - Sender error or rollback. Transaction didn't make it to a block (rejected by network, insufficient fee from sender, expired blockhash in Solana, etc.). Recipient physically received nothing, so there's no transaction in their history. Need to check transaction status and hash in explorer with sender (TON / Solana).
 
-# Edge cases and retry sending
+# Пограничные случаи и повторная отправка
 
-### Transaction sent but RPC didn't return response
+### Транзакция отправлена, но RPC не вернул ответ
 
 **TON and Solana:** On RPC timeout, retry with backoff is performed (TON — up to 15 attempts, Solana — up to 5). If all attempts fail, error is shown, pending is not created.\
 **Risk:** RPC might have accepted the transaction, but response didn't reach. On retry sending, a second transaction is created — possible double spending.\
 **Recommendation:** On long wait and error, check history and balance before retry sending.
 
-### Transaction stuck in pending status
+### Транзакция зависла в pending-статусе
 
 Timeout for TON and Solana is 60 seconds. App polls status every ~6 seconds. On confirmation, pending transitions to sent. If no confirmation within 60 seconds, status changes to timed-out without re-debiting funds.
 
-### Solana: blockhash expiration
+### Solana: истечение blockhash
 
 In Solana, transactions have limited lifetime by `lastValidBlockHeight`. Tonhub doesn't check blockhash expiration separately — transaction remains pending until confirmation or 60-second timeout.
 
-### Retry sending policy
+### Политика повторной отправки
 
 **TON:** "Send again" button appears only after transitioning to timed-out status.\
 **Solana:** No retry button. After timeout, user creates new transfer manually.
 
 - While transaction is in pending status (first 60 seconds), app only waits for confirmation.
 
-# Security when sending
+# Безопасность при отправке
 
 - **Contacts.** The app implements a contacts section that allows saving familiar addresses and assigning names to them. When sending or receiving transactions, the contact name is automatically displayed to the user, providing confidence in the correct recipient selection.
 - **Blocked addresses (deny list / spam).** Some addresses are automatically marked by the wallet as spam, helping avoid accidental fund transfers to them. The list of such addresses is stored on the backend and can be supplemented manually. Sending to such addresses isn't completely blocked — only visual indication is implemented to warn the user.
@@ -215,15 +215,15 @@ In Solana, transactions have limited lifetime by `lastValidBlockHeight`. Tonhub 
 - **Domains (.ton).** When entering a .ton domain, the system performs address resolution and checks correspondence of resolved address to target before sending (including token transactions). If mismatch is detected, `transfer.error.invalidDomain` error is displayed. This reduces risk of address substitution through fake domains.
 - **Network mismatch warning.** If user is in mainnet but entered address has testnet format (or vice versa), system displays warning and requests confirmation (`transfer.error.addressIsForTestnet`). This helps prevent accidental fund transfers to wrong network.
 
-# Gas when sending
+# Gas при отправке
 
 Transaction fee is always paid by the sender, regardless of the type of assets being transferred. Tonhub doesn't provide users the ability to adjust fee size. Fee amount is calculated with margin to guarantee coverage of all transaction execution costs. Unused portion of the fee is automatically returned to user's balance as separate incoming transaction. Fee payment is made exclusively in the native currency of the corresponding blockchain: TON for TON network and SOL for Solana network. This feature can lead to situations where user has tokens in account but cannot send them due to lack of native currency for fee payment. To solve this problem, a new wallet version W5 was developed in the TON ecosystem, which supports gasless transaction functionality.
 
-# Gasless transactions
+# Gasless-транзакции
 
 Gasless transaction functionality doesn't imply complete absence of fees for the user. This technology allows paying fees when sending certain tokens in the currency of the tokens themselves. Tonhub supports gasless transactions exclusively for TON blockchain. For example, when using W5 wallet, user can pay fee for sending USDT directly with USDT tokens, without having TON in balance. User can choose fee payment method: in token currency (amount will be higher due to exchange costs) or in native currency.
 
-## How gasless works
+## Как работает gasless
 
 Gasless sending is essentially an overlay over regular transactions. The network cannot send transactions without paying fees in native currency, since these funds go to pay validators' work. In gasless sending, the relayer pays the transaction fee, taking part of the sent token for itself. Relayer in gasless context is a service with TON wallet that:
 
@@ -233,7 +233,7 @@ Gasless sending is essentially an overlay over regular transactions. The network
 
 Tonhub doesn't have its own relayer and uses third-party one.
 
-## Gasless limitations
+## Ограничения gasless
 
 - Available only for part of tokens; list comes from server (config); example — USDT.
 - Supported only on V5 wallets
