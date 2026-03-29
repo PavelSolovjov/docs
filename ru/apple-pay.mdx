@@ -1,28 +1,28 @@
 ---
-title: "Apple Pay overview"
-description: "This document explains what Apple Pay is, what user and regional limitations apply, how In‑app provisioning and its certification work, and how Apple Pay is integrated and certified within Holders."
+title: "Обзор Apple Pay"
+description: "Этот документ объясняет, что такое Apple Pay, какие пользовательские и региональные ограничения существуют, как работают In-app provisioning и его сертификация, а также как Apple Pay интегрирован и сертифицирован в Holders."
 ---
 
-# What is Apple Pay
+# Что такое Apple Pay
 
-[Apple Pay](https://www.apple.com/apple-pay/) is a mobile payment service and digital wallet [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993), developed by [Apple Inc](https://www.apple.com/). This service enables contactless payments through Apple devices, including iPhone, iPad, Apple Watch, and Mac.
+[Apple Pay](https://www.apple.com/apple-pay/) — это мобильный платежный сервис и цифровой кошелек [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993), разработанный [Apple Inc](https://www.apple.com/). Этот сервис позволяет выполнять бесконтактные платежи через устройства Apple, включая iPhone, iPad, Apple Watch и Mac.
 
-# Possible User Limitations
+# Возможные ограничения для пользователя
 
-1. **Compatible devices**: [Apple Pay](https://www.apple.com/apple-pay/) is only available on [Apple](https://www.apple.com/) devices such as [iPhone](https://www.apple.com/iphone/), [iPad](https://www.apple.com/ipad/), [Apple Watch](https://www.apple.com/watch/), and [Mac](https://www.apple.com/mac/) that support this feature.
-2. **Supported banks and cards**: Not all financial institutions and payment cards are compatible with [Apple Pay](https://www.apple.com/apple-pay/). When entering into an agreement with an issuing bank, the business team verifies the availability of support for this technology from the specific bank.
-3. **Regional restrictions**: [Apple Pay](https://www.apple.com/apple-pay/) availability varies depending on geographical location. [List of supported regions](https://support.apple.com/ru-ru/102775).
-4. **Transaction limits**: Issuing banks may set restrictions on the maximum amount of transactions conducted through [Apple Pay](https://www.apple.com/apple-pay/).
-5. **Cashback and loyalty programs**: Individual issuers may not provide cashback or bonus rewards when making payments through [Apple Pay](https://www.apple.com/apple-pay/).
-6. **Number of cards**: The maximum number of cards available to a user in [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) is 12, but this value may change, for example, when multiple accounts are linked in the application.
+1. **Совместимые устройства**: [Apple Pay](https://www.apple.com/apple-pay/) доступен только на устройствах [Apple](https://www.apple.com/), таких как [iPhone](https://www.apple.com/iphone/), [iPad](https://www.apple.com/ipad/), [Apple Watch](https://www.apple.com/watch/) и [Mac](https://www.apple.com/mac/), которые поддерживают эту функцию.
+2. **Поддерживаемые банки и карты**: не все финансовые организации и платежные карты совместимы с [Apple Pay](https://www.apple.com/apple-pay/). При заключении договора с банком-эмитентом бизнес-команда проверяет наличие поддержки этой технологии у конкретного банка.
+3. **Региональные ограничения**: доступность [Apple Pay](https://www.apple.com/apple-pay/) зависит от географического региона. [Список поддерживаемых регионов](https://support.apple.com/ru-ru/102775).
+4. **Лимиты транзакций**: банки-эмитенты могут устанавливать ограничения на максимальную сумму транзакций, проводимых через [Apple Pay](https://www.apple.com/apple-pay/).
+5. **Кешбэк и программы лояльности**: отдельные эмитенты могут не предоставлять кешбэк или бонусы при оплате через [Apple Pay](https://www.apple.com/apple-pay/).
+6. **Количество карт**: максимальное число карт, доступных пользователю в [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993), равно 12, но это значение может меняться, например, при привязке нескольких аккаунтов в приложении.
 
 # In-app provisioning
 
-Holders implements advanced integration with [Apple Pay](https://www.apple.com/apple-pay/) through [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology. This technology enables the process of adding a payment card to [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) directly from an application on the [iOS](https://www.apple.com/ios/) platform, which significantly simplifies the card connection procedure for users, eliminating the need to access [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) settings.\
-To use [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology, an organization must undergo mandatory [Apple](https://www.apple.com/) certification. [Apple](https://www.apple.com/) delegates certification authority to accredited organizations such as [Fime](https://www.fime.com/).\
-Наличие [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) не отменяет возможности ручного добавления карты в [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) через его интерфейс.
+Holders реализует продвинутую интеграцию с [Apple Pay](https://www.apple.com/apple-pay/) через технологию [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay). Эта технология позволяет добавлять платежную карту в [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) напрямую из приложения на платформе [iOS](https://www.apple.com/ios/), что значительно упрощает процедуру подключения карты для пользователя и устраняет необходимость переходить в настройки [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993).\
+Чтобы использовать технологию [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay), организация должна пройти обязательную сертификацию [Apple](https://www.apple.com/). [Apple](https://www.apple.com/) делегирует право сертификации аккредитованным организациям, таким как [Fime](https://www.fime.com/).\
+Наличие [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) не отменяет возможности ручного добавления карты в [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) через интерфейс самого кошелька.
 
-# In-app provisioning Certification
+# Сертификация In-app provisioning
 
 To implement [in-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) functionality, a company must establish partnership relationships with each issuing bank whose cards are planned to be integrated into the system. Each financial institution undergoes an individual technical verification and certification procedure to confirm full compatibility of banking systems with [in-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology and the [Apple Pay](https://www.apple.com/apple-pay/) payment ecosystem.\
 **The certification process includes the following stages:**
@@ -42,7 +42,7 @@ Upon completion of testing:
 1. The accredited organization representative prepares a report for Apple, including integration and testing checklists.
 2. Apple reviews the certification results within 2 weeks from submission and assigns a launch date by which the feature must be removed from whitelists and ready for full operation.
 
-# Holders Certification
+# Сертификация Holders
 
 **Company that underwent certification:** [Walleexer s.r.o.](https://walleexer.com/)\
 **Application that underwent certification:** [Tonhub](https://gettonhub.com/)\
@@ -59,7 +59,7 @@ The Wallester tokenization setup includes payment card configuration for integra
 - [Fitbit Pay](https://www.fitbit.com/global/us/technology/fitbit-pay)
 - [Fidesmo Pay](https://fidesmo.com/consumer/fidesmo-pay/)
 
-# Card Verification by User
+# Верификация карты пользователем
 
 After adding a card to Apple Wallet, Apple performs a verification procedure to confirm the user's ownership rights to the given payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS message to the phone number specified by the user when registering their profile in the Holders system.
 
@@ -67,14 +67,14 @@ After adding a card to Apple Wallet, Apple performs a verification procedure to 
   **Important feature:** Apple Pay does not transmit the actual credit or debit card number when making transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
 </Info>
 
-## Apple Card Verification Statuses
+## Статусы верификации карты в Apple
 
 **Green** - the card passes verification immediately without additional requests.\
 **Yellow status** — to complete the verification procedure, the user needs to enter a one-time confirmation code (OTP).\
 **Orange status** — the card is subject to verification exclusively in manual mode through the partner bank.\
 Red - the card cannot be verified
 
-## Orange Flow Card Processing
+## Обработка карты в Orange Flow
 
 If a card in the [Apple](https://www.apple.com/) system receives orange status, the user will be offered to complete verification by calling the Tonhub application support phone number (the call may be paid).
 
@@ -84,7 +84,7 @@ If a card in the [Apple](https://www.apple.com/) system receives orange status, 
 
 Currently, the specified number is answered by an automated system that directs the user to the application's online support service. After the user contacts Tonhub support through the Intercom platform, the operator gains the ability to perform card verification in the Wallester administrative panel according to the established instructions.
 
-## Responsibility for Card Transfer
+## Ответственность за передачу карты
 
 Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.com/private-account-card-agreement) states the following:
 
@@ -93,7 +93,7 @@ Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.co
 This means that the card must be used only by the client, and the client has no right to authorize third parties to use the card, transfer it, give it as a gift, or sell it.\
 Accordingly, any actions involving the transfer of the card to other persons or granting them the right to use the card are qualified as a violation of the terms of the agreement with Wallester. Such violations result in the application of sanctions in the form of card blocking. In certain cases, depending on the nature of the use of card data and the intent of the participants, such actions may be qualified as fraudulent, which provides for criminal liability in the form of monetary penalties or imprisonment.
 
-# Card Appearance
+# Внешний вид карты
 
 Users cannot independently change the card design in Apple Wallet. The card design in Apple Wallet is set by the bank or financial institution that issued the card. Each design is approved by the issuer with the payment system and added to the card settings after approval. A similar situation occurs with the bank name that is displayed on the card in Apple Wallet. Holders can change or add designs, but each change will require VISA approval and additional costs.\
 **Cost of adding a design:** 400 EUR\
