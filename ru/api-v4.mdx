@@ -2,68 +2,68 @@
 title: "API v4"
 ---
 
-# What is API v4 and what is it used for
+# Что такое API v4 и для чего он нужен
 
-**TON API v4** is an internal HTTP API for working with the TON blockchain. It provides access to the historical state of the blockchain and to executing get-methods of contracts at a specified block number (seqno). The API gets data from [the blockchain indexer](/whales-blockchain-indexer).\
+**TON API v4** — это внутренний HTTP API для работы с блокчейном TON. Он предоставляет доступ к историческому состоянию блокчейна и позволяет выполнять get-методы контрактов на указанном номере блока, то есть seqno. API получает данные из [индексера блокчейна](/whales-blockchain-indexer).\
 Endpoint: https://mainnet-v4.tonhubapi.com/
 
-# Main purpose
+# Основное назначение
 
-- **State at a specific block** — getting account, block and transaction data not "as of now", but at a fixed masterchain seqno. This is needed for reproducible logic (auditing, calculations, simulations).
-- **Run get-method on historical block** — calling smart contract methods (e.g., `get_staking_status`, `get_pool_data`, `get_jetton_data`) in the context of the state at a selected block. Public APIs usually only provide "current" state.
-- **High speed and predictable load** — reading from own indexed database (ScyllaDB) and emulation through Emulator Farm when necessary instead of relying on public limited APIs.
+- **Состояние на конкретном блоке** — получение данных об аккаунтах, блоках и транзакциях не "на сейчас", а на фиксированном masterchain seqno. Это нужно для воспроизводимой логики, например аудита, расчетов и симуляций.
+- **Запуск get-метода на историческом блоке** — вызов методов смарт-контрактов, например `get_staking_status`, `get_pool_data`, `get_jetton_data`, в контексте состояния на выбранном блоке. Публичные API обычно предоставляют только текущее состояние.
+- **Высокая скорость и предсказуемая нагрузка** — чтение из собственной индексированной базы данных ScyllaDB и эмуляция через Emulator Farm, когда это необходимо, вместо зависимости от публичных API с ограничениями.
 
-# Technical stack
+# Технический стек
 
-- **ScyllaDB** — storage of block indexes, account states and transactions (tables `blocks`, `account_states`, `transactions`, `lt_buckets`, `mc_blocks_by_utime`, `sync` and others).
-- **Emulator Farm** (optional) — gRPC service for executing run get-method through TVM emulation (mode `USE_EMULATOR=true`).
-- **TONAPI** (external) — used only for sending messages to the network (`/v2/liteserver/send_message`)
+- **ScyllaDB** — хранение индексов блоков, состояний аккаунтов и транзакций, включая таблицы `blocks`, `account_states`, `transactions`, `lt_buckets`, `mc_blocks_by_utime`, `sync` и другие.
+- **Emulator Farm** — опциональный gRPC-сервис для выполнения run get-method через TVM-эмуляцию в режиме `USE_EMULATOR=true`.
+- **TONAPI** — внешний сервис, который используется только для отправки сообщений в сеть через `/v2/liteserver/send_message`.
 
-# Which Whales projects use it
+# Какие проекты Whales его используют
 
-The **ton-api-v4-go** implementation and related infrastructure (ScyllaDB index, Emulator Farm) are used in Whales ecosystem products for scenarios where historical state and calling get-methods at a given block are critical.
+Реализация **ton-api-v4-go** и связанная с ней инфраструктура, то есть индекс ScyllaDB и Emulator Farm, используются в продуктах экосистемы Whales в тех сценариях, где критически важны историческое состояние и вызов get-методов на заданном блоке.
 
-1. **Staking (Whales Staking) -** used for correct display of stake status and calculations at a selected point in time. Also used for displaying pool states.
-2. **Tonhub** - getting wallet states by address at a block. Needed for balances, metadata and history tied to a specific blockchain state.
-3. **General TON infrastructure -** can be used by any internal Whales services that need fast and deterministic access to historical data.
+1. **Staking (Whales Staking)** — используется для корректного отображения статуса стейка и расчетов на выбранный момент времени. Также применяется для отображения состояний пулов.
+2. **Tonhub** — получение состояний кошельков по адресу на конкретном блоке. Это нужно для балансов, метаданных и истории, привязанных к определенному состоянию блокчейна.
+3. **Общая TON-инфраструктура** — может использоваться любыми внутренними сервисами Whales, которым нужен быстрый и детерминированный доступ к историческим данным.
 
-# API v4 advantages
+# Преимущества API v4
 
-## Historical state at a specific block
+## Историческое состояние на конкретном блоке
 
-Public APIs (e.g., TONAPI, other public indexers) are focused on current state: latest block, current balance, recent transactions.\
-Whales products need access to state at an arbitrary masterchain seqno: "how it was in block N". This is needed for:
+Публичные API, например TONAPI и другие публичные индексеры, ориентированы в первую очередь на текущее состояние: последний блок, текущий баланс, последние транзакции.\
+Продуктам Whales нужен доступ к состоянию на произвольном masterchain seqno, то есть возможность ответить на вопрос "каким было состояние в блоке N". Это необходимо для:
 
-- Auditing and reproducible calculations
-- Correct display of staking, pools and jettons at a selected date/block
-- Simulations and tests with fixed state.
+- аудита и воспроизводимых расчетов,
+- корректного отображения стейкинга, пулов и jetton на выбранную дату или блок,
+- симуляций и тестов с фиксированным состоянием.
 
-Such requests for state "at block X" are either not supported by public APIs, or are limited and unpredictable in terms of delays and limits.
+Такие запросы на состояние "в блоке X" либо не поддерживаются публичными API, либо доступны с ограничениями и непредсказуемыми задержками.
 
-## Run get-method on historical block
+## Запуск get-метода на историческом блоке
 
-A critical capability of API v4 is calling run get-method in the context of a selected block (`/block/{seqno}/{address}/run/{command}`). Public APIs usually allow calling get-methods only for the current node state. Calling in the context of an old block requires either own state indexing or emulation (Emulator Farm).\
-For staking, calls on historical blocks are specifically needed (e.g., `get_staking_status` or `get_pool_data` at a given seqno). This is not covered by typical third-party APIs.
+Ключевая возможность API v4 — запуск run get-method в контексте выбранного блока через маршрут `/block/{seqno}/{address}/run/{command}`. Публичные API обычно позволяют вызывать get-методы только для текущего состояния ноды. Вызов в контексте старого блока требует либо собственного индексирования состояния, либо эмуляции через Emulator Farm.\
+Для стейкинга вызовы на исторических блоках особенно важны, например `get_staking_status` или `get_pool_data` на конкретном seqno. Обычные сторонние API этого не покрывают.
 
-## Performance and scaling
+## Производительность и масштабирование
 
-Own indexing in **ScyllaDB** provides:
+Собственное индексирование в **ScyllaDB** дает:
 
-- Fast access to blocks, accounts and transactions by keys suitable for product queries;
-- Ability to scale the cluster and configure it for own load.
+- быстрый доступ к блокам, аккаунтам и транзакциям по ключам, удобным для продуктовых запросов,
+- возможность масштабировать кластер и настраивать его под собственную нагрузку.
 
-Public APIs have request limits (rate limit) shared among all users. For high-load scenarios (pool aggregation, staking, mass checks) this is insufficient.
+У публичных API есть ограничения на частоту запросов, которые делятся между всеми пользователями. Для высоконагруженных сценариев, например агрегации пулов, стейкинга и массовых проверок, этого недостаточно.
 
-## Control over data format and SLA
+## Контроль над форматом данных и SLA
 
-In API v4, response formats are fixed and tailored to internal clients. Also, third-party APIs can change contracts and versions without considering Whales' needs.\
-Own stack provides full control over availability, index updates and protocol versions, but also imposes requirements for its support in case of critical blockchain changes.
+В API v4 форматы ответов зафиксированы и адаптированы под внутренних клиентов. Кроме того, сторонние API могут менять контракты и версии без учета потребностей Whales.\
+Собственный стек дает полный контроль над доступностью, обновлением индексов и версиями протокола, но одновременно требует поддержки в случае критических изменений блокчейна.
 
-## Emulation of heavy get-methods
+## Эмуляция тяжелых get-методов
 
-Some get-methods are executed through **Emulator Farm** (mode `HandleAccountRunV2` with `USE_EMULATOR=true`). This allows executing complex or heavy methods without load on nodes and without third-party API limitations.\
-Public providers do not provide emulation for non-latest blocks.
+Некоторые get-методы выполняются через **Emulator Farm**, то есть в режиме `HandleAccountRunV2` с `USE_EMULATOR=true`. Это позволяет исполнять сложные или тяжелые методы без нагрузки на ноды и без ограничений сторонних API.\
+Публичные провайдеры не предоставляют эмуляцию для блоков, отличных от последних.
 
-## Hybrid approach
+## Гибридный подход
 
-For sending messages to the network, API v4 itself uses external TONAPI (`TONAPI_ENDPOINT` + `TONAPI_TOKEN`) and proxies requests to `v2/liteserver/send_message`. That is, third-party API is used where it is sufficient (transaction sending), while reading historical state and run get-method are provided only by own API v4.
+Для отправки сообщений в сеть API v4 сам использует внешний TONAPI через `TONAPI_ENDPOINT` и `TONAPI_TOKEN`, проксируя запросы в `v2/liteserver/send_message`. То есть сторонний API используется там, где его достаточно, а чтение исторического состояния и run get-method обеспечиваются только собственным API v4.

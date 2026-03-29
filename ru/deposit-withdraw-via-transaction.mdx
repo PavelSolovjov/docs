@@ -1,45 +1,45 @@
 ---
-title: "Deposit/withdraw via transaction"
+title: "Ввод и вывод через транзакцию"
 ---
 
-# What is transaction-based staking used for
+# Для чего используется стейкинг через транзакцию
 
-Transaction-based staking is used as an alternative method for sending coins to staking in cases where the user's non-custodial wallet does not support connection via TON Connect or does not have a built-in staking interface.\
-With transactions, you cannot withdraw part of the stake like with other methods, only the entire amount at once.
-
-<Info>
-  **Important:** Sending coins to staking is done exclusively from non-custodial wallets. Sending funds from a custodial wallet or exchange account will result in their irreversible loss.
-</Info>
-
-# Pool Address
-
-To send and receive funds through a transaction, you need to obtain the address of the pool to which you plan to send funds. The address of any pool can be found on the [pools page](https://tonwhales.com/staking) of the [tonwhales.com](http://tonwhales.com) website.
-
-1. Go to https://tonwhales.com/staking
-2. Select the pool you want to send funds to and click on its image.
-3. Choose the queue you want to send funds to and click Stake
-4. Enter any amount over 50 for Ton Whales pools and over 10 for P2P or Ledger
-5. Click Stake via any wallet
-6. Copy the pool address. It will be needed for both deposit and withdrawal.
-
-# Deposit via Transaction
-
-1. In your wallet, press the send funds button
-2. Enter the amount you want to send to staking.
-3. In the "Comment" (memo) field, enter Deposit.
-4. Confirm the transaction. Note that you need to pay gas (fee) for sending coins to staking in the amount of 0.2 TON. The remaining fee will be returned after sending. It is recommended to keep 0.4 TON on your balance to pay for gas for withdrawing funds.
-5. In the response message, you will receive the remaining fee back with the comment "Stake accepted".
-6. Your funds have been successfully sent to the pool and will start participating in staking after the current cycle ends. Profit will be credited to the staking balance at the end of each full cycle. Thus, the first profit will appear on the staking balance after the time remaining until the end of the current cycle plus one full cycle (36 hours).
+Стейкинг через транзакцию используется как альтернативный способ отправки монет в стейкинг в тех случаях, когда некостодиальный кошелек пользователя не поддерживает подключение через TON Connect или не имеет встроенного интерфейса для стейкинга.\
+При использовании транзакций нельзя вывести часть стейка, как в других методах: можно вывести только всю сумму целиком.
 
 <Info>
-  If the staking amount was returned after an attempted transaction, please verify that the address and comment are correct (the comment should be written with a capital letter without additional spaces at the beginning or end).
+  **Важно:** отправка монет в стейкинг выполняется исключительно из некостодиальных кошельков. При отправке средств с кастодиального кошелька или биржевого аккаунта они будут безвозвратно утеряны.
 </Info>
 
-# Withdraw funds via transaction
+# Адрес пула
 
-1. In your wallet, click the send funds button.
-2. Enter the amount 0.2 TON in the amount field. This amount represents the transaction fee, while the stake will be withdrawn in full.
-3. In the "Comment" (memo) field, enter Withdraw.
-4. In the address field, specify the address of the pool to which the funds were sent.
-5. Confirm the transaction.
-6. The withdrawal request has been submitted. Repeat this entire procedure after the completion of the nearest staking cycle. Funds will arrive in your balance within a few minutes.
+Чтобы отправлять и получать средства через транзакцию, необходимо узнать адрес пула, в который вы планируете отправить средства. Адрес любого пула можно найти [на странице пулов](https://tonwhales.com/staking) сайта [tonwhales.com](http://tonwhales.com).
+
+1. Перейдите на https://tonwhales.com/staking
+2. Выберите пул, в который хотите отправить средства, и нажмите на его изображение.
+3. Выберите очередь, в которую хотите отправить средства, и нажмите Stake.
+4. Введите любую сумму больше 50 для пулов Ton Whales и больше 10 для P2P или Ledger.
+5. Нажмите Stake via any wallet.
+6. Скопируйте адрес пула. Он понадобится и для пополнения, и для вывода.
+
+# Пополнение через транзакцию
+
+1. В вашем кошельке нажмите кнопку отправки средств.
+2. Введите сумму, которую хотите отправить в стейкинг.
+3. В поле "Comment", то есть memo, введите `Deposit`.
+4. Подтвердите транзакцию. Обратите внимание, что за отправку монет в стейкинг нужно заплатить газ, то есть комиссию, в размере 0.2 TON. Неиспользованная часть комиссии будет возвращена после отправки. Рекомендуется держать на балансе 0.4 TON для оплаты газа при выводе средств.
+5. В ответном сообщении вы получите обратно оставшуюся часть комиссии с комментарием `"Stake accepted"`.
+6. Ваши средства успешно отправлены в пул и начнут участвовать в стейкинге после завершения текущего цикла. Прибыль будет зачисляться на стейкинговый баланс после каждого полного цикла. Таким образом, первая прибыль появится после времени, оставшегося до конца текущего цикла, плюс одного полного цикла, то есть через 36 часов.
+
+<Info>
+  Если сумма стейкинга была возвращена после попытки отправки транзакции, проверьте правильность адреса и комментария. Комментарий должен быть написан с заглавной буквы и без лишних пробелов в начале и в конце.
+</Info>
+
+# Вывод средств через транзакцию
+
+1. В кошельке нажмите кнопку отправки средств.
+2. В поле суммы укажите 0.2 TON. Эта сумма является комиссией за транзакцию, а сам стейк будет выведен полностью.
+3. В поле "Comment", то есть memo, введите `Withdraw`.
+4. В поле адреса укажите адрес пула, в который ранее были отправлены средства.
+5. Подтвердите транзакцию.
+6. Запрос на вывод отправлен. Повторите эту же процедуру после завершения ближайшего стейкингового цикла. Средства поступят на ваш баланс в течение нескольких минут.

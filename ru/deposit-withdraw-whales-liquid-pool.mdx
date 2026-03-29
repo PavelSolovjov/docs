@@ -1,20 +1,20 @@
 ---
-title: "Deposit/withdraw Whales liquid pool"
+title: "Ввод и вывод в Whales Liquid Pool"
 ---
 
-# Deposit (sending funds to staking)
+# Пополнение, то есть отправка средств в стейкинг
 
-Deposit to the liquid pool is carried out in two ways:
+Пополнение ликвидного пула выполняется двумя способами:
 
-- **Buying tokens on DEX.** Users can purchase wsTON on a decentralized exchange by following [this link](https://app.dedust.io/swap/TON/wsTON) and making a swap in the TON/wsTON trading pair. This method is the simplest, however when exchanging significant amounts of TON, the rate will be less favorable compared to direct staking. For example, when exchanging 1,000 TON through DEX, a user will receive 917.04 wsTON, while when sending to staking — 926.4 wsTON.
-- Sending TON to staking through the Tonhub interface or [tonwhales.com](http://tonwhales.com) website. This method is more profitable than the first one and we will examine it in more detail.
+- **Покупка токенов на DEX.** Пользователь может приобрести wsTON на децентрализованной бирже по [этой ссылке](https://app.dedust.io/swap/TON/wsTON), совершив обмен в паре TON/wsTON. Это самый простой способ, однако при обмене значительных сумм TON курс будет менее выгодным по сравнению с прямым входом в стейкинг. Например, при обмене 1 000 TON через DEX пользователь получит 917.04 wsTON, а при отправке в стейкинг — 926.4 wsTON.
+- **Отправка TON в стейкинг через интерфейс Tonhub или сайт [tonwhales.com](http://tonwhales.com).** Этот способ выгоднее первого, поэтому ниже он разобран подробнее.
 
-## Deposit through [tonwhales.com](http://tonwhales.com) website
+## Пополнение через сайт [tonwhales.com](http://tonwhales.com)
 
-1. Go to https://tonwhales.com/staking/liquid and click the "Stake" button.
-2. In the opened dialog box, perform the following actions:
+1. Перейдите на страницу https://tonwhales.com/staking/liquid и нажмите кнопку "Stake".
+2. В открывшемся диалоговом окне выполните следующие действия:
 
-- Specify the amount in TON that needs to be sent to staking.
+- Укажите количество TON, которое нужно отправить в стейкинг.
 
 <img
   src="/images/Screenshot2025-12-29at15.28.42.png"
@@ -24,10 +24,10 @@ Deposit to the liquid pool is carried out in two ways:
   style={{ width:"31%" }}
 />
 
-- Connect your Tonhub wallet by scanning the QR code (connection is made through the [Tonconnect](https://github.com/ton-connect) protocol), or select the "Stake via any wallet" option to manually send funds to staking.
-  - When connecting your wallet, confirm the transaction in the app. wsTON tokens will appear in your balance within a few minutes.
-  - When selecting the "Stake via any wallet" option, review the warning and click "Got It". Scan the QR code with your wallet or copy the recipient address.
-- Send the required amount of TON to the specified address with the mandatory comment "Deposit". wsTON tokens will appear in your balance within a few minutes.
+- Подключите кошелек Tonhub, отсканировав QR-код, так как подключение выполняется через протокол [Tonconnect](https://github.com/ton-connect), либо выберите опцию "Stake via any wallet", чтобы вручную отправить средства в стейкинг.
+  - При подключении кошелька подтвердите транзакцию в приложении. Токены wsTON появятся на вашем балансе в течение нескольких минут.
+  - При выборе опции "Stake via any wallet" ознакомьтесь с предупреждением и нажмите "Got It". Затем отсканируйте QR-код своим кошельком или скопируйте адрес получателя.
+- Отправьте нужное количество TON на указанный адрес с обязательным комментарием `Deposit`. Токены wsTON появятся на вашем балансе в течение нескольких минут.
   - [EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON](https://tonviewer.com/EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON)
 
 <img
@@ -39,13 +39,13 @@ Deposit to the liquid pool is carried out in two ways:
 />
 
 <Info>
-  **Attention:** sending funds to staking is allowed exclusively from a non-custodial wallet (for which the user has a seed phrase). When sending funds to staking from an exchange or custodial wallet, the contract will not be able to return them and the funds will be irretrievably lost.
+  **Внимание:** отправлять средства в стейкинг разрешено только с некостодиального кошелька, то есть такого, для которого у пользователя есть seed-фраза. При отправке средств с биржи или кастодиального кошелька контракт не сможет вернуть их обратно, и средства будут безвозвратно утеряны.
 </Info>
 
-## Deposit through Tonnub interface
+## Пополнение через интерфейс Tonhub
 
-1. Go to the staking section by clicking on the banner on the main screen.
-2. Select the Whales Liquid pool and click Top Up.
+1. Перейдите в раздел стейкинга, нажав на баннер на главном экране.
+2. Выберите пул Whales Liquid и нажмите Top Up.
 
 <img
   src="/images/2025-12-2914.58.01.jpg"
@@ -55,7 +55,7 @@ Deposit to the liquid pool is carried out in two ways:
   style={{ width:"31%" }}
 />
 
-3. Specify the amount to send to staking. In addition to the specified amount, a fee of 0.2 TON will be charged, part of which is returned after the operation is completed. The minimum amount to send is 1 TON.
+3. Укажите сумму для отправки в стейкинг. Помимо указанной суммы будет списана комиссия 0.2 TON, часть которой вернется после завершения операции. Минимальная сумма отправки составляет 1 TON.
 
 <img
   src="/images/2025-12-2914.57.57.jpg"
@@ -73,8 +73,8 @@ Deposit to the liquid pool is carried out in two ways:
   style={{ width:"33%" }}
 />
 
-4. Confirm the operation.
-5. wsTON tokens will be credited to your balance within a few minutes.
+4. Подтвердите операцию.
+5. Токены wsTON поступят на ваш баланс в течение нескольких минут.
 
 <img
   src="/images/2025-12-2914.57.52.jpg"
@@ -84,17 +84,17 @@ Deposit to the liquid pool is carried out in two ways:
   style={{ width:"33%" }}
 />
 
-# Withdrawing funds from liquid staking
+# Вывод средств из ликвидного стейкинга
 
-Withdrawing funds from the liquid pool is carried out in two ways:
+Вывод из ликвидного пула также выполняется двумя способами:
 
-- **Selling tokens on DEX.** Users can sell wsTON on a decentralized exchange by following [this link](https://app.dedust.io/swap/TON/wsTON) and making a swap in the TON/wsTON trading pair. This method is the simplest, however when exchanging significant amounts of TON, the rate will be less favorable compared to withdrawing from staking. For example, when exchanging 1,000 wsTON through DEX, a user will receive 1,065.8 TON, whereas when withdrawing from staking — 1,079 TON.
-- Withdrawing TON from staking through the Tonhub interface or [tonwhales.com](http://tonwhales.com) website. This method is more profitable than the first and we will examine it in more detail.
+- **Продажа токенов на DEX.** Пользователь может продать wsTON на децентрализованной бирже по [этой ссылке](https://app.dedust.io/swap/TON/wsTON), совершив обмен в паре TON/wsTON. Это самый простой способ, однако при обмене значительных объемов TON курс будет менее выгодным по сравнению с выводом из стейкинга. Например, при обмене 1 000 wsTON через DEX пользователь получит 1 065.8 TON, тогда как при выводе из стейкинга — 1 079 TON.
+- **Вывод TON из стейкинга через интерфейс Tonhub или сайт [tonwhales.com](http://tonwhales.com).** Этот способ выгоднее первого, поэтому ниже он разобран подробнее.
 
-## Withdrawing funds through the [tonwhales.com](http://tonwhales.com) website interface
+## Вывод через интерфейс сайта [tonwhales.com](http://tonwhales.com)
 
-1. Go to the page https://tonwhales.com/staking/liquid and click the "Withdraw" button.
-2. Select the withdrawal method:
+1. Перейдите на страницу https://tonwhales.com/staking/liquid и нажмите кнопку "Withdraw".
+2. Выберите способ вывода:
 
 <img
   src="/images/Screenshot2025-12-29at15.42.22.png"
@@ -104,9 +104,9 @@ Withdrawing funds from the liquid pool is carried out in two ways:
   style={{ width:"34%" }}
 />
 
-- Connect your Tonhub wallet by scanning the QR code (connection is made through the [Tonconnect](https://github.com/ton-connect) protocol). Confirm the transaction that appears. After the cycle completes, repeat the withdrawal request — TON will arrive in your balance within a few minutes.
-- Click "Manual withdraw" to perform a manual withdrawal.
-  - Send a transaction to the pool address with the comment "Withdraw". You will need to pay a 0.2 TON fee to submit the request. After the cycle completes, send another transaction to the pool address with the comment "Collect". You will also need to pay a 0.2 TON fee to submit this request. TON will arrive in your balance within a few minutes.
+- Подключите кошелек Tonhub, отсканировав QR-код, так как подключение выполняется через протокол [Tonconnect](https://github.com/ton-connect). Подтвердите появившуюся транзакцию. После завершения цикла повторите запрос на вывод, и TON поступят на баланс в течение нескольких минут.
+- Нажмите "Manual withdraw", чтобы выполнить ручной вывод.
+  - Отправьте транзакцию на адрес пула с комментарием `Withdraw`. Для отправки запроса потребуется комиссия 0.2 TON. После завершения цикла отправьте еще одну транзакцию на адрес пула с комментарием `Collect`. Для этого запроса также потребуется комиссия 0.2 TON. После этого TON поступят на баланс в течение нескольких минут.
   - [EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON](https://tonviewer.com/EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON)
 
 <img
@@ -117,11 +117,11 @@ Withdrawing funds from the liquid pool is carried out in two ways:
   style={{ width:"35%" }}
 />
 
-## Withdrawing funds through the Tonhub interface
+## Вывод через интерфейс Tonhub
 
-1. Go to the staking section by clicking on the banner on the main screen.
-2. Select the Whales Liquid pool and click Withdraw.
-3. Specify the amount to withdraw from staking. To submit the request, you will need to pay a fee of 0.2 TON.
+1. Перейдите в раздел стейкинга, нажав на баннер на главном экране.
+2. Выберите пул Whales Liquid и нажмите Withdraw.
+3. Укажите сумму для вывода из стейкинга. Для отправки запроса потребуется комиссия 0.2 TON.
 
 <img
   src="/images/2025-12-2914.57.55-1.jpg"
@@ -131,4 +131,4 @@ Withdrawing funds from the liquid pool is carried out in two ways:
   style={{ width:"33%" }}
 />
 
-4. Upon completion of the cycle, funds ready for withdrawal will be displayed on the pool page. You need to press the withdrawal button again. To submit the second request, you will need to pay a commission of 0.2 TON. The funds will arrive at the specified address within a few minutes.
+4. После завершения цикла на странице пула появятся средства, готовые к выводу. Нужно будет еще раз нажать кнопку вывода. Для отправки второго запроса потребуется комиссия 0.2 TON. Средства поступят на указанный адрес в течение нескольких минут.

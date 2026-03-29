@@ -1,33 +1,33 @@
 ---
-title: "Whales blockchain indexer"
+title: "Индексер блокчейна Whales"
 ---
 
-# What is a blockchain indexer
+# Что такое индексер блокчейна
 
-Indexers transform raw blockchain data into structured databases designed for searching and displaying information. Block explorers and other products (wallets, APIs, etc.) operate based on such databases. Blockchain nodes are not optimized for handling constant multiple queries, so data is extracted from the indexer.\
-In the Whales ecosystem, the indexer serves as the foundation for the v4 API, which in turn ensures the functioning of other company products.\
-**ton-indexer-go** is a TON (The Open Network) blockchain indexer created by the Whales team. It loads blocks and transactions from blockchain nodes, processes them, and stores structured data in **ScyllaDB**. The result is an index that allows quick searching of transactions by addresses, blocks, time, and other criteria.\
-Repository: https://github.com/whalescorp/ton-indexer-go\
-Language: [Go](https://golang.org/)
+Индексеры преобразуют сырые данные блокчейна в структурированные базы данных, предназначенные для поиска и отображения информации. На основе таких баз работают блокчейн-эксплореры и другие продукты, включая кошельки и API. Узлы блокчейна не оптимизированы для обработки большого количества постоянных запросов, поэтому данные для таких сценариев извлекаются из индексера.\
+В экосистеме Whales индексер служит основой для API v4, который, в свою очередь, обеспечивает работу других продуктов компании.\
+**ton-indexer-go** — это индексер блокчейна TON (The Open Network), созданный командой Whales. Он загружает блоки и транзакции с узлов блокчейна, обрабатывает их и сохраняет структурированные данные в **ScyllaDB**. В результате получается индекс, который позволяет быстро искать транзакции по адресам, блокам, времени и другим критериям.\
+Репозиторий: https://github.com/whalescorp/ton-indexer-go\
+Язык: [Go](https://golang.org/)
 
-# What the indexer is used for
+# Для чего используется индексер
 
-- **Creating an index of account state history** — before and after each transaction (account states), including balance, code/data hashes, cells, and libraries.
-- **Creating a block index** — masterchain and shard blocks with metadata (seqno, shard, utime, BOC, etc.).
-- **Creating an index for analytics and explorers** — building block explorers, dashboards, and services that work on top of the index without direct queries to TON nodes.
+- **Создание индекса истории состояний аккаунтов** — до и после каждой транзакции, включая баланс, хэши code и data, ячейки и библиотеки.
+- **Создание индекса блоков** — masterchain- и shard-блоков с метаданными, такими как seqno, shard, utime, BOC и другие.
+- **Создание индекса для аналитики и эксплореров** — построение блокчейн-эксплореров, дашбордов и сервисов, работающих поверх индекса без прямых запросов к узлам TON.
 
-# Differences from similar products
+# Отличия от похожих продуктов
 
-- **Own index, own infrastructure** — data is stored in proprietary ScyllaDB. No dependency on third-party APIs (TON Center, TONAPI, etc.): full control over schema, history volume, and SLA.
-- **Two loading modes** — not only online synchronization from the network (archsync), but also import from archive (archimport + tximport). This allows quickly setting up an index from scratch using a ready dump or processing offline backups.
-- **ScyllaDB (Cassandra-compatible)** — chosen for high write load and large data volumes, horizontal scaling. Many other solutions (e.g., TON Center API v3) use PostgreSQL — a different scaling and query model.
-- **Deep state indexing** — stores not only transactions and blocks, but also account states (before/after transaction), cells, and libraries. This is convenient for explorers and analytics that need "account state at a point in time". However, note that proofs are not stored completely.
-- **LT-buckets** — special structure for fast pagination of transaction history by address by logical time without heavy scan queries.
-- **Distributed import** — when working with archives, multiple workers (archimport, tximport) coordinate through the database, allowing parallelization of initial loading.
+- **Собственный индекс и собственная инфраструктура** — данные хранятся в собственной ScyllaDB. Нет зависимости от сторонних API, таких как TON Center или TONAPI: обеспечивается полный контроль над схемой данных, объемом истории и SLA.
+- **Два режима загрузки** — поддерживается не только онлайн-синхронизация из сети через `archsync`, но и импорт из архива через `archimport + tximport`. Это позволяет быстро поднимать индекс с нуля на основе готового дампа или обрабатывать офлайн-бэкапы.
+- **ScyllaDB, совместимая с Cassandra** — выбрана из-за высокой нагрузки на запись, больших объемов данных и горизонтального масштабирования. Многие другие решения, например TON Center API v3, используют PostgreSQL, где другая модель масштабирования и запросов.
+- **Глубокое индексирование состояния** — сохраняются не только транзакции и блоки, но и состояния аккаунтов до и после транзакции, а также ячейки и библиотеки. Это удобно для эксплореров и аналитики, которым нужно "состояние аккаунта в конкретный момент времени". При этом важно учитывать, что доказательства хранятся не полностью.
+- **LT-buckets** — специальная структура для быстрой пагинации истории транзакций по адресу и logical time без тяжелых scan-запросов.
+- **Распределенный импорт** — при работе с архивами несколько воркеров, то есть `archimport` и `tximport`, координируются через базу данных, что позволяет распараллеливать первичную загрузку.
 
-# Operating modes
+# Режимы работы
 
-The indexer supports two main scenarios:
+Индексер поддерживает два основных сценария:
 
-1. **Online synchronization (archsync)** — connects to TON via Lite Client (lite servers), synchronizes new blocks in real-time, and writes data to ScyllaDB.
-2. **Archive import (archimport + tximport)** — reads ready block dumps from disk (archive packages) and transactions, then imports them into the same ScyllaDB. Used for initial history loading or processing offline dumps.
+1. **Онлайн-синхронизация (`archsync`)** — подключается к TON через Lite Client, то есть lite servers, синхронизирует новые блоки в реальном времени и записывает данные в ScyllaDB.
+2. **Импорт из архива (`archimport + tximport`)** — читает готовые дампы блоков с диска, то есть архивные пакеты, а также транзакции, после чего импортирует их в ту же ScyllaDB. Этот режим используется для первоначальной загрузки истории или обработки офлайн-дампов.
