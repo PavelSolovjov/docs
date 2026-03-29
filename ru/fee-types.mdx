@@ -1,55 +1,55 @@
 ---
-title: "Fee Types"
+title: "Типы комиссий"
 ---
 
-## Creation Fee (Primary Platform Revenue)
+## Комиссия за создание (основная выручка платформы)
 
-Charged to the **merchant**, drawn from their dedicated fee wallet on the Solana blockchain.
+Списывается с **мерчанта** из его отдельного fee-кошелька в блокчейне Solana.
 
 ```text
 fee = max(cheque_amount × creation_fee_pct / 100 + creation_fee_flat, creation_fee_min)
 ```
 
-- Default: `2.0% + 0.25 USDC flat, 0.25 USDC minimum`
-- Fee is charged **separately** from the cheque amount — recipient always gets the full cheque value
-- Collected automatically via SPL token delegate when the cheque is funded
-- This is the **platform's** revenue, separate from the issuer-merchant distribution economics\
+- По умолчанию: `2.0% + 0.25 USDC фиксировано, минимум 0.25 USDC`
+- Комиссия взимается **отдельно** от суммы чека, поэтому получатель всегда получает полную сумму чека
+- Списывается автоматически через делегата SPL-токена при фондировании чека
+- Это выручка **платформы**, отдельная от экономики распределения между эмитентом и мерчантом\
 
-## Claim Fee (Optional)
+## Комиссия за получение (опционально)
 
-Charged to the **end-user recipient**, deducted on-chain from the transfer amount.
+Взимается с **конечного получателя** и удерживается on-chain из суммы перевода.
 
 ```text
 net_received = cheque_amount - (cheque_amount × claim_fee_pct / 100 + claim_fee_flat)
 ```
 
-- Default: `0%` (disabled)
-- Enabled per-merchant via fee tier configuration\
+- По умолчанию: `0%` (отключена)
+- Включается для конкретного мерчанта через конфигурацию fee tier\
 
-## Changelly Markup (Exchange Spread)
+## Наценка Changelly (спред обмена)
 
-Applied to Changelly crypto-to-USDC conversions.
+Применяется к конвертациям криптовалюты в USDC через Changelly.
 
 ```text
 source_amount_user = changelly_quoted_source × (1 + markup_pct / 100)
 ```
 
-- Default: `0%` — embedded in exchange rate, not shown as a separate fee
+- По умолчанию: `0%`, встроена в курс обмена и не показывается как отдельная комиссия
 
-## Bridge Developer Fee (Fiat Onramp)
+## Комиссия разработчика Bridge (фиатный онрамп)
 
-Applied to [Bridge.xyz](http://Bridge.xyz) USD→USDC transfers.
+Применяется к переводам USD→USDC через [Bridge.xyz](http://Bridge.xyz).
 
 ```text
 bridge_fee = transfer_amount_usd × bridge_developer_fee_pct / 100
 ```
 
-- Default: `0%`
-- [Bridge.xyz](http://Bridge.xyz) collects natively via the `developer_fee` parameter and remits to platform
-- Stored in `bridge_transfers.developer_fee_usd`\
+- По умолчанию: `0%`
+- [Bridge.xyz](http://Bridge.xyz) удерживает ее нативно через параметр `developer_fee` и перечисляет платформе
+- Хранится в `bridge_transfers.developer_fee_usd`\
 
-## Gas Fee (Platform Cost, Not Revenue)
+## Комиссия за gas (расход платформы, не выручка)
 
-~0.005 SOL sent automatically from the system wallet to each funded cheque.
+Около `0.005 SOL` автоматически отправляется с системного кошелька на каждый профондированный чек.
 
-- Platform cost, not charged to merchant, not tracked in `fee_ledger`
+- Это расход платформы, он не списывается с мерчанта и не учитывается в `fee_ledger`

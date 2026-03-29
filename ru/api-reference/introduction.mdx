@@ -1,28 +1,27 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'Введение'
+description: 'Пример раздела для демонстрации API-эндпоинтов'
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  Если вам не нужен раздел со справочником API, вы можете удалить его, убрав папку `api-reference`.
 </Note>
 
-## Welcome
+## Добро пожаловать
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Существует два способа собрать API-документацию: через [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) и через [MDX-компоненты](https://mintlify.com/docs/api-playground/mdx/configuration). В стартовом шаблоне используется следующая OpenAPI-спецификация.
 
 <Card
-  title="Plant Store Endpoints"
+  title="Эндпоинты Plant Store"
   icon="leaf"
   href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
 >
-  View the OpenAPI specification file
+  Открыть файл OpenAPI-спецификации
 </Card>
 
-## Authentication
+## Аутентификация
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Все API-эндпоинты аутентифицируются через Bearer-токены и подхватывают настройки из файла спецификации.
 
 ```json
 "security": [

@@ -1,152 +1,152 @@
 ---
-title: "Write-offs in Holders: rollups, clearings, refunds, reversals"
-description: "This document explains how funds are debited in Holders: from card authorization and clearing through rollup formation and on-chain debits to Treasure wallets, including how refunds and reversals work."
+title: "Списания в Holders: rollups, clearings, refunds, reversals"
+description: "Этот документ объясняет, как в Holders происходит списание средств: от авторизации по карте и клиринга до формирования rollup, on-chain списаний в Treasure-кошельки, а также как работают возвраты и реверсалы."
 ---
 
-# Flowchart of the funds debit process
+# Схема процесса списания средств
 
 ![Untitled(6)(1)](/images/Untitled\(6\)\(1\).png)
 
-1. User initiates a payment operation.
-2. Card provider sends an authorization request to the Holders webhook, containing the transaction amount and merchant information.
-3. Issuer performs a check of sufficient cryptocurrency funds in the client's account. If the necessary amount is available, it gets reserved (Hold is set), after which confirmation of operation approval is sent to the provider. The virtual account balance decreases while the actual balance remains unchanged.
-4. After receiving the clearing transaction from the provider, funds are debited from the settlement balance.
-5. Formation of a rollup batch is initiated, including a list of transactions with specified amounts and fees.
-6. Preparation of aggregated state for subsequent blockchain recording is performed.
-7. Upon completion of batch formation, the total rollup amount is debited from the user's contract.
-8. The aggregated amount is transferred to the Treasure wallet.
-9. The batch receives closed status, and the transactions included in it are linked to the corresponding rollup.
+1. Пользователь инициирует платежную операцию.
+2. Карточный провайдер отправляет в webhook Holders запрос на авторизацию, содержащий сумму транзакции и информацию о мерчанте.
+3. Эмитент проверяет, достаточно ли криптовалютных средств на счете клиента. Если нужная сумма доступна, она резервируется (`Hold`), после чего провайдеру отправляется подтверждение об одобрении операции. Виртуальный баланс счета уменьшается, а фактический баланс остается без изменений.
+4. После получения clearing-транзакции от провайдера средства списываются с расчетного баланса.
+5. Запускается формирование rollup batch, включающего список транзакций с указанными суммами и комиссиями.
+6. Подготавливается агрегированное состояние для последующей записи в блокчейн.
+7. После завершения формирования batch общая сумма rollup списывается с пользовательского контракта.
+8. Агрегированная сумма переводится в Treasure-кошелек.
+9. Batch получает статус `closed`, а включенные в него транзакции связываются с соответствующим rollup.
 
 # Rollups
 
-## What is a rollup
+## Что такое rollup
 
-A rollup is a mechanism for grouping multiple transactions into a single batch to optimize processing and reduce fees when interacting with the blockchain. For each cryptocurrency withdrawal from a client's account, the payment service must pay a commission for conducting the transaction in the blockchain (gas). To optimize costs, the Holders system has implemented rollup technology, which allows aggregating multiple transactions into a single batch and paying gas once for the entire formed block of operations.
+Rollup - это механизм группировки нескольких транзакций в один batch для оптимизации обработки и снижения комиссий при взаимодействии с блокчейном. При каждом выводе криптовалюты со счета клиента платежный сервис должен платить комиссию за проведение транзакции в блокчейне (`gas`). Чтобы уменьшить затраты, в Holders реализована технология rollup, которая позволяет объединять несколько операций в один batch и платить `gas` один раз за весь сформированный блок операций.
 
-## What is a batch
+## Что такое batch
 
-A batch is a group of transactions or operations combined for joint processing to optimize performance and reduce costs. In the Holders system, batches are used to aggregate multiple operations into a single block before executing them on the blockchain.
+Batch - это группа транзакций или операций, объединенных для совместной обработки с целью повышения эффективности и снижения затрат. В системе Holders batch используется для агрегирования нескольких операций в один блок перед их выполнением в блокчейне.
 
-## Rollup Formation
+## Формирование rollup
 
-A rollup is formed for each client account every 3 hours (configurable parameter) when there is at least one operation in the specified period. All operations performed during this time interval are aggregated into a single block and then executed on the blockchain.\
-The rollup includes the following types of operations:
+Rollup формируется для каждого клиентского счета каждые 3 часа, это настраиваемый параметр, если за указанный период была хотя бы одна операция. Все операции, выполненные в течение этого интервала, агрегируются в один блок и затем исполняются в блокчейне.\
+В rollup входят следующие типы операций:
 
-- **Payments** — client funds are blocked on the Holders backend at the moment of payment, actual blocking on the blockchain occurs during rollup formation
-- **Clearings** — debiting funds from the client's account to the treasure wallet
-- **Reversals** — operations to unblock previously reserved funds
+- **Payments** — средства клиента блокируются на backend Holders в момент оплаты, а фактическая блокировка в блокчейне происходит во время формирования rollup
+- **Clearings** — списание средств со счета клиента в Treasure-кошелек
+- **Reversals** — операции по разблокировке ранее зарезервированных средств
 
-The smart contract accumulates changes rather than calculating the current balance. This means that if two opposite operations for the same amount fall into the same rollup (for example, a reversal and a payment), both will be executed.
+Смарт-контракт накапливает изменения, а не пересчитывает текущий баланс. Это означает, что если в один rollup попадают две противоположные операции на одну и ту же сумму, например reversal и payment, то будут выполнены обе.
 
 <Info>
-  **Example:** A client makes a payment at 13:00 for 100 EUR, at 14:00 they make a second payment for 200 EUR. At 15:00 the client receives a reversal for 300 EUR and a clearing for 400 EUR for previously completed operations (all operations occur on the same account).\
-  At 16:00 a rollup is formed, in which:
+  **Пример:** клиент совершает платеж в 13:00 на 100 EUR, в 14:00 делает второй платеж на 200 EUR. В 15:00 клиент получает reversal на 300 EUR и clearing на 400 EUR по ранее завершенным операциям, все действия происходят по одному и тому же счету.\
+  В 16:00 формируется rollup, в котором:
 
-  - 300 EUR is blocked on the client's account and the displayed balance decreases (for payments made during the period), the actual account balance does not change
-  - 300 EUR is unblocked and the client's displayed balance increases (reversal), the actual account balance does not change
-  - 400 EUR is debited from the client's account to treasure, the displayed balance does not change, while the actual balance decreases by 400 EUR
+  - 300 EUR блокируется на счете клиента и отображаемый баланс уменьшается, это соответствует платежам за период, при этом фактический баланс счета не меняется
+  - 300 EUR разблокируется и отображаемый баланс клиента увеличивается, это reversal, фактический баланс счета также не меняется
+  - 400 EUR списывается со счета клиента в treasure, отображаемый баланс не меняется, а фактический баланс уменьшается на 400 EUR
 
-  _All amounts are specified in EUR for calculation simplification. In reality, all blockchain operations are conducted using cryptocurrency only_
+  _Все суммы указаны в EUR для упрощения расчета. На практике все операции в блокчейне выполняются только в криптовалюте._
 </Info>
 
 # Clearings
 
-## What is clearing
+## Что такое clearing
 
-Clearing is a process of reconciliation and mutual settlements, as well as final confirmation of operations between the issuing bank, acquirer, payment system and Holders based on authorizations. Typically, clearing for an operation takes place within 24 hours.
+Clearing - это процесс сверки и взаиморасчетов, а также финального подтверждения операций между банком-эмитентом, эквайером, платежной системой и Holders на основе авторизаций. Обычно clearing по операции происходит в течение 24 часов.
 
-## **The Role of Clearing in Payment Flow**
+## Роль clearing в платежном потоке
 
-Clearing is a bridge between authorization and final settlement.\
-It is responsible for:
+Clearing служит мостом между авторизацией и финальным settlement.\
+Он отвечает за:
 
-- **Matching authorizations and actual operations**: confirming which specific authorized amounts need to be actually debited, taking into account possible changes (partial clearing, cancellations, refunds).
-- **Converting "promise to debit" into obligation**: after clearing, the amount stops being simply reserved and becomes a confirmed claim against the client's account.
-- **Updating balances in the system**: virtual balance (in the interface) and actual balance of the smart contract/settlement account are brought into compliance with real data from the payment system and issuing bank.
+- **Сопоставление авторизаций и фактических операций**: подтверждает, какие именно авторизованные суммы нужно реально списать, с учетом возможных изменений, таких как partial clearing, отмены и возвраты.
+- **Преобразование "обещания списать" в обязательство**: после clearing сумма перестает быть просто зарезервированной и становится подтвержденным требованием к счету клиента.
+- **Обновление балансов в системе**: виртуальный баланс в интерфейсе и фактический баланс смарт-контракта или расчетного счета приводятся в соответствие с реальными данными из платежной системы и от банка-эмитента.
 
-Thus, authorization says "this operation can be conducted", clearing says "this amount should be debited for this operation", and settlement says "money has been finally moved and recorded".
+Иными словами, authorization говорит "эту операцию можно провести", clearing говорит "эту сумму нужно списать по данной операции", а settlement говорит "деньги окончательно перемещены и зафиксированы".
 
-## **Process Participants**
+## Участники процесса
 
-Several parties and components participate in clearing:
+В clearing участвуют несколько сторон и компонентов:
 
-- **Card issuing bank** – sends clearing events to Holders (final transaction data after authorization: amounts, fees, currency, clearing date).
-- **Payment system (Visa)** – provides rules and infrastructure for transaction exchange between the issuing bank, acquirer and Holders, standardizes the format of clearing messages.
-- **Holders Backend** – receives clearing events, matches them with authorizations, includes them in rollup and initiates changes to the client's account/contract.
-- **Controller (on-chain component/service)** – based on clearing and rollup results, initiates actual debiting from the user's smart contract and transfer of funds to the corresponding Treasure contract.
-- **Client smart contracts** – store user funds; based on clearing and rollup results, aggregated amounts are debited from them.
-- **Treasure wallets** – receive aggregated amounts after clearing (by tokens/networks), serving as the company's funds accumulation point.
+- **Банк-эмитент карты** - отправляет clearing-события в Holders, то есть финальные данные транзакции после авторизации: суммы, комиссии, валюту и дату clearing.
+- **Платежная система (Visa)** - задает правила и инфраструктуру обмена транзакциями между банком-эмитентом, эквайером и Holders, а также стандартизирует формат clearing-сообщений.
+- **Holders Backend** - получает clearing-события, сопоставляет их с авторизациями, включает их в rollup и инициирует изменения в счете или контракте клиента.
+- **Controller (on-chain компонент/сервис)** - на основе результатов clearing и rollup инициирует фактическое списание средств со смарт-контракта пользователя и перевод средств в соответствующий Treasure-контракт.
+- **Клиентские смарт-контракты** - хранят средства пользователя; по итогам clearing и rollup с них списываются агрегированные суммы.
+- **Treasure-кошельки** - получают агрегированные суммы после clearing, по токенам и сетям, и служат точкой накопления средств компании.
 
-## Clearing Stages in Holders
+## Этапы clearing в Holders
 
-The clearing process in the Holders system includes the following stages:
+Процесс clearing в Holders включает следующие этапы:
 
-1. The card issuing bank sends a clearing event to the Holders system.
-2. The Holders backend processes the received event and includes it in the rollup of transactions related to the corresponding smart contract.
-3. After the established time interval expires, the information is transmitted to the Controller.
-4. The Controller initiates the transfer of funds from the smart contract to Treasure. A separate Treasure contract is used for each coin.
-5. Subsequent withdrawal of funds from Treasure is only possible to pre-authorized addresses included in the whitelist.
+1. Банк-эмитент карты отправляет clearing-событие в систему Holders.
+2. Backend Holders обрабатывает полученное событие и включает его в rollup транзакций, относящихся к соответствующему смарт-контракту.
+3. После истечения заданного временного интервала информация передается в Controller.
+4. Controller инициирует перевод средств со смарт-контракта в Treasure. Для каждой монеты используется отдельный Treasure-контракт.
+5. Последующий вывод средств из Treasure возможен только на заранее авторизованные адреса, включенные в whitelist.
 
 <Info>
-  Important to note: in some cases, the clearing amount may exceed the amount reserved on the client's contract, which is due to the specifics of payment systems operation. Currently, the mechanism for additional fund requests through invoices to cover such differences is under development.
+  Важно учитывать: в некоторых случаях сумма clearing может превышать сумму, зарезервированную на контракте клиента, это связано со спецификой работы платежных систем. Сейчас механизм дополнительных запросов средств через инвойсы для покрытия таких расхождений находится в разработке.
 </Info>
 
-## Types of clearing
+## Типы clearing
 
 ### Regular clearing
 
-Standard clearing process where the clearing amount equals or is practically equal to the original transaction amount.
+Стандартный процесс clearing, при котором сумма clearing совпадает или почти совпадает с исходной суммой транзакции.
 
-### Partial Clearing
+### Partial clearing
 
-Partial clearing occurs when only part of the obligations or transactions are executed. This can happen in the following cases:
+Partial clearing происходит, когда исполняется только часть обязательств или транзакций. Это может происходить в следующих случаях:
 
-- **Insufficient liquidity**: When the bank cannot process all orders simultaneously, only part of the transactions can be closed.
-- **Gradual execution**: In cases where contracts or transactions involve execution in several stages, and obligations are fulfilled as funds become available.
+- **Недостаточная ликвидность**: когда банк не может обработать все операции одновременно и закрывает только часть транзакций.
+- **Постепенное исполнение**: когда договоры или транзакции предполагают выполнение в несколько этапов, а обязательства исполняются по мере появления средств.
 
 ### Over-clearing
 
-Over-clearing refers to a situation where the final settlement exceeds the initial obligations, which may be related to:
+Over-clearing означает ситуацию, когда итоговый settlement превышает первоначальные обязательства. Это может быть связано со следующими факторами:
 
-- **Complex financial operations**: For example, when using derivative financial instruments or hedging, where risks may exceed initial positions.
+- **Сложные финансовые операции**: например, при использовании производных финансовых инструментов или хеджирования, когда риски могут превышать первоначальные позиции.
 
-# Returns and Reversals
+# Returns и reversals
 
 ## Return
 
-**Return** is an operation initiated by a merchant after payment completion and clearing, in which funds are returned to the customer for the original transaction, either fully or partially.\
-**Return characteristics:**
+**Return** - это операция, инициированная мерчантом после завершения оплаты и clearing, в рамках которой средства по исходной транзакции возвращаются клиенту полностью или частично.\
+**Характеристики return:**
 
-- Executed after clearing completion when funds have already been debited
-- Creates a new incoming operation (credit) in the bank statement
+- Выполняется после завершения clearing, когда средства уже были списаны
+- Создает новую входящую операцию (`credit`) в выписке
 
-## Returns in Holders
+## Returns в Holders
 
-In Holders, returns are processed manually after receiving notification from the issuing bank. This approach provides additional protection against fraudulent operations.\
-**Return features:**
+В Holders возвраты обрабатываются вручную после получения уведомления от банка-эмитента. Такой подход дает дополнительную защиту от мошеннических операций.\
+**Особенности return:**
 
-- Usually the return reaches the customer within 30 days after merchant initiation
-- The operation is performed by an authorized Backoffice employee
-- Only the main payment amount is returned, the commission is not returned (covers Holders' operational expenses)
+- Обычно возврат доходит до клиента в течение 30 дней после его инициации мерчантом
+- Операцию выполняет авторизованный сотрудник Backoffice
+- Возвращается только основная сумма платежа, комиссия не возвращается, так как покрывает операционные расходы Holders
 
 <Info>
-  **Important feature:** The return amount is calculated at the exchange rate at the time of return, not at the time of the original payment.\
-  **Example:** Customer paid 100 TON. Merchant initiated a return. Bank approved the return and notified Holders. By this time, TON rate dropped by half. Customer will receive 200 TON (minus commission) — twice the originally spent amount in crypto.
+  **Важная особенность:** сумма возврата рассчитывается по курсу на момент возврата, а не на момент исходной оплаты.\
+  **Пример:** клиент заплатил 100 TON. Мерчант инициировал возврат. Банк одобрил его и уведомил Holders. К этому моменту курс TON упал в два раза. Клиент получит 200 TON, за вычетом комиссии, то есть вдвое больше исходно потраченной суммы в криптовалюте.
 </Info>
 
 ## Reversal
 
-Reversal is an operation to cancel authorization before its clearing. During reversal, blocked funds are released and become available in the customer's account without actual money movement between the issuing bank and acquirer.\
-**Reversal characteristics:**
+Reversal - это операция отмены авторизации до момента clearing. Во время reversal заблокированные средства освобождаются и снова становятся доступны на счете клиента без фактического движения денег между банком-эмитентом и эквайером.\
+**Характеристики reversal:**
 
-- Executed between authorization and clearing stages
-- Cancels amount reservation on the account
-- Removes fund blocking without creating a new operation in the statement
+- Выполняется между стадиями authorization и clearing
+- Отменяет резервирование суммы на счете
+- Снимает блокировку средств без создания новой операции в выписке
 
-## Reversals in Holders
+## Reversals в Holders
 
-In Holders, reversals are processed automatically after receiving notification from the issuing bank.\
-**Reversal features:**
+В Holders reversals обрабатываются автоматически после получения уведомления от банка-эмитента.\
+**Особенности reversal:**
 
-- Full purchase amount is returned, exchange rate is not recalculated
-- Commission amount is not deducted from the reversal
+- Возвращается полная сумма покупки, курс не пересчитывается
+- Комиссия из reversal не удерживается

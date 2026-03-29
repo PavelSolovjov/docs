@@ -1,11 +1,11 @@
 ---
-title: "Invoice & Settlement Document Lifecycle"
+title: "Жизненный цикл инвойсов и settlement-документов"
 ---
 
-The platform manages two parallel document streams:
+Платформа управляет двумя параллельными потоками документов:
 
-| Stream | Document | Relationship |
+| Поток | Документ | Отношение |
 | :-- | :-- | :-- |
-| **Platform fees** | Invoice (`invoices` table) | Platform → <br />Instance operator |
+| **Комиссии платформы** | Инвойс (`invoices` table) | Platform → <br />Оператор инстанса |
 | **Distribution** | Settlement Statement (`merchant_settlements`) | Instance (Issuer) → <br />Merchant |
 | **Distribution** | Rebate Notice (`merchant_rebates`) | Instance (Issuer) → <br />Merchant |

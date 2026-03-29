@@ -1,9 +1,9 @@
 ---
-title: "Invoice Number Format"
+title: "Формат номера инвойса"
 ---
 
 ```text
 INV-{YEAR}-{SEQ:04d}     e.g. INV-2026-0042
 ```
 
-Sequence counter stored in `instances.settings.invoice_seq`, incremented atomically per transaction.
+Счетчик последовательности хранится в `instances.settings.invoice_seq` и атомарно увеличивается для каждой транзакции.

@@ -1,152 +1,152 @@
 ---
-title: "Onboarding process"
-description: "This document explains what onboarding in Holders is, its goals, when it starts and ends, the main user steps, and how wallet connection and user token creation technically work."
+title: "Процесс онбординга"
+description: "Этот документ объясняет, что такое онбординг в Holders, каковы его цели, когда он начинается и заканчивается, какие основные шаги проходит пользователь и как технически работают подключение кошелька и создание пользовательского токена."
 ---
 
-# What is onboarding
+# Что такое онбординг
 
-Onboarding in Holders represents a structured process of integrating a mobile wallet user with the functional capabilities of the Holders SDK. Within this process, the user creates a personal Holders profile, provides necessary consents for data processing, and performs the primary key action — account funding — to ensure full access to Holders functionality within the wallet.
+Онбординг в Holders — это структурированный процесс интеграции пользователя мобильного кошелька с функциональностью Holders SDK. В рамках этого процесса пользователь создает персональный профиль Holders, предоставляет необходимые согласия на обработку данных и выполняет главное целевое действие — пополнение счета, чтобы получить полный доступ к функциональности Holders внутри кошелька.
 
-# Onboarding goals
+# Цели онбординга
 
-- **Explain the value of Holders**
+- **Объяснить ценность Holders**
 
-The user understands what Holders is, can evaluate the onboarding process, and form a correct opinion about the company.
+Пользователь понимает, что такое Holders, может оценить процесс онбординга и сформировать корректное представление о компании.
 
-- **Guide through profile creation**
+- **Провести через создание профиля**
 
-The user flawlessly goes through the steps: creates a profile, confirms wallet connection, completes basic setup.
+Пользователь безошибочно проходит шаги: создает профиль, подтверждает подключение кошелька и завершает базовую настройку.
 
-- **Collect necessary consents and permissions**
+- **Собрать необходимые согласия и разрешения**
 
-The user provides all required consents (for Holders and partners) so the service can operate fully and remain compliant.
+Пользователь предоставляет все обязательные согласия, как для Holders, так и для партнеров, чтобы сервис мог полноценно работать и оставаться compliant.
 
-- **Lead to the first target action**
+- **Довести до первого целевого действия**
 
-The user performs the first key action based on Holders - creates and funds an account.
+Пользователь выполняет первое ключевое действие в Holders — создает и пополняет счет.
 
-- **Reduce churn and misunderstanding**
+- **Снизить отток и недопонимание**
 
-Minimize cases where the user exits onboarding due to fear, misunderstanding, or perception of complexity, through simple explanations and clear steps.
+Нужно минимизировать случаи, когда пользователь выходит из онбординга из-за страха, непонимания или ощущения сложности, используя простые объяснения и понятные шаги.
 
-- **Filter out unsuitable users**
+- **Отфильтровать неподходящих пользователей**
 
-Correctly stop onboarding if the user doesn't meet critical conditions (residency, creditworthiness), and explain why and what can be done next (if relevant).
+Если пользователь не соответствует критическим условиям, например по резидентству или кредитоспособности, онбординг должен быть корректно остановлен с пояснением причин и, если это уместно, дальнейших действий.
 
-# Onboarding start and end conditions
+# Условия начала и завершения онбординга
 
-## Onboarding start
+## Начало онбординга
 
-Onboarding begins on the main page of the mobile wallet or application into which Holders is integrated, typically with the display of a banner or pop-up window offering account opening and card issuance. The banner is shown by default to all application users regardless of their residency.\
-The banner or window is displayed in the language selected as primary in the mobile application.
+Онбординг начинается на главной странице мобильного кошелька или приложения, в которое встроен Holders, обычно с показа баннера или pop-up окна с предложением открыть счет и выпустить карту. Баннер по умолчанию показывается всем пользователям приложения вне зависимости от их резидентства.\
+Баннер или окно отображаются на языке, выбранном пользователем как основной в мобильном приложении.
 
-## Onboarding completion
+## Завершение онбординга
 
-Onboarding is considered complete if the user successfully funds their account in the Holders system. In all other cases, onboarding is considered incomplete.
+Онбординг считается завершенным, если пользователь успешно пополнил свой счет в системе Holders. Во всех остальных случаях он считается незавершенным.
 
-# Onboarding flowchart
+# Схема онбординга
 
 ![Screenshot2026 01 29at18 05 18 1](/images/Screenshot2026-01-29at18.05.18-1.png)
 
-## Main Stages
+## Основные этапы
 
-1. Wallet connection — performed automatically in the background using the Ton Connect protocol or adapter for the Solana blockchain.
-2. User token creation — procedure for transmitting identification data to the Holders server-side system.
-3. Profile creation — executed when the user confirms their mobile phone number. At this stage, a primary record is created in the Holders database.
-4. KYC — user verification procedure through a partner service (Sumsub).
-5. Account creation — smart contract deployment and issuance of the first card (card issuance is possible when residency requirements are met).
-6. Account funding — transferring funds to the created account.
+1. Подключение кошелька — выполняется автоматически в фоне через протокол Ton Connect или адаптер для блокчейна Solana.
+2. Создание user token — процедура передачи идентификационных данных на серверную сторону Holders.
+3. Создание профиля — выполняется после подтверждения пользователем номера мобильного телефона. На этом этапе в базе Holders создается первичная запись.
+4. KYC — процедура верификации пользователя через партнерский сервис, например Sumsub.
+5. Создание аккаунта — деплой смарт-контракта и выпуск первой карты, если выполнены требования по резидентству.
+6. Пополнение аккаунта — перевод средств на созданный счет.
 
-# More about wallet connection
+# Подробнее о подключении кошелька
 
-Tonhub uses a single cryptographic key (Ed25519) to work with both networks: TON and Solana. This is possible because both networks use the same signature algorithm.
+Tonhub использует один криптографический ключ, то есть Ed25519, для работы сразу с двумя сетями: TON и Solana. Это возможно потому, что обе сети используют одинаковый алгоритм подписи.
 
-## TON Connection
+## Подключение TON
 
-### Connection Process
+### Процесс подключения
 
-1. **Application manifest retrieval** - Tonhub loads the TonConnect manifest from the Holders server ( `/jsons/tonconnect-manifest.json`), which contains the application name, URL, and icon.
-2. **User authentication** - The user confirms the operation through biometry or PIN code to access the wallet's secret key.
-3. **TON Proof creation** - A cryptographic proof of wallet ownership is formed:
-   - The wallet address is taken in `workchain:hash` format
-   - The Holders domain is added (e.g., `tonhub.holders.io`)
-   - Current timestamp is added
-   - Payload is added (random string from server)
-   - All this is hashed and signed with the wallet's secret key
-4. **Server submission** - A POST request is sent to `/v2/user/wallet/connect` with data:
-   - Wallet address
-   - `stack: 'ton'`
-   - `network: 'ton-mainnet'` or `'ton-testnet'`
-   - `wallet: 'tonhub'`
-   - TON Proof (timestamp, domain, signature, payload)
-   - Public key
-   - Wallet StateInit (for address verification)
-5. **Token retrieval** - The Holders server verifies the signature and returns a User Token (JWT).
+1. **Получение manifest приложения** — Tonhub загружает TonConnect manifest с сервера Holders, то есть `/jsons/tonconnect-manifest.json`, в котором указаны имя приложения, URL и иконка.
+2. **Аутентификация пользователя** — пользователь подтверждает операцию с помощью биометрии или PIN-кода, чтобы дать доступ к секретному ключу кошелька.
+3. **Создание TON Proof** — формируется криптографическое доказательство владения кошельком:
+   - адрес кошелька берется в формате `workchain:hash`,
+   - добавляется домен Holders, например `tonhub.holders.io`,
+   - добавляется текущий timestamp,
+   - добавляется payload, то есть случайная строка от сервера,
+   - все это хэшируется и подписывается секретным ключом кошелька.
+4. **Отправка на сервер** — выполняется POST-запрос на `/v2/user/wallet/connect` с данными:
+   - адрес кошелька,
+   - `stack: 'ton'`,
+   - `network: 'ton-mainnet'` или `'ton-testnet'`,
+   - `wallet: 'tonhub'`,
+   - TON Proof, то есть timestamp, domain, signature, payload,
+   - публичный ключ,
+   - Wallet StateInit для верификации адреса.
+5. **Получение токена** — сервер Holders проверяет подпись и возвращает User Token, то есть JWT.
 
-### What the server verifies
+### Что проверяет сервер
 
-- Signature validity (that it was made by the owner of the specified address)
-- Public key correspondence to address through StateInit
-- Timestamp relevance (protection against replay attacks)
-- Domain correctness
+- корректность подписи, то есть что она сделана владельцем указанного адреса;
+- соответствие публичного ключа адресу через StateInit;
+- актуальность timestamp, чтобы защититься от replay-атак;
+- корректность домена.
 
-## Solana Connection
+## Подключение Solana
 
-### Key Feature
+### Ключевая особенность
 
-Tonhub uses **the same Ed25519 key** for Solana as for TON. This is possible because:
+Tonhub использует **тот же самый ключ Ed25519** для Solana, что и для TON. Это возможно потому, что:
 
-- TON and Solana use the same signature algorithm (Ed25519)
-- The TON wallet's public key is directly converted to a Solana address
+- TON и Solana используют один и тот же алгоритм подписи, то есть Ed25519;
+- публичный ключ TON-кошелька напрямую преобразуется в Solana-адрес.
 
-### Connection Process
+### Процесс подключения
 
-1. **Solana address retrieval** - The TON wallet's public key (32 bytes) is interpreted as a Solana PublicKey and converted to Base58 format.
-2. **Solana Proof creation** - Formed similarly to TON Proof:
-   - The Solana address is taken (public key in Base58)
-   - Holders domain is added
-   - Timestamp is added
-   - Payload is added
-   - Signed with the same secret key
-   - **Difference**: signature is encoded in Base58 (not Base64 as for TON)
-3. **Server submission** - Simultaneously with TON, Solana proof is sent:
-   - Solana address (public key in Base58)
-   - Solana Proof
-   - `stack: 'solana'`
-   - `network: 'solana-mainnet'` or `'solana-devnet'`
+1. **Получение Solana-адреса** — публичный ключ TON-кошелька, длиной 32 байта, интерпретируется как Solana PublicKey и преобразуется в формат Base58.
+2. **Создание Solana Proof** — формируется аналогично TON Proof:
+   - берется Solana-адрес, то есть публичный ключ в Base58,
+   - добавляется домен Holders,
+   - добавляется timestamp,
+   - добавляется payload,
+   - все подписывается тем же секретным ключом,
+   - **разница** в том, что подпись кодируется в Base58, а не в Base64, как в TON.
+3. **Отправка на сервер** — одновременно с TON отправляется и Solana proof:
+   - Solana-адрес, то есть публичный ключ в Base58,
+   - Solana Proof,
+   - `stack: 'solana'`,
+   - `network: 'solana-mainnet'` или `'solana-devnet'`.
 
-### Result
+### Результат
 
-The Holders server links both accounts (TON and Solana) to one user and issues a unified User Token for access to both.
+Сервер Holders связывает оба аккаунта, TON и Solana, с одним пользователем и выдает единый User Token для доступа к обоим.
 
-# What is User token
+# Что такое User Token
 
-User Token is a **JWT (JSON Web Token)** that is issued by the Holders server after successful authentication and serves as the user's session identifier.
+User Token — это **JWT, JSON Web Token**, который выдается сервером Holders после успешной аутентификации и служит идентификатором пользовательской сессии.
 
-## What is it used for
+## Для чего он используется
 
-| Function              | Definition                                                                         |
-| :-------------------- | :--------------------------------------------------------------------------------- |
-| **API Authorization** | Passed in each request to the Holders API in the request body (`{ token: "..." }`) |
-| **Getting Profile**   | `/v2/profile/get` - user information                                               |
-| **Account List**      | `/v2/account/list` - cards and crypto accounts                                     |
-| **Account status**    | `/account/state` - KYC status, verification                                        |
-| **OTP requests**      | `/v2/user/otp/requests` - one-time passwords for operations                        |
-| **WebSocket**         | Connection to `wss://*/v2/updates` for real-time updates                           |
+| Функция | Определение |
+| :------ | :---------- |
+| **Авторизация в API** | Передается в каждом запросе к Holders API в теле запроса, например `{ token: "..." }` |
+| **Получение профиля** | `/v2/profile/get` — информация о пользователе |
+| **Список аккаунтов** | `/v2/account/list` — карты и криптовалютные аккаунты |
+| **Статус аккаунта** | `/account/state` — статус KYC и верификации |
+| **OTP-запросы** | `/v2/user/otp/requests` — одноразовые пароли для операций |
+| **WebSocket** | Подключение к `wss://*/v2/updates` для обновлений в реальном времени |
 
-## Where it's stored
+## Где он хранится
 
-- Token is saved locally in the device's secure storage (MMKV)
-- Linked to a specific TON wallet address
+- Токен сохраняется локально в защищенном storage устройства, например MMKV.
+- Он привязан к конкретному TON-адресу кошелька.
 
-## When it's deleted
+## Когда он удаляется
 
-1. **401 response** from API - token expired or invalid
-2. **New invite code** - when re-attempting registration by invitation
-3. **Migration** - when updating token format (e.g., transition to TON+Solana)
+1. **Ответ 401** от API — токен истек или стал недействительным.
+2. **Новый invite code** — при повторной попытке регистрации по приглашению.
+3. **Миграция** — при обновлении формата токена, например при переходе на объединенный TON + Solana.
 
-After initial authentication and obtaining the User Token, the main interaction with Holders occurs through WebView with an embedded JavaScript Bridge.
+После первичной аутентификации и получения User Token основное взаимодействие с Holders происходит через WebView со встроенным JavaScript Bridge.
 
-# Metrics and Analytics
+# Метрики и аналитика
 
-The user onboarding process is covered by metrics on both the frontend and backend. Backend events are sent to Backoffice as well as to the Metabase service. Frontend events can be viewed and funnels can be built in the [Mixpanel](https://mixpanel.com/home/) service.
+Процесс онбординга пользователя покрывается метриками и на frontend, и на backend. Backend-события отправляются в Backoffice, а также в сервис Metabase. Frontend-события можно смотреть и строить по ним воронки в сервисе [Mixpanel](https://mixpanel.com/home/).

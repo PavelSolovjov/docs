@@ -1,5 +1,5 @@
 ---
-title: "Void Invoice"
+title: "Аннулирование инвойса"
 ---
 
 ```text
@@ -7,4 +7,4 @@ UPDATE invoices SET status='void', void_reason=$reason
 WHERE id=$id AND instance_id=$instanceId AND status != 'void'
 ```
 
-**Policy**: Void for pre-payment errors. Invoice number is retired, never reused. For post-payment corrections: use credit note (planned — see §14).
+**Политика**: аннулирование используется для ошибок до оплаты. Номер инвойса выводится из обращения и больше никогда не переиспользуется. Для исправлений после оплаты следует использовать кредит-ноту (планируется, см. §14).

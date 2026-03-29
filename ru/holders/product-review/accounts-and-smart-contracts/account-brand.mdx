@@ -5,37 +5,37 @@ description: "Этот документ объясняет, что такое б
 
 # Что такое бренд счета
 
-An account brand is an identifier that indicates the source of account creation in the system. For example, if an account was created through the [Tonhub](https://gettonhub.com/) mobile application, its brand will be "Tonhub". When creating an account, the brand is recorded in a special database field. For all accounts created before the brand system implementation (before December 19, 2024), the "Holders" brand is set by default.\
-The brand system enables statistics tracking and settlements with partners whose client applications were used to create accounts. Additionally, the brand determines restrictions on account display in various client applications.\
-A user can have accounts with different brands if they used different clients to create them.
+Бренд счета — это идентификатор, который показывает источник создания счета в системе. Например, если счет был создан через мобильное приложение [Tonhub](https://gettonhub.com/), его брендом будет `Tonhub`. При создании счета бренд записывается в специальное поле базы данных. Для всех счетов, созданных до внедрения системы брендов, то есть до 19 декабря 2024 года, по умолчанию установлен бренд `Holders`.\
+Система брендов позволяет вести статистику и расчеты с партнерами, через чьи клиентские приложения создавались счета. Кроме того, бренд определяет ограничения на отображение счетов в разных клиентских приложениях.\
+У одного пользователя могут быть счета с разными брендами, если он использовал разные клиенты для их создания.
 
 # Что такое бренд пользователя
 
-A user brand is an identifier that indicates the source of a user's appearance in the system. This identifier is determined during the user's first session and is saved in the user profile. The profile brand affects the list of push notifications that will be sent to the user (for example, notification text for the [Tonhub](https://gettonhub.com/) brand and the [@card](https://t.me/card) bot will differ).
+Бренд пользователя — это идентификатор, который показывает источник появления пользователя в системе. Этот идентификатор определяется во время первой пользовательской сессии и сохраняется в профиле. Бренд профиля влияет на список push-уведомлений, которые будут отправляться пользователю. Например, текст уведомлений для бренда [Tonhub](https://gettonhub.com/) и для бота [@card](https://t.me/card) будет различаться.
 
 # Какие бренды существуют
 
-Currently, the following brands exist:
+Сейчас существуют следующие бренды:
 
-- **Holders** — accounts created in the web version of the application or before the brand system implementation.
-- **Tonhub** — accounts created in the [Tonhub](https://gettonhub.com/) mobile wallet. Available for viewing only in the Tonhub wallet, web version, and [@card](https://t.me/card) bot.
-- **Tonkeeper** — accounts created in the [Tonkeeper](https://tonkeeper.com/) partner wallet.
-- **@card Bot** — accounts created in the [bot](https://t.me/card). Displayed in the bot or web version.
+- **Holders** — счета, созданные в веб-версии приложения или до внедрения системы брендов.
+- **Tonhub** — счета, созданные в мобильном кошельке [Tonhub](https://gettonhub.com/). Доступны для просмотра только в кошельке Tonhub, веб-версии и боте [@card](https://t.me/card).
+- **Tonkeeper** — счета, созданные в партнерском кошельке [Tonkeeper](https://tonkeeper.com/).
+- **@card Bot** — счета, созданные в [боте](https://t.me/card). Отображаются в боте или в веб-версии.
 
 # Отображение счетов с разными брендами в разных клиентах
 
-| Brand / Client | Holders (WEB) | Tonhub | Tonkeeper | Bot @card |
+| Бренд / Клиент | Holders (WEB) | Tonhub | Tonkeeper | Bot @card |
 | :------------- | :------------ | :----- | :-------- | :-------- |
-| Holders        | Yes           | Yes    | Yes       | Yes       |
-| Tonhub         | Yes           | Yes    | No        | Yes       |
-| Tonkeeper      | Yes           | No     | Yes       | Yes       |
-| Bot @card      | Yes           | No     | No        | Yes       |
+| Holders        | Да            | Да     | Да        | Да        |
+| Tonhub         | Да            | Да     | Нет       | Да        |
+| Tonkeeper      | Да            | Нет    | Да        | Да        |
+| Bot @card      | Да            | Нет    | Нет       | Да        |
 
 # Схема верификации бренда
 
 ![Screenshot2025 10 13at13 22 56](/images/Screenshot2025-10-13at13.22.56.png)
 
-1. The client (in this case Wallet app) passes brand data to the Issuer (DB).
-2. Issuer (DB) creates a session and provides a list of user accounts corresponding to the brand.
-3. The session token is stored in the client storage and passed to the web version of Holders.
-4. The web version of Holders displays the list of accounts allowed for display by the Issuer.
+1. Клиент, в данном случае Wallet app, передает данные бренда в Issuer, то есть в базу данных.
+2. Issuer, то есть база данных, создает сессию и предоставляет список пользовательских счетов, соответствующих этому бренду.
+3. Токен сессии сохраняется в клиентском storage и передается в веб-версию Holders.
+4. Веб-версия Holders отображает список счетов, которые разрешены к показу со стороны Issuer.

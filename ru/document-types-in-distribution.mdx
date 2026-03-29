@@ -1,12 +1,12 @@
 ---
-title: "Document Types in Distribution"
+title: "Типы документов в distribution"
 ---
 
-| Document | Direction | When | Content |
+| Документ | Направление | Когда | Содержимое |
 | :-- | :-- | :-- | :-- |
-| **Settlement Statement** | Issuer → <br />Merchant | Period close | Activated cheques count, <br />face value total, FX rate, <br />amount due in settlement currency |
-| **Agent's Report** (future) | Merchant → <br />Issuer | With payment | Confirmation of sales, <br />amount remitted, <br />agent commission retained |
-| **Rebate Notice** | Issuer → <br />Merchant | After settlement confirmed \+ <br />delay | Settled volume, <br />rebate rate applied, <br />rebate amount, payment method |
-| **Platform Invoice** | Instance → <br />Merchant | Monthly | Platform service fees <br />(creation fee, etc.) — <br />separate from distribution settlement |
+| **Settlement Statement** | Issuer → <br />Merchant | Закрытие периода | Количество активированных чеков, <br />суммарный номинал, FX-курс, <br />сумма к оплате в settlement currency |
+| **Agent's Report** (в будущем) | Merchant → <br />Issuer | Вместе с оплатой | Подтверждение продаж, <br />перечисленная сумма, <br />удержанная агентская комиссия |
+| **Rebate Notice** | Issuer → <br />Merchant | После подтвержденного settlement \+ <br />delay | Подтвержденный объем, <br />примененная rebate rate, <br />сумма rebate, способ выплаты |
+| **Platform Invoice** | Instance → <br />Merchant | Ежемесячно | Комиссии платформы <br />(creation fee и т.д.) — <br />отдельно от distribution settlement |
 
-> **Critical distinction**: The **Settlement Statement** is a distribution document (face value settlement between issuer and agent). The **Platform Invoice** is a service fee document (infrastructure costs charged by the platform operator). These are different documents, different legal relationships, different amounts.
+> **Критическое различие**: **Settlement Statement** - это документ distribution-модели, то есть расчет по номиналу между issuer и агентом. **Platform Invoice** - это документ на оплату сервисных комиссий, то есть инфраструктурных расходов, которые выставляет оператор платформы. Это разные документы, разные юридические отношения и разные суммы.

@@ -1,32 +1,32 @@
 ---
-title: "Business Model Overview"
+title: "Обзор бизнес-модели"
 ---
 
-PostCash operates on two distinct levels that must be understood separately.
+PostCash работает на двух отдельных уровнях, и их важно рассматривать раздельно.
 
-## Level 1 — Platform Layer
+## Уровень 1 — Platform Layer
 
-At the platform layer, PostCash charges instance operators for infrastructure usage.
+На уровне платформы PostCash взимает плату с операторов инстансов за использование инфраструктуры.
 
-- **Creation fee** — Merchant, per funded cheque. Collected via on-chain SPL delegate transfer.
-- **Claim fee** — End-user, deducted from cheque value. Embedded in the on-chain transaction.
-- **Changelly markup** — End-user, via inflated exchange rate. Built into the Changelly quote.
-- **Bridge developer fee** — End-user, added to the USD amount. Collected by [Bridge.xyz](http://Bridge.xyz) and remitted.
-- **Breakage (future)** — Merchant, for expired funded cheques. Planned for Phase 2.
+- **Creation fee** — списывается с мерчанта за каждый профондированный чек. Удерживается через on-chain перевод посредством SPL delegate.
+- **Claim fee** — взимается с конечного пользователя и удерживается из номинала чека. Встроена в on-chain транзакцию.
+- **Changelly markup** — взимается с конечного пользователя через увеличенный обменный курс. Встроена в котировку Changelly.
+- **Bridge developer fee** — взимается с конечного пользователя и добавляется к сумме в USD. Удерживается [Bridge.xyz](http://Bridge.xyz) и затем перечисляется.
+- **Breakage (в будущем)** — взимается с мерчанта за истекшие профондированные чеки. Планируется во Phase 2.
 
-## Level 2 — Distribution Layer
+## Уровень 2 — Distribution Layer
 
-At the distribution layer, the instance acts as the **Issuer** and distributes USDC cheques through a merchant network under an **agency agreement**. The cheque face value is treated as a commodity: merchants take it on consignment, incur obligations, and settle with the issuer periodically.
+На уровне distribution инстанс выступает как **Issuer** и распространяет USDC-чеки через сеть мерчантов по **agency agreement**. Номинал чека рассматривается как товар: мерчанты принимают его на реализацию, несут обязательства и периодически рассчитываются с эмитентом.
 
-## Complete Billing Flow
+## Полный billing flow
 
 <Frame>
   ![Sheme1](/images/Sheme1.png)
 </Frame>
 
-## Summary
+## Краткий вывод
 
-PostCash billing is split into two parallel models:
+Billing-модель PostCash делится на две параллельные части:
 
-- The **platform layer** captures infrastructure and transaction-related fees.
-- The **distribution layer** governs how issuers, merchants, settlements, and rebates work operationally.
+- **platform layer** охватывает инфраструктурные комиссии и комиссии, связанные с транзакциями.
+- **distribution layer** определяет, как операционно работают эмитенты, мерчанты, settlements и rebates.
