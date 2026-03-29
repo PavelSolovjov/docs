@@ -1,9 +1,9 @@
 ---
-title: "Account operations"
-description: "This document briefly explains all main account operations in Holders and how they affect the account."
+title: "Операции по счету"
+description: "Этот документ кратко объясняет основные операции по счету в Holders и их влияние на счет."
 ---
 
-# Account Operations
+# Операции по счету
 
 1. **Opening a new account** – creating a new account with its own balance and the ability to issue cards.
 2. **Account closure** — the procedure for permanently terminating account services, making operations on this account impossible, and transferring remaining funds in accordance with established regulations.
@@ -12,22 +12,22 @@ description: "This document briefly explains all main account operations in Hold
 5. **Payments** — operations for sending funds from an account using available transfer methods.
 6. **Setting account limits** — the procedure for determining and adjusting spending restrictions (limits per individual operation, daily, monthly, and other time-based restrictions).
 
-# Opening a New Account
+# Открытие нового счета
 
 Opening a new account is available to all Holders users who have residency in countries not on the sanctions list. The number of accounts that can be opened per user is unlimited.
 
-## Conditions for Opening a New Account
+## Условия открытия нового счета
 
 - User profile must pass KYC verification procedure
 
-## Available Account Currencies
+## Доступные валюты счета
 
 - **USDC (SOL)** — publicly available currency for all account types
 - **TON** — publicly available currency for regular accounts (not vesting)
 - **USDY (SOL)** — currently in testing mode. Will be available for both regular and vesting accounts.
 - **USDT (TON)** — support discontinued
 
-## Interface
+## Интерфейс
 
 1. Opening a new account is available to the user from the main wallet page. The user clicks on Add new account and selects the type of account they want to open. Three possible options are available:
    1. **Account with card** — the first card is issued free of charge, subsequent card issuance is paid.
@@ -52,7 +52,7 @@ Opening a new account is available to all Holders users who have residency in co
    />
 2. The system deploys a smart contract on the blockchain, after which the created account becomes available to the user
 
-# Account Closure
+# Закрытие счета
 
 Account closure is an operation to decommission an account, making it impossible to conduct deposit, withdrawal, and transfer operations. The account is removed from the user interface and moved to the final CLOSED status. Before executing the closure procedure, the system checks for the absence of active cards linked to the account. Remaining funds (if any) are transferred to the account owner's wallet in accordance with established regulations.
 
@@ -74,11 +74,11 @@ Account closure is an operation to decommission an account, making it impossible
 2. If cards are linked to the account, the user must either close them or transfer them to other accounts before closure.
 3. The remaining balance of the account being closed is subject to return to the wallet from which the account creation process was carried out. The address of the corresponding wallet is displayed on the account page in the "Linked to" information block.
 
-# Account Funding
+# Пополнение счета
 
 To use the main features of the service, users need to fund their [smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), which acts as a bank account. User [bank cards](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) are linked to the smart contract for making payments. When paying with [a bank card](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM), funds are debited from the user's account to which the card is attached.
 
-# Account Funding Methods
+# Способы пополнения счета
 
 1. **From savings account (from connected wallet balance)** - allows transferring funds from the connected wallet to the account.
 2. **From another wallet** — provides the ability to fund the account in a currency different from the account currency, with automatic currency conversion.
@@ -92,7 +92,7 @@ To use the main features of the service, users need to fund their [smart contrac
   - **Savings accounts** - balances of the connected wallet in various currencies, used for storing funds
 </Info>
 
-# Gas Fees for Account Funding
+# Gas fees при пополнении счета
 
 Gas fees (commission) for account funding consist of two main parts:
 
@@ -101,7 +101,7 @@ Gas fees (commission) for account funding consist of two main parts:
 
 The gas amount will vary depending on the blockchain and the method of contract funding.
 
-## Fee Amounts
+## Размер комиссий
 
 1. Commission for conducting the funding transaction:
    1. **TON** - approximately **0.03 TON**
@@ -112,11 +112,11 @@ The gas amount will vary depending on the blockchain and the method of contract 
 
 Note: maximum commission values are indicated. The actual commission may be lower - in this case, the unused portion is returned to the user's wallet balance.
 
-## Funding from Savings Account
+## Пополнение со savings account
 
 The simplest way to fund an account. This function is available when there is a positive balance in the savings account in the corresponding currency. The user specifies the required amount and confirms the funding operation. Funds are credited to the account within a few minutes.
 
-## Funding from Another Wallet
+## Пополнение с другого кошелька
 
 This funding method works through the partner service [Changelly](https://changelly.com/). It allows you to fund your account with cryptocurrencies that are not directly supported by the platform:
 
@@ -163,7 +163,7 @@ As part of the integration with Holders, [Changelly](https://changelly.com/) sup
 4. The user transfers funds to the details specified in the order.
 5. After receiving funds from the user, the [Changelly](https://changelly.com/) service credits the corresponding amount to their account in the Holders system.
 
-## Deposit by Details (Direct Funding)
+## Пополнение по реквизитам (direct funding)
 
 This method involves direct transfer of funds to the contract address from another address in the same network. It is only supported on newer contract versions:
 
@@ -180,7 +180,7 @@ Deposit by details is the classic direct account funding via transaction to its 
 
 When using the payment link, the recipient can fund the account through the [Changelly](https://changelly.com/) interface without needing to create an account in the Holders service.
 
-## Funding from Exchange
+## Пополнение с биржи
 
 This method represents an adapted version of funding by details specifically designed for cryptocurrency exchanges. The user interface provides step-by-step instructions for transferring funds from the most popular cryptocurrency trading platforms. The user selects the corresponding exchange and, following the provided instructions, completes the account funding procedure.
 
@@ -194,7 +194,7 @@ Exchanges for which separate instructions are provided:
 - **Kraken**
 - **Bybit**
 
-# Account Withdrawal
+# Вывод со счета
 
 Funds withdrawal is carried out through three possible methods:
 
@@ -202,11 +202,11 @@ Funds withdrawal is carried out through three possible methods:
 - To another wallet - to an arbitrary address.
 - Holders account - to another account in the Holders system.
 
-## To Savings Account
+## На savings account
 
 This withdrawal mechanism provides a high level of security and non-custodial nature, since funds transfer is carried out exclusively to a pre-authorized client address, and is gas-free for the user, as the transaction is signed and paid for by the Holders service [controller](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02). Thus, the [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) performs withdrawal of funds to the client's wallet without requiring additional permission or signature from the account owner.
 
-## To Another Wallet
+## На другой кошелек
 
 If the controller can withdraw money from an account to any address, this violates the agreement between Holders and the client. It turns out that the controller can take money from any account without the owner's permission. This makes the [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) centralized and unsafe. Auditors and users can rightfully say that the controller (managed by Holders) can steal all money from all accounts. To avoid this, multi-signature is used.\
 Multi-signature is when an operation requires signatures from both the client and Holders. This provides:
@@ -217,15 +217,15 @@ Multi-signature is when an operation requires signatures from both the client an
 
 This method maintains security and allows safe withdrawal of money to external addresses.
 
-### Withdrawal to Other Blockchains
+### Вывод в другие блокчейны
 
 To enable money withdrawal to different networks, [Changelly](https://changelly.com/) is integrated into the system (as with funding). [Changelly ](https://changelly.com/)allows the user to choose the network in which they want to receive money. The user selects the network, specifies the recipient address, and confirms the transfer. Gas for the operation is paid by Holders.
 
-## To Another Holders Account
+## На другой счет Holders
 
 This method allows withdrawals/transfers of funds to other Holders accounts by phone number or email. An important condition is that the recipient's account must pre-approve incoming transfers by clicking the corresponding button on the main page.
 
-# Payments
+# Платежи
 
 The following types of payments are available:
 
@@ -239,7 +239,7 @@ The following types of payments are available:
 A SEPA transfer is a cashless bank transfer in euros between SEPA zone countries (EU, EEA and others), which follows unified standards: fast, with fixed commission and without currency conversion.\
 SEPA transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SEPA transfer sending function implemented — all operations are carried out through the [Triple-A](https://www.triple-a.io/) payment partner. The transfer takes from 1 business day.
 
-### Recipient Data
+### Данные получателя
 
 - Full name of the recipient according to banking documents
 - Recipient's IBAN
@@ -256,9 +256,9 @@ A standard commission is charged for processing a SEPA payment, consisting of a 
 A SWIFT transfer is an international bank transfer through the SWIFT network, allowing money to be sent to any country and currency, but usually with higher commission, possible conversion and longer timeframes than SEPA. Timeframes: usually from 1 to 5 business days.\
 SWIFT transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SWIFT transfer sending function implemented — all operations are carried out through the [Triple-A ](https://www.triple-a.io/)payment partner.
 
-### Sending Data
+### Данные для отправки
 
-Individual Particulars:
+Личные данные:
 
 - **First Name**
 - **Last Name**
@@ -273,7 +273,7 @@ Individual Particulars:
 - **City**
 - **Province / state**
 
-Identification:
+Идентификация:
 
 - **ID type**
 - **ID number**
@@ -304,7 +304,7 @@ When sending a SWIFT payment, you can choose one of two ways to pay commissions:
 - Additional fixed fee: 25 USD
 - Suitable when it's important that the recipient receives the full amount
 
-# Setting Blockchain Limits
+# Настройка блокчейн-лимитов
 
 The user has the ability to set restrictions on account spending, which are fixed at the blockchain level. The system supports three main types of limits:
 
@@ -314,7 +314,7 @@ The user has the ability to set restrictions on account spending, which are fixe
 
 Limits are set individually for each account. Detailed information about the functioning of limits is presented in [the corresponding document](/Issuerblockchainlimits).
 
-# Changing Account Name
+# Изменение названия счета
 
 The user can change the account name displayed in the interface at any time by following these steps:
 
