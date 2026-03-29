@@ -1,49 +1,49 @@
 ---
-title: "Card operations"
-description: "This document briefly explains all main card operations in Holders and how they affect the card."
+title: "Операции с картами"
+description: "Этот документ кратко объясняет все основные операции с картами в Holders и то, как они влияют на карту."
 ---
 
-# Card Operation Types
+# Типы карточных операций
 
-## Supported Operations
+## Поддерживаемые операции
 
-1. **Card Opening** – issuance of a new bank card and its linking to a client's account with assignment of credentials and initial status (usually ACTIVE).
-2. **Card Blocking** – hard stop of all card operations (without possibility of unblocking), typically in cases of fraud, data loss, or bank/service decision.
-3. **Card Closure** – final termination of card validity: no more operations can be conducted with it, it is hidden from the user interface and cannot be restored.
-4. **Card Freezing** – temporary suspension of card operations initiated by the client or service, with the possibility to subsequently "unfreeze" and return the card to active status.
-5. **Refund** – operation where a merchant or service returns previously charged funds from the card (fully or partially) to the same account.
-6. **Card Transfer Between Accounts** – unlinking a card from one account and linking it to another account of the same user while preserving the card credentials.
-7. **Adding Card to Contactless Payment System** – linking a card to a digital wallet (e.g., Apple Pay, Google Pay) with token issuance, which allows paying for purchases from a device without using card credentials directly.
+1. **Открытие карты** — выпуск новой банковской карты и ее привязка к аккаунту клиента с назначением реквизитов и начального статуса, обычно `ACTIVE`.
+2. **Блокировка карты** — жесткая остановка всех операций по карте без возможности разблокировки, обычно в случаях мошенничества, утраты данных или решения банка либо сервиса.
+3. **Закрытие карты** — окончательное прекращение действия карты: по ней больше нельзя выполнять операции, она скрывается из интерфейса и не может быть восстановлена.
+4. **Заморозка карты** — временная приостановка операций по карте, инициируемая клиентом или сервисом, с возможностью последующего "размораживания" и возврата карты в активный статус.
+5. **Refund** — операция, при которой продавец или сервис возвращает ранее списанные с карты средства, полностью или частично, на тот же аккаунт.
+6. **Перенос карты между аккаунтами** — отвязка карты от одного аккаунта и привязка к другому аккаунту того же пользователя с сохранением карточных реквизитов.
+7. **Добавление карты в систему бесконтактной оплаты** — привязка карты к цифровому кошельку, например Apple Pay или Google Pay, с выпуском токена, что позволяет оплачивать покупки с устройства без прямого использования реквизитов карты.
 
-## Unsupported Operations
+## Неподдерживаемые операции
 
-1. **Cash Withdrawal** – client obtaining cash at an ATM or cashier using funds from the account to which the card is linked. Currently (4/02/2026) not supported within the product.
-2. **Card Reissuance** – procedure of issuing a new bank card to replace an existing one (in case of expiration, credential compromise, or personal data changes) while maintaining the link to the client and account. Currently (04.02.2026) this function is not supported within the product. As an alternative to reissuance, users are provided with the option to open a new card.
-3. **PIN Code Change** - PIN code change function is available only for physical cards. Currently physical cards are not supported, however the Wallester API provides for the possibility of PIN code changes in the future.
-4. **3D-Secure Password Change** - in the Holders application, users can view and copy the 3D-Secure password, which may be required when making online payments. The 3D-Secure password change function is currently not implemented.
+1. **Снятие наличных** — получение клиентом наличных в банкомате или у кассира с использованием средств аккаунта, к которому привязана карта. На текущий момент, по состоянию на 04.02.2026, в продукте не поддерживается.
+2. **Перевыпуск карты** — выпуск новой банковской карты взамен существующей, например по истечении срока действия, при компрометации реквизитов или изменении персональных данных, с сохранением связи с клиентом и аккаунтом. По состоянию на 04.02.2026 эта функция не поддерживается. В качестве альтернативы пользователю предлагается открыть новую карту.
+3. **Смена PIN-кода** — функция смены PIN доступна только для физических карт. Сейчас физические карты не поддерживаются, однако API Wallester предусматривает возможность смены PIN в будущем.
+4. **Смена пароля 3D Secure** — в приложении Holders пользователь может просматривать и копировать пароль 3D Secure, который может понадобиться при онлайн-оплате. Функция изменения этого пароля сейчас не реализована.
 
-# Card Opening
+# Открытие карты
 
-New card issuance is available in two variants:
+Выпуск новой карты доступен в двух вариантах:
 
-- Issuance simultaneously with opening a new account. The user's first card in the service is issued free of charge.
-- Issuance to a previously created account. Issuance of second and subsequent cards is a paid service costing 7.92 EUR. The commission is charged from the client's balance at the moment of confirming new card issuance. If there are insufficient funds on the balance, card issuance is postponed until the account is topped up with the necessary amount and is carried out after reserving the required funds.
+- выпуск одновременно с открытием нового аккаунта. Первая карта пользователя в сервисе выпускается бесплатно;
+- выпуск для уже созданного аккаунта. Вторая и последующие карты выпускаются платно, стоимость составляет 7.92 EUR. Комиссия списывается с баланса клиента в момент подтверждения выпуска новой карты. Если на балансе недостаточно средств, выпуск откладывается до пополнения аккаунта на нужную сумму и выполняется после резервирования необходимых средств.
 
-## Conditions for Opening a New Card
+## Условия открытия новой карты
 
-- Corresponding products are available for the client's residency at the time of card creation
-- The client's balance has sufficient amount to pay for card issuance (except for the first card)
-- The client's profile has passed KYC verification procedure
-- The card issuance limit for the user (up to 50 cards) or issuer has not been exhausted
+- соответствующие продукты доступны для резидентства клиента на момент создания карты;
+- на балансе клиента достаточно средств для оплаты выпуска карты, кроме первой карты;
+- профиль клиента успешно прошел процедуру KYC-верификации;
+- не исчерпан лимит на выпуск карт для пользователя, до 50 карт, или для эмитента.
 
-## Card Opening Flowchart
+## Схема открытия карты
 
 ![Screenshot2026 02 04at14 02 13](/images/Screenshot2026-02-04at14.02.13.png)
 
-## Opening a card in the interface
+## Открытие карты в интерфейсе
 
-1. In the account interface, you need to click on the "+" icon on the gray card in the Cards block
-2. In the opened menu, select the required type of card product
+1. В интерфейсе аккаунта нужно нажать на иконку `+` на серой карточке в блоке Cards.
+2. В открывшемся меню выбрать нужный тип карточного продукта.
 
    <img
      src="/images/2025-10-2717.45.12.jpg"
@@ -52,8 +52,8 @@ New card issuance is available in two variants:
      className="mx-auto"
      style={{ width:"21%" }}
    />
-3. Review the user agreement and sign it
-4. After creating the card in the system, a suggestion to add the card to the contactless payment system will be displayed
+3. Ознакомиться с пользовательским соглашением и подписать его.
+4. После создания карты в системе появится предложение добавить ее в систему бесконтактной оплаты.
 
    <img
      src="/images/2025-10-2717.45.17.jpg"
@@ -62,32 +62,32 @@ New card issuance is available in two variants:
      className="mx-auto"
      style={{ width:"23%" }}
    />
-5. All data of the issued card will be available on the card page
+5. Все данные выпущенной карты будут доступны на странице карты.
 
-# Card Blocking
+# Блокировка карты
 
-Card blocking is applied in cases where the user or issuing bank suspects fraud or compromise of the user's bank card credentials. A card may also be blocked by the issuing bank when making payments at prohibited merchants (typically after repeated violations).\
-Unlike freezing, blocking is an irreversible operation. A blocked card remains visible in the application interface, however: all authorizations and charges are terminated, the card cannot be used for either online or offline payments, and the card cannot be added to contactless payment services.
+Блокировка карты применяется в случаях, когда пользователь или банк-эмитент подозревают мошенничество или компрометацию реквизитов карты пользователя. Карта также может быть заблокирована банком-эмитентом при оплатах у запрещенных мерчантов, обычно после повторных нарушений.\
+В отличие от заморозки, блокировка является необратимой операцией. Заблокированная карта остается видимой в интерфейсе приложения, однако все авторизации и списания по ней прекращаются, карта не может использоваться ни для онлайн-, ни для офлайн-платежей и не может быть добавлена в сервисы бесконтактной оплаты.
 
 <Info>
-  ## Why use blocking if you can close the card?
+  ## Зачем использовать блокировку, если можно просто закрыть карту?
 
-  Blocking is applied as an intermediate measure for immediate cessation of operations in cases where card closure is premature or inadvisable. Main usage scenarios:
+  Блокировка используется как промежуточная мера для немедленной остановки операций в ситуациях, когда закрытие карты пока преждевременно или нецелесообразно. Основные сценарии:
 
-  - **Conducting investigations**
-  - When fraudulent operations are suspected, in disputed transactions, or during checks within the framework of anti-money laundering and sanctions compliance, it is necessary to immediately suspend operations until the investigation is completed.
-  - **Technical and operational requirements**
-    - Card closure in the system represents an irreversible action that can affect reporting, data archiving, and integration functionality. Blocking ensures:
-    - immediate disconnection of payment functionality;
-      - preservation of the card as an object for maintaining operation logs, conducting investigations, and generating reports.
+  - **Проведение расследований.**
+  Когда есть подозрение на мошеннические операции, спорные транзакции или проводятся проверки в рамках AML и санкционного compliance, важно сразу остановить операции до завершения расследования.
+  - **Технические и операционные требования.**
+  Закрытие карты в системе является необратимым действием и может повлиять на отчетность, архивирование данных и работу интеграций. Блокировка обеспечивает:
+  - немедленное отключение платежной функциональности;
+  - сохранение карты как объекта для хранения логов операций, проведения расследований и построения отчетности.
 
-  After applying blocking, the card remains in the application's user interface, providing access to transaction history and card data.
+  После применения блокировки карта остается в пользовательском интерфейсе, сохраняя доступ к истории транзакций и данным карты.
 </Info>
 
-## Interface
+## Интерфейс
 
-1. To block a card, the user needs to go to the card page and click the Block button.
-2. The user selects the reason for blocking and confirms the operation.
+1. Чтобы заблокировать карту, пользователю нужно перейти на страницу карты и нажать кнопку Block.
+2. Пользователь выбирает причину блокировки и подтверждает операцию.
 
    <img
      src="/images/2025-10-2719.09.22.jpg"
@@ -105,13 +105,13 @@ Unlike freezing, blocking is an irreversible operation. A blocked card remains v
      style={{ width:"25%" }}
    />
 
-# Card Closure
+# Закрытие карты
 
-Any card linked to a user's account is subject to closure. The card closure operation is irreversible and results in the card being removed from the user interface — access to its data for further use is terminated. Only cards with blocked status are subject to closure.
+Любая карта, привязанная к аккаунту пользователя, может быть закрыта. Операция закрытия необратима и приводит к удалению карты из пользовательского интерфейса — доступ к ее данным для дальнейшего использования прекращается. Закрытию подлежат только карты со статусом blocked.
 
-## Interface
+## Интерфейс
 
-1. The user clicks the Close card button on the blocked card page and confirms the closure.
+1. Пользователь нажимает кнопку Close card на странице заблокированной карты и подтверждает закрытие.
 
    <img
      src="/images/2025-10-2719.09.34.jpg"
@@ -121,27 +121,27 @@ Any card linked to a user's account is subject to closure. The card closure oper
      className="mx-auto"
    />
 
-# Card Freezing
+# Заморозка карты
 
-Freezing allows you to temporarily suspend all charges and authorizations on the selected card. Unlike blocking, freezing can be canceled by the client at any time. Freezing can be initiated by either the client themselves or by Holders company in case of questions or problems, for example, when user documents expire. Freezing is performed on the card page similarly to the blocking process.
+Заморозка позволяет временно приостановить все списания и авторизации по выбранной карте. В отличие от блокировки, заморозка может быть в любой момент отменена клиентом. Заморозка может быть инициирована как самим клиентом, так и компанией Holders в случае вопросов или проблем, например при истечении срока действия пользовательских документов. Заморозка выполняется на странице карты аналогично процессу блокировки.
 
-# Refunds
+# Refund
 
-A card refund is an operation where a merchant or service returns previously charged funds from the card (fully or partially) to the same account. The refund does not depend on the card with which the operation was made; funds are returned to the client's account regardless of the card status (closed, transferred, or blocked).
+Refund по карте — это операция, при которой продавец или сервис возвращает ранее списанные с карты средства, полностью или частично, на тот же аккаунт. Возврат не зависит от карты, которой была совершена операция; средства возвращаются на аккаунт клиента вне зависимости от статуса карты, будь то закрыта, перенесена или заблокирована.
 
-# Card Transfer
+# Перенос карты
 
-Card transfer from account to account is an operation where an existing card is unlinked from one user account and linked to another user account while preserving the same card credentials.\
-In the context of operations, it is important to record:
+Перенос карты между аккаунтами — это операция, при которой существующая карта отвязывается от одного пользовательского аккаунта и привязывается к другому аккаунту того же пользователя при сохранении тех же реквизитов карты.\
+В рамках этой операции важно учитывать:
 
-- all previously completed transactions and refunds remain in the old account history;
-- all new authorizations and charges after the transfer are reflected on the new account;
-- refunds for old operations should be credited to the account that is technically considered "settlement" for this card at the time of actual clearing (this behavior needs to be explicitly described in the business logic).
+- все ранее завершенные транзакции и refund остаются в истории старого аккаунта;
+- все новые авторизации и списания после переноса отражаются уже на новом аккаунте;
+- refund по старым операциям должен зачисляться на тот аккаунт, который технически считается settlement-аккаунтом для этой карты на момент фактического clearing. Это поведение должно быть явно описано в business logic.
 
-## Interface
+## Интерфейс
 
-1. In the target account interface (to which the card needs to be transferred), the user clicks the "+" button, then selects "Link a card from another account"
-2. In the opened menu, the user selects the card they want to transfer
+1. В интерфейсе целевого аккаунта, то есть того, на который нужно перенести карту, пользователь нажимает кнопку `+`, затем выбирает "Link a card from another account".
+2. В открывшемся меню пользователь выбирает карту, которую хочет перенести.
 
    <img
      src="/images/2025-10-2719.18.34.jpg"
@@ -159,15 +159,15 @@ In the context of operations, it is important to record:
      style={{ width:"25%" }}
    />
 
-# **Adding Card to Contactless Payment Systems**
+# Добавление карты в системы бесконтактной оплаты
 
-Cards can be added to various contactless payment systems such as:
+Карты можно добавлять в разные системы бесконтактной оплаты, например:
 
-- [Apple Pay](https://www.apple.com/apple-pay/) - adding is [available directly from the wallet application](/apple-pay-ui) where Holders is installed or manually in the Apple Wallet application.
-- [Google Pay](https://pay.google.com/) - adding is [available directly from the wallet application](/google-pay-ui) where Holders is installed or manually in the Google Wallet application. [Instructions for adding a card to Google Pay](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09G0NV5Q6T).
-- [Garmin Pay](https://www.garmin.com/en-US/p/pay) - adding is available manually in the Garmin application.
-- [Samsung Pay](https://www.samsung.com/us/samsung-pay/) - adding is available manually in the Samsung Pay application.
-- [Fitbit Pay](https://www.fitbit.com/global/us/technology/fitbit-pay) - adding is available manually in the Fitbit application.
-- [Fidesmo Pay](https://fidesmo.com/consumer/fidesmo-pay/) - adding is available manually in the Fidesmo application.
+- [Apple Pay](https://www.apple.com/apple-pay/) — добавление [доступно прямо из кошелька](/apple-pay-ui), в котором установлен Holders, либо вручную в приложении Apple Wallet.
+- [Google Pay](https://pay.google.com/) — добавление [доступно прямо из кошелька](/google-pay-ui), в котором установлен Holders, либо вручную в приложении Google Wallet.
+- [Garmin Pay](https://www.garmin.com/en-US/p/pay) — добавление доступно вручную в приложении Garmin.
+- [Samsung Pay](https://www.samsung.com/us/samsung-pay/) — добавление доступно вручную в приложении Samsung Pay.
+- [Fitbit Pay](https://www.fitbit.com/global/us/technology/fitbit-pay) — добавление доступно вручную в приложении Fitbit.
+- [Fidesmo Pay](https://fidesmo.com/consumer/fidesmo-pay/) — добавление доступно вручную в приложении Fidesmo.
 
 ---

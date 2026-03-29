@@ -1,71 +1,71 @@
 ---
-title: "Issuer & blockchain limits"
-description: "This document explains which spending limits exist in Holders, how user‑controlled blockchain limits work and are enforced, and what fees and rules apply when setting or changing them."
+title: "Лимиты эмитента и блокчейн-лимиты"
+description: "Этот документ объясняет, какие лимиты расходов существуют в Holders, как работают и применяются блокчейн-лимиты, настраиваемые пользователем, а также какие комиссии и правила действуют при их установке и изменении."
 ---
 
-# Types of Limits in Holders
+# Виды лимитов в Holders
 
-The Holders system has two main types of spending limits:
+В системе Holders есть два основных типа лимитов расходов:
 
-- Card issuer bank limit. Restricts user spending across all accounts and may vary depending on the bank.
-- Blockchain spending limit. Set by the user themselves and restricts debits from accounts at the blockchain level.
+- **Лимит банка-эмитента карты.** Ограничивает траты пользователя по всем аккаунтам и может отличаться в зависимости от банка.
+- **Блокчейн-лимит расходов.** Устанавливается самим пользователем и ограничивает списания с аккаунтов на уровне блокчейна.
 
-# Issuer Spending Limit
+# Лимит расходов эмитента
 
-The issuing bank is required to limit expenses on issued cards in accordance with Visa or MC payment systems policies and regulatory requirements. The limit is calculated collectively for all user cards, regardless of which accounts they are attached to.
+Банк-эмитент обязан ограничивать расходы по выпущенным картам в соответствии с правилами платежных систем Visa или Mastercard и нормативными требованиями. Лимит рассчитывается совокупно по всем картам пользователя вне зависимости от того, к каким аккаунтам они привязаны.
 
-## Wallester Limits
+## Лимиты Wallester
 
-| Limit type              | Amount     |
-| :---------------------- | :--------- |
-| Transaction contactless | 10,000 EUR |
-| Transaction online      | 10,000 EUR |
-| Daily contactless       | 10,000 EUR |
-| Daily online            | 10,000 EUR |
-| Monthly contactless     | 25,000 EUR |
-| Monthly online          | 25,000 EUR |
+| Тип лимита | Сумма |
+| :--------- | :---- |
+| Бесконтактная транзакция | 10 000 EUR |
+| Онлайн-транзакция | 10 000 EUR |
+| Ежедневный бесконтактный | 10 000 EUR |
+| Ежедневный онлайн | 10 000 EUR |
+| Ежемесячный бесконтактный | 25 000 EUR |
+| Ежемесячный онлайн | 25 000 EUR |
 
-# Blockchain Spending Limit
+# Блокчейн-лимит расходов
 
-Blockchain spending limit is a restriction on debits from a user's account that they set themselves at the blockchain level. This restriction is recorded in a smart contract and can only be changed by the account owner. Neither the partner bank nor Holders employees can modify it, which guarantees complete security of funds.\
-Initially, there are no limits on the account except for bank limits. Users can set them whenever they want. Limits apply to all cards linked to this account.\
-Three types of limits are available:
+Блокчейн-лимит расходов — это ограничение на списания с аккаунта пользователя, которое он устанавливает сам на уровне блокчейна. Это ограничение записывается в смарт-контракт и может быть изменено только владельцем аккаунта. Ни партнерский банк, ни сотрудники Holders не могут изменить этот лимит, что гарантирует полную безопасность средств.\
+Изначально на аккаунте нет никаких лимитов, кроме банковских. Пользователь может установить их в любой момент. Лимиты распространяются на все карты, привязанные к этому аккаунту.\
+Доступно три типа лимитов:
 
-- Single transaction limit — maximum amount for one purchase
-- Daily limit — how much can be spent per day
-- Monthly limit — how much can be spent per month
+- лимит одной транзакции — максимальная сумма одной покупки,
+- дневной лимит — сколько можно потратить за день,
+- месячный лимит — сколько можно потратить за месяц.
 
-Users can set one limit or several at once. But there are rules:
+Пользователь может установить один лимит или сразу несколько. Но при этом действуют правила:
 
-- Daily limit cannot exceed monthly limit
-- Transaction limit cannot exceed daily limit
-- You cannot set a limit equal to zero — the system will consider that no limit is set
+- дневной лимит не может превышать месячный;
+- лимит одной транзакции не может превышать дневной;
+- нельзя установить лимит, равный нулю — система посчитает, что лимит не задан.
 
-[Setting/removing blockchain limints (guide)](/blockchainlimitsui)
+[Установка и удаление блокчейн-лимитов (инструкция)](/blockchainlimitsui)
 
-# Limit Setup Fee
+# Комиссия за установку лимита
 
-Each limit set by the user is recorded on the blockchain and requires payment of a network fee (gas). The fee is paid by the client — the contract owner (Owner) — when confirming the operation in the wallet.\
-Approximate fee values:
+Каждый лимит, установленный пользователем, записывается в блокчейн и требует оплаты сетевой комиссии, то есть gas. Комиссию оплачивает клиент, то есть владелец контракта `Owner`, при подтверждении операции в кошельке.\
+Примерные значения комиссии:
 
-- Setting a limit on TON ≈ 0.05 TON
-- Setting a limit on Solana ≈ 0.000005 SOL
+- установка лимита в TON ≈ 0.05 TON,
+- установка лимита в Solana ≈ 0.000005 SOL.
 
-The actual fee amount depends on the current network congestion. If there are excess funds remaining after the operation, they are returned to the user's wallet.
+Фактический размер комиссии зависит от текущей загрузки сети. Если после выполнения операции остаются избыточные средства, они возвращаются в кошелек пользователя.
 
-# Technical Implementation
+# Техническая реализация
 
-The contract stores the daily spending amount and monthly spending amount. When attempting to conduct an operation for which:
+Контракт хранит дневную сумму расходов и месячную сумму расходов. Если пользователь пытается провести операцию, для которой:
 
-- daily spending amount + current operation amount \> daily limit
-- monthly spending amount + current operation amount \> monthly limit
-- current operation amount \> transaction limit
+- дневная сумма расходов + сумма текущей операции \> дневного лимита,
+- месячная сумма расходов + сумма текущей операции \> месячного лимита,
+- сумма текущей операции \> лимита одной транзакции,
 
-... the smart contract will prohibit the Controller from debiting the operation amount from the smart contract (account) even if there are sufficient funds available to conduct the operation.\
-It should be noted that there is a possibility of having an amount on the smart contract that exceeds the user's actual available balance. This occurs due to delays in recording expense transactions to the blockchain within the rollup. Therefore, limit verification is performed first on the Holders backend side, and then on the blockchain, which ensures security and relevance of limit assessment.\
-After the user confirms the limit setup, a transaction signed with a binary payload containing information about the limits being changed is sent to the contract address. The contract checks who sent the transaction and if it was sent by the account owner, it responds and records the new limit.
+... смарт-контракт запретит `Controller` списывать сумму операции со смарт-контракта, то есть аккаунта, даже если на нем достаточно средств.\
+Важно учитывать, что на смарт-контракте может находиться сумма, превышающая фактически доступный баланс пользователя. Это происходит из-за задержек записи расходных транзакций в блокчейн внутри rollup. Поэтому проверка лимитов сначала выполняется на backend стороне Holders, а затем уже в блокчейне, что обеспечивает безопасность и актуальность оценки лимита.\
+После того как пользователь подтверждает установку лимита, на адрес контракта отправляется транзакция, подписанная бинарным payload, содержащим информацию об изменяемых лимитах. Контракт проверяет, кто отправил транзакцию, и если это владелец аккаунта, он принимает ее и записывает новые лимиты.
 
-# Automatic Blockchain Limit Updates
+# Автоматическое обновление блокчейн-лимитов
 
-The daily limit is updated daily at the time when the user set it. The monthly limit is updated after one calendar month has passed. That is, if a user set a limit on September 22nd at 00:01 UTC, it will be updated on October 22nd at 00:01 UTC.\
-If a user wants to change a previously set limit (increase, decrease, or disable it), they can do so in the same way as the initial setup.
+Дневной лимит обновляется каждый день в то время, когда пользователь его установил. Месячный лимит обновляется после истечения одного календарного месяца. То есть если пользователь установил лимит 22 сентября в 00:01 UTC, он обновится 22 октября в 00:01 UTC.\
+Если пользователь хочет изменить ранее установленный лимит, увеличить, уменьшить или отключить его, он может сделать это тем же способом, что и при первоначальной настройке.

@@ -1,36 +1,36 @@
 ---
-title: "Transaction confirmation mechanism"
+title: "Механизм подтверждения транзакций"
 ---
 
-# Why Users Confirm Transactions
+# Почему пользователи подтверждают транзакции
 
-When you make a purchase with a card, the bank must ensure that it's really you and not a fraudster. Therefore, the bank verifies each operation using special security systems, including 3D Secure technology.\
-The bank analyzes transactions and identifies suspicious operations. If an operation seems risky, the bank will ask you to additionally confirm that it's specifically you making the purchase. This protects your money from theft and complies with international security requirements of VISA and Mastercard.\
-Confirmation methods differ depending on where you pay - in a store or online. Online purchases are checked more strictly, as there are more opportunities for fraud on the internet.
+Когда вы оплачиваете покупку картой, банк должен убедиться, что это действительно вы, а не мошенник. Поэтому банк проверяет каждую операцию с помощью специальных систем безопасности, включая технологию 3D Secure.\
+Банк анализирует транзакции и выявляет подозрительные операции. Если операция кажется рискованной, банк попросит вас дополнительно подтвердить, что покупку совершаете именно вы. Это защищает ваши деньги от кражи и соответствует международным требованиям безопасности VISA и Mastercard.\
+Методы подтверждения различаются в зависимости от того, где вы платите — в магазине или онлайн. Онлайн-покупки проверяются строже, потому что в интернете больше возможностей для мошенничества.
 
-### Confirmation for Offline Transactions
+### Подтверждение для офлайн-транзакций
 
-When you pay in a store with your phone (via NFC) or insert your card into a terminal, the system can quickly verify your identity through communication with the bank. Therefore, small purchases in stores usually go through without additional confirmations.
+Когда вы платите в магазине телефоном через NFC или вставляете карту в терминал, система может быстро подтвердить вашу личность за счет взаимодействия с банком. Поэтому небольшие покупки в магазинах обычно проходят без дополнительных подтверждений.
 
-### Confirmation for Online Transactions
+### Подтверждение для онлайн-транзакций
 
-For online purchases, the 3D Secure system is used, which requires additional confirmation. You will need to enter a special one-time code or password to prove that the card belongs specifically to you.
+Для онлайн-покупок используется система 3D Secure, которая требует дополнительного подтверждения. Вам нужно будет ввести специальный одноразовый код или пароль, чтобы доказать, что карта действительно принадлежит вам.
 
-# Transaction Confirmation in Holders
+# Подтверждение транзакций в Holders
 
-Holders uses different confirmation methods depending on the type of operation:
+В Holders используются разные методы подтверждения в зависимости от типа операции:
 
-1. **Store payments (offline transactions)**. All store payments go through contactless payment services (Apple Pay, Google Pay, and others) that ensure security. To pay, you need to bring your NFC-enabled phone close to the terminal within a few centimeters and unlock the device (with fingerprint, Face ID, or PIN code). The terminal receives an encrypted token that confirms the payment is being made by the device owner.
-2. **Online purchases (online transactions)**. For online purchases, the bank requests additional confirmation through the 3D Secure system. You need to enter a one-time code and a special 3D Secure password that is displayed only in the wallet application with Holders installed. Entering the wallet application requires identity confirmation (biometrics or password).
+1. **Оплата в магазинах, то есть офлайн-транзакции.** Все магазинные оплаты проходят через сервисы бесконтактной оплаты, такие как Apple Pay, Google Pay и другие, которые обеспечивают безопасность. Для оплаты нужно поднести телефон с NFC к терминалу на расстояние нескольких сантиметров и разблокировать устройство, например отпечатком пальца, Face ID или PIN-кодом. Терминал получает зашифрованный токен, который подтверждает, что платеж совершается владельцем устройства.
+2. **Онлайн-покупки, то есть online transactions.** Для онлайн-покупок банк запрашивает дополнительное подтверждение через систему 3D Secure. Пользователю нужно ввести одноразовый код и специальный 3D Secure пароль, который отображается только в кошельке с установленным Holders. Для входа в кошелек также требуется подтверждение личности, например биометрия или пароль.
 
-# Methods for Confirming Online Transactions in Holders
+# Способы подтверждения онлайн-транзакций в Holders
 
-In Holders, users can choose their preferred method for confirming operations:
+В Holders пользователь может выбрать предпочтительный способ подтверждения операций:
 
-- In the app - a banner appears in the application on the account or card page offering to approve or decline the operation. To confirm, simply press the corresponding button.
-- Text code - the user must enter a six-digit code and 3DS password. To receive the code, you must select at least one of the following methods:
-  - Push notification - the code comes through a push notification from the wallet application (currently Tonhub)
-  - Text messages (SMS) - the code is sent via SMS to the current phone number specified in the user's profile
-  - Email - the code will arrive in an email to the user's email address (current email specified in the user's profile).
+- **В приложении** — на странице аккаунта или карты появляется баннер с предложением одобрить или отклонить операцию. Для подтверждения достаточно нажать соответствующую кнопку.
+- **Текстовый код** — пользователь должен ввести шестизначный код и 3DS-пароль. Чтобы получить код, нужно выбрать хотя бы один из следующих способов:
+  - **Push-уведомление** — код приходит через push-уведомление из кошелька, сейчас это Tonhub.
+  - **SMS** — код отправляется в текстовом сообщении на текущий номер телефона, указанный в профиле пользователя.
+  - **Email** — код приходит письмом на текущий email-адрес, указанный в профиле пользователя.
 
-[Methods for confirming online transactions (tutorial)](/holders/product-review/onboarding/methods-for-confirming-online-transactions)
+[Способы подтверждения онлайн-транзакций (инструкция)](/holders/product-review/onboarding/methods-for-confirming-online-transactions)

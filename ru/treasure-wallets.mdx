@@ -1,29 +1,29 @@
 ---
-title: "Treasure wallets"
+title: "Treasure-кошельки"
 ---
 
-# What is a treasure wallet
+# Что такое treasure-кошелек
 
-A treasure wallet is a specialized smart contract that functions as a project's treasure account for a specific cryptocurrency and legal entity. This account accumulates funds for various purposes: fees, reserves, and operational budgets. Treasure wallet funds are used to make payments to partners, ensure liquidity, and finance budgets. Management of such a wallet is regulated by strict rules and procedures.
+Treasure-кошелек — это специализированный смарт-контракт, который выполняет роль treasury-аккаунта проекта для определенной криптовалюты и конкретного юридического лица. На этом счете аккумулируются средства для разных целей: комиссий, резервов и операционных бюджетов. Средства из treasure-кошелька используются для выплат партнерам, обеспечения ликвидности и финансирования бюджетов. Управление таким кошельком регулируется строгими правилами и процедурами.
 
-# Types of treasure wallets in Holders
+# Виды treasure-кошельков в Holders
 
-Currently, there are seven treasure wallets in the system:
+Сейчас в системе используется семь treasure-кошельков:
 
-1. **Solana-treasure-usdc1** — active treasure wallet of Walleexer s.r.o. for USDC operations on the Solana network.
-2. **Solana-treasure-usdc2** — decommissioned treasure wallet of Walleexer s.r.o. for USDC operations on the Solana network.
-3. **Ton-treasure1** — legacy treasure wallet of Walleexer s.r.o. for TON operations, not supporting automatic refund operations. Used for working with the first system users, all new users are directed to **Ton-treasure2.**
-4. **Ton-treasure2** — active treasure wallet of Walleexer s.r.o. for TON operations, supporting refund operations via QR codes.
-5. **Ton-treasure-usdt1** — legacy treasure wallet of Walleexer s.r.o. for USDT operations on the TON network, not supporting automatic refund operations. Used for working with the first system users, all new users are directed to **Ton-treasure-usdt2.** Technically represents the same wallet as Ton-treasure1, separation is done exclusively for accounting purposes.
-6. **Ton-treasure-usdt2** — active treasure wallet of Walleexer s.r.o. for USDT operations on the TON network, supporting refund operations via QR codes.
-7. **Holders Elysphere treasure USDT** — decommissioned treasure wallet of Elysphere LTD for USDT operations on the TON network.
+1. **Solana-treasure-usdc1** — активный treasure-кошелек компании Walleexer s.r.o. для операций с USDC в сети Solana.
+2. **Solana-treasure-usdc2** — выведенный из эксплуатации treasure-кошелек компании Walleexer s.r.o. для операций с USDC в сети Solana.
+3. **Ton-treasure1** — legacy treasure-кошелек компании Walleexer s.r.o. для операций с TON, который не поддерживает автоматические refund-операции. Используется для работы с первыми пользователями системы; все новые пользователи направляются в **Ton-treasure2**.
+4. **Ton-treasure2** — активный treasure-кошелек компании Walleexer s.r.o. для операций с TON, поддерживающий refund-операции через QR-коды.
+5. **Ton-treasure-usdt1** — legacy treasure-кошелек компании Walleexer s.r.o. для операций с USDT в сети TON, который не поддерживает автоматические refund-операции. Используется для работы с первыми пользователями системы; все новые пользователи направляются в **Ton-treasure-usdt2**. Технически это тот же кошелек, что и Ton-treasure1, а разделение сделано исключительно для целей учета.
+6. **Ton-treasure-usdt2** — активный treasure-кошелек компании Walleexer s.r.o. для операций с USDT в сети TON, поддерживающий refund-операции через QR-коды.
+7. **Holders Elysphere treasure USDT** — выведенный из эксплуатации treasure-кошелек компании Elysphere LTD для операций с USDT в сети TON.
 
-# Withdrawing funds from treasure wallet
+# Вывод средств из treasure-кошелька
 
-Withdrawal of funds from the treasure wallet is carried out exclusively by an authorized operator who has access to the treasure authority — a specialized blockchain wallet endowed with the right to sign transactions for fund debiting. Transaction formation is performed by the operator through the Backoffice interface. Fund withdrawal operations can only be executed to addresses included in the treasure wallet smart contract's whitelist. Such treasure wallet operation guarantees the security of funds placed on it.\
-Withdrawal destinations:
+Вывод средств из treasure-кошелька выполняется исключительно уполномоченным оператором, у которого есть доступ к `treasure authority`, то есть к специализированному блокчейн-кошельку с правом подписи транзакций на списание средств. Формирование транзакции выполняется оператором через интерфейс Backoffice. Операции вывода могут быть выполнены только на адреса, включенные в whitelist смарт-контракта treasure-кошелька. Такой режим работы гарантирует безопасность размещенных на нем средств.\
+Направления вывода средств:
 
-- VASP transit wallets
-- VASP exchanges
-- VASP cold wallets (included in whitelist)
-- Client cryptocurrency accounts (for refund operations)
+- транзитные кошельки VASP,
+- биржи VASP,
+- холодные кошельки VASP, включенные в whitelist,
+- клиентские криптовалютные аккаунты для refund-операций.

@@ -1,389 +1,389 @@
 ---
-title: "APIs"
+title: "API"
 ---
 
-The Tonhub application connects to the [**connect.tonhubapi.com**](http://connect.tonhubapi.com) backend and related services for transaction history, token balances, staking, gasless, TON Connect, and other functions. Below is a **list of used APIs with descriptions of each**: why it's needed and how it's used in the application.
+Приложение Tonhub подключается к backend [**connect.tonhubapi.com**](http://connect.tonhubapi.com) и связанным сервисам для получения истории транзакций, балансов токенов, данных по стейкингу, gasless-переводов, TON Connect и других функций. Ниже приведен **список используемых API с описанием каждого**: зачем он нужен и как применяется в приложении.
 
-# Tonhub API Architecture
+# Архитектура API Tonhub
 
-## Main API Groups
+## Основные группы API
 
-Tonhub backend APIs are divided into 8 main functional groups:
+Backend API Tonhub делятся на 8 основных функциональных групп:
 
-1. **Core TON and Solana data:** Transaction history, operation statuses, network and wallet settings, contract information. Includes TON RPC (mainnet-v4/[testnet-v4.tonhubapi.com](http://testnet-v4.tonhubapi.com)) for reading blockchain state. These APIs provide balance display, operation history, and fee calculation.
-2. **Asset information:** Data about tokens (hints, full information, metadata, rates, wallet transactions), rates and prices (v2/price, v2/rates, token/info). Everything needed for asset lists, their fiat value, and token selection during transfers.
-3. **Staking:** Information about pool participation (member/info, member/liquid/info), liquid pool parameters, USDe data (rate, APY, participant). Additionally uses a separate [**staking-indexer.whales-api.com**](http://staking-indexer.whales-api.com) service for election status, nominators, and pool APY.
-4. **Gasless transfers:** Settings (list of supported tokens, relayer), fee calculation in tokens, sending signed transactions through relayer. Works only for supported tokens from W5 wallets.
-5. **TON Connect and wallet interaction:** TON Connect bridge (`/tonconnect`), connection commands (connect/command, grant, revoke, answer), wallet-request management (create, respond, list). Provides dApp-to-wallet connection and handling of incoming signature/transfer requests.
-6. **Application settings and catalogs:** Application configuration, versions, metadata and application catalog, reviews and reports, banners (tonhub, Holders, advertising), allowed domains list (protect). Determines available features, displayed applications, and browser content.
-7. **Currency exchange:** Changelly integration — currencies, rate estimation, creation and tracking of exchange operation status. Separate function within the application.
-8. **Holders integration:** Cards, profile, accounts, OTP on separate host [**card-prod.whales-api.com**](http://card-prod.whales-api.com) (and staging). Specific APIs for the Holders product, not part of the main [connect.tonhubapi.com](http://connect.tonhubapi.com) backend.
+1. **Основные данные TON и Solana:** история транзакций, статусы операций, сетевые и кошельковые настройки, информация о контрактах. Сюда же входит TON RPC, то есть `mainnet-v4` и [testnet-v4.tonhubapi.com](http://testnet-v4.tonhubapi.com), для чтения состояния блокчейна. Эти API обеспечивают отображение балансов, историю операций и расчет комиссий.
+2. **Информация об активах:** данные о токенах, включая hints, полную информацию, metadata, rates и транзакции кошелька, а также цены и курсы через `v2/price`, `v2/rates`, `token/info`. Это все, что нужно для списков активов, их фиатной оценки и выбора токенов при переводах.
+3. **Стейкинг:** информация об участии в пулах, включая `member/info`, `member/liquid/info`, параметры ликвидного пула и данные по USDe, такие как курс, APY и состояние участника. Дополнительно используется отдельный сервис [**staking-indexer.whales-api.com**](http://staking-indexer.whales-api.com) для статуса выборов, номинаторов и APY пулов.
+4. **Gasless-переводы:** настройки, включая список поддерживаемых токенов и relayer, расчет комиссий в токенах и отправка подписанных транзакций через relayer. Работает только для поддерживаемых токенов и кошельков W5.
+5. **TON Connect и взаимодействие с кошельком:** bridge TON Connect, то есть `/tonconnect`, команды подключения `connect/command`, `grant`, `revoke`, `answer`, а также управление wallet-request, включая create, respond и list. Эта группа обеспечивает связь dApp с кошельком и обработку входящих запросов на подпись и перевод.
+6. **Настройки приложения и каталоги:** конфигурация приложения, версии, metadata и каталог приложений, отзывы и жалобы, баннеры, включая tonhub, Holders и рекламные, а также список разрешенных доменов через protect. Эти API определяют доступные функции, показываемые приложения и содержимое браузера.
+7. **Обмен валют:** интеграция Changelly — валюты, оценка курса, создание обменной операции и отслеживание ее статуса. Это отдельная функция внутри приложения.
+8. **Интеграция с Holders:** карты, профиль, аккаунты, OTP на отдельном хосте [**card-prod.whales-api.com**](http://card-prod.whales-api.com) и staging-хосте. Это специальные API продукта Holders, не относящиеся к основному backend [connect.tonhubapi.com](http://connect.tonhubapi.com).
 
-Auxiliary APIs include: cloud storage (storage/read, write) for settings synchronization, push notifications (register), error reports (client-error/report), address verification (service-address, config by address), old balances (balances/old). These APIs are intended for the application's own operation, not for external integrations.
+Вспомогательные API включают облачное хранилище `storage/read` и `storage/write` для синхронизации настроек, push-уведомления `register`, отчеты об ошибках `client-error/report`, проверку адресов `service-address`, конфигурацию по адресу и старые балансы `balances/old`. Эти API предназначены для внутренней работы приложения, а не для внешних интеграций.
 
-## Public and Internal APIs
+## Публичные и внутренние API
 
-**Public APIs for external developers:**
+**Публичные API для внешних разработчиков:**
 
-- **TON Connect:** Bridge (`/tonconnect`) and connection protocol for message exchange with wallet. TON Connect specification and application manifest are public — dApps connect to wallet through this interface.
-- Documented public Tonhub endpoints, if officially announced in documentation for dApp developers or partners.
+- **TON Connect:** bridge, то есть `/tonconnect`, и протокол подключения для обмена сообщениями с кошельком. Спецификация TON Connect и manifest приложения являются публичными — dApp подключаются к кошельку именно через этот интерфейс.
+- Публично документированные endpoint-ы Tonhub, если они официально объявлены в документации для разработчиков dApp или партнеров.
 
-**Internal APIs (Tonhub application only):** All other APIs are used exclusively by the Tonhub application: transactions (v1/v2/v3), hints, tokens, Solana (account, tokens, transactions, fees), staking (member/info, liquid, usde), gasless (config, estimate, send), connect/command, connect/grant, connect/revoke, connect/answer, wallet-request, storage, appconfig, banners, rates (v2/price, v2/rates), Changelly, push, client-error, service-address, balances/old, protect/allowed-domains and others.
+**Внутренние API, используемые только приложением Tonhub:** все остальные API применяются исключительно внутри Tonhub: транзакции `v1/v2/v3`, hints, токены, Solana, включая account, tokens, transactions, fees, staking, включая member/info, liquid и usde, gasless, включая config, estimate и send, команды connect, wallet-request, storage, appconfig, banners, rates, Changelly, push, client-error, service-address, balances/old, protect/allowed-domains и другие.
 
 <Info>
-  Important: The format of requests and responses, limits and contracts of internal APIs may change without notice. Stability and backward compatibility guarantees are provided only for public APIs (TON Connect and officially documented endpoints).
+  Важно: формат запросов и ответов, лимиты и контракты внутренних API могут меняться без предупреждения. Гарантии стабильности и обратной совместимости предоставляются только для публичных API, то есть TON Connect и официально задокументированных endpoint-ов.
 </Info>
 
-# TON: transactions and status
+# TON: транзакции и статус
 
 ### GET `/transactions/{address}`
 
-**Purpose:** retrieving transaction history by TON address (API version v1). Used as one of the sources for displaying the list of operations in the wallet.
+**Назначение:** получение истории транзакций по TON-адресу, версия API v1. Используется как один из источников для отображения списка операций в кошельке.
 
 ### GET `/transactions/v2/{address}`
 
-**Purpose:** transaction history by TON address (v2). A newer version of the response format; the application can use it for the same purposes as v1.
+**Назначение:** история транзакций по TON-адресу, версия v2. Это более новый формат ответа; приложение может использовать его для тех же целей, что и v1.
 
 ### POST `/transactions/v3`
 
-**Purpose:** unified operation history for TON and Solana in one response. Request body: `account` (tonAddress, solanaAddress, solanaATAaddress if needed), `network`, `cursor`, `limit`. Needed for a unified transaction list in the wallet (TON + SOL + SPL) with pagination.
+**Назначение:** единая история операций для TON и Solana в одном ответе. Тело запроса содержит `account`, например `tonAddress`, `solanaAddress`, `solanaATAaddress` при необходимости, а также `network`, `cursor` и `limit`. Этот endpoint нужен для единого списка транзакций в кошельке, то есть TON + SOL + SPL, с пагинацией.
 
 ### POST `/ton/transactions/status/{network}`
 
-**Purpose:** checking the status of a specific TON transaction by its hash (body: `txHash`). Used to understand whether a sent operation is confirmed or still being processed.
+**Назначение:** проверка статуса конкретной TON-транзакции по ее хэшу, где в теле передается `txHash`. Используется, чтобы понять, подтверждена отправленная операция или все еще обрабатывается.
 
-# TON: config and contracts
+# TON: конфигурация и контракты
 
 ### GET `/config`
 
-**Purpose:** obtaining global TON network configuration (gas fees, storage, message limits, etc.). Needed for **local fee calculation** before sending a transaction (estimateFees).
+**Назначение:** получение глобальной конфигурации сети TON, включая gas fees, storage, message limits и другие параметры. Нужно для **локального расчета комиссии** перед отправкой транзакции, то есть `estimateFees`.
 
 ### GET `/config/{address}`
 
-**Purpose:** wallet configuration by address — contract version (v4, v5, etc.), type. Used to correctly form transactions and know wallet limitations (e.g., number of messages in one transaction).
+**Назначение:** конфигурация кошелька по адресу, включая версию контракта, например v4 или v5, и его тип. Используется для корректного формирования транзакций и понимания ограничений кошелька, например количества сообщений в одной транзакции.
 
 ### GET `/contract/info/{address}`
 
-**Purpose:** general contract information by address (state, code). Used when parsing contracts and checking types (including tokens).
+**Назначение:** общая информация о контракте по адресу, включая state и code. Используется при разборе контрактов и проверке их типов, в том числе токенов.
 
 ### GET `/metadata/{address}`
 
-**Purpose:** contract metadata by address (name, symbol, image, etc.). Applied for displaying data about tokens and other contracts when not only balances but also asset descriptions are needed.
+**Назначение:** metadata контракта по адресу, например name, symbol, image и другие поля. Используется для отображения данных о токенах и других контрактах, когда приложению нужны не только балансы, но и описания активов.
 
 ### GET `/net/{network}/elections/latest`
 
-**Purpose:** data from the latest validator elections in the TON network (network: mainnet / sandbox / testnet). Needed for staking: understanding the current cycle, unlock periods, etc.
+**Назначение:** данные о последних выборах валидаторов в сети TON, где `network` может быть mainnet, sandbox или testnet. Нужны для стейкинга: чтобы понимать текущий цикл, периоды разблокировки и другие параметры.
 
 ### GET `/net/{network}/elections/{id}`
 
-**Purpose:** election data by specific id. Used for cycle details (e.g., when displaying election history in staking).
+**Назначение:** данные о выборах по конкретному `id`. Используется для деталей цикла, например при отображении истории выборов в стейкинге.
 
 ### GET `/net/{network}/elections/latest/apy`
 
-**Purpose:** annual percentage yield (APY) from the latest elections. Displayed in the staking section as a yield reference.
+**Назначение:** годовая доходность, то есть APY, по последним выборам. Показывается в разделе стейкинга как ориентир по доходности.
 
-# TON tokens
+# TON-токены
 
 ### GET `/hints/{address}?version=1`
 
-**Purpose:** brief token hints for the specified TON address (version 1). Used in scenarios where a compact list without full metadata is sufficient.
+**Назначение:** краткие token hints для указанного TON-адреса, версия 1. Используется в сценариях, где достаточно компактного списка без полной metadata.
 
 ### GET `/hints/full/{address}`
 
-**Purpose:** full list of tokens by address with balances, names, symbols, icons, and verification flags (query `isTestnet=true` for testnet). **Main source** for the assets screen: token list, "Savings" block, token selection during transfers. The response also contains `addressesIndex` for quick search by master address.
+**Назначение:** полный список токенов по адресу с балансами, названиями, символами, иконками и флагами верификации, а также с query-параметром `isTestnet=true` для testnet. Это **основной источник** для экрана активов: список токенов, блок "Savings" и выбор токенов при переводах. В ответе также есть `addressesIndex` для быстрого поиска по master-адресу.
 
 ### GET `/hints/extra/{address}`
 
-**Purpose:** additional "currencies" or hints by address (extra currency hints). Displayed in the same block as tokens, as a separate type of cards in the assets list.
+**Назначение:** дополнительные "валюты" или hints по адресу, то есть extra currency hints. Отображаются в том же блоке, что и токены, как отдельный тип карточек в списке активов.
 
 ### GET `/jettons/metadata?address={master}`
 
-**Purpose:**token master contract metadata (name, symbol, decimals, image, LP data if needed). Used when current name, logo, and exact number of decimal places are needed for display or calculations.
+**Назначение:** metadata master-контракта jetton, включая name, symbol, decimals, image и при необходимости LP-данные. Используется, когда приложению нужны актуальные название, логотип и точное количество decimal places для отображения и расчетов.
 
 ### POST `/jettons/wallet/address`
 
-**Purpose:** calculating the user's token-wallet address for a given master. Body: `address` (owner), `master`, `isTestnet`, `seqno`. Needed when forming token transfers and checking if the user has a wallet for the given token.
+**Назначение:** расчет адреса token-wallet пользователя для заданного master-контракта. Тело: `address` владельца, `master`, `isTestnet`, `seqno`. Нужен при формировании переводов токенов и проверке, существует ли у пользователя кошелек для данного токена.
 
 ### GET `/jettons/wallet/{walletAddress}`
 
-**Purpose:** jetton-wallet data by wallet address (query: isTestnet). Used to get balance and metadata for a specific token-wallet when only the contract address is known.
+**Назначение:** данные jetton-wallet по адресу кошелька, с query-параметром `isTestnet`. Используется для получения баланса и metadata конкретного token-wallet, когда известен только адрес контракта.
 
 ### POST `/jettons/wallet/transactions`
 
-**Purpose:** transaction history for token-wallet. Body contains address and pagination/filtering parameters. Needed for the transaction history screen for individual tokens.
+**Назначение:** история транзакций конкретного token-wallet. Тело содержит адрес и параметры пагинации или фильтрации. Нужен для экрана истории транзакций по отдельному токену.
 
 ### GET `/jettons/rates/{key}?isTestnet=`
 
-**Purpose:** token rates (prices) by key (usually master address). Used to display balance in fiat and for sorting/filtering tokens by value.
+**Назначение:** курсы токенов по ключу, которым обычно является master-адрес. Используется для отображения баланса в фиате и для сортировки и фильтрации токенов по стоимости.
 
 ### GET `/mintless/jettons/{address}`
 
-**Purpose:** list of "mintless" tokens by owner address — tokens without separate mint. Used for completeness of the assets list and correct display of such tokens.
+**Назначение:** список "mintless" токенов по адресу владельца, то есть токенов без отдельного mint. Нужен для полноты списка активов и корректного отображения таких токенов.
 
 ### GET `/mintless/jettons/...` (payload)
 
-**Purpose:** getting payload for operations with mintless tokens (used in fetchJettonPayload). Needed when forming transfers or requests to such contracts.
+**Назначение:** получение payload для операций с mintless-токенами, используется в `fetchJettonPayload`. Нужен при формировании переводов или запросов к таким контрактам.
 
 # Solana
 
 ### POST `/solana/account/{network}`
 
-**Purpose:** SOL balance by address. Body: `{ address }`. Used to display native Solana balance in the wallet and check sufficient funds before sending.
+**Назначение:** баланс SOL по адресу. Тело: `{ address }`. Используется для отображения нативного Solana-баланса в кошельке и проверки достаточности средств перед отправкой.
 
 ### POST `/solana/tokens/{network}`
 
-**Purpose:** list of SPL tokens by address. Body: `{ address }`. **Main source** for the Solana assets screen: which tokens the user has, balances, symbols, logos (from API response).
+**Назначение:** список SPL-токенов по адресу. Тело: `{ address }`. Это **основной источник** для экрана активов Solana: какие токены есть у пользователя, их балансы, символы и логотипы.
 
 ### POST `/solana/transactions/{network}`
 
-**Purpose:** Solana transaction history by address. Body: `{ address, ...query }`. Needed for unified Solana operations list and for Solana wallet history screen.
+**Назначение:** история транзакций Solana по адресу. Тело: `{ address, ...query }`. Нужна для общего списка операций Solana и экрана истории Solana-кошелька.
 
 ### POST `/solana/transaction/{network}`
 
-**Purpose:** specific Solana transaction status by signature (body: `{ signature }`). Used to check confirmation of sent operations (pending / confirmed / failed).
+**Назначение:** статус конкретной транзакции Solana по подписи, где в теле передается `{ signature }`. Используется для проверки подтверждения отправленных операций, например pending, confirmed или failed.
 
 ### POST `/solana/transaction/fees/{network}`
 
-**Purpose:** transaction fee estimation. Body: `{ transaction }` (serialized transaction). Result is shown to user before confirming SOL/SPL transfer as "Network fee".
+**Назначение:** оценка комиссии транзакции. Тело: `{ transaction }`, то есть сериализованная транзакция. Результат показывается пользователю перед подтверждением перевода SOL или SPL как "Network fee".
 
 ### WebSocket `wss://connect.tonhubapi.com/solana/{network}/account/{address}/ws`
 
-**Purpose:** subscription to Solana account updates (balance, new transactions). Application resubscribes data when balance changes or new operations appear, to avoid constant REST polling.
+**Назначение:** подписка на обновления Solana-аккаунта, например баланса и новых транзакций. Приложение переподписывается на данные при изменении баланса или появлении новых операций, чтобы не делать постоянный REST-поллинг.
 
-# Staking (connect.tonhubapi.com)
+# Стейкинг (`connect.tonhubapi.com`)
 
 ### POST `/staking/member/info`
 
-**Purpose:** member state across multiple staking pools simultaneously. Body: `isTestnet`, `address`, `pools[]`. Used for staking screen: balances, pendingDeposit, pendingWithdraw, withdraw for each known pool without separate get_member requests to TON for each pool.
+**Назначение:** состояние участника сразу по нескольким стейкинг-пулам. Тело: `isTestnet`, `address`, `pools[]`. Используется на экране стейкинга для отображения `balance`, `pendingDeposit`, `pendingWithdraw`, `withdraw` по каждому известному пулу без отдельных запросов `get_member` к TON.
 
 ### POST `/staking/member/liquid/info`
 
-**Purpose:** user state in liquid staking (wsTON). Body: `{ isTestnet, address }`. Returns wsTON balance, pendingWithdrawals, etc. Needed for "Whales Liquid" card and deposit/withdrawal operations.
+**Назначение:** состояние пользователя в ликвидном стейкинге, то есть wsTON. Тело: `{ isTestnet, address }`. Возвращает баланс wsTON, `pendingWithdrawals` и другие данные. Нужно для карточки "Whales Liquid" и операций пополнения и вывода.
 
 ### GET `/staking/{network}/pool/liquid/info`
 
-**Purpose:** liquid pool parameters and rates: rateDeposit, rateWithdraw, extras (minStake, fees, roundEnd, proxyStakeUntil, etc.), balances. Used to display TON:left_right_arrow: wsTON rates and fees during deposit/withdrawal.
+**Назначение:** параметры и курсы ликвидного пула: `rateDeposit`, `rateWithdraw`, `extras`, например `minStake`, комиссии, `roundEnd`, `proxyStakeUntil` и другие, а также `balances`. Используется для отображения курсов TON ↔ wsTON и комиссий при пополнении и выводе.
 
 ### GET `/usde/{network}/rate`
 
-**Purpose:** current USDe (Ethena) rate. Used in USDe Liquid staking section to display rate and calculate equivalents.
+**Назначение:** текущий курс USDe, то есть Ethena. Используется в разделе USDe Liquid для показа курса и расчета эквивалентов.
 
 ### GET `/usde/{network}/apy`
 
-**Purpose:** USDe APY. Displayed in USDe Liquid card as yield reference.
+**Назначение:** APY для USDe. Показывается в карточке USDe Liquid как ориентир по доходности.
 
 ### POST `/usde/staking/member/liquid/info`
 
-**Purpose:** USDe liquid staking participant data (body with address and parameters). Needed to display balance and state in USDe product.
+**Назначение:** данные участника по USDe liquid staking, где в теле передаются адрес и другие параметры. Нужен для отображения баланса и состояния в продукте USDe.
 
-# Staking indexer (separate host)
+# Staking indexer, отдельный хост
 
-**Base URL:**`https://staking-indexer.whales-api.com`
+**Base URL:** `https://staking-indexer.whales-api.com`
 
 ### GET `/status/{network}`
 
-**Purpose:** elections and pools status (network: empty for mainnet, `testnet` for testnet). Used as data source for current staking cycle, unlock periods, and validator list; when unavailable, application can use fallback (fetchStakingStatusV4 via TON).
+**Назначение:** статус выборов и пулов, где `network` пустой для mainnet и `testnet` для testnet. Используется как источник данных о текущем стейкинговом цикле, периодах разблокировки и списке валидаторов; если он недоступен, приложение может перейти на fallback через `fetchStakingStatusV4` по данным TON.
 
 ### POST `/indexer/nominator`
 
-**Purpose:** nominator data by pool and address (deposits, withdrawals, profit for period). Body specifies pool, address, periods. Needed for detailed analytics and staking operations history.
+**Назначение:** данные номинатора по пулу и адресу, включая депозиты, выводы и прибыль за период. В теле указываются пул, адрес и периоды. Нужен для детальной аналитики и истории стейкинговых операций.
 
 ### POST `/indexer/pool/apy`
 
-**Purpose:** pool APY. Body: `{ address, fixedPeriod: 'week' }`, etc. Displayed in pool card as yield reference.
+**Назначение:** APY пула. Тело: `{ address, fixedPeriod: 'week' }` и аналогичные параметры. Показывается в карточке пула как ориентир по доходности.
 
 # Gasless
 
 ### GET `/gasless/{network}/config`
 
-**Purpose:** gasless sending configuration: list of token masters for which gasless is available, and relayer address (relay_address). Based on this config, the application decides whether to show the user the "pay fee in token" option during transfers (only for W5 and listed tokens).
+**Назначение:** конфигурация gasless-отправки: список token master, для которых доступен gasless, и адрес relayer, то есть `relay_address`. На основе этого конфига приложение решает, показывать ли пользователю опцию "оплатить комиссию токеном" при переводах, только для W5 и перечисленных токенов.
 
 ### POST `/gasless/{network}/estimate`
 
-**Purpose:** gasless sending estimation: fee in token, final messages, relayer address, valid_until. Body: `data` (master, wallet_address, wallet_public_key, messages), `master`. Result is shown to user before confirmation; on errors (not-enough, try-later, cooldown) corresponding messages are displayed.
+**Назначение:** оценка gasless-отправки: комиссия в токене, итоговые сообщения, адрес relayer и `valid_until`. В теле передаются `data`, включая `master`, `wallet_address`, `wallet_public_key`, `messages`, и отдельно `master`. Результат показывается пользователю перед подтверждением; при ошибках, таких как `not-enough`, `try-later`, `cooldown`, отображаются соответствующие сообщения.
 
 ### POST `/gasless/{network}/send`
 
-**Purpose:** sending user-signed BOC through relayer. Body: `{ wallet_public_key, boc }`. Relayer pays gas in TON and charges fee from user in token.\
-**Main backend base URL:**`https://connect.tonhubapi.com`\
-**Network:** many endpoints have `network` parameter or path suffix — `mainnet` or `testnet` (for Solana also `devnet`).
+**Назначение:** отправка подписанного пользователем BOC через relayer. Тело: `{ wallet_public_key, boc }`. Relayer оплачивает gas в TON и списывает комиссию с пользователя в токене.\
+**Основной backend base URL:** `https://connect.tonhubapi.com`\
+**Сеть:** у многих endpoint-ов есть параметр `network` или суффикс в пути, например `mainnet` или `testnet`, а для Solana также `devnet`.
 
-# TON Connect and app connections
+# TON Connect и подключения приложений
 
 ### Base URL `/tonconnect`
 
-**Purpose:** root path of TON Connect bridge (SSE/bridge). Used by TON Connect clients to establish session and exchange messages with wallet.
+**Назначение:** корневой путь bridge TON Connect, то есть SSE/bridge. Используется клиентами TON Connect для установления сессии и обмена сообщениями с кошельком.
 
 ### POST `/connect/command`
 
-**Purpose:** connection command in legacy flow (ton-x). Used when connecting via old scenario (e.g., part of scenarios with external browser).
+**Назначение:** команда подключения в legacy-сценарии, то есть ton-x. Используется при подключении по старому сценарию, например в части кейсов с внешним браузером.
 
 ### POST `/connect/grant`
 
-**Purpose:** confirmation of granted session. Body: `{ key }`. Called after user confirmed connection in wallet, so that application (dApp) receives session.
+**Назначение:** подтверждение выданной сессии. Тело: `{ key }`. Вызывается после того, как пользователь подтвердил подключение в кошельке, чтобы приложение, то есть dApp, получило сессию.
 
 ### POST `/connect/revoke`
 
-**Purpose:** revoking connection session. Body: `{ key }`. Called when pressing "Revoke access" in connected apps list; after this session becomes invalid.
+**Назначение:** отзыв сессии подключения. Тело: `{ key }`. Вызывается при нажатии "Revoke access" в списке подключенных приложений; после этого сессия становится недействительной.
 
 ### POST `https://connect.tonhubapi.com/connect/answer`
 
-**Purpose:** sending response to connection request to server (reportEndpoint). Body contains key, appPublicKey, address, walletType, walletConfig, walletSig, endpoint, testnet, kind. Used to inform backend about successful connection and wallet parameters (for TON Connect and compatible flows).
+**Назначение:** отправка ответа на запрос подключения на сервер, то есть в `reportEndpoint`. В теле содержатся `key`, `appPublicKey`, `address`, `walletType`, `walletConfig`, `walletSig`, `endpoint`, `testnet`, `kind`. Используется для уведомления backend о том, что подключение прошло успешно, и о параметрах кошелька в TON Connect и совместимых сценариях.
 
 # Wallet requests
 
 ### GET `/wallet-request/{address}/{network}/list`
 
-**Purpose:** list of pending wallet requests (signature, transfer, etc.). Query: `type`. Used to display incoming requests and notifications to user.
+**Назначение:** список ожидающих wallet request, например на подпись или перевод. Query: `type`. Используется для показа входящих запросов и уведомлений пользователю.
 
 ### POST `/wallet-request/create`
 
-**Purpose:** creating new wallet request (e.g., signature request). Used by scenarios initiating external wallet requests.
+**Назначение:** создание нового wallet request, например запроса на подпись. Используется в сценариях, где инициируются внешние запросы к кошельку.
 
 ### POST `/wallet-request/respond`
 
-**Purpose:** response to request — signature or rejection. Sent after user confirmed or rejected request in application.
+**Назначение:** ответ на запрос, то есть подпись или отклонение. Отправляется после того, как пользователь подтвердил или отклонил запрос в приложении.
 
-# Storage (cloud key-value)
+# Storage, облачное key-value хранилище
 
 ### POST `/storage/read`
 
-**Purpose:** reading data by key (key — e.g., publicKey in base64). Used for syncing settings between devices (including hidden tokens list — tokens-disabled).
+**Назначение:** чтение данных по ключу, например по `publicKey` в base64. Используется для синхронизации настроек между устройствами, включая список скрытых токенов `tokens-disabled`.
 
 ### POST `/storage/write`
 
-**Purpose:** writing data by key. Used when saving settings to cloud (hidden tokens, connected apps list, etc.), so they're available after reinstall or on another device (within same account by key).
+**Назначение:** запись данных по ключу. Используется при сохранении настроек в облако, например скрытых токенов, списка подключенных приложений и других данных, чтобы они были доступны после переустановки или на другом устройстве.
 
-# App configuration and banners
+# Конфигурация приложения и баннеры
 
 ### GET `/appconfig/{network}`
 
-**Purpose:** application configuration for network: enabling/disabling features (e.g., features.ethena for USDe), limitations, URLs, etc. Determines which screens and options to show to the user.
+**Назначение:** конфигурация приложения для сети, включая включение и отключение функций, например `features.ethena` для USDe, ограничения, URL и другие параметры. Определяет, какие экраны и опции показывать пользователю.
 
 ### GET `/appconfig/versions/{network}`
 
-**Purpose:** application version information and updates (minimum version, forced update, etc.). Used to check for update necessity and show corresponding messages.
+**Назначение:** информация о версии приложения и обновлениях, включая минимальную версию, обязательное обновление и другие параметры. Используется для проверки необходимости обновления и показа соответствующих сообщений.
 
 ### GET `/apps/metadata?url=`
 
-**Purpose:** application (dApp) metadata by its URL: name, icon, domain. Used when opening applications in browser and in the connected applications list.
+**Назначение:** metadata приложения, то есть dApp, по его URL: name, icon, domain. Используется при открытии приложений в браузере и в списке подключенных приложений.
 
 ### GET `/apps/catalog`
 
-**Purpose:** applications catalog. Query: `url`. Used to display application information in catalog and when searching by URL.
+**Назначение:** каталог приложений. Query: `url`. Используется для показа информации о приложении в каталоге и при поиске по URL.
 
 ### GET `/apps/reviews?url=&address=`
 
-**Purpose:** user reviews for application (url) and optionally by address. Displayed in application card in browser/catalog.
+**Назначение:** отзывы пользователей о приложении по `url` и, при необходимости, по адресу. Показываются в карточке приложения в браузере и каталоге.
 
 ### POST `/apps/reviews`
 
-**Purpose:** submitting user review for application. Body: `{ url, input }`. Saves rating and review text on backend.
+**Назначение:** отправка пользовательского отзыва о приложении. Тело: `{ url, input }`. Сохраняет оценку и текст отзыва на backend.
 
 ### POST `/apps/reports`
 
-**Purpose:** submitting complaint about application. Body: `{ url, input }`. Used for moderation and blocking malicious or rule-violating applications.
+**Назначение:** отправка жалобы на приложение. Тело: `{ url, input }`. Используется для модерации и блокировки вредоносных приложений или приложений, нарушающих правила.
 
 ### GET `/tonhub/banners`
 
-**Purpose:** banners in applications browser (main browser screen, promo). Determine which cards and links to show in applications section.
+**Назначение:** баннеры в браузере приложений, например на основном экране браузера и в promo-блоках. Определяет, какие карточки и ссылки показывать в разделе приложений.
 
 ### GET `/tonhub/holders/banners`
 
-**Purpose:** banners related to Holders (cards, promotions). Shown in corresponding section or on Holders screen.
+**Назначение:** баннеры, связанные с Holders, например карты и промо. Показываются в соответствующем разделе или на экране Holders.
 
 ### GET `/ads/banners`
 
-**Purpose:** advertising banners (with parameters). Used to show advertising blocks in allowed places in application.
+**Назначение:** рекламные баннеры с параметрами. Используются для показа рекламных блоков в разрешенных местах приложения.
 
 ### GET `/protect/allowed-domains`
 
-**Purpose:** list of domains allowed for navigation in WebView (protection from phishing and transitions to unwanted sites). Application checks against this list whether a link can be opened in built-in browser.
+**Назначение:** список доменов, разрешенных для навигации во WebView, то есть защита от фишинга и переходов на нежелательные сайты. Приложение сверяет с этим списком, можно ли открыть ссылку во встроенном браузере.
 
-# Rates and tokens
+# Курсы и токены
 
 ### GET `/v2/price`
 
-**Purpose:** current asset prices (TON, SOL, etc.) in fiat. Used to display balances and amounts in USD/other currency throughout the application.
+**Назначение:** текущие цены активов, таких как TON и SOL, в фиатных валютах. Используется для отображения балансов и сумм в USD и другой выбранной валюте по всему приложению.
 
 ### POST `/v2/rates`
 
-**Purpose:** currency rates considering network. Body: `{ network }`. Used for amount conversion and displaying equivalents in selected currency.
+**Назначение:** валютные курсы с учетом сети. Тело: `{ network }`. Используется для конвертации сумм и отображения эквивалентов в выбранной валюте.
 
 ### POST `/token/info`
 
-**Purpose:** detailed token information by identifiers (body with addresses/types). Used in scenarios where extended token data is needed beyond metadata from hints.
+**Назначение:** подробная информация о токене по идентификаторам, где в теле передаются адреса и типы. Используется в сценариях, где требуется расширенная информация сверх той, что приходит из hints.
 
-# Miscellaneous
+# Разное
 
 ### GET `/balances/old/{pubkey}`
 
-**Purpose:** getting balances of "old" wallets by public key (hex). Used during migration or recovery of old addresses to show remainders and optionally suggest fund transfer.
+**Назначение:** получение балансов "старых" кошельков по публичному ключу в hex-формате. Используется во время миграции или восстановления старых адресов, чтобы показать остатки и при необходимости предложить перевод средств.
 
 ### POST `/service-address/check`
 
-**Purpose:** checking if address is service address (e.g., contract not recommended for interaction). Body: `{ address }`. Can be used when warning user before sending to such addresses.
+**Назначение:** проверка, является ли адрес сервисным, например контрактом, с которым не рекомендуется взаимодействовать. Тело: `{ address }`. Может использоваться для предупреждения пользователя перед отправкой на такие адреса.
 
 ### POST `/push/register`
 
-**Purpose:** device registration for push notifications. Body contains token and device parameters. Needed for delivering notifications about incoming transactions and other events.
+**Назначение:** регистрация устройства для push-уведомлений. В теле передаются токен и параметры устройства. Нужно для доставки уведомлений о входящих транзакциях и других событиях.
 
 ### POST `/client-error/report`
 
-**Purpose:** sending client error report (logs, error type, context). Used for collecting diagnostics and improving application stability; does not transmit keys or seed phrase.
+**Назначение:** отправка отчета об ошибке клиента, включая логи, тип ошибки и контекст. Используется для диагностики и повышения стабильности приложения; при этом ключи и seed-фраза не передаются.
 
-# Changelly (exchange)
+# Changelly, обмен
 
 ### GET `/changelly/currencies`
 
-**Purpose:** list of currencies available for exchange through Changelly. Used for selecting exchange pair and checking supported assets.
+**Назначение:** список валют, доступных для обмена через Changelly. Используется при выборе пары для обмена и проверке поддерживаемых активов.
 
 ### POST `/changelly/estimate`
 
-**Purpose:** exchange amount estimation (rate, commission, final amount). Used before creating exchange transaction to show user expected result.
+**Назначение:** оценка суммы обмена, включая курс, комиссию и итоговую сумму. Используется до создания обменной транзакции, чтобы показать пользователю ожидаемый результат.
 
 ### POST `/changelly/transaction/create`
 
-**Purpose:** creating exchange transaction. Initiates deal on Changelly side and returns parameters for transfer from user.
+**Назначение:** создание обменной транзакции. Инициирует сделку на стороне Changelly и возвращает параметры, необходимые для отправки средств пользователем.
 
 ### POST `/changelly/transaction/details`
 
-**Purpose:** getting details of created exchange transaction (status, amounts, addresses). Used to display exchange status in application.
+**Назначение:** получение деталей созданной обменной транзакции, включая статус, суммы и адреса. Используется для отображения статуса обмена в приложении.
 
 ### POST `/changelly/transaction/resolve`
 
-**Purpose:** resolving/finalizing exchange transaction or requesting its status. Used when completing exchange or checking result.
+**Назначение:** завершение, обновление или запрос статуса обменной транзакции. Используется при завершении обмена или проверке результата.
 
 ### POST `/changelly/transactions`
 
-**Purpose:** list of user's exchange transactions (with request body: address, network, etc.). Used for exchange history in Changelly section.
+**Назначение:** список обменных транзакций пользователя, где в теле запроса передаются адрес, сеть и другие параметры. Используется для истории обменов в разделе Changelly.
 
-# Holders (separate host)
+# Holders, отдельный хост
 
-Holders services run on **card-prod.whales-api.com** (mainnet) and **card-staging.whales-api.com** (testnet). Below are the main APIs used and their purposes.
+Сервисы Holders работают на **card-prod.whales-api.com** для mainnet и **card-staging.whales-api.com** для testnet. Ниже перечислены основные API и их назначение.
 
 ### POST `https://{holdersEndpoint}/v2/user/wallet/connect`
 
-**Purpose:** connecting wallet to Holders: passing TON and Solana proof, obtaining user token. Called on first entry to Holders (enroll); the token is then used to request accounts, cards, and profile.
+**Назначение:** подключение кошелька к Holders: передача TON и Solana proof и получение пользовательского токена. Вызывается при первом входе в Holders, то есть enroll; затем этот токен используется для запроса аккаунтов, карт и профиля.
 
 ### POST `https://{holdersEndpoint}/account/state`
 
-**Purpose:** Holders account state (list of accounts, cards, etc.) by token. Used to display cards and accounts in the Holders section.
+**Назначение:** состояние Holders-аккаунта, включая список аккаунтов, карт и других сущностей, по токену. Используется для отображения карт и аккаунтов в разделе Holders.
 
 ### POST `https://{holdersEndpoint}/v2/profile/get`
 
-**Purpose:** Holders user profile (name, settings, etc.). Displayed in Holders settings and when needed in other integration screens.
+**Назначение:** профиль пользователя Holders, например имя и настройки. Показывается в настройках Holders и при необходимости на других экранах интеграции.
 
 ### POST `https://{holdersEndpoint}/card/get`
 
-**Purpose:** specific card data by id. Used to display card details and operations on it.\
-Other Holders endpoints (OTP, card transactions, IBAN, Apple Pay, invitations, etc.) are used in corresponding scenarios; their list and description can be found in the code at `app/engine/api/holders/`.
+**Назначение:** данные конкретной карты по `id`. Используется для отображения деталей карты и операций по ней.\
+Другие endpoint-ы Holders, включая OTP, card transactions, IBAN, Apple Pay, invitations и так далее, используются в соответствующих сценариях; их список и описание можно найти в коде по пути `app/engine/api/holders/`.
 
-# RPC TON (TonClient4)
+# RPC TON (`TonClient4`)
 
-The application uses **TonClient4** for direct data reading from the TON blockchain:
+Приложение использует **TonClient4** для прямого чтения данных из блокчейна TON:
 
 - **mainnet:** `https://mainnet-v4.tonhubapi.com`
 - **testnet:** `https://testnet-v4.tonhubapi.com`
 
-**Purpose:** these are not REST APIs, but JSON-RPC/HTTP endpoints for methods like getLastBlock, runMethod. Through them the application reads staking pool parameters (get_params, get_member), balances and contract states directly from TON, when current on-chain data is needed without backend cache.
+**Назначение:** это не REST API, а JSON-RPC и HTTP endpoint-ы для методов вроде `getLastBlock` и `runMethod`. Через них приложение читает параметры стейкинг-пулов, например `get_params`, `get_member`, балансы и состояния контрактов напрямую из TON, когда нужны актуальные on-chain данные без backend-кэша.
