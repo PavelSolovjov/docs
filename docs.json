@@ -193,6 +193,7 @@
             "tab": "PostCash",
             "pages": [
               "business-model-overview",
+              "executive-summary",
               {
                 "group": "Distribution & Agency Model",
                 "pages": [
@@ -265,7 +266,7 @@
               "appendix-a-migration-summary",
               "key-file-reference",
               "distribution-model-glossary",
-              "executive-summary"
+              "treasury-and-lending-executive-summary"
             ]
           }
         ]

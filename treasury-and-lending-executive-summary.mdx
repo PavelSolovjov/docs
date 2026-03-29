@@ -1,0 +1,251 @@
+---
+title: "Treasury & Lending — Executive Summary"
+---
+
+> **Audience**: CFO, COO, platform owners\
+> **Purpose**: Alignment on the multi-currency lending model, credit risk appetite, and operating procedures\
+> **Status**: Concept under review — prior to implementation\
+> **Technical documentation**: `TREASURY.md` (for the development team)
+
+## 1. Why the Treasury Module Is Needed
+
+The platform’s business model assumes that merchants take cheque batches **on consignment** and settle with the Issuer only after the cheques are sold — typically on a monthly basis. This means there is a funding gap of up to 30 days between the moment cheque batches are shipped to the merchant and the moment payment is received.
+
+To keep the platform operating continuously during this period, external funding is required. The treasury module is designed to solve exactly this problem: it sources credit lines from investors and lenders and allocates them to merchant funding in line with the platform’s configured risk appetite.
+
+**Simple model:**
+
+`Lenders → Credit lines → Platform → Merchant funding → Settlement → Repayment to lenders`
+
+The platform earns on the spread:
+
+**merchant fee income − interest expense on credit lines = net carry**
+
+## 2. Platform Lenders
+
+The platform’s lenders may include:
+
+- Platform owners and investors (direct loans)
+- External lenders (companies, funds, individuals)
+- In the future: decentralized liquidity protocols (DeFi)
+
+Each lender may open one or more **credit lines** with individual terms.
+
+| Parameter | Description |
+| :-- | :-- |
+| Currency | USDC, USD, EUR, USDT — multi-currency support |
+| Type | Revolving or term |
+| Limit | Maximum amount available under the line |
+| Interest rate | Fixed or floating (SOFR / EURIBOR \+ spread) |
+| Maturity | Expiry date of the line |
+| Collateral | Unsecured at the initial stage |
+
+### Revolving Line
+
+This is the primary type of facility. As amounts are repaid, the limit is restored and becomes available for reuse. Each individual drawdown has its own repayment term, for example 45 days. The line remains active until its expiry date or until a decision is made to close it.
+
+## 3. Lender Restrictions: Eligibility Matrix
+
+Different lenders have different levels of risk tolerance. The treasury module allows the platform to define **which lenders’ funds may not be used to finance which merchants**.
+
+Examples of restrictions:
+
+| Restriction | Example |
+| :-- | :-- |
+| Minimum merchant credit rating | A conservative lender finances only merchants rated A or B |
+| Instance exclusion | A lender does not want exposure to a specific market, such as a certain country |
+| Instance exclusivity | A lender works only with a specific partner |
+| Per-merchant limit | No more than \$5,000 from a given line to a single merchant |
+| Per-instance limit | No more than 30% of the line allocated to one instance |
+
+These rules are applied automatically whenever a funding decision is made for a cheque batch.
+
+## 4. Merchant Credit Profile
+
+Each merchant is assigned a **credit profile** by the platform.
+
+| Parameter | Description |
+| :-- | :-- |
+| Credit limit | Maximum amount of open batches at any one time |
+| Current exposure | Amount of shipped but not yet paid batches |
+| Credit rating | A / B / C / D — assigned manually |
+| Settlement term | Standard 30 days, configurable |
+| Preferred settlement currency | Currency in which the merchant settles |
+
+The **credit rating** affects funding eligibility. Conservative lenders may refuse to finance merchants rated C or lower. Ratings are managed manually by the finance team.
+
+### Automatic Blocking on Overdue Settlement
+
+If a merchant fails to settle beyond the allowed threshold, 3 days by default, the platform automatically:
+
+1. Blocks shipment of new batches to that merchant
+2. Records the fact and date of the block
+3. Notifies the instance administrator
+
+Unblocking is manual only and requires administrator confirmation.
+
+## 5. Aggregated Settlement Balance
+
+The platform maintains a single **liquidity pool** — an aggregate of available funds across all active credit lines.
+
+### Account Structure
+
+To manage liquidity allocation between instances, the platform uses an internal account structure:
+
+`Platform pool (all credit lines) → Instance account A / Instance account B / Reserve account`
+
+The CFO and COO may **manually rebalance allocated limits** across instances through the administrative interface. This allows liquidity to be managed flexibly without changing the terms of the underlying credit lines.
+
+## 6. Risk Appetite and Allocation Strategy
+
+When a cheque batch is shipped to a merchant, the system automatically selects which credit line should fund it. The decision is based on the configured **allocation strategy**.
+
+| Strategy | Logic | When to Use |
+| :-- | :-- | :-- |
+| Currency match | Fund from a line in the merchant’s settlement currency | To eliminate FX risk |
+| Lowest cost | Use the line with the lowest interest rate | To optimize funding cost |
+| Maturity match | Use a line whose maturity covers the merchant settlement period | To avoid maturity mismatch |
+| Maximum availability | Use the line with the largest unused balance | To deploy liquidity quickly |
+| Balanced | Distribute usage evenly across all lines | To diversify dependency |
+
+In addition to the selected strategy, the system applies **hard risk appetite constraints**:
+
+- Maximum share of any one merchant in the total pool, for example no more than 20%
+- Maximum utilization of a single credit line, for example no more than 40%
+- Maximum debt-to-equity ratio
+- Minimum remaining maturity required for a line to be used
+
+## 7. FX Risk
+
+The platform operates across multiple currencies. When the currency of a credit line differs from the merchant’s settlement currency, the platform **takes FX risk**.
+
+**Policy:** FX risk is recorded explicitly and reflected in reporting. For each drawdown from a foreign-currency line, the exchange rate is fixed on the transaction date. Upon settlement, the actual profit or loss from FX differences is reflected in the carry P&L report.
+
+At the initial stage, no hedging is planned. The recommended approach is to prioritize the **currency match** strategy in order to minimize open FX exposure.
+
+## 8. Treasury Economics (Carry P&L)
+
+The platform earns on the **spread** between merchant income and the cost of funding.
+
+| Item | Description |
+| :-- | :-- |
+| **Income** | Merchant fees (issuance, redemption, exchange) |
+| **Expense** | Interest on credit lines |
+| **FX differences** | Gain / loss from currency mismatch |
+| **Net carry** | Income minus expense |
+
+**Key performance indicators:**
+
+| Metric | Meaning |
+| :-- | :-- |
+| Cost of funds | Annualized interest rate across the credit line portfolio |
+| Fee yield | Percentage return generated from merchant transaction volume |
+| Net spread | Difference between fee yield and cost of funds |
+| Average settlement term | Average number of days from shipment to settlement |
+| Overdue settlement ratio | Percentage of total volume that is overdue |
+| Pool utilization | Percentage of total available limit currently used |
+
+If the interest rate on credit lines exceeds fee income, the platform effectively subsidizes operations from its own funds. This may be acceptable during the growth phase, provided the situation is tracked and controlled explicitly.
+
+## 9. Risk Management
+
+### Liquidity Risk (Maturity Mismatch)
+
+Situation: a credit line expires before the merchant settles.
+
+Control: the system identifies and displays the amount of such “problem drawdowns” in the dashboard. If a mismatch exists, the CFO is notified.
+
+### Merchant Credit Risk
+
+Situation: a merchant does not pay.
+
+Control: automatic blocking of new batches upon overdue settlement; credit rating is downgraded manually; managed by the COO.
+
+### Concentration Risk
+
+Situation: too much of the liquidity pool is concentrated in a single merchant or a single line.
+
+Control: concentration limits defined in the risk appetite settings.
+
+### FX Risk
+
+Situation: the exchange rate moves between drawdown and settlement.
+
+Control: explicit accounting, reflection in carry P&L, and priority given to the currency match strategy.
+
+## 10. Operational Controls
+
+### Four-Eyes Principle
+
+The initiator of a financial operation and its approver must **always be different people**. The system must not allow one employee to complete the full operation cycle alone.
+
+| Operation | Initiated By | Approved By |
+| :-- | :-- | :-- |
+| Manual drawdown from a credit line | Finance | Another Finance team member or Administrator |
+| Large drawdown (above threshold) | Finance / Administrator | Owner only |
+| Closing a credit line | Finance / Administrator | Owner |
+| Changing risk appetite | Finance / Administrator | Owner |
+| Rebalancing internal accounts | Finance | Administrator / Owner |
+
+### Velocity Limits
+
+Limits on the volume of drawdowns from a single line per day serve as protection against mistakes and abuse. These limits are configured individually for each line.
+
+### Notifications
+
+The system automatically notifies finance and operations teams of the following events:
+
+| Event | Recipient |
+| :-- | :-- |
+| Credit line expires in N days | CFO, Finance |
+| Line utilization exceeds 80% | CFO, Finance |
+| Line expires with outstanding debt | CFO (urgent) |
+| Automatic drawdown executed | Finance (summary or immediate) |
+| Large drawdown | CFO, Finance |
+| Merchant frozen due to overdue settlement | Instance Administrator |
+
+## 11. Audit and Compliance
+
+All operations are recorded in an immutable audit log, including:
+
+- who performed the action and when
+- before / after values
+- IP address and confirmation of additional authentication
+
+Financial records such as drawdowns, interest accruals, and allocations **cannot be modified or deleted** once created. They may only be moved to a final status, such as repaid or defaulted.
+
+## 12. Implementation Phases
+
+| Phase | Scope | Priority |
+| :-- | :-- | :-- |
+| **Phase 1** | Lender registry, credit lines, eligibility matrix | P0 — foundation |
+| **Phase 2** | Merchant credit profiles, allocation engine, automatic drawdown | P0 — core functionality |
+| **Phase 3** | Interest accruals, carry P&L | P1 |
+| **Phase 4** | Settlement balance dashboard, notifications, overdue monitoring | P1 |
+| **Phase 5** | Permission editor by function | P2 |
+
+## 13. Open Questions for Approval
+
+**13.1 Initial lenders**\
+Who will be the platform’s first lenders? What terms are expected: currency, rate, limit, maturity?
+
+**13.2 Merchant credit limits**\
+What should the standard limit be for a new merchant? Based on what criteria should it be increased? Is a multi-step approval process needed above a certain threshold?
+
+**13.3 Default allocation strategy**\
+Which strategy should be used by default? Recommendation: **currency match** to minimize FX risk.
+
+**13.4 Large-operation threshold (four-eyes)**\
+At what drawdown amount should Owner approval be required, rather than Finance approval only? The draft documentation assumes **\$10,000 USDC**, subject to approval.
+
+**13.5 Merchant settlement currency**\
+Which currencies will be accepted for merchant settlements? Who bears FX risk on conversion? Is multi-currency allocation required from day one, or are USDC-based lines sufficient initially?
+
+**13.6 Overdue policy: automatic vs manual control**\
+Automatic blocking after more than 3 days overdue is assumed. Are different thresholds needed for different merchant categories? What is the resolution process after a block is triggered?
+
+**13.7 Cost of funding vs fee income**\
+Under the current pricing model, do merchant fees cover the cost of external funding? Is financial scenario modeling required before launch?
+
+**13.8 Collateral for lenders**\
+At the initial stage, facilities are unsecured. At what portfolio size would it make sense to move to a receivables assignment structure? This could reduce the cost of funds.
