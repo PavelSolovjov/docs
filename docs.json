@@ -304,5 +304,8 @@
   "description": "Documentation for the Whales ecosystem: products and SDK, architecture, legal and compliance model, and key user and partner flows for working with Holders‑based solutions.",
   "appearance": {
     "default": "system"
+  },
+  "search": {
+    "prompt": "Search or ask AI"
   }
 }
