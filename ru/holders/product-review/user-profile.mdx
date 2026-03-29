@@ -1,1 +1,172 @@
-Not logged in · Please run /login
+---
+title: "User profile"
+description: "This document explains what a user profile is in Holders, which data it includes (contacts, KYC, sessions, wallets, risk), how this data is collected and stored, how risk is assessed, and how user data can be deleted under GDPR."
+---
+
+# What is a user profile
+
+A "user profile" represents a personal set of data associated with a specific user and serves for their identification. The profile is created in the Holders database at the moment the user confirms their phone number.
+
+# Profile Data
+
+A "user profile" in the Holders database contains the following data:
+
+- Phone number
+- Email address
+- Verification data (KYC)
+- Session data + [user brand](/holders/product-review/accounts-and-smart-contracts/account-brand)
+- Wallet addresses linked to the profile
+- User's blockchain address rating
+- AML risk level
+
+User data can be viewed in the corresponding backoffice section by finding the user on the general users page. The user themselves can view their available data by going to settings from any account page in the application through which they use Holders (for example, Tonhub).
+
+[Profile data modification (guide)](/holders/product-review/onboarding/profile-data-modification)
+
+# Data for Verification (KYC)
+
+Sumsub is a leading identity verification platform used in Holders for conducting KYC (Know Your Customer) procedures. The system automates identity verification and fraud prevention, ensuring banking-level security and AML compliance.\
+List of data that a user must provide to complete KYC (the specific data set will be determined by the user's residency):
+
+- **Identity verification documents.** Such documents may include passport, driver's license, national identity card (ID), or other official documents issued by government authorities. The document must be valid (not expired) and contain a photograph of the holder. Depending on the jurisdiction, various types of documents may be accepted.
+- **Actual residential address.** For some jurisdictions, it is mandatory to have a residential address in the country whose document the user uploads for verification. The address must include complete information: country, region/state, city, street, house and apartment number, postal code. In some cases, address confirmation documents may be required - registration certificate, household register extract, utility bills no older than 3 months, bank statement, or rental agreement.
+- **Additional verification documents.** Depending on the risk level and requirements of the specific jurisdiction, the following may be required: income statement, documents confirming source of funds, employment documents, tax returns, or criminal background checks. For residents of some countries, notarized translations of documents into English may be required.
+- **Risk assessment questionnaire.** The user may need to complete a questionnaire including questions about income sources, field of activity, expected monthly transaction volumes, and other information necessary for conducting risk assessment in accordance with AML/KYC requirements.
+- **Biometric verification.** Sumsub conducts analysis of the applicant's facial movements compared to photographs on the provided identity documents to ensure that the applicant is alive and present during identity verification. This may include creating a short video with pronunciation of a random phrase.
+
+## Identity Verification Documents
+
+### Types of Accepted Documents
+
+Identity verification documents include (depending on the region):
+
+- **Passport** - primary document for international identification
+- **Driver's License** - accepted in most jurisdictions as an alternative identity verification document
+- **National ID Card** - government identity documents with machine-readable zone (MRZ)
+- **Visa D** - accepted only with manual verification and AML officer approval
+
+### Automatic Document Monitoring
+
+The system provides continuous monitoring of document validity:
+
+- **Daily re-verification** of the validity period of previously provided documents based on expiration date
+- **Automatic replacement requests** when documents expire
+- **User notifications** about the need to update documentation
+
+### Data Storage
+
+Only basic information from documents is stored in the Holders user profile:
+
+- Document country (`country`)
+- Document type (`document_type`)
+- Document issue date (`issue_date`)
+- Document validity period (`valid_until`)
+
+All other KYC data, including document images and detailed information, is stored on Sumsub's side in accordance with security and confidentiality requirements. The partner also maintains a history of all documents previously uploaded by the user and transmits information about their validity periods to the Holders system.
+
+### Process Features
+
+In some cases, users may be asked to provide multiple documents simultaneously for verification, which depends on the risk level, jurisdiction, and requirements of the specific verification level in the Sumsub system.
+
+# Session Data
+
+With each login, the service collects available session data and stores it in the profile:
+
+- Flag indicating whether the session is terminated (`revoked`)
+- Device type (`device`)
+- IP address (`ip`)
+- User agent (`userAgent`)
+- Browser (`browserName`)
+- Browser version (`browserVersion`)
+- Operating system (`osName`)
+- Operating system version (`oVersion`)
+- Data processing engine (`engineName`)
+- Data processing engine version (`engineVersion`)
+- Authentication method (`authMethod`)
+- Browser field mapping (`browser`)
+- Metadata (`meta`)
+- Location (`geo`)
+- Security (`security`) - not used but stored ([more details](https://ipgeolocation.io/ip-security-api.html#documentation-overview)).
+- Inviter ID (`inviteld`)
+
+# User Active Sessions
+
+Users can view all their currently active sessions by navigating to the "Devices" section in Holders settings. There is also an option to terminate sessions on unused devices to ensure fund security. For each session, the user is provided with the following data:
+
+- Connected wallet address
+- Application name
+- IP address
+- Geolocation
+- Last login time
+
+# Wallet Addresses
+
+When creating a profile in the database through a session, in addition to the data specified above, TON and Solana addresses are transmitted, obtained from the application (wallet) in which the Holders SDK is integrated. If the application supports both blockchains, both addresses are transmitted to the profile; otherwise, only the supported address is transmitted.\
+Subsequently, when a user logs into the same profile from a wallet containing a different address, this address is also saved and attached to the profile. The size and number of addresses associated with one profile are unlimited. It is currently impossible to unlink an address from a profile. Accounts that the user has issued from it are later linked to the wallet address.
+
+# TON Address Rating
+
+Each wallet linked to a user's profile is assigned a risk rating — an indicator of the wallet's "cleanliness" from the blockchain perspective (presence of transactions from suspicious addresses: casinos, mixers, etc.). Address verification in the TON blockchain is performed by partner [Tonguard](https://tonguard.org/). The rating ranges from 1 (worst) to 100 (completely clean).\
+The rating participates in calculating the AML risk level. It is recalculated after each incoming transaction and automatically every 3 hours, and is overwritten in case of changes.\
+If multiple addresses are linked to a profile, the final rating is determined as the lowest value among the ratings of all wallets. The final rating is displayed in the user's profile and is available on the profile page in the service.
+
+# AML Risk Level
+
+An AML risk level is calculated for each user in the system. The assessment is conducted based on data provided by the user during registration. If a user's risk level equals or exceeds the "high" threshold, the AML officer receives a notification about the need for additional verification. An operator can view a user's AML risk level on their profile page in the Backoffice.
+
+# Data Deletion
+
+Users cannot delete their data independently, however they can contact Holders support service with a corresponding request. In such cases, the support agent acts in accordance with the established data deletion algorithm. In the European Union, the timeframe for processing and deleting personal data is regulated by the [General Data Protection Regulation (GDPR)](https://gdpr-info.eu/). According to article [17 GDPR](https://gdpr-info.eu/art-17-gdpr/) (Right to erasure ('right to be forgotten')), the data subject has the right to request deletion of their data.\
+However, GDPR does not establish a fixed timeframe within which a company must delete personal data; the timeframe depends on circumstances, such as the type of data, the purpose of its storage, and contractual or legal requirements. Usually, the company is obligated to fulfill the deletion request "without undue delay," which typically corresponds to approximately 30 days.\
+The general principle is that data must be deleted as soon as its processing becomes unlawful or the processing purpose is achieved, and no retention period is provided or required for legal compliance.\
+For Holders, as a service, data deletion means that the user cannot be identified by the data remaining in the system.\
+List of data that will be deleted or remain in the system after fulfilling the request:
+
+- **Phone number** - data is deleted
+- \*\*Email \*\*- data is deleted
+- **First name, last name** - data is deleted
+- **Residential address** - data is deleted
+- **Document issue date** - data is retained
+- **Document validity period** - data is retained
+- **Telegram ID** - data is retained
+- **Wallet addresses** - data is retained
+- **Account addresses** - data is retained
+- **System operation history** - data is retained
+- **Document images** - must be deleted if stored on our side
+- **User profile in Sumsub** - deactivated (Sumsub ID is retained)
+
+# Changing data
+
+Certain data in the user profile can be modified by both the user themselves and service employees:
+
+- **Phone number** — changed exclusively by the user
+- **Email address** — changed exclusively by the user
+- **KYC data** — changes are initiated by the Sumsub system when documents expire or by service employees when issues arise
+- **AML rating** — updated automatically when new data is received
+- **Session data** — updated automatically when new data is received
+- **Wallet addresses linked to the profile** — previously added addresses cannot be changed by either the user or service employees. The user has the ability to add new addresses
+- **User's blockchain address rating** — updated automatically in the profile when new data is received from the partner
+
+## Changing Phone Number (Pages and Behavior)
+
+Users can independently change their phone number at any time directly within the Holders SDK. To do this, they need to go to the "Cards" section on the wallet's main page and then tap the "Settings" button in the right part of the bottom bar. Then, in the contact information section, the user taps on their current phone number and is taken to the replacement page. The new number will also need to be confirmed with a code, just like when creating a profile. The number of phone number changes per day is unlimited, but the number of confirmations for a new number is limited to 5.
+
+<Info>
+  Please note!\
+  Some partners impose regional restrictions on phone numbers that are acceptable for linking in the profile. If the entered number is not supported by the selected partner, the user will be redirected to a page requesting to enter a different number, and the application interface will be temporarily restricted until the number is replaced with one corresponding to the partner's region.
+</Info>
+
+The user's phone number cannot be changed remotely by a support service employee or any other department.
+
+## Changing Email Address
+
+The procedure for changing an email address is similar to the phone number change procedure described above. The service supports any domain zones in email addresses that have passed the [Postmark](https://postmarkapp.com/) anti-fraud system. The number of email address changes per day is unlimited. A user's email cannot be changed remotely by a support service employee or any other department.
+
+## Changing KYC Data
+
+Data obtained during KYC cannot be changed by the user independently. Changes are only possible by contacting support service — in this case, the data is reset and the user must undergo verification again.\
+If the document used for verification has expired, verification is automatically removed and the user will need to undergo KYC again. The service has implemented a reminder mechanism to notify users about the approaching and actual expiration of their documents.
+
+## Changing AML Rating
+
+Neither users nor support service employees can change a user's rating in the system. Currently, such a situation does not lead to automatic user blocking; instead, a corresponding AML flag is set, indicating an elevated risk level.

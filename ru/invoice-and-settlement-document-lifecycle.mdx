@@ -1,1 +1,11 @@
-Not logged in · Please run /login
+---
+title: "Invoice & Settlement Document Lifecycle"
+---
+
+The platform manages two parallel document streams:
+
+| Stream | Document | Relationship |
+| :-- | :-- | :-- |
+| **Platform fees** | Invoice (`invoices` table) | Platform → <br />Instance operator |
+| **Distribution** | Settlement Statement (`merchant_settlements`) | Instance (Issuer) → <br />Merchant |
+| **Distribution** | Rebate Notice (`merchant_rebates`) | Instance (Issuer) → <br />Merchant |

@@ -1,1 +1,13 @@
-Not logged in · Please run /login
+---
+title: "Per-Merchant Collection Limits"
+---
+
+Enforced in `api/fees.ts → checkMerchantLimits()`:
+
+| Limit | Default | Enforcement |
+| :-- | :-- | :-- |
+| Per operation | 10 USDC | In-memory check |
+| Daily | 500 USDC | `SUM` query on `fee_ledger WHERE created_at >= today` |
+| Monthly | 10,000 USDC | `SUM` query on `fee_ledger WHERE created_at >= month_start` |
+
+Exceeding a limit is non-blocking — the cheque works, the fee entry stays `pending` for manual review.

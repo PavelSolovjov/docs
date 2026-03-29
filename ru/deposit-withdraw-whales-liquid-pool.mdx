@@ -1,1 +1,134 @@
-Not logged in · Please run /login
+---
+title: "Deposit/withdraw Whales liquid pool"
+---
+
+# Deposit (sending funds to staking)
+
+Deposit to the liquid pool is carried out in two ways:
+
+- **Buying tokens on DEX.** Users can purchase wsTON on a decentralized exchange by following [this link](https://app.dedust.io/swap/TON/wsTON) and making a swap in the TON/wsTON trading pair. This method is the simplest, however when exchanging significant amounts of TON, the rate will be less favorable compared to direct staking. For example, when exchanging 1,000 TON through DEX, a user will receive 917.04 wsTON, while when sending to staking — 926.4 wsTON.
+- Sending TON to staking through the Tonhub interface or [tonwhales.com](http://tonwhales.com) website. This method is more profitable than the first one and we will examine it in more detail.
+
+## Deposit through [tonwhales.com](http://tonwhales.com) website
+
+1. Go to https://tonwhales.com/staking/liquid and click the "Stake" button.
+2. In the opened dialog box, perform the following actions:
+
+- Specify the amount in TON that needs to be sent to staking.
+
+<img
+  src="/images/Screenshot2025-12-29at15.28.42.png"
+  alt="Screenshot2025 12 29at15 28 42"
+  title="Screenshot2025 12 29at15 28 42"
+  className="mx-auto"
+  style={{ width:"31%" }}
+/>
+
+- Connect your Tonhub wallet by scanning the QR code (connection is made through the [Tonconnect](https://github.com/ton-connect) protocol), or select the "Stake via any wallet" option to manually send funds to staking.
+  - When connecting your wallet, confirm the transaction in the app. wsTON tokens will appear in your balance within a few minutes.
+  - When selecting the "Stake via any wallet" option, review the warning and click "Got It". Scan the QR code with your wallet or copy the recipient address.
+- Send the required amount of TON to the specified address with the mandatory comment "Deposit". wsTON tokens will appear in your balance within a few minutes.
+  - [EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON](https://tonviewer.com/EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON)
+
+<img
+  src="/images/Screenshot2025-12-29at15.28.54.png"
+  alt="Screenshot2025 12 29at15 28 54"
+  title="Screenshot2025 12 29at15 28 54"
+  className="mx-auto"
+  style={{ width:"33%" }}
+/>
+
+<Info>
+  **Attention:** sending funds to staking is allowed exclusively from a non-custodial wallet (for which the user has a seed phrase). When sending funds to staking from an exchange or custodial wallet, the contract will not be able to return them and the funds will be irretrievably lost.
+</Info>
+
+## Deposit through Tonnub interface
+
+1. Go to the staking section by clicking on the banner on the main screen.
+2. Select the Whales Liquid pool and click Top Up.
+
+<img
+  src="/images/2025-12-2914.58.01.jpg"
+  alt="2025 12 2914 58 01"
+  title="2025 12 2914 58 01"
+  className="mx-auto"
+  style={{ width:"31%" }}
+/>
+
+3. Specify the amount to send to staking. In addition to the specified amount, a fee of 0.2 TON will be charged, part of which is returned after the operation is completed. The minimum amount to send is 1 TON.
+
+<img
+  src="/images/2025-12-2914.57.57.jpg"
+  alt="2025 12 2914 57 57"
+  title="2025 12 2914 57 57"
+  className="mx-auto"
+  style={{ width:"31%" }}
+/>
+
+<img
+  src="/images/2025-12-2914.57.55.jpg"
+  alt="2025 12 2914 57 55"
+  title="2025 12 2914 57 55"
+  className="mx-auto"
+  style={{ width:"33%" }}
+/>
+
+4. Confirm the operation.
+5. wsTON tokens will be credited to your balance within a few minutes.
+
+<img
+  src="/images/2025-12-2914.57.52.jpg"
+  alt="2025 12 2914 57 52"
+  title="2025 12 2914 57 52"
+  className="mx-auto"
+  style={{ width:"33%" }}
+/>
+
+# Withdrawing funds from liquid staking
+
+Withdrawing funds from the liquid pool is carried out in two ways:
+
+- **Selling tokens on DEX.** Users can sell wsTON on a decentralized exchange by following [this link](https://app.dedust.io/swap/TON/wsTON) and making a swap in the TON/wsTON trading pair. This method is the simplest, however when exchanging significant amounts of TON, the rate will be less favorable compared to withdrawing from staking. For example, when exchanging 1,000 wsTON through DEX, a user will receive 1,065.8 TON, whereas when withdrawing from staking — 1,079 TON.
+- Withdrawing TON from staking through the Tonhub interface or [tonwhales.com](http://tonwhales.com) website. This method is more profitable than the first and we will examine it in more detail.
+
+## Withdrawing funds through the [tonwhales.com](http://tonwhales.com) website interface
+
+1. Go to the page https://tonwhales.com/staking/liquid and click the "Withdraw" button.
+2. Select the withdrawal method:
+
+<img
+  src="/images/Screenshot2025-12-29at15.42.22.png"
+  alt="Screenshot2025 12 29at15 42 22"
+  title="Screenshot2025 12 29at15 42 22"
+  className="mx-auto"
+  style={{ width:"34%" }}
+/>
+
+- Connect your Tonhub wallet by scanning the QR code (connection is made through the [Tonconnect](https://github.com/ton-connect) protocol). Confirm the transaction that appears. After the cycle completes, repeat the withdrawal request — TON will arrive in your balance within a few minutes.
+- Click "Manual withdraw" to perform a manual withdrawal.
+  - Send a transaction to the pool address with the comment "Withdraw". You will need to pay a 0.2 TON fee to submit the request. After the cycle completes, send another transaction to the pool address with the comment "Collect". You will also need to pay a 0.2 TON fee to submit this request. TON will arrive in your balance within a few minutes.
+  - [EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON](https://tonviewer.com/EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON)
+
+<img
+  src="/images/Screenshot2025-12-29at16.45.43.png"
+  alt="Screenshot2025 12 29at16 45 43"
+  title="Screenshot2025 12 29at16 45 43"
+  className="mx-auto"
+  style={{ width:"35%" }}
+/>
+
+## Withdrawing funds through the Tonhub interface
+
+1. Go to the staking section by clicking on the banner on the main screen.
+2. Select the Whales Liquid pool and click Withdraw.
+3. Specify the amount to withdraw from staking. To submit the request, you will need to pay a fee of 0.2 TON.
+
+<img
+  src="/images/2025-12-2914.57.55-1.jpg"
+  alt="2025 12 2914 57 55 1"
+  title="2025 12 2914 57 55 1"
+  className="mx-auto"
+  style={{ width:"33%" }}
+/>
+
+4. Upon completion of the cycle, funds ready for withdrawal will be displayed on the pool page. You need to press the withdrawal button again. To submit the second request, you will need to pay a commission of 0.2 TON. The funds will arrive at the specified address within a few minutes.

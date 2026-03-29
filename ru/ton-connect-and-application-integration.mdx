@@ -1,1 +1,71 @@
-Not logged in · Please run /login
+---
+title: "TON/SOL connect"
+---
+
+# Which Connection Protocols Are Used
+
+In [Tonhub](https://tonhub.com/) wallet connects to web applications and dApps using the [**TON Connect**](https://docs.ton.org/develop/dapps/ton-connect/overview) protocol for the [TON](https://ton.org/) network. For [Solana](https://solana.com/) there is no separate "Solana Connect" protocol — Solana transaction signing in the same applications works through additional methods that are added to the same TON Connect session. Below explains how this works.
+
+# TON Connect
+
+[TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview) is a protocol for connecting wallets with applications (dApps) in the TON network. It allows:
+
+- Connect to an application: the application requests permission to connect, the user confirms this in the wallet; in response, the application receives the TON wallet address and, if necessary, proof of ownership.
+- Send transactions: the application creates a transaction, the wallet shows it to the user and signs it after confirmation.
+- Sign data (signData): signing any messages for authorization or verification without sending funds.
+- Disconnect: terminate the session with the application.
+
+In [Tonhub](https://tonhub.com/) the application (dApp) opens in the built-in [WebView](https://developer.android.com/reference/android/webkit/WebView) browser. A special bridge object is embedded into the web page: the application calls methods of this object, Tonhub processes these calls (shows confirmation screens, signs transactions) and sends the result back to WebView. This is how both TON Connect connection and Solana transaction signing requests work within one session.
+
+# Integration with Holders
+
+[**Holders**](https://holders.tg/) is one of the main examples of TON Connect usage in Tonhub. Integration with Holders is built on this technology. Holders opens as a Connect App (application working through a common bridge in WebView). On first entry, the user goes through the connection procedure (enroll): the TON Connect configuration file is loaded from the Holders server (`/jsons/tonconnect-manifest.json`), the user confirms the connection in the wallet, after which the session and, if necessary, the token from Holders are saved.\
+For TON, Holders uses standard [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview): in response to a connection request, the wallet transmits the TON address and, if necessary, proof; then Holders can request signing of TON transactions and data through the same bridge methods (`sendTransaction`, `signData`).
+
+## How the Solana Connector Works
+
+For [Solana](https://solana.com/) in the TON ecosystem, there is no separate "Solana Connect" protocol. In Tonhub this is solved as follows:
+
+- When connecting to Holders, the response includes not only TON information (address and proof), but also Solana proof — this way Holders gets access to your Solana address (it is generated from the same wallet).
+- To get the user token, the Holders server receives a request that transmits authorization data for both TON and Solana (TonSolanaAuthRequest). That is, "connecting" Solana to Holders is not a separate protocol, but an extension of one TON Connect session with Solana data on first connection.
+- When Holders needs to sign a transaction on the Solana network, the application calls not TON Connect, but special bridge methods: `sendSolanaTransaction` or `sendSolanaVersionedTransaction`. Tonhub shows the Solana transfer confirmation screen, the user signs, and the signature is returned to Holders.
+
+# Permissions and Session Management
+
+## Multiple Applications Simultaneously
+
+You can be connected simultaneously to multiple applications (Connect App). The list of connected applications is saved separately for each wallet address; each application has its own session (embedded or remote). There are no restrictions on the number of active connections.
+
+## List of Active Connections and Access Revocation
+
+The list of connected Connect Apps (applications you connected to via [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview)) can be viewed in the applications/browser section in Tonhub (screen with extensions and connected applications). "Remote" sessions are also displayed there (if you connected via QR code from an external browser).
+
+## How to Terminate a Session
+
+For each application in the list, the **"Revoke Access"** action is available. After confirmation, the application is removed from the connected list, the session is terminated, and on the next login the application will need to request connection again. For remote sessions, revocation is also sent to the Tonhub server (`/connect/revoke`) so that the session is recognized as invalid on the other side as well.
+
+## Tonhub Deletion and Device Change
+
+Information about connected applications and sessions is stored locally on the device (in application memory). When [Tonhub](https://tonhub.com/) is deleted, this data is deleted. All sessions with your wallet from the dApp side stop working on the next request (the wallet no longer responds). Reinstalling Tonhub and restoring the wallet via seed phrase does not restore old connections — you need to connect to each dApp again.\
+Transferring the wallet to a new device (import via seed phrase) does not transfer the list of connected applications and sessions — they remain tied to the old device. On the new device, the connection list is empty; all dApps need to be connected again.
+
+# Limitations and Supported Scenarios
+
+**Gasless (fee payment in token):** the gasless sending function in [Tonhub](https://tonhub.com/) works primarily for transfers within the application itself. When requesting a transaction from an external dApp via [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview), the ability to pay fees in tokens (gasless) may be unavailable or limited — for example, depending on the asset type and usage scenario. Running a full gasless scenario through any external dApp via TON Connect will not work; this function works best for transfers from the Tonhub application itself.
+
+# Versioning and Compatibility
+
+### TON Connect Version in Tonhub
+
+[Tonhub](https://tonhub.com/) supports [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview) protocol version 2 (`CURRENT_PROTOCOL_VERSION = 2`). Older versions are not supported (`MIN_PROTOCOL_VERSION = 2`). When connecting, the wallet reports the maximum supported protocol version to the application.
+
+### What dApp Developers Should Consider
+
+- **Methods:** SendTransaction methods are supported (sending one or multiple TON transactions; for wallet v5 — up to 255 messages in one transaction, `extraCurrencySupported: true`) and SignData (types: text, binary, cell). Other methods must comply with the [TON Connect v2 specification](https://docs.ton.org/develop/dapps/ton-connect/protocol/requests-responses).
+- **Manifest:** the application must provide a configuration file (manifest) at the URL specified in the connection request (`manifestUrl`). Required fields: **name**, **url**, **iconUrl**; optional: **termsOfUseUrl** and **privacyPolicyUrl**. If the manifest is missing or incorrect, the connection will be rejected.
+- **Connection request:** the request must specify `manifestUrl` and a non-empty `items` list (requested data, for example `ton_addr`, `ton_proof`). Otherwise, the request is considered incorrect.
+- **Additional fields:** the application can request optional elements (for example, proof); the wallet will return only what it supports and what the user allowed. For integrations like [Holders](https://holders.tg/), an extended set is supported (including `solana_proof`), but this is not part of standard TON Connect, but a Tonhub/Holders addition.
+
+# Security
+
+All operations when connecting to dApp and when signing transactions or data never transmit the private key and seed phrase to the application. The application receives only what the wallet specifically sends in response to a request (address, proof, transaction signature, etc.). Signing is performed locally in [Tonhub](https://tonhub.com/): dApp requests a signature through the bridge, the user confirms the operation in the wallet interface, after which the signed data is returned to the application. Private keys are stored in the device's secure storage ([Keychain](https://developer.apple.com/documentation/security/keychain_services)/[Keystore](https://developer.android.com/training/articles/keystore)) and never leave the application. For more details, see the general documentation section **"Security"** (key storage, PIN/biometrics, backup).

@@ -1,1 +1,109 @@
-Not logged in · Please run /login
+---
+title: "Accounts & smart-contracts overview2"
+description: "This document explains what “account” and “smart contract” mean in Holders, how they differ and relate, why accounts are non‑custodial and how this is defined legally, what contract types and fees (gas) exist in TON and Solana, and how their states and lifecycles are tracked."
+---
+
+# What is called an account and smart contract
+
+**Smart contract** — is a program in the blockchain that automatically executes programmed conditions (including token transfers) without intermediaries. Its code and state are stored in the blockchain; transactions are executed when specified conditions are met, and changes to the contract's behavior can only be made by authorized parties (owners) within the embedded logic. In Holders, a contract is created individually for each user and belongs only to them.\
+**Account in the Holders system (account)** — is a software wrapper over a smart contract that transforms the contract itself into a user-friendly "banking" account. Simply put: one smart contract + Holders wrapper = user account. The account has the following characteristics:
+
+- **Account name** - by default, the system assigns accounts a name in the format "Spending account X", where X denotes the sequential number of the account in the user's profile. The account owner can change the name at any time at their discretion.
+- **Account states** - reflects the current state of the account in the system. The account status in the user interface may differ from the actual state of the smart contract in the blockchain.
+- **Virtual account balance** - represents the balance displayed in the user interface, which may temporarily differ from the real smart contract balance. Such discrepancy occurs when some transactions are awaiting processing within the rollup procedure. It is the virtual account balance that is displayed on the account screen in the application.
+- **Bank cards** - one or more bank cards can be linked to the account, which are used for conducting operations.
+
+# Non-custodial nature
+
+**Non-custodial** — a model in which the service does not store private keys and does not control user funds; the user manages them independently and can withdraw funds from their smart contract at any time.\
+The main competitive advantage of Holders is the non-custodial nature of accounts, ensured by smart contracts. Only the contract owner (user) has the ability to withdraw funds from the contract through their cryptocurrency wallet, to which only they have access.\
+Holders does not store users' private keys and has no direct control over client funds. The service can only perform operations within the permitted payment logic and exclusively to the address of Treasure wallets of the company. Withdrawal of funds to third-party wallets from the user contract is technically impossible, and all transactions to Treasure wallets are completely transparent and [tracked in the blockchain by contract address](https://tonviewer.com/).\
+The partner bank does not have access to the client account and has no authority to block or freeze funds.\
+The presence of an individual smart contract makes Holders a non-custodial service, which maximally increases the security and transparency of operations, as well as reduces operational and regulatory risks.
+
+> **Holders - a service that allows users to truly own their money.**
+
+# Legal framework for the solution
+
+A smart contract is a technology/execution mechanism, while user relationships are governed by an agreement (Terms of use). The code is not "legal by itself" - it operates within the framework of an agreement signed each time before creating an account in the service by the user. The version of the document signed by the user is recorded and stored in the database with the ability to update during the next terms update.\
+Legal definitions:
+
+- Smart contract — a technical tool for accounting and debiting in crypto.
+- Card account — located with the Partner who processes card payments.
+- Wallet — the user's blockchain address from which contract creation was initiated.
+- User account — cabinet in the service.
+
+**Main points:**
+
+1. The smart contract is created and linked to the Card account, but is managed by the service under contractual mandate. Ownership rights to the "code/contract" are not assigned to the user, but the user fully owns the crypto assets on it, while the service has the right to manage them for service execution.
+2. The user account created by the user on the platform is controlled and administered by Holders; in case of violations, it may be restricted/closed. All funds are then withdrawn to the user's wallet linked to it.
+3. The card account belongs to and is maintained by the Partner (card issuer/servicing organization). Holders does not open/service bank accounts, but has the contractual right to initiate debits/credits within the scope of services.
+
+# Types of Contracts in Holders
+
+**There are two types of contracts in Holders:**
+
+1. Supported currency contracts - for each blockchain and each cryptocurrency in Holders, a separate smart contract is deployed. Currently, three main contracts are functioning:
+   1. [**TON**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract for the [TON blockchain](https://ton.org/).
+   2. [**USDT**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract for the [USDT](https://tether.to/en/) token ([based on TON](https://ton.org/)) — available only for existing users (new openings unavailable).
+   3. [**USDC**](/holders/product-review/accounts/solana-smart-contracts) — smart contract for USDC token in the [Solana](https://solana.com/) blockchain.
+   4. [**USDY**](/holders/product-review/accounts/solana-smart-contracts) — smart contract for USDY token in the [Solana](https://solana.com/) blockchain.
+1. Contracts for implementing additional system capabilities:
+   1. [**Trust contract**](/holders/product-review/accounts/trust-smart-contract) - a contract that allows a user to create an account that can be shared with another user. The amount declared by the owner will be transferred to this account in stages at specified time intervals. It will later be used for trust management of assets.
+
+# Fees (Gas)
+
+When creating an account, space is allocated in the blockchain and a smart contract is created, linked to the user's wallet. Space allocation in the blockchain is the main action that consumes gas in the blockchain.
+
+## Solana
+
+### Contract Creation and Maintenance
+
+In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - a one-time payment for 2 years that permanently secures space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL per 10 KB. When closing an account, you can request a refund of the cost since allocation is no longer needed.\
+Approximate cost of creating such a contract — **approximately 0.015 SOL (2 USD at Sol/USDT rate \$139)**.
+
+### Gas for Top-up
+
+To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected — an additional fee that increases the chance of confirmation during high load. This allows for faster transactions. The user pays gas only when topping up the contract; all other payments are covered by the service. Gas for account top-up in Solana is fixed - **0.000005 SOL (0.00069 USD at Sol/USDT rate \$139).**
+
+## TON
+
+### Contract Creation and Maintenance
+
+In TON, space allocation (creating a new account) is done permanently, similar to RentExemption in Solana. When sending a transaction, the transfer amount and gas amount that the wallet is ready to spend are specified. If the actual gas cost is less than allocated, the remainder is returned.\
+Contract creation cost — **about 0.15–0.2 TON (0.27 USD at TON/USDT rate \$1.8)**.
+
+### Gas for Top-up
+
+Gas for account top-up in TON — **about 0.01 TON (0.018 USD at TON/USDT rate \$1.8)**.
+
+### Gas for Contract Storage
+
+In the TON network, a smart contract pays for [storage of occupied space](https://docs.ton.org/foundations/fees) - including code, data, and balance (account representation). When the TON balance drops below the established threshold, the account may be frozen or deleted. Storage cost is approximately 0.01 nanoTON per byte per day (the value cannot be fractional, but the cost is approximate). This fee is deducted from the gas amount with each transaction to maintain the contract in working condition.
+
+In practice, freezing or deleting a contract requires [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) interaction with the contract, which occurs extremely rarely in real conditions. Consequently, even when the balance for storage payment is completely exhausted, the contract will only be frozen in case of active interaction with it from network participants (for example, when funds are received on the contract balance). In the absence of such interaction, the contract continues to function with a zero balance. When funds are received, the storage fee is deducted immediately.
+
+# State monitoring
+
+The Backoffice operator monitors the state and balances of user accounts. The operator interface on the user page displays all client accounts and the current state of each contract.\
+To track possible failures, an automatic metric has been implemented that shows the number of contracts that have transitioned to an automatic freeze state. The metric is available to the testing operator in the general monitoring service.
+
+# Block diagram of contract and account lifecycles
+
+![Accountlifecycle(1)](/images/Accountlifecycle\(1\).jpeg)
+
+## Account Lifecycle
+
+1. **PENDING_CONTRACT -** initial state after contract deployment. Transition to **ACTIVE** state occurs after fulfilling certain contract conditions.
+2. **ACTIVE -** main working state of the account. Transitions to **CLOSING** when closure is initiated.
+3. **CLOSING -** in the process of closing. Can transition to **CLOSED** if closure completes successfully, or to **SUSPENDED** if closure fails.
+4. **CLOSED -** final state when the account is successfully closed.
+5. **SUSPENDED -** transition here occurs if closure was unsuccessful and the account is suspended.
+
+## Contract Lifecycle
+
+1. **ACTIVE -** contract is functioning and actively processing operations.
+2. **CLOSING -** transitions to this state when receiving a closure request.
+3. **CLOSED -** contract is closed and has completed its activity.
+4. **INVALID -** transitions to this state if it receives an invalid state from another party.
+5. **FAILING -** contract transitions here if processing fails or conditions are not met.

@@ -1,1 +1,82 @@
-Not logged in · Please run /login
+---
+title: "Data Model Requirements for Distribution"
+---
+
+New fields needed on `merchants` table:
+
+```text
+-- Planned: migration 042-merchant-distribution-fields.sql
+ALTER TABLE merchants ADD COLUMN merchant_type TEXT DEFAULT 'standard'
+  CHECK (merchant_type IN ('standard', 'agent', 'reseller'));
+ALTER TABLE merchants ADD COLUMN agent_commission_pct NUMERIC(5,3) DEFAULT 0;
+ALTER TABLE merchants ADD COLUMN settlement_currency TEXT DEFAULT 'USD';
+ALTER TABLE merchants ADD COLUMN settlement_period_days INT DEFAULT 30;
+ALTER TABLE merchants ADD COLUMN country TEXT;           -- ISO 3166-1 alpha-2
+ALTER TABLE merchants ADD COLUMN vat_id TEXT;           -- optional, for merchant's own records
+```
+
+New fields needed on `fee_tiers` table (or a separate `distribution_tiers` table):
+
+```text
+-- Planned: migration 043-distribution-tiers.sql
+ALTER TABLE fee_tiers ADD COLUMN rebate_pct NUMERIC(5,3) DEFAULT 0;
+ALTER TABLE fee_tiers ADD COLUMN rebate_volume_tiers JSONB DEFAULT '[]';
+  -- e.g. [{"threshold_usdc": 10000, "rebate_pct": 1.5}, {"threshold_usdc": 50000, "rebate_pct": 2.0}]
+ALTER TABLE fee_tiers ADD COLUMN rebate_settlement_delay_days INT DEFAULT 7;
+```
+
+New table — `merchant_settlements`:
+
+```text
+-- Planned: migration 044-merchant-settlements.sql
+CREATE TABLE merchant_settlements (
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id           UUID NOT NULL REFERENCES instances(id),
+  merchant_id           UUID NOT NULL REFERENCES merchants(id),
+  settlement_number     TEXT NOT NULL,           -- e.g. STL-2026-03-ACME-001
+  period_start          DATE NOT NULL,
+  period_end            DATE NOT NULL,
+  cheques_activated     INT NOT NULL DEFAULT 0,
+  cheques_returned      INT NOT NULL DEFAULT 0,
+  face_value_usdc       NUMERIC(18,6) NOT NULL,  -- total face value of activated cheques
+  settlement_currency   TEXT NOT NULL DEFAULT 'USD',
+  fx_rate               NUMERIC(12,6) NOT NULL DEFAULT 1.0,  -- USDC/settlement_currency
+  fx_rate_source        TEXT DEFAULT 'manual',   -- 'manual', 'ecb', 'coinbase'
+  amount_due            NUMERIC(18,6) NOT NULL,  -- face_value_usdc × fx_rate
+  status                TEXT NOT NULL DEFAULT 'draft'
+                          CHECK (status IN ('draft','issued','paid','overdue','void')),
+  issued_at             TIMESTAMPTZ,
+  due_at                TIMESTAMPTZ,
+  paid_at               TIMESTAMPTZ,
+  payment_ref           TEXT,                    -- wire ref, Solana tx sig, etc.
+  notes                 TEXT,
+  created_at            TIMESTAMPTZ DEFAULT NOW(),
+  updated_at            TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX settlements_merchant_period
+  ON merchant_settlements(merchant_id, period_start, period_end);
+```
+
+New table — `merchant_rebates`:
+
+```text
+-- Planned: migration 044-merchant-settlements.sql (same migration)
+CREATE TABLE merchant_rebates (
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id           UUID NOT NULL REFERENCES instances(id),
+  merchant_id           UUID NOT NULL REFERENCES merchants(id),
+  settlement_id         UUID NOT NULL REFERENCES merchant_settlements(id),
+  rebate_number         TEXT NOT NULL,           -- e.g. RBT-2026-03-ACME-001
+  settled_volume_usdc   NUMERIC(18,6) NOT NULL,
+  rebate_pct_applied    NUMERIC(5,3) NOT NULL,
+  rebate_amount_usdc    NUMERIC(18,6) NOT NULL,
+  tier_used             JSONB,                   -- snapshot of which tier triggered
+  status                TEXT NOT NULL DEFAULT 'pending'
+                          CHECK (status IN ('pending','paid','void')),
+  scheduled_at          TIMESTAMPTZ,             -- settlement.paid_at + delay_days
+  paid_at               TIMESTAMPTZ,
+  tx_hash               TEXT,                    -- Solana tx if paid on-chain
+  created_at            TIMESTAMPTZ DEFAULT NOW()
+);
+```

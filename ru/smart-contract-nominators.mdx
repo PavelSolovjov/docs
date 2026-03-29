@@ -1,1 +1,283 @@
-Not logged in · Please run /login
+---
+title: "Smart-contract nominators"
+---
+
+# General Description
+
+**Link:** https://github.com/tonwhales/ton-nominators\\ 
+
+**License:**[GNU v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+**Language:**[FunC](https://docs.ton.org/languages/func/overview)
+
+A decentralized smart contract launched by the Ton Whales team on March 14, 2021, which stores all staking records and allows nominators to pool together to send funds for staking as a single block.
+
+# Architecture
+
+The contract consists of two main parts
+
+- Proxy contract - serves to relay signals from the shard chain to the elector. It is needed to save storage costs. This contract is located in the masterchain and allows not storing the main contract in it (thus saving funds).
+- Main contract - allows users and the staker to interact (see below). Located in a cheaper shard chain. Each user command is processed by the staker and after verification can be converted into a command for the main contract.
+
+<Info>
+  Masterchain is the main part of the TON blockchain, which ensures coordination and management of all other chains (shardchains). It houses the most important contracts, but transaction costs in it are also the highest.\
+  Shardchain is a subchain that allows for parallel transaction processing. Shardchains divide the network load, improving its scalability.\
+  Elector is a specialized smart contract or mechanism used to manage the validator selection process in the network.\
+  Validator is a network node (a remote high-powered computer) that is responsible for verifying and confirming transactions.
+</Info>
+
+# What is the Staker for
+
+The Staker is a contract that implements staking logic and manages the main contract. It processes "occurring events", understands when to send funds to the elector and when to withdraw them (the analogy of a staker in computer terminology is a driver).\
+The Staker by itself can only send control signals. It cannot compromise anything, as all its commands are re-verified by the main contract before execution.
+
+<Info>
+  Staker is not part of the Ton nominators contract and is not an open source solution
+</Info>
+
+# Staking Entities
+
+1. Elector — a special system smart contract that conducts validator elections, accepts stakes from nodes/validators, determines candidates with the highest stake for inclusion in the next cycle, and manages stake storage and distribution, reward payments, and stake returns.
+2. Owner — an arbitrary wallet or DAO that can make critical changes to the contract: change fees, start/stop the pool, and even update the code. The owner also receives all profit from fees.
+3. Controller — an arbitrary wallet or DAO that sends staking commands for validation and/or voting. The controller pays for these operations and can withdraw "unowned" balances to restore its balance and continue operating. It's recommended to keep around ~1000 TON for uninterrupted operation.
+4. Proxy (proxy contract) — the only contract located in the masterchain that represents the validation pool there. It performs simple proxying between the pool and Elector.
+5. Ton nominators (pool) — the main contract that stores all records of all stakes and directly performs staking.
+
+# Contract Roles
+
+- `owner` — pool owner:
+  - performs deployment, updates, and pool configuration;
+  - participates in staking on equal terms with regular users and receives **pool commission**;
+  - manages assignment of `controller` and `owner` roles;
+  - has the right to withdraw unowned tokens.
+- **Controller (management contract)** — executive component of the system:
+  - directs applications to Elector for stake, recover, and finalize operations;
+  - processes deposits and withdrawals in batch mode through `accept_stakes` and `accept_withdraws` functions;
+  - has the right to forcibly exclude participants through `force_kick`;
+  - can initiate `withdraw_unowned` in unsafe mode to withdraw excess balance.
+- **Nominators (regular participants)** — external wallets of the base workchain:
+  - deposit funds into staking;
+  - withdraw staked funds;
+  - initiate `recover` procedure to return stake from Elector upon completion of validation cycle;
+  - make voluntary donations to the pool through donate function.
+
+# Stake Lifecycle
+
+## Deposit
+
+**Operation initiators:**
+
+- pool owner (through `op_owner`)
+- any nominator (through `op_nominators`)
+
+**Execution methods:**\
+_Text method_ — sending a message with body `"Deposit"` (recognized by `parse_text_command` function)\
+_Binary method_ — sending a message containing:
+
+- `op = op::stake_deposit()`
+- `query_id` (value greater than 0)
+- `gas_limit`
+- sufficient amount of TON in `value` field
+
+**Processing algorithm:**\
+In both cases, the `op_deposit(member, value)` function is called, which performs the following actions:
+
+1. Checks pool activity (`enabled`)
+2. Calculates stake size: `stake = value - (receipt_price + deposit_fee)`
+3. Verifies compliance with minimum stake size (`stake >= min_stake`)
+4. Loads participant data (`load_member(member)`)
+5. Executes `member_stake_deposit(stake)`:
+   1. recalculates participant profit (`member_update_balance`)
+   2. resets pending withdrawal
+   3. increases `ctx_member_pending_deposit` and `ctx_balance_pending_deposits`
+1. Sends confirmation:
+   1. when `ctx_query_id == 0` (text command): text message "Stake \<amount\> accepted"
+   2. in other cases: standard message with `op::stake_deposit::response()` and `query_id`
+2. Saves updated participant data and base state
+
+<Info>
+  **Important note:** the deposit at this stage is in pending status (`pending_deposit`) and is not included in the pool's total balance until confirmed.
+</Info>
+
+## Deposit Acceptance
+
+**Operation initiator:**
+
+- pool controller (via `op_controller`)
+
+**Execution methods:**\
+_Binary method_ — sending a message containing:
+
+- `op = op::accept_stakes()`
+- `dict members` (dictionary of participants, where key is participant ID, value is not important)
+- sufficient amount of TON in the `value` field
+
+**Processing algorithm:**\
+The `op_controller_accept_stakes()` function is called, which performs the following actions:
+
+1. Checks fund sufficiency (`value >= params::pending_op()`)
+2. Checks that the pool is not locked (`!ctx_locked`)
+3. For each participant in the `members` dictionary:
+   1. Loads participant data (`load_member(member)`)
+   2. Executes `member_accept_stake()`:
+      1. checks for pending deposit (`ctx_member_pending_deposit > 0`)
+      2. checks that the pool is not locked (`!ctx_locked`)
+      3. updates participant's profit (`member_update_balance()`)
+      4. transfers `ctx_member_pending_deposit` to `ctx_member_balance`
+      5. increases total pool balance (`ctx_balance`)
+   1. Saves participant data (`store_member()`)
+1. Saves pool base state (`store_base_data()`)
+
+<Info>
+  **Important note:** from this point forward, the deposit is officially recorded in the pool's general stake and participates in validation.
+</Info>
+
+## Withdrawal Request
+
+**Operation initiators:**
+
+- pool owner (via `op_owner`)
+- any nominator (via `op_nominators`)
+
+**Execution methods:**\
+_Text method_ — sending a message with body `"Withdraw"` or `"Withdraw all"`\
+_Binary method_ — sending a message containing:
+
+- `op = op::stake_withdraw()`
+- `query_id` (value greater than 0)
+- `stake` (amount to withdraw, 0 means "withdraw all")
+- sufficient TON amount in `value` field to cover fees
+
+**Processing algorithm:**\
+In both cases, the `op_withdraw(member, value, stake)` function is called, which performs the following actions:
+
+1. Validates fee correctness: `value == receipt_price + withdraw_fee`
+2. Loads member data (`load_member(member)`)
+3. Executes `member_stake_withdraw(stake)`:
+   1. When `stake == 0`, sets full withdrawal flag (`withdraw_all = true`)
+   2. Calculates total amount to withdraw from all sources
+   3. Attempts to withdraw funds in the following order:
+      1. from pending deposits (`ctx_member_pending_deposit`)
+      2. from previously requested withdrawals (`ctx_member_withdraw`)
+      3. from active stake (`ctx_member_balance`), if pool is not locked
+   1. Places remainder in withdrawal queue (`ctx_member_pending_withdraw`)
+   2. Returns immediate withdrawal amount and operation completion status
+1. Determines recipient address:
+   1. for owner — `ctx_owner`
+   2. for nominator — `serialize_work_addr(member)`
+2. Sends confirmation:
+   1. when `ctx_query_id == 0` (text command): text message with amount and status
+      1. "Withdraw completed" — for full withdrawal
+      2. "Withdraw requested..." — for partial withdrawal
+   1. in other cases: standard message with `op::stake_withdraw::response()` or `op::stake_withdraw::delayed()`
+3. Saves updated member data and base state
+
+<Info>
+  **Important note:** funds placed in the withdrawal queue (`pending_withdraw`) will be withdrawn after the pool is unlocked by the controller.
+</Info>
+
+## Accepting Withdrawals
+
+**Operation initiator:**
+
+- pool controller (via `op_controller`)
+
+**Execution methods:**\
+_Binary method_ — sending a message containing:
+
+- `op = op::accept_withdraws()`
+- `dict members` (dictionary of participants, where key is participant ID, value is not important)
+- sufficient amount of TON in the `value` field
+
+**Processing algorithm:**\
+The `op_controller_accept_withdraws()` function is called, which performs the following actions:
+
+1. Checks fund sufficiency (`value >= params::pending_op()`)
+2. Checks that the pool is not locked (`!ctx_locked`)
+3. For each participant in the `members` dictionary:
+   1. Loads participant data (`load_member(member)`)
+   2. Executes `member_accept_withdraw()`:
+      1. checks for pending withdrawal (`ctx_member_pending_withdraw > 0`)
+      2. checks that the pool is not locked (`!ctx_locked`)
+      3. updates participant's profit (`member_update_balance()`)
+      4. takes `amount = ctx_member_pending_withdraw` and transfers it:
+         1. decreases `ctx_member_balance` by `amount`
+         2. increases `ctx_member_withdraw` by `amount`
+      1. at pool level:
+         1. decreases `ctx_balance` by `amount`
+         2. increases `ctx_balance_withdraw` by `amount`
+         3. decreases `ctx_balance_pending_withdraw` by `amount`
+      2. resets `ctx_member_pending_withdraw` and `ctx_member_pending_withdraw_all` flag
+   1. Saves participant data (`store_member()`)
+1. Saves pool base state (`store_base_data()`)
+
+<Info>
+  **Important note:** after accepting a withdrawal, the funds transition to a ready-to-receive status (`ctx_member_withdraw`). External code (script/controller/owner) can send the accumulated amount to the user via regular transfer, since the contract does not initiate transfers itself but only maintains records.
+</Info>
+
+# Gas
+
+**Nominators and owner:**
+
+- Pay gas fees for deposit and withdrawal operations
+- Cover the cost of receipts according to the receipt_price parameter
+
+**Controller:**
+
+- When executing staking, adds fees::stake_fees() commission on top of the base amount
+- Uses pool balance exclusively for stake formation
+
+**Elector:**
+
+- When returning stake, covers gas expenses for processing the response message from the returned amount (value)
+
+**Pool contract:**
+
+- Maintains a minimum reserve of 1 TON to ensure data storage
+
+The gas cost for a user to send a stake is 0.2 TON, with unused remainder returned to the user's wallet balance after sending.\
+The withdrawal cost for a user is 0.2 TON, with unused remainder returned to the user's wallet balance after sending. If two transactions are required to complete the withdrawal, the costs will double.\
+The cost of sending the total stake to the elector is 6 TON, with unused remainder returned to the controller's balance after sending.
+
+# Audits
+
+## Quantstamp
+
+| Audit type | Architecture review           |
+| :--------- | :---------------------------- |
+| Language   | FunC, TypeScript              |
+| Period     | 2025/06/16 through 2025/06/23 |
+
+### What was checked
+
+- Staking/nominator pool on TON (nominators.fc contract + op-_, store-_, proxy modules, TypeScript wrapper).
+- Deposit/withdrawal logic, stake delegation to validator, reward and loss distribution.
+- Access control (owner, controller, proxy), contract upgrades and parameter changes.
+- Error handling and bounce messages, balance accounting and profit-per-coin model.
+- Storage limits (nominators dictionary), fee economics and general best practices.
+- Tests (11 test suites, 41 tests, monkey/large/fuzz).
+
+### Result
+
+Minor issues were identified and have been resolved.
+
+## ToB
+
+| Audit type | Architecture review           |
+| :--------- | :---------------------------- |
+| Language   | FunC, TypeScript              |
+| Period     | 2025/02/26 through 2025/03/27 |
+
+### What was checked
+
+- TON nominator pool (nominators-v2, FunC).
+- Roles and privileges (owner, controller, nominators).
+- Main flows: deposits, withdrawals, lock/unlock, sending stake to validator and its return.
+- Profit/loss distribution among nominators.
+- Bounce message handling and gas/message values.
+- Possible race conditions (message order, elector responses).
+- Documentation and test quality.
+
+### Result
+
+Minor issues were identified and have been resolved.

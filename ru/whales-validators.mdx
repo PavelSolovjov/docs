@@ -1,1 +1,94 @@
-Not logged in · Please run /login
+---
+title: "Whales validators"
+---
+
+# What are validators
+
+A validator (node) is a server in the [blockchain](https://ton.org/) that verifies and adds blocks. The validator locks their coins (stake), gains the right to propose/confirm blocks and receives rewards for this.\
+The number of validators is determined by a network configuration parameter fixed in the configuration contract. This parameter is set through a general vote of all validators. In the [TON blockchain](https://ton.org/), the number of validators is currently limited to 375 participants.
+
+# Validator requirements
+
+1. Validator hardware compliance with current minimum technical specifications. Current configuration is available at: https://t.me/tonstatus/102 .
+2. Software compliance with the latest required version. Information about the current version and updates can be tracked in the [@tonstatus](https://t.me/tonstatus/) channel.
+3. Ensuring constant network connection. A validator cannot disconnect when participating in a staking cycle. All disconnections result in penalty sanctions.
+4. The minimum required amount of locked coins must exceed the indicator of the validator [occupying 375th place at the current moment.](https://tonwhales.com/staking/stats/validators) The current minimum amount of coins is approximately 680,000 TON. In case of insufficient own coins for locking, the validator turns to [nominators](https://docs.ton.org/participate/staking/nominator-pool).
+5. The maximum amount of locked coins is not limited, however, in one round no validator can control more than 1/3 (≈33.33%) of the total stake amount of all validators. Otherwise, they will not be able to participate in staking.
+
+As a rule, the main network load is processed by the first hundred validators, while the rest are in reserve and connect as needed. For this reason, validator operators strive to avoid getting into the first hundred to reduce operational loads, since high load can lead to validator failures and, consequently, to penalty sanctions.
+
+# Validation economics
+
+## Validator profitability
+
+Validators receive rewards for processing transactions and creating new blocks. Validator profitability consists of several components:
+
+1. **Base reward** - fixed reward for participating in block validation
+2. **Transaction fees** - percentage of all fees collected in processed blocks
+3. **Storage reward** - additional rewards for supporting network archival data
+
+The average annual yield (APY) for validators in the [TON network](https://ton.org/) is approximately 2-4%, but may vary depending on:
+
+- Total amount of locked coins in the network
+- Network activity and transaction volume
+- Validator position (top-100 receive more load and rewards)
+- Validator efficiency
+
+## Validation round structure
+
+The validation cycle in TON is divided into rounds lasting **18 hours** each. Each round consists of several stages:
+
+1. **Application period** - validators submit applications to participate in the next round
+2. **Validator elections** - the system selects the top-375 validators by stake size
+3. **Active validation** - validators process transactions and create blocks
+4. **Reward distribution** - rewards are distributed among participants
+
+## Penalties and risks
+
+Validators are responsible for stable operation and may be penalized in the following cases:
+
+### Types of penalties
+
+- **Missing blocks** - if a validator did not propose a block in their turn
+- **Signing invalid blocks** - confirming incorrect data
+- **Extended disconnection** - losing network connection for a critical time
+- **Double signing** - attempting to sign two conflicting blocks
+
+### Penalty amounts
+
+Penalties can range from **0.5% to 100%** of the staked amount depending on the severity of the violation:
+
+- Minor violations (single misses) - 0.5-2% of stake
+- Medium violations (systematic failures) - 5-10% of stake
+- Critical violations (attack attempts) - up to 100% of stake (full confiscation)
+
+# Validators in Ton Whales
+
+Ton Whales operate their own validators and allow nominators to send their coins to staking and share rewards with us. Currently, the team maintains 43 validators, whose status can be monitored [in the dashboard within the Grafana interface](https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f). The DevOps team is responsible for validator operations. Validator monitoring is carried out around the clock, seven days a week. Validator software updates are performed exactly on schedule as recommended by the [Ton Foundation](https://ton.org/).
+
+# Ton Whales validator monitoring
+
+Software for sending metrics to a unified monitoring system in [Grafana](https://grafana.com/) is installed on each validator in the whale ecosystem. The system displays various performance indicators of Ton Whales validators
+
+- https://mon.whalescorp.com/public-dashboards/443fd6e0479d4d9b8f05ec87d92f9c2f
+
+# Partner validators
+
+Partner validators represent a specialized category of validation nodes in the Ton Whales ecosystem, whose technical maintenance and operation are delegated to external partner organizations based on corresponding cooperation agreements.
+
+## Partnership model
+
+Ton Whales applies a delegated management model for partner validators, where the company provides smart contracts and staking pool infrastructure, while partners take responsibility for technical support of validation nodes. This model allows expanding geographical presence and increasing network decentralization while maintaining high reliability standards.
+
+## Partnership with ePN
+
+The main partner of Ton Whales in the validation field is [ePN](https://epn.bz/) company, which provides technical support for the [Tonkeeper](https://tonkeeper.com/) partner pool infrastructure. This partnership was established in February 2023 as part of an agreement with the non-custodial Tonkeeper wallet team.
+
+### Technical characteristics of the Tonkeeper partner pool
+
+- **Pool commission**: 25% of received rewards
+- **Operating mode**: open access for all users
+- **Technical maintenance**: [ePN](https://epn.bz/) team
+- **Management**: decentralized DAO contract
+
+The pool operates through a queue system with multiple active addresses to ensure operational continuity.

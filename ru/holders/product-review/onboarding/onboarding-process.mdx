@@ -1,1 +1,148 @@
-Not logged in · Please run /login
+---
+title: "Onboarding steps"
+description: "This document describes how a user creates and accesses a Holders profile in a mobile wallet: the onboarding steps, verification flow, product selection, account issuance, funding, and re‑login methods."
+---
+
+# Profile creation (User steps)
+
+User progression through steps is displayed based on integration into the Tonhub mobile wallet.
+
+1. User clicks on the banner on the wallet's main screen. The wallet redirects the user to the Holders WebApp.
+
+   <img
+     src="/images/Banner(1).png"
+     alt="Banner(1)"
+     title="Banner(1)"
+     style={{ width:"32%" }}
+     className="mx-auto"
+   />
+2. User session creation screen. Displayed when there is no user token in the system. Clicking the "Continue" button initiates the generation of a new token and creation of a new user session.
+
+   <img
+     src="/images/Landing(1)(1).png"
+     alt="Landing(1)(1)"
+     title="Landing(1)(1)"
+     style={{ width:"26%" }}
+     className="mx-auto"
+   />
+3. Residency selection screen (pre-onboarding). At this stage, the system applies restrictions according to the country list loaded from the Holders backend. If the user's country of residence falls under the current restrictions, the user is redirected to the application form. Currently (January 2026), restrictions apply exclusively to residents of countries included in the [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information) sanctions lists.
+
+   <img
+     src="/images/IMG_0454.PNG"
+     alt="IMG 0454"
+     title="IMG 0454"
+     style={{ width:"25%" }}
+     className="mx-auto"
+   />
+4. Phone number entry and confirmation (OTP). The user enters their phone number and confirms it using a code received via SMS message. By default, the system suggests the country code selected by the user during the pre-onboarding stage, however the code can be changed by clicking on the corresponding country flag. Confirmation code delivery is implemented in partnership with [Twilio](https://www.twilio.com/en-us) service. Upon phone number confirmation, a user profile is created in the Holders database and Holders policies are accepted — Privacy Notes. The version of accepted policies is also saved in the service database.
+
+   The page has two additional options:
+   - **Resend code** — function for resending the authorization code with a 40-second interval. The number of requests is limited to five per day, however this limitation can be removed by the Backoffice system administrator on the user management page.
+   - **Didn't receive the code?** — function for opening a modal window with an informational message: "**Not received the code?** Check your number, it may have been entered with an error. It is also possible that airplane mode is turned on or there is no access to the operator's network. Or write to support, we will try to help you" and the ability to contact support through the integrated Intercom service.
+
+     <img
+       src="/images/Phone(1).png"
+       alt="Phone(1)"
+       title="Phone(1)"
+       style={{ width:"27%" }}
+       className="mx-auto"
+     />
+5. Email address confirmation. The user enters an address and clicks continue. The system checks the address for fraud using the external service [_Postmark_](https://postmarkapp.com/). After successful verification, the user receives an email with a six-digit numeric confirmation code that must be entered in the corresponding field. Alternatively, the user can confirm the email address by clicking a special button in the received email. If the email was not received, the user has the option to return to the email address entry screen and repeat the process. Note: there is a limit of no more than 3 emails with confirmation codes within 24 hours.
+6. Beginning verification. The user arrives at a screen with an offer to complete verification and clicks Continue.
+
+   <img
+     src="/images/KYC-intro(1)-1.png"
+     alt="KYC Intro(1) 1"
+     title="KYC Intro(1) 1"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+7. Next, the user proceeds to the Sumsub SDK, where they complete KYC. KYC consists of predefined stages in Sumsub settings.
+   1. Completing a questionnaire about the source of funds
+   2. Uploading documents for identification
+   3. Taking a live selfie
+
+   <img
+     src="/images/IMG_0462(1).PNG"
+     alt="IMG 0462(1)"
+     title="IMG 0462(1)"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+
+   ---
+
+   <img
+     src="/images/IMG_0464(1).PNG"
+     alt="IMG 0464(1)"
+     title="IMG 0464(1)"
+     className="mx-auto"
+     style={{ width:"26%" }}
+   />
+
+   Upon completion of the verification procedure, the user is directed to a page awaiting verification results.
+
+   <img
+     src="/images/KYC-processing(1).png"
+     alt="KYC Processing(1)"
+     title="KYC Processing(1)"
+     className="mx-auto"
+     style={{ width:"31%" }}
+   />
+
+   Users can also view verification results through corresponding statuses displayed on the wallet's main screen banner. When clicking on the banner, the user is redirected to the last onboarding step where they left off.
+
+   <img
+     src="/images/BannerStates(1)(1).png"
+     alt="Banner States(1)(1)"
+     title="Banner States(1)(1)"
+     className="mx-auto"
+     style={{ width:"31%" }}
+   />
+
+   Following the moderation results, the partner sends a webhook to Holders with one of the following decisions:
+   1. Moderation passed successfully — the user receives a push notification and can begin using the service.
+   2. Moderation failed — the user receives a push notification about the inability to use the service with the reason specified. In case of a non-final decision (for example, when uploading a poor-quality document image), the user is provided with the opportunity to re-complete verification.
+
+   Subsequently, the user can re-complete verification using other documents, but this can only be done by contacting support or after their expiration date.
+1. The user proceeds to the product selection page, where they are given the opportunity to choose one of three available products. After confirming their choice, the user awaits account issuance.
+   - Account + virtual bank card
+   - Account
+   - Private Trust
+
+   <img
+     src="/images/Chooseaproduct(1)(1).png"
+     alt="Chooseaproduct(1)(1)"
+     title="Chooseaproduct(1)(1)"
+     className="mx-auto"
+     style={{ width:"30%" }}
+   />
+2. The user arrives at the account page and waits for the smart contract deployment to complete. After deployment finishes, the user sees a modal window with an offer to fund their account. The modal window will appear each time the user navigates to the account page until the first funding is completed.
+
+<img
+  src="/images/Home(1)(1).png"
+  alt="Home(1)(1)"
+  title="Home(1)(1)"
+  className="mx-auto"
+  style={{ width:"30%" }}
+/>
+
+# Profile log in
+
+The user logs into an existing account within the Holders extension in the partner wallet.
+
+- Login by phone number
+- Login by seed phrase
+
+## Login by phone number
+
+Used when the user has previously used the service or wants to link an additional wallet address to their profile (the number of wallets linked to one profile is unlimited).
+
+1. The user navigates to the Holders application from the wallet interface. The transition design depends on the partner: when transitioning from the Tonhub application, the user clicks on the banner on the wallet's main screen.
+2. The user selects their country of residence by scrolling through the list of flags or entering the country name in the search field. The system supports input of both full country names and abbreviations (for example, UAE, USA) in any language. When logging into an existing account, we already know the user's country, however until the phone number is entered, it's unclear whether the user is attempting to log into an existing account or create a new one.
+3. The user enters the phone number they previously used in the service. After clicking the "Continue" button, the user proceeds to the number confirmation page. At this stage, automatic acceptance of the current _Privacy Policy_ also occurs.
+4. Upon correct entry of the confirmation code, the user is taken to the page of the last created account.
+
+## Login by seed phrase
+
+Used when the user knows the seed phrase from the TON wallet linked to the profile in Holders. After entering the seed phrase, the profile opens along with the wallet. To log into the profile, you need to go to the "Cards" section at the top of the wallet and then click the "Continue" button — the user will be taken to the page of the last created account.

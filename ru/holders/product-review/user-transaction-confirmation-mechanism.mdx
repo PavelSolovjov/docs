@@ -1,1 +1,36 @@
-Not logged in · Please run /login
+---
+title: "Transaction confirmation mechanism"
+---
+
+# Why Users Confirm Transactions
+
+When you make a purchase with a card, the bank must ensure that it's really you and not a fraudster. Therefore, the bank verifies each operation using special security systems, including 3D Secure technology.\
+The bank analyzes transactions and identifies suspicious operations. If an operation seems risky, the bank will ask you to additionally confirm that it's specifically you making the purchase. This protects your money from theft and complies with international security requirements of VISA and Mastercard.\
+Confirmation methods differ depending on where you pay - in a store or online. Online purchases are checked more strictly, as there are more opportunities for fraud on the internet.
+
+### Confirmation for Offline Transactions
+
+When you pay in a store with your phone (via NFC) or insert your card into a terminal, the system can quickly verify your identity through communication with the bank. Therefore, small purchases in stores usually go through without additional confirmations.
+
+### Confirmation for Online Transactions
+
+For online purchases, the 3D Secure system is used, which requires additional confirmation. You will need to enter a special one-time code or password to prove that the card belongs specifically to you.
+
+# Transaction Confirmation in Holders
+
+Holders uses different confirmation methods depending on the type of operation:
+
+1. **Store payments (offline transactions)**. All store payments go through contactless payment services (Apple Pay, Google Pay, and others) that ensure security. To pay, you need to bring your NFC-enabled phone close to the terminal within a few centimeters and unlock the device (with fingerprint, Face ID, or PIN code). The terminal receives an encrypted token that confirms the payment is being made by the device owner.
+2. **Online purchases (online transactions)**. For online purchases, the bank requests additional confirmation through the 3D Secure system. You need to enter a one-time code and a special 3D Secure password that is displayed only in the wallet application with Holders installed. Entering the wallet application requires identity confirmation (biometrics or password).
+
+# Methods for Confirming Online Transactions in Holders
+
+In Holders, users can choose their preferred method for confirming operations:
+
+- In the app - a banner appears in the application on the account or card page offering to approve or decline the operation. To confirm, simply press the corresponding button.
+- Text code - the user must enter a six-digit code and 3DS password. To receive the code, you must select at least one of the following methods:
+  - Push notification - the code comes through a push notification from the wallet application (currently Tonhub)
+  - Text messages (SMS) - the code is sent via SMS to the current phone number specified in the user's profile
+  - Email - the code will arrive in an email to the user's email address (current email specified in the user's profile).
+
+[Methods for confirming online transactions (tutorial)](/holders/product-review/onboarding/methods-for-confirming-online-transactions)

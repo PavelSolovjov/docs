@@ -1,1 +1,182 @@
-Not logged in · Please run /login
+---
+title: "Billing & Accounting — Executive Summary"
+---
+
+> **Audience**: CFO, COO, platform owners\
+> **Purpose**: Alignment on the billing business model, commercial terms, and operating processes\
+> **Status**: Concept under review — prior to implementation\
+> **Technical documentation**: `BILLING.md` (for the development team)
+
+## 1. What the Billing Module Is
+
+PostCash is a platform for issuing and distributing digital cheques (prepaid instruments) in USDC. The billing module is responsible for end-to-end accounting of financial flows within the platform, from collecting merchant fees to invoicing instance operators and generating settlement documents for distribution relationships.
+
+The module serves three purposes:
+
+1. **Accounting** — every fee charged and collected by the platform is recorded in an immutable ledger.
+2. **Invoicing** — monthly invoices are issued to instance operators for infrastructure usage.
+3. **Merchant settlements** — agency reports and settlement documents are generated for distribution transactions.
+
+## 2. Business Model: Platform Revenue Sources
+
+The platform generates revenue on two levels.
+
+### Level 1 — Infrastructure Fees (already implemented)
+
+The platform charges a fee for each issued cheque. The fee is collected automatically from the merchant’s wallet when the cheque is funded.
+
+| Fee Type | Charged To | Collection Method |
+| :-- | :-- | :-- |
+| Issuance fee | Merchant | Collected automatically when the cheque is funded (blockchain) |
+| Redemption fee | Recipient | Deducted from the cheque value upon redemption |
+| Exchange markup | Recipient | Embedded in the FX rate |
+| Fiat on-ramp fee | Recipient | Added to the bank transfer amount |
+
+Pricing plans are configured individually for each merchant through the fee tier system. The default rate is 2% plus a fixed component, with a minimum of 0.25 USDC per cheque.
+
+### Level 2 — Distribution Model (agency structure)
+
+The instance operator (the Issuer) distributes physical cheque batches through merchant distributors. In this model, the cheque is treated as a product with a face value.
+
+**Key principles of the model:**
+
+- The merchant takes a batch of cheques **on consignment**, rather than purchasing it outright.
+- The merchant sells the cheque to the end customer and immediately **activates** it, for example at the point of sale.
+- The merchant settles with the Issuer for the face value of activated cheques **once per settlement period**, typically monthly.
+- Unfunded or unsold cheques that are not sold within the allowed period are **returned**, and the merchant’s obligation is cancelled.
+
+## 3. Distribution Model: Merchant Economics
+
+### Merchant compensation structure
+
+The merchant receives income in two forms, intentionally separated for tax optimization purposes.
+
+**Form 1 — Agency commission (upfront, paid by the customer)**
+
+The merchant adds a small markup to the cheque face value when selling to the end customer. This is the merchant’s declared revenue and taxable base.
+
+_Example:_ a \$100 USDC cheque → the customer pays €92.46 (at the FX rate plus a 0.5% markup) → the merchant remits €92.00 to the Issuer and keeps €0.46.
+
+**Form 2 — Retroactive bonus (post-settlement, paid by the Issuer)**
+
+After successful settlement for the period, the Issuer pays the merchant a bonus based on settled transaction volume. This bonus is a payment from a foreign legal entity and typically benefits from a more favorable tax treatment.
+
+_Example:_ settled volume of \$10,000 USDC → 1.5% bonus → \$150 USDC.
+
+**Combined merchant economics:**
+
+| Item | Amount |
+| :-- | :-- |
+| Cheques sold | 100 × \$100 = \$10,000 USDC |
+| Collected from customers | €9,246 (at FX rate \+ 0.5%) |
+| Remitted to Issuer | €9,200 |
+| Agency commission | €46 (declared revenue) |
+| Retroactive bonus | \$150 USDC |
+| **Total merchant income** | ~\$200 equivalent (~2.0% of turnover) |
+| **Taxable base** | €46 (agency commission only) |
+
+### Legal structure
+
+The model is structured as an **agency agreement** (principal — Issuer, agent — Merchant).
+
+- The merchant sells **on behalf of the Issuer**, not in its own name.
+- The merchant’s revenue equals only the agency commission, not the full sale price.
+- The Issuer is incorporated in an offshore jurisdiction (UAE / BVI / Singapore) and is not a tax resident in the merchant’s operating countries.
+- This is a cross-border B2B supply model: VAT in the merchant’s jurisdiction applies only to the agency commission under the reverse charge mechanism.
+- **The merchant remains fully responsible for its own local tax compliance.** The platform assumes no liability.
+
+## 4. Document Flow
+
+### Platform level (Platform → Instance Operator)
+
+| Document | Content | Frequency |
+| :-- | :-- | :-- |
+| **Platform invoice** | Total infrastructure usage fees for the month | Monthly |
+| **Fee ledger extract** | Detailed breakdown by transaction | On demand / CSV |
+
+Invoice statuses: Draft → Issued → Paid / Overdue / Voided
+
+### Distribution level (Issuer ↔ Merchant)
+
+| Document | Prepared By | Content |
+| :-- | :-- | :-- |
+| **Settlement statement** | Issuer → Merchant | Amount due for activated cheques during the period |
+| **Agency report** | Merchant → Issuer | Sales report and remitted amounts |
+| **Bonus notice** | Issuer → Merchant | Retroactive bonus amount payable |
+
+## 5. Billing Modes
+
+The platform supports two fee collection modes.
+
+| Mode | Description | Status |
+| :-- | :-- | :-- |
+| **Automatic (on-chain)** | Fees are collected immediately for each transaction via blockchain | Live |
+| **Invoice-based** | Fees are accumulated and invoiced monthly | Planned |
+
+The mode is configured separately for each instance. Invoice-based billing is designed for large merchants with established settlement processes, removing the need to keep funds in the platform wallet at all times.
+
+## 6. Access Control
+
+Each billing function has a configurable access level. Permissions are assigned by role.
+
+**Platform-level roles**: Owner, Administrator, Finance, Developer\
+**Instance-level roles**: Owner, Administrator, Finance, Viewer
+
+**Default principle**: the **Finance** role has full access to all billing functions. Administrators can selectively restrict or expand access for each function through the permissions editor.
+
+**Financial actions requiring re-authentication** (additional passkey confirmation):
+
+- Invoice finalization and voiding
+- Payment confirmation
+- Changes to merchant credit limits
+- Changes to merchant credit rating
+- Manual credit freeze / unfreeze
+
+## 7. Controls and Compliance
+
+### Immutability of financial records
+
+The fee ledger is **append-only**. Historical records cannot be modified or deleted. This ensures integrity of the financial history and supports audit requirements.
+
+### Audit trail
+
+Every administrative action involving financial data is logged: who made the change, when it was made, what was changed, and the before/after values. The log itself is not editable.
+
+### Reconciliation
+
+The platform produces monthly reconciliation snapshots to compare actual collected fees with expected fees. Any discrepancies are flagged for manual review.
+
+## 8. Current Implementation Status
+
+| Function | Status |
+| :-- | :-- |
+| On-chain fee collection | Live |
+| Fee ledger | Live |
+| Invoices (generation, draft, issuing) | Basic version live |
+| PDF invoice | In development |
+| Invoice email delivery | In development |
+| Invoice payment confirmation | In development |
+| Invoice-based billing mode | In development |
+| Merchant settlement documents | Planned |
+| Bonus notices | Planned |
+| CSV export for accounting | Live |
+
+## 9. Open Questions for Approval
+
+**9.1 Pricing plans**\
+Are the baseline fees approved? (Default: 2% \+ 0.25 USDC.) Are special terms needed for certain merchant categories?
+
+**9.2 Settlement period**\
+The standard period is 30 days. Should exceptions be supported for major partners?
+
+**9.3 Retroactive bonus rates**\
+What is the base bonus rate, and what volume tiers should apply for higher rebates? (The draft documentation assumes 1.5%, with a \$50k/month threshold.)
+
+**9.4 Payment delinquency**\
+What should be considered overdue? What is the collection procedure? Should shipment of new cheque batches be blocked automatically?
+
+**9.5 Issuer jurisdiction**\
+Has the Issuer’s incorporation jurisdiction been confirmed? This affects the legal structure of the agency agreements.
+
+**9.6 Settlement currency**\
+Which currencies will merchants use to settle with the Issuer? Who sets the FX rate, and as of what date?

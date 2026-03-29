@@ -1,1 +1,15 @@
-Not logged in · Please run /login
+---
+title: "On-Chain Collection Pipeline"
+---
+
+**Source**: `api/routes/check-balance.ts` — `collectCreationFee()`
+
+1. **Atomic lock**: `FOR UPDATE SKIP LOCKED` → prevents double-collection
+2. **Platform-direct cheques** → waived
+3. **Merchant fee wallet check** → waived if not set up
+4. `checkMerchantLimits()` → log error if exceeded, leave pending
+5. **SPL transferChecked**: `merchant_fee_wallet → platform_wallet`
+6. Success → `collected` \+ `tx_hash`\
+   Failure → `pending` \+ `collection_error` (cheque unaffected)
+
+**Critical property**: Fee collection is **non-blocking**. Failure records the fee without interrupting the cheque lifecycle.

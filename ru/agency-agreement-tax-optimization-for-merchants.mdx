@@ -1,1 +1,28 @@
-Not logged in · Please run /login
+---
+title: "Agency Agreement — Tax Optimization for Merchants"
+---
+
+Rather than the merchant buying and reselling cheques (which creates a large revenue base for local tax), the merchant acts as a **commission agent** of the issuer.
+
+## Legal distinction
+
+| Model | Merchant Revenue Base | Tax Exposure |
+| :-- | :-- | :-- |
+| **Reseller** | Full sale price (e.g. €97) | High — full VAT on €97 |
+| **Agent** | Agent commission only (e.g. €0.50) | Low — VAT only on €0.50 |
+
+Under the agency model:
+
+- The merchant sells **on behalf of the issuer**, not on their own account
+- The merchant's declared revenue = **agent's remuneration only** (the markup they retain)
+- The face value pass-through is not the merchant's revenue — it flows through to the issuer
+- This is the standard structure used by payment intermediaries, prepaid card distributors, and gift card networks globally
+
+## What this means for the platform's document model
+
+The merchant does not receive a normal sales invoice from the issuer for each batch. Instead:
+
+1. **Agency Agreement** (contract, outside platform scope) — establishes the legal relationship
+2. **Agent's Report** (агентский отчёт) — periodic document from merchant to issuer: "I sold X cheques, collected €Y, remitting €Z, keeping €W as my commission"
+3. **Settlement Statement** — from issuer confirming receipt and reconciling the period
+4. **Rebate Notice** — from issuer to merchant: "your rebate for this period is \$X"

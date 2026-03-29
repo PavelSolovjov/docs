@@ -1,1 +1,157 @@
-Not logged in · Please run /login
+---
+title: "Database Schema Reference"
+---
+
+## `fee_ledger`
+
+```text
+CREATE TABLE fee_ledger (
+  id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  merchant_id         UUID REFERENCES merchants(id),
+  cheque_id           TEXT REFERENCES cheques(id),
+  fee_type            TEXT NOT NULL CHECK (fee_type IN (
+                        'creation','claim','gas','changelly_markup',
+                        'breakage','bridge_onramp','activation')),
+  gross_amount        NUMERIC(12,6) NOT NULL,
+  fee_amount          NUMERIC(12,6) NOT NULL,
+  net_amount          NUMERIC(12,6) NOT NULL,
+  fee_breakdown       JSONB DEFAULT '{}',
+  collection_status   TEXT DEFAULT 'pending' CHECK (collection_status IN (
+                        'pending','collecting','collected','failed','refunded','waived')),
+  collection_tx_hash  TEXT,
+  collected_at        TIMESTAMPTZ,
+  collection_error    TEXT,
+  created_at          TIMESTAMPTZ DEFAULT NOW(),
+  instance_id         UUID REFERENCES instances(id),
+  -- Migration 035:
+  billing_period      DATE,
+  collection_attempts INT NOT NULL DEFAULT 0,
+  next_retry_at       TIMESTAMPTZ
+);
+
+CREATE INDEX fee_ledger_billing_period ON fee_ledger(instance_id, billing_period)
+  WHERE billing_period IS NOT NULL;
+```
+
+## `fee_tiers`
+
+```text
+CREATE TABLE fee_tiers (
+  id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name                        TEXT NOT NULL,
+  creation_fee_pct            NUMERIC(5,3) NOT NULL DEFAULT 2.0,
+  creation_fee_flat           NUMERIC(10,6) NOT NULL DEFAULT 0.25,
+  creation_fee_min            NUMERIC(10,6) NOT NULL DEFAULT 0.25,
+  claim_fee_pct               NUMERIC(5,3) NOT NULL DEFAULT 0,
+  claim_fee_flat              NUMERIC(10,6) NOT NULL DEFAULT 0,
+  changelly_markup_pct        NUMERIC(5,3) NOT NULL DEFAULT 0,
+  bridge_developer_fee_pct    NUMERIC(5,3) NOT NULL DEFAULT 0,
+  volume_threshold_monthly    NUMERIC(12,2),
+  is_default                  BOOLEAN DEFAULT false,
+  created_at                  TIMESTAMPTZ DEFAULT NOW()
+  -- Planned additions (migration 043):
+  -- rebate_pct               NUMERIC(5,3) DEFAULT 0,
+  -- rebate_volume_tiers      JSONB DEFAULT '[]',
+  -- rebate_settlement_delay_days INT DEFAULT 7
+);
+```
+
+## `invoices`
+
+```text
+CREATE TABLE invoices (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id     UUID NOT NULL REFERENCES instances(id),
+  invoice_number  TEXT NOT NULL,
+  billing_period  DATE NOT NULL,
+  status          TEXT NOT NULL DEFAULT 'draft'
+                    CHECK (status IN ('draft','issued','void')),
+  payment_status  TEXT NOT NULL DEFAULT 'unpaid'
+                    CHECK (payment_status IN ('unpaid','paid','overdue','waived')),
+  subtotal_usdc   NUMERIC(18,6) NOT NULL DEFAULT 0,
+  total_usdc      NUMERIC(18,6) NOT NULL DEFAULT 0,
+  issued_at       TIMESTAMPTZ,
+  due_at          TIMESTAMPTZ,
+  void_reason     JSONB,
+  created_at      TIMESTAMPTZ DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+  -- Planned additions (migration 041):
+  -- paid_at          TIMESTAMPTZ,
+  -- solana_tx_sig    TEXT,
+  -- rate_at_invoice  NUMERIC(12,6) DEFAULT 1.0,
+  -- rate_source      TEXT DEFAULT 'assumed_peg',
+  -- subtotal_usd     NUMERIC(18,6),
+  -- total_usd        NUMERIC(18,6)
+);
+
+CREATE UNIQUE INDEX invoices_instance_period ON invoices(instance_id, billing_period);
+```
+
+## `invoice_line_items`
+
+```text
+CREATE TABLE invoice_line_items (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  invoice_id    UUID NOT NULL REFERENCES invoices(id) ON DELETE CASCADE,
+  fee_ledger_id UUID REFERENCES fee_ledger(id) ON DELETE SET NULL,
+  description   TEXT NOT NULL,
+  quantity      INT NOT NULL DEFAULT 1,
+  unit_usdc     NUMERIC(18,6) NOT NULL DEFAULT 0,
+  total_usdc    NUMERIC(18,6) NOT NULL DEFAULT 0,
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+## `merchant_settlements` (planned)
+
+```text
+CREATE TABLE merchant_settlements (
+  id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id         UUID NOT NULL REFERENCES instances(id),
+  merchant_id         UUID NOT NULL REFERENCES merchants(id),
+  settlement_number   TEXT NOT NULL,
+  period_start        DATE NOT NULL,
+  period_end          DATE NOT NULL,
+  cheques_activated   INT NOT NULL DEFAULT 0,
+  cheques_returned    INT NOT NULL DEFAULT 0,
+  face_value_usdc     NUMERIC(18,6) NOT NULL,
+  settlement_currency TEXT NOT NULL DEFAULT 'USD',
+  fx_rate             NUMERIC(12,6) NOT NULL DEFAULT 1.0,
+  fx_rate_source      TEXT DEFAULT 'manual',
+  amount_due          NUMERIC(18,6) NOT NULL,
+  status              TEXT NOT NULL DEFAULT 'draft'
+                        CHECK (status IN ('draft','issued','paid','overdue','void')),
+  issued_at           TIMESTAMPTZ,
+  due_at              TIMESTAMPTZ,
+  paid_at             TIMESTAMPTZ,
+  payment_ref         TEXT,
+  notes               TEXT,
+  created_at          TIMESTAMPTZ DEFAULT NOW(),
+  updated_at          TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX settlements_merchant_period
+  ON merchant_settlements(merchant_id, period_start, period_end);
+```
+
+## `merchant_rebates` (planned)
+
+```text
+CREATE TABLE merchant_rebates (
+  id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  instance_id         UUID NOT NULL REFERENCES instances(id),
+  merchant_id         UUID NOT NULL REFERENCES merchants(id),
+  settlement_id       UUID NOT NULL REFERENCES merchant_settlements(id),
+  rebate_number       TEXT NOT NULL,
+  settled_volume_usdc NUMERIC(18,6) NOT NULL,
+  rebate_pct_applied  NUMERIC(5,3) NOT NULL,
+  rebate_amount_usdc  NUMERIC(18,6) NOT NULL,
+  tier_used           JSONB,
+  status              TEXT NOT NULL DEFAULT 'pending'
+                        CHECK (status IN ('pending','paid','void')),
+  scheduled_at        TIMESTAMPTZ,
+  paid_at             TIMESTAMPTZ,
+  tx_hash             TEXT,
+  created_at          TIMESTAMPTZ DEFAULT NOW()
+);
+```

@@ -1,1 +1,55 @@
-Not logged in · Please run /login
+---
+title: "Audit Trail & Compliance"
+---
+
+## `audit_log` Coverage
+
+All significant admin actions logged with `instance_id`, `actor_id`, `action`, `entity_type`, `entity_id`, before/after JSONB, `ip_address`, `created_at`.
+
+Financial actions covered:
+
+- Invoice generation, finalization, void
+- Fee collection success and failure
+- Settlement creation and payment
+- Rebate calculation and payment
+- System wallet operations
+
+## `fee_ledger` Immutability
+
+Append-only by design:
+
+- Financial amounts (`fee_amount`, `gross_amount`, `net_amount`) are **never updated after insert**
+- Only status fields transition
+- No deletions
+
+**Recommended**: Enforce at DB level:
+
+```text
+CREATE RULE no_delete_fee_ledger AS ON DELETE TO fee_ledger DO INSTEAD NOTHING;
+```
+
+Currently enforced at application level only.
+
+## Reconciliation
+
+No automated reconciliation exists. Recommended nightly query:
+
+```text
+SELECT
+  fl.instance_id,
+  DATE_TRUNC('month', fl.created_at) AS month,
+  SUM(fl.fee_amount) FILTER (WHERE fl.collection_status = 'collected') AS total_collected,
+  SUM(fl.fee_amount) FILTER (WHERE fl.collection_status = 'pending')   AS total_pending,
+  SUM(fl.fee_amount) FILTER (WHERE fl.collection_status = 'failed')    AS total_failed,
+  COUNT(*) AS total_entries
+FROM fee_ledger fl
+GROUP BY fl.instance_id, DATE_TRUNC('month', fl.created_at)
+ORDER BY fl.instance_id, month DESC;
+```
+
+## Regulatory Considerations
+
+- **KYC**: Required for [Bridge.xyz](http://Bridge.xyz) fiat onramp (Persona). Stored per customer in `bridge_customers`.
+- **Cross-border tax**: The platform does not manage merchants' local tax obligations. The agency structure (§2.3) separates the issuer's tax position from the merchant's.
+- **Complete on-chain history**: All Solana tx signatures stored on cheque and fee records. Independently verifiable.
+- **Demo isolation**: `instances.settings.demo_mode = true` gates all real blockchain operations.

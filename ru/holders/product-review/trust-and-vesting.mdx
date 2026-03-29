@@ -1,1 +1,137 @@
-Not logged in · Please run /login
+---
+title: "Trust & vesting"
+description: "Description of Trust and Vesting products"
+---
+
+# What is Trust and vesting
+
+Trust - a legal structure where a settlor transfers assets to a trustee for management in the interests of beneficiaries according to the terms of a trust agreement.\
+Vesting - the gradual acquisition of rights to assets (shares, options, tokens) according to a schedule or upon meeting certain conditions.
+
+# History of Trust and Vesting
+
+The first mentions of trusts date back to feudal Europe. During this historical period, a vassal could transfer property under seigneurial custody to their suzerain (including the king), receiving protection and patronage for their family in return. Knights could appeal to the king or abbey for estate management in case of uncertainty about their own return from military campaigns. Guarantees of obligation fulfillment depended on the current local law and the suzerain's favor, while abuse of guardianship powers was a common phenomenon.\
+Vesting appeared around the same time in the form of feudal fiefs: land rights confirmed by service to the suzerain; loss of service meant complete or partial loss of rights. In the mid-20th century, companies began using vesting to retain key employees. Deferred compensation plans and pension schemes using vesting appeared. Similar plans are used today.
+
+# What Trust is Used For
+
+- **Asset protection and management (family and corporate inheritance)** - trust allows structured planning of inheritance transfer between generations. The settlor can place assets in trust and set up automatic payments to beneficiaries according to a specified schedule. This is especially useful for large family fortunes, where it's important to ensure gradual transfer of assets to children or grandchildren, avoiding lump-sum receipt of large amounts by unprepared heirs.
+- **Employee retention and motivation** - companies can use trust to create long-term employee motivation programs. Issuing token options through trust structure allows tying employee compensation to company's long-term results. This is especially relevant for startups where funds are limited but growth potential exists. Employees receive tokens or options gradually, which incentivizes them to stay with the company and work for its development. Such scheme also helps startups retain key specialists during periods of uncertainty.
+- **Risk mitigation in custody** - transfer and subsequent distribution of custody amounts in specific portions at equal time intervals.
+- **Organization of regular payments** - trust provides a reliable mechanism for systematic financial obligations with guaranteed execution. The settlor can set up automatic payments for various purposes: paying for children's or dependents' education, alimony obligations, scholarship programs, supporting elderly relatives, or regular financial assistance. This is especially valuable for situations requiring long-term financial discipline and protection from impulsive spending. For example, parents can deposit funds for a child's education with automatic monthly payments throughout the entire study period, eliminating the risk of misuse of funds. Trust structure guarantees obligation fulfillment even if the settlor's life circumstances change, since funds are already transferred to management and protected from external influences.
+
+# Trust in Holders
+
+In Holders, trust is implemented as a secure way to receive funds on a fixed schedule. The settlor sets the amount and payment period, while the beneficiary automatically receives transfers without need for manual management. To provide this functionality, a specialized product has been developed — Private Trust, based [on smart contract](/holders/product-review/accounts/trust-smart-contract). The product's functionality includes creating a non-custodial trust account, providing access to a selected Holders user, account funding, and setting up automatic payments. The system supports ten different time intervals for payments, ensuring its applicability in various use case scenarios.\
+In the future, integration with trust structures in jurisdictions where this institution has state regulation is planned, which will allow using the system for inheritance payments and gifts.\
+[Smart contract](/holders/product-review/accounts/trust-smart-contract) implementation ensures procedure transparency and guarantees good faith execution of payment obligations.\
+In Holders, funds sent to Trust cannot be withdrawn, ensuring reliability and transparency of trust obligation execution.
+
+**Trust operation algorithm:**
+
+1. **Settlor** initiates trust account creation in the system.
+2. **Settlor** specifies beneficiary account for receiving funds, determines lump-sum payment amount, and sets interval between payments.
+3. Trust account is created in the system and can be in one of three states:
+   1. **Active** — account balance is sufficient for the next scheduled payment
+   2. **Requires funding** — previous payment was successfully made, but funds are insufficient for the next payment
+   3. **Overdue** — at the time of the next payment due date, account balance was insufficient for its execution
+4. **Settlor** deposits funds to [the contract](/holders/product-review/accounts/trust-smart-contract) in the amount of the sum planned for distribution. If the amount arrives to the contract not immediately but after its operation begins, all missed payments accumulate and are deducted from the funding.
+5. [Contract ](/holders/product-review/accounts/trust-smart-contract)automatically transfers funds from trust account to beneficiary account in the established amount and with specified frequency until complete balance exhaustion. When funds are insufficient for the next payment, the remaining balance available on the contract is transferred.
+6. When trust account balance reaches zero, the vesting process is suspended until the next contract funding. Debt for missed payments begins accumulating on the trust.
+
+**Important:** Currently, the automatic [trust contract](/holders/product-review/accounts/trust-smart-contract) stop function when beneficiary account is closed is not implemented. The contract will continue making fund transfers when positive balance exists. Return of funds sent to closed account is impossible.\
+**Example: Settlor** configures contract for weekly payments of 100 USDC from contract creation moment. After 10 days, **Settlor** first funds [the contract ](/holders/product-review/accounts/trust-smart-contract)with 50 USDC. By this time, debt forms for two overdue weekly payments totaling 200 USDC. The received 50 USDC is immediately transferred to beneficiary as partial debt repayment. Then **Settlor** adds another 500 USDC. This amount remains on [contract](/holders/product-review/accounts/trust-smart-contract) balance until the next payment due date. When the next payment occurs, 100 USDC (current payment) plus 150 USDC (remaining debt) is deducted from balance. Remaining funds (250 USDC) are saved on account for subsequent payments.
+
+# Legal Support of the Solution
+
+[Smart contract](/holders/product-review/accounts/trust-smart-contract) represents a technological mechanism for obligation execution, while legal relations with the user are regulated by corresponding agreement. Program code does not possess independent legal force and functions exclusively within the user agreement framework, which is signed with each account creation in the service. The version of document signed by user is recorded and stored in database with possibility of updating during subsequent terms of use updates. In the future, the list of documents needed for trust opening will be expanded.\
+**Main points:**
+
+1. [Smart contract](/holders/product-review/accounts/trust-smart-contract) is created and linked to Card account but managed by service under contractual mandate. Ownership rights to "code/contract" are not assigned to user, but user fully owns crypto funds on it, while service has management rights for service execution.
+2. Trust represents a legal construction that does not provide direct access to accounts and smart contracts, but serves as legal mechanism for determining ownership of funds placed on smart contract.
+
+**Taxation:**\
+An important feature of trust structure is the possibility of tax optimization for beneficiary (depends on trust jurisdiction and beneficiary residence). Particularly, when the main trust asset is a token with growth potential (for example, [USDY](https://ondo.finance/usdy)), token market price increase does not qualify as beneficiary income. Since token quantity remains unchanged and only their market value changes, this change is considered property revaluation, not income receipt. Tax obligations arise exclusively at asset realization moment and are subject to capital gains tax.
+
+# User Interface
+
+## From Trustee Side
+
+1. **Settlor** clicks "Add new product" button on wallet main page.
+2. In the opened list selects "Private Trust".
+3. Selects the currency in which the trust will be opened. Currently, USDC and USDY are available.
+
+   <img
+     src="/images/Chooseaproduct(3).png"
+     alt="Chooseaproduct(3)"
+     title="Chooseaproduct(3)"
+     className="mx-auto"
+     style={{ width:"24%" }}
+   />
+
+   ---
+
+   <img
+     src="/images/Getproduct(1).png"
+     alt="Getproduct(1)"
+     title="Getproduct(1)"
+     className="mx-auto"
+     style={{ width:"25%" }}
+   />
+4. Configures trust parameters:
+   1. **Beneficiary contact information** — email address or phone number. The beneficiary must be a registered Holders user.
+   2. **Beneficiary account** — account for receiving payments. This account must have pre-approved receipt of payments from the trust, otherwise it will not appear in the list of available accounts.
+   3. **Lump-sum payment amount** — the size of each payment. Payments will be made until complete exhaustion of funds in the account.
+   4. **Unlock period** — interval between payments. Ten periodicity options are available: from five minutes to one year.
+   5. **Payment start date** — date of the first payment. If not specified, the current date is automatically set.
+   6. **Intelligent inflation accounting** — function for automatic adjustment of payment amounts taking into account inflation parameters.
+
+   <img
+     src="/images/Currency(1)(1).png"
+     alt="Currency(1)(1)"
+     title="Currency(1)(1)"
+     className="mx-auto"
+     style={{ width:"25%" }}
+   />
+5. **Settlor** funds the contract for the total amount of planned payments using any convenient method.
+6. The contract begins payments from the moment of creation or from the time specified by the trust and makes them until the balance reaches zero.
+
+   <img
+     src="/images/IMG_0583(1).PNG"
+     alt="IMG 0583(1)"
+     title="IMG 0583(1)"
+     className="mx-auto"
+     style={{ width:"23%" }}
+   />
+
+   ---
+
+   <img
+     src="/images/Account(2).png"
+     alt="Account(2)"
+     title="Account(2)"
+     className="mx-auto"
+     style={{ width:"24%" }}
+   />
+
+## From Beneficiary Side
+
+1. The beneficiary opens the possibility to receive funds from trust accounts on their account.
+2. After the **Settlor** creates the trust account, an information card is displayed on the beneficiary's account page showing the amount and payment schedule.
+
+   <img
+     src="/images/MenuItem(1).png"
+     alt="Menu Item(1)"
+     title="Menu Item(1)"
+     className="mx-auto"
+     style={{ width:"33%" }}
+   />
+3. When selecting the card, the beneficiary gains access to the complete transaction history and detailed information about the trust.
+
+   <img
+     src="/images/Trustdetails(2).png"
+     alt="Trustdetails(2)"
+     title="Trustdetails(2)"
+     className="mx-auto"
+     style={{ width:"34%" }}
+   />

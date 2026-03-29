@@ -1,1 +1,13 @@
-Not logged in · Please run /login
+---
+title: "High Priority (P1)"
+---
+
+| Gap | Impact | Solution |
+| :-- | :-- | :-- |
+| No credit notes | Post-payment corrections <br />require void \+ re-invoice | Migration 039: <br />`credit_notes` table |
+| No automated dunning | Overdue invoices not <br />flagged automatically | Nightly cron: <br />mark overdue \+ email |
+| No USDC rate storage | Revenue recognized <br />without documented rate | Migrations 040–041: <br />rate columns |
+| No collection retry job | `failed` fees accumulate | Retry queue via `next_retry_at` \+ <br />`collection_attempts` |
+| `billing_mode` not enforced | `invoice` mode still triggers <br />on-chain collection | Gate in `collectCreationFee()` |
+| No settlement FX rate lock | Rate drift risk during <br />payment window | Lock FX on statement issuance, <br />not payment |
+| No rebate calculation logic | Rebate tiers designed <br />but not computed | Implement post-settlement <br />rebate job |

@@ -1,1 +1,45 @@
-Not logged in · Please run /login
+---
+title: "Deposit/withdraw via transaction"
+---
+
+# What is transaction-based staking used for
+
+Transaction-based staking is used as an alternative method for sending coins to staking in cases where the user's non-custodial wallet does not support connection via TON Connect or does not have a built-in staking interface.\
+With transactions, you cannot withdraw part of the stake like with other methods, only the entire amount at once.
+
+<Info>
+  **Important:** Sending coins to staking is done exclusively from non-custodial wallets. Sending funds from a custodial wallet or exchange account will result in their irreversible loss.
+</Info>
+
+# Pool Address
+
+To send and receive funds through a transaction, you need to obtain the address of the pool to which you plan to send funds. The address of any pool can be found on the [pools page](https://tonwhales.com/staking) of the [tonwhales.com](http://tonwhales.com) website.
+
+1. Go to https://tonwhales.com/staking
+2. Select the pool you want to send funds to and click on its image.
+3. Choose the queue you want to send funds to and click Stake
+4. Enter any amount over 50 for Ton Whales pools and over 10 for P2P or Ledger
+5. Click Stake via any wallet
+6. Copy the pool address. It will be needed for both deposit and withdrawal.
+
+# Deposit via Transaction
+
+1. In your wallet, press the send funds button
+2. Enter the amount you want to send to staking.
+3. In the "Comment" (memo) field, enter Deposit.
+4. Confirm the transaction. Note that you need to pay gas (fee) for sending coins to staking in the amount of 0.2 TON. The remaining fee will be returned after sending. It is recommended to keep 0.4 TON on your balance to pay for gas for withdrawing funds.
+5. In the response message, you will receive the remaining fee back with the comment "Stake accepted".
+6. Your funds have been successfully sent to the pool and will start participating in staking after the current cycle ends. Profit will be credited to the staking balance at the end of each full cycle. Thus, the first profit will appear on the staking balance after the time remaining until the end of the current cycle plus one full cycle (36 hours).
+
+<Info>
+  If the staking amount was returned after an attempted transaction, please verify that the address and comment are correct (the comment should be written with a capital letter without additional spaces at the beginning or end).
+</Info>
+
+# Withdraw funds via transaction
+
+1. In your wallet, click the send funds button.
+2. Enter the amount 0.2 TON in the amount field. This amount represents the transaction fee, while the stake will be withdrawn in full.
+3. In the "Comment" (memo) field, enter Withdraw.
+4. In the address field, specify the address of the pool to which the funds were sent.
+5. Confirm the transaction.
+6. The withdrawal request has been submitted. Repeat this entire procedure after the completion of the nearest staking cycle. Funds will arrive in your balance within a few minutes.

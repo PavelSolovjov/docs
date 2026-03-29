@@ -1,1 +1,389 @@
-Not logged in · Please run /login
+---
+title: "APIs"
+---
+
+The Tonhub application connects to the [**connect.tonhubapi.com**](http://connect.tonhubapi.com) backend and related services for transaction history, token balances, staking, gasless, TON Connect, and other functions. Below is a **list of used APIs with descriptions of each**: why it's needed and how it's used in the application.
+
+# Tonhub API Architecture
+
+## Main API Groups
+
+Tonhub backend APIs are divided into 8 main functional groups:
+
+1. **Core TON and Solana data:** Transaction history, operation statuses, network and wallet settings, contract information. Includes TON RPC (mainnet-v4/[testnet-v4.tonhubapi.com](http://testnet-v4.tonhubapi.com)) for reading blockchain state. These APIs provide balance display, operation history, and fee calculation.
+2. **Asset information:** Data about tokens (hints, full information, metadata, rates, wallet transactions), rates and prices (v2/price, v2/rates, token/info). Everything needed for asset lists, their fiat value, and token selection during transfers.
+3. **Staking:** Information about pool participation (member/info, member/liquid/info), liquid pool parameters, USDe data (rate, APY, participant). Additionally uses a separate [**staking-indexer.whales-api.com**](http://staking-indexer.whales-api.com) service for election status, nominators, and pool APY.
+4. **Gasless transfers:** Settings (list of supported tokens, relayer), fee calculation in tokens, sending signed transactions through relayer. Works only for supported tokens from W5 wallets.
+5. **TON Connect and wallet interaction:** TON Connect bridge (`/tonconnect`), connection commands (connect/command, grant, revoke, answer), wallet-request management (create, respond, list). Provides dApp-to-wallet connection and handling of incoming signature/transfer requests.
+6. **Application settings and catalogs:** Application configuration, versions, metadata and application catalog, reviews and reports, banners (tonhub, Holders, advertising), allowed domains list (protect). Determines available features, displayed applications, and browser content.
+7. **Currency exchange:** Changelly integration — currencies, rate estimation, creation and tracking of exchange operation status. Separate function within the application.
+8. **Holders integration:** Cards, profile, accounts, OTP on separate host [**card-prod.whales-api.com**](http://card-prod.whales-api.com) (and staging). Specific APIs for the Holders product, not part of the main [connect.tonhubapi.com](http://connect.tonhubapi.com) backend.
+
+Auxiliary APIs include: cloud storage (storage/read, write) for settings synchronization, push notifications (register), error reports (client-error/report), address verification (service-address, config by address), old balances (balances/old). These APIs are intended for the application's own operation, not for external integrations.
+
+## Public and Internal APIs
+
+**Public APIs for external developers:**
+
+- **TON Connect:** Bridge (`/tonconnect`) and connection protocol for message exchange with wallet. TON Connect specification and application manifest are public — dApps connect to wallet through this interface.
+- Documented public Tonhub endpoints, if officially announced in documentation for dApp developers or partners.
+
+**Internal APIs (Tonhub application only):** All other APIs are used exclusively by the Tonhub application: transactions (v1/v2/v3), hints, tokens, Solana (account, tokens, transactions, fees), staking (member/info, liquid, usde), gasless (config, estimate, send), connect/command, connect/grant, connect/revoke, connect/answer, wallet-request, storage, appconfig, banners, rates (v2/price, v2/rates), Changelly, push, client-error, service-address, balances/old, protect/allowed-domains and others.
+
+<Info>
+  Important: The format of requests and responses, limits and contracts of internal APIs may change without notice. Stability and backward compatibility guarantees are provided only for public APIs (TON Connect and officially documented endpoints).
+</Info>
+
+# TON: transactions and status
+
+### GET `/transactions/{address}`
+
+**Purpose:** retrieving transaction history by TON address (API version v1). Used as one of the sources for displaying the list of operations in the wallet.
+
+### GET `/transactions/v2/{address}`
+
+**Purpose:** transaction history by TON address (v2). A newer version of the response format; the application can use it for the same purposes as v1.
+
+### POST `/transactions/v3`
+
+**Purpose:** unified operation history for TON and Solana in one response. Request body: `account` (tonAddress, solanaAddress, solanaATAaddress if needed), `network`, `cursor`, `limit`. Needed for a unified transaction list in the wallet (TON + SOL + SPL) with pagination.
+
+### POST `/ton/transactions/status/{network}`
+
+**Purpose:** checking the status of a specific TON transaction by its hash (body: `txHash`). Used to understand whether a sent operation is confirmed or still being processed.
+
+# TON: config and contracts
+
+### GET `/config`
+
+**Purpose:** obtaining global TON network configuration (gas fees, storage, message limits, etc.). Needed for **local fee calculation** before sending a transaction (estimateFees).
+
+### GET `/config/{address}`
+
+**Purpose:** wallet configuration by address — contract version (v4, v5, etc.), type. Used to correctly form transactions and know wallet limitations (e.g., number of messages in one transaction).
+
+### GET `/contract/info/{address}`
+
+**Purpose:** general contract information by address (state, code). Used when parsing contracts and checking types (including tokens).
+
+### GET `/metadata/{address}`
+
+**Purpose:** contract metadata by address (name, symbol, image, etc.). Applied for displaying data about tokens and other contracts when not only balances but also asset descriptions are needed.
+
+### GET `/net/{network}/elections/latest`
+
+**Purpose:** data from the latest validator elections in the TON network (network: mainnet / sandbox / testnet). Needed for staking: understanding the current cycle, unlock periods, etc.
+
+### GET `/net/{network}/elections/{id}`
+
+**Purpose:** election data by specific id. Used for cycle details (e.g., when displaying election history in staking).
+
+### GET `/net/{network}/elections/latest/apy`
+
+**Purpose:** annual percentage yield (APY) from the latest elections. Displayed in the staking section as a yield reference.
+
+# TON tokens
+
+### GET `/hints/{address}?version=1`
+
+**Purpose:** brief token hints for the specified TON address (version 1). Used in scenarios where a compact list without full metadata is sufficient.
+
+### GET `/hints/full/{address}`
+
+**Purpose:** full list of tokens by address with balances, names, symbols, icons, and verification flags (query `isTestnet=true` for testnet). **Main source** for the assets screen: token list, "Savings" block, token selection during transfers. The response also contains `addressesIndex` for quick search by master address.
+
+### GET `/hints/extra/{address}`
+
+**Purpose:** additional "currencies" or hints by address (extra currency hints). Displayed in the same block as tokens, as a separate type of cards in the assets list.
+
+### GET `/jettons/metadata?address={master}`
+
+**Purpose:**token master contract metadata (name, symbol, decimals, image, LP data if needed). Used when current name, logo, and exact number of decimal places are needed for display or calculations.
+
+### POST `/jettons/wallet/address`
+
+**Purpose:** calculating the user's token-wallet address for a given master. Body: `address` (owner), `master`, `isTestnet`, `seqno`. Needed when forming token transfers and checking if the user has a wallet for the given token.
+
+### GET `/jettons/wallet/{walletAddress}`
+
+**Purpose:** jetton-wallet data by wallet address (query: isTestnet). Used to get balance and metadata for a specific token-wallet when only the contract address is known.
+
+### POST `/jettons/wallet/transactions`
+
+**Purpose:** transaction history for token-wallet. Body contains address and pagination/filtering parameters. Needed for the transaction history screen for individual tokens.
+
+### GET `/jettons/rates/{key}?isTestnet=`
+
+**Purpose:** token rates (prices) by key (usually master address). Used to display balance in fiat and for sorting/filtering tokens by value.
+
+### GET `/mintless/jettons/{address}`
+
+**Purpose:** list of "mintless" tokens by owner address — tokens without separate mint. Used for completeness of the assets list and correct display of such tokens.
+
+### GET `/mintless/jettons/...` (payload)
+
+**Purpose:** getting payload for operations with mintless tokens (used in fetchJettonPayload). Needed when forming transfers or requests to such contracts.
+
+# Solana
+
+### POST `/solana/account/{network}`
+
+**Purpose:** SOL balance by address. Body: `{ address }`. Used to display native Solana balance in the wallet and check sufficient funds before sending.
+
+### POST `/solana/tokens/{network}`
+
+**Purpose:** list of SPL tokens by address. Body: `{ address }`. **Main source** for the Solana assets screen: which tokens the user has, balances, symbols, logos (from API response).
+
+### POST `/solana/transactions/{network}`
+
+**Purpose:** Solana transaction history by address. Body: `{ address, ...query }`. Needed for unified Solana operations list and for Solana wallet history screen.
+
+### POST `/solana/transaction/{network}`
+
+**Purpose:** specific Solana transaction status by signature (body: `{ signature }`). Used to check confirmation of sent operations (pending / confirmed / failed).
+
+### POST `/solana/transaction/fees/{network}`
+
+**Purpose:** transaction fee estimation. Body: `{ transaction }` (serialized transaction). Result is shown to user before confirming SOL/SPL transfer as "Network fee".
+
+### WebSocket `wss://connect.tonhubapi.com/solana/{network}/account/{address}/ws`
+
+**Purpose:** subscription to Solana account updates (balance, new transactions). Application resubscribes data when balance changes or new operations appear, to avoid constant REST polling.
+
+# Staking (connect.tonhubapi.com)
+
+### POST `/staking/member/info`
+
+**Purpose:** member state across multiple staking pools simultaneously. Body: `isTestnet`, `address`, `pools[]`. Used for staking screen: balances, pendingDeposit, pendingWithdraw, withdraw for each known pool without separate get_member requests to TON for each pool.
+
+### POST `/staking/member/liquid/info`
+
+**Purpose:** user state in liquid staking (wsTON). Body: `{ isTestnet, address }`. Returns wsTON balance, pendingWithdrawals, etc. Needed for "Whales Liquid" card and deposit/withdrawal operations.
+
+### GET `/staking/{network}/pool/liquid/info`
+
+**Purpose:** liquid pool parameters and rates: rateDeposit, rateWithdraw, extras (minStake, fees, roundEnd, proxyStakeUntil, etc.), balances. Used to display TON:left_right_arrow: wsTON rates and fees during deposit/withdrawal.
+
+### GET `/usde/{network}/rate`
+
+**Purpose:** current USDe (Ethena) rate. Used in USDe Liquid staking section to display rate and calculate equivalents.
+
+### GET `/usde/{network}/apy`
+
+**Purpose:** USDe APY. Displayed in USDe Liquid card as yield reference.
+
+### POST `/usde/staking/member/liquid/info`
+
+**Purpose:** USDe liquid staking participant data (body with address and parameters). Needed to display balance and state in USDe product.
+
+# Staking indexer (separate host)
+
+**Base URL:**`https://staking-indexer.whales-api.com`
+
+### GET `/status/{network}`
+
+**Purpose:** elections and pools status (network: empty for mainnet, `testnet` for testnet). Used as data source for current staking cycle, unlock periods, and validator list; when unavailable, application can use fallback (fetchStakingStatusV4 via TON).
+
+### POST `/indexer/nominator`
+
+**Purpose:** nominator data by pool and address (deposits, withdrawals, profit for period). Body specifies pool, address, periods. Needed for detailed analytics and staking operations history.
+
+### POST `/indexer/pool/apy`
+
+**Purpose:** pool APY. Body: `{ address, fixedPeriod: 'week' }`, etc. Displayed in pool card as yield reference.
+
+# Gasless
+
+### GET `/gasless/{network}/config`
+
+**Purpose:** gasless sending configuration: list of token masters for which gasless is available, and relayer address (relay_address). Based on this config, the application decides whether to show the user the "pay fee in token" option during transfers (only for W5 and listed tokens).
+
+### POST `/gasless/{network}/estimate`
+
+**Purpose:** gasless sending estimation: fee in token, final messages, relayer address, valid_until. Body: `data` (master, wallet_address, wallet_public_key, messages), `master`. Result is shown to user before confirmation; on errors (not-enough, try-later, cooldown) corresponding messages are displayed.
+
+### POST `/gasless/{network}/send`
+
+**Purpose:** sending user-signed BOC through relayer. Body: `{ wallet_public_key, boc }`. Relayer pays gas in TON and charges fee from user in token.\
+**Main backend base URL:**`https://connect.tonhubapi.com`\
+**Network:** many endpoints have `network` parameter or path suffix — `mainnet` or `testnet` (for Solana also `devnet`).
+
+# TON Connect and app connections
+
+### Base URL `/tonconnect`
+
+**Purpose:** root path of TON Connect bridge (SSE/bridge). Used by TON Connect clients to establish session and exchange messages with wallet.
+
+### POST `/connect/command`
+
+**Purpose:** connection command in legacy flow (ton-x). Used when connecting via old scenario (e.g., part of scenarios with external browser).
+
+### POST `/connect/grant`
+
+**Purpose:** confirmation of granted session. Body: `{ key }`. Called after user confirmed connection in wallet, so that application (dApp) receives session.
+
+### POST `/connect/revoke`
+
+**Purpose:** revoking connection session. Body: `{ key }`. Called when pressing "Revoke access" in connected apps list; after this session becomes invalid.
+
+### POST `https://connect.tonhubapi.com/connect/answer`
+
+**Purpose:** sending response to connection request to server (reportEndpoint). Body contains key, appPublicKey, address, walletType, walletConfig, walletSig, endpoint, testnet, kind. Used to inform backend about successful connection and wallet parameters (for TON Connect and compatible flows).
+
+# Wallet requests
+
+### GET `/wallet-request/{address}/{network}/list`
+
+**Purpose:** list of pending wallet requests (signature, transfer, etc.). Query: `type`. Used to display incoming requests and notifications to user.
+
+### POST `/wallet-request/create`
+
+**Purpose:** creating new wallet request (e.g., signature request). Used by scenarios initiating external wallet requests.
+
+### POST `/wallet-request/respond`
+
+**Purpose:** response to request — signature or rejection. Sent after user confirmed or rejected request in application.
+
+# Storage (cloud key-value)
+
+### POST `/storage/read`
+
+**Purpose:** reading data by key (key — e.g., publicKey in base64). Used for syncing settings between devices (including hidden tokens list — tokens-disabled).
+
+### POST `/storage/write`
+
+**Purpose:** writing data by key. Used when saving settings to cloud (hidden tokens, connected apps list, etc.), so they're available after reinstall or on another device (within same account by key).
+
+# App configuration and banners
+
+### GET `/appconfig/{network}`
+
+**Purpose:** application configuration for network: enabling/disabling features (e.g., features.ethena for USDe), limitations, URLs, etc. Determines which screens and options to show to the user.
+
+### GET `/appconfig/versions/{network}`
+
+**Purpose:** application version information and updates (minimum version, forced update, etc.). Used to check for update necessity and show corresponding messages.
+
+### GET `/apps/metadata?url=`
+
+**Purpose:** application (dApp) metadata by its URL: name, icon, domain. Used when opening applications in browser and in the connected applications list.
+
+### GET `/apps/catalog`
+
+**Purpose:** applications catalog. Query: `url`. Used to display application information in catalog and when searching by URL.
+
+### GET `/apps/reviews?url=&address=`
+
+**Purpose:** user reviews for application (url) and optionally by address. Displayed in application card in browser/catalog.
+
+### POST `/apps/reviews`
+
+**Purpose:** submitting user review for application. Body: `{ url, input }`. Saves rating and review text on backend.
+
+### POST `/apps/reports`
+
+**Purpose:** submitting complaint about application. Body: `{ url, input }`. Used for moderation and blocking malicious or rule-violating applications.
+
+### GET `/tonhub/banners`
+
+**Purpose:** banners in applications browser (main browser screen, promo). Determine which cards and links to show in applications section.
+
+### GET `/tonhub/holders/banners`
+
+**Purpose:** banners related to Holders (cards, promotions). Shown in corresponding section or on Holders screen.
+
+### GET `/ads/banners`
+
+**Purpose:** advertising banners (with parameters). Used to show advertising blocks in allowed places in application.
+
+### GET `/protect/allowed-domains`
+
+**Purpose:** list of domains allowed for navigation in WebView (protection from phishing and transitions to unwanted sites). Application checks against this list whether a link can be opened in built-in browser.
+
+# Rates and tokens
+
+### GET `/v2/price`
+
+**Purpose:** current asset prices (TON, SOL, etc.) in fiat. Used to display balances and amounts in USD/other currency throughout the application.
+
+### POST `/v2/rates`
+
+**Purpose:** currency rates considering network. Body: `{ network }`. Used for amount conversion and displaying equivalents in selected currency.
+
+### POST `/token/info`
+
+**Purpose:** detailed token information by identifiers (body with addresses/types). Used in scenarios where extended token data is needed beyond metadata from hints.
+
+# Miscellaneous
+
+### GET `/balances/old/{pubkey}`
+
+**Purpose:** getting balances of "old" wallets by public key (hex). Used during migration or recovery of old addresses to show remainders and optionally suggest fund transfer.
+
+### POST `/service-address/check`
+
+**Purpose:** checking if address is service address (e.g., contract not recommended for interaction). Body: `{ address }`. Can be used when warning user before sending to such addresses.
+
+### POST `/push/register`
+
+**Purpose:** device registration for push notifications. Body contains token and device parameters. Needed for delivering notifications about incoming transactions and other events.
+
+### POST `/client-error/report`
+
+**Purpose:** sending client error report (logs, error type, context). Used for collecting diagnostics and improving application stability; does not transmit keys or seed phrase.
+
+# Changelly (exchange)
+
+### GET `/changelly/currencies`
+
+**Purpose:** list of currencies available for exchange through Changelly. Used for selecting exchange pair and checking supported assets.
+
+### POST `/changelly/estimate`
+
+**Purpose:** exchange amount estimation (rate, commission, final amount). Used before creating exchange transaction to show user expected result.
+
+### POST `/changelly/transaction/create`
+
+**Purpose:** creating exchange transaction. Initiates deal on Changelly side and returns parameters for transfer from user.
+
+### POST `/changelly/transaction/details`
+
+**Purpose:** getting details of created exchange transaction (status, amounts, addresses). Used to display exchange status in application.
+
+### POST `/changelly/transaction/resolve`
+
+**Purpose:** resolving/finalizing exchange transaction or requesting its status. Used when completing exchange or checking result.
+
+### POST `/changelly/transactions`
+
+**Purpose:** list of user's exchange transactions (with request body: address, network, etc.). Used for exchange history in Changelly section.
+
+# Holders (separate host)
+
+Holders services run on **card-prod.whales-api.com** (mainnet) and **card-staging.whales-api.com** (testnet). Below are the main APIs used and their purposes.
+
+### POST `https://{holdersEndpoint}/v2/user/wallet/connect`
+
+**Purpose:** connecting wallet to Holders: passing TON and Solana proof, obtaining user token. Called on first entry to Holders (enroll); the token is then used to request accounts, cards, and profile.
+
+### POST `https://{holdersEndpoint}/account/state`
+
+**Purpose:** Holders account state (list of accounts, cards, etc.) by token. Used to display cards and accounts in the Holders section.
+
+### POST `https://{holdersEndpoint}/v2/profile/get`
+
+**Purpose:** Holders user profile (name, settings, etc.). Displayed in Holders settings and when needed in other integration screens.
+
+### POST `https://{holdersEndpoint}/card/get`
+
+**Purpose:** specific card data by id. Used to display card details and operations on it.\
+Other Holders endpoints (OTP, card transactions, IBAN, Apple Pay, invitations, etc.) are used in corresponding scenarios; their list and description can be found in the code at `app/engine/api/holders/`.
+
+# RPC TON (TonClient4)
+
+The application uses **TonClient4** for direct data reading from the TON blockchain:
+
+- **mainnet:** `https://mainnet-v4.tonhubapi.com`
+- **testnet:** `https://testnet-v4.tonhubapi.com`
+
+**Purpose:** these are not REST APIs, but JSON-RPC/HTTP endpoints for methods like getLastBlock, runMethod. Through them the application reads staking pool parameters (get_params, get_member), balances and contract states directly from TON, when current on-chain data is needed without backend cache.

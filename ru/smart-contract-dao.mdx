@@ -1,1 +1,147 @@
-Not logged in · Please run /login
+---
+title: "Smart-contract DAO"
+---
+
+# General Data
+
+**Link:** [https://github.com/tonwhales/nominators-dao](https://github.com/tonwhales/nominators-dao\\)
+
+**License:** [MIT](https://opensource.org/licenses/MIT)
+
+**Language:** [Tact](https://tact-lang.org/)
+
+# What is a DAO contract
+
+This is a DAO smart contract that automatically:
+
+- stores a common "bank" of funds,
+- distributes incoming revenue among participants according to predefined shares,
+- gives participants the ability to vote on important actions (proposals),
+- manages an external staking contract (or pool) through which revenue is earned.
+
+# How it works
+
+- Fixed participant shares
+
+There is a list of participants with shares (for example, 10%, 15%, 5%, etc.). When money comes into the DAO (income, withdrawal from pool, etc.), the contract automatically distributes it strictly according to these shares. No manual "who gets how much" — everything is hardcoded.
+
+- Common bank and minimum balance
+
+The contract always maintains a minimum balance to avoid "zeroing out" and continue operating. Withdrawing money from the pool (or initiating staking operations) is only possible if the DAO has sufficient funds.
+
+- Voting on proposals
+
+Any participant can create a "proposal" — a set of actions that the contract should execute (for example, transfer funds, change manager address, perform technical operations).
+
+- For decision-making, a certain number of participants need to vote for or against (approximately two-thirds, but minimum two).
+- One participant — one vote per specific proposal.
+- If enough "for" votes are collected — the contract automatically executes the actions embedded in the proposal. If "against" — the proposal is considered rejected.
+- No trust in people, trust in code
+
+All rules — who is a participant, what shares, how many votes needed, how money is divided — are written in the smart contract. They cannot be changed retroactively without going through a formal procedure (voting and proposal execution). This reduces the risk of "bypass" agreements and human factor.
+
+# What the contract gives to partners
+
+- Transparent and automatic revenue distribution among all participants according to clear rules.
+- Formalized decision-making: any important actions go through voting, the result of which cannot be "rigged".
+- Minimal operational burden: no manual payments and manual control — everything is implemented in code.
+- Predictability and stability: the contract is protected from "zeroing out" through minimum balance and balance checks before risky actions.
+
+# Structure and main entities
+
+**DAOWithSplitter** - main DAO contract.\
+Stores:
+
+- `managable: Address` — address of the managed staking contract / pool.
+- `members: map[Int]Int` — set of participants:
+  - Key — hash of participant's address (basechain only, `workchain = 0`);
+  - Value — "weight"/share of participant (integer).
+- `denominator: Int` — common denominator for share calculation (sum of all member weights ≤ denominator).
+- `withdrawFee: Int` — fixed amount sent to `managable` when requesting stake withdrawal.
+
+**Proposal** - auxiliary contract for voting on one proposal.\
+Stores:
+
+- `owner: Address` — DAO address (initiator/owner of the proposal).
+- `members: map[Int]Int` — local copy of participant shares at the time of proposal creation.
+- `votesNeeded: Int` — number of votes needed for decision-making.
+- `agreed, disagreed` — counters for "for" and "against" votes.
+- `proposal: map[Int]ProposedMessage` — set of messages to be executed in case of acceptance.
+
+**ProposedMessage** - description of one outgoing message that will be sent by DAO upon successful voting:
+
+- `to: Address, value: Int, mode: Int, bounce: Bool, body: Cell`.
+
+## Key constants
+
+- `PROPOSAL_MINIMUM_BALANCE` — minimum balance required for safe proposal creation.
+- `DAO_MINIMUM_BALANCE` — minimum balance on DAO account, below which fund withdrawal is not allowed.
+
+# Voting and proposal logic
+
+1. Proposal creation (`CreateProposal` message)
+   1. Sender must be a DAO participant (`members` contains their hash).
+   2. Message account (`ctx.value`) must have \> 2 × PROPOSAL_MINIMUM_BALANCE — to cover deployment and proposal contract operation.
+1. Voting in `Proposal` contract `receive("Agree")` and `receive("Disagree")`:
+   1. Only allowed for basechain addresses (`wc == 0`) present in `members` with non-zero weight.
+   2. One participant can vote only once — after voting, their weight in `members` is zeroed.
+   3. If number of "for" votes ≥ `votesNeeded`:
+      1. `executeProposal()` is called:
+         1. `Proposal` contract sends `ExecuteProposal` message with `messages` map to DAO.
+   1. If number of "against" votes ≥ `votesNeeded`:
+      1. `terminateProposal()` is called:
+         1. text message `"Terminated"` goes to DAO.
+2. Proposal execution in DAO (`receive(proposal: ExecuteProposal)`)
+   1. DAO checks that sender is the correct proposal contract:
+   2. Recalculates `StateInit` of expected `Proposal` based on current DAO state and received `messages`;
+   3. Compares `ctx.sender` with address computed from this `StateInit`.
+
+- compares `ctx.sender` with address computed from this `StateInit`.
+  - If check passes, DAO sequentially sends all `ProposedMessage`:
+    - Each entry in `messages` becomes a regular `send()` with specified fields.
+
+# Distribution mechanics
+
+`splitAndSend(value: Int)`
+
+- Calculates `splittable = value / denominator * denominator` and distributes only this "divisible" part.
+- If `splittable ≤ 0`, does nothing.
+- Iteratively traverses `members` dictionary via `nativeDictGetMin` / `nativeDictGetNext`:
+- For each participant:
+  - Extracts `memberShare`.
+  - Converts hash key to `Address` (basechain).
+- Sends to participant:
+  - `value = splittable / denominator * memberShare`.
+  - In `body` — comment like: `"X/Y of Z (whales revenue share)"`, where:
+    - `X` — participant's share,
+    - `Y` — denominator,
+    - `Z` — total distributed amount.
+
+# Incoming messages to DAO
+
+`"Topup DAO"` - DAO top-up without additional logic; message is simply accepted.\
+`"Terminated"` - service message for synchronization with proposal contract; no additional actions performed.\
+`"Withdraw"` - sender must be a DAO participant.\
+Checks that: `myBalance() - withdrawFee > DAO_MINIMUM_BALANCE`.
+
+- If condition is met:
+  - DAO sends `WithdrawStake` message to `managable` with:
+    - random `queryId`,
+    - fixed `gasLimit`,
+    - `stake = 0` (actual stake size is determined by external contract).
+
+`"Gift"` - any user can send funds with this text.
+
+- DAO retains `DAO_MINIMUM_BALANCE` as minimum balance, the rest (`ctx.value - DAO_MINIMUM_BALANCE`) if positive is distributed via `splitAndSend`.
+
+`WithdrawStakeResponse` and `WithdrawStakeDelayed` - these messages come from `managable` after stake withdrawal operations completion.
+
+- Similar to `"Gift"`:
+  - `DAO_MINIMUM_BALANCE` is subtracted from incoming value,
+  - Remaining amount (if \> 0) is distributed among participants via `splitAndSend`.
+
+# Get methods
+
+`memberShare(addr: Address): Int` - returns participant's weight by their address. If address is not a participant — throws error.\
+`membersCount(): Int` - counts number of entries in `members` dictionary.\
+`minimumVotes(): Int` - returns minimum number of votes needed for decision-making.

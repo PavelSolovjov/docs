@@ -1,1 +1,24 @@
-Not logged in · Please run /login
+---
+title: "Whales connect"
+---
+
+# What is Whales Connect
+
+**Whales Connect** is a backend service for the Whales ecosystem. It provides wallet connection session management, command delivery (transactions, signatures), push notifications, TonConnect integrations, and shared data infrastructure for products (rates, balances, etc.).\
+Essentially, it's a unified backend for Whales wallets and applications: a wallet-to-application "connection" service and a platform for shared APIs (blockchain, rates, metadata, transaction sending, etc.).\
+Repository: https://github.com/tonwhales/whales-connect\
+Language: Typescript
+
+# What it's used for
+
+- **Wallet-to-application connection (Connect)** — provides secure connection establishment between a user's wallet and external applications. The application initiates a connection request, the user confirms it in the wallet interface, after which the application receives authorized access to the wallet address and the ability to send operation requests.
+- **Command delivery to wallet (command)** — allows applications to send tasks to the user's wallet. The application creates a task (transaction or data signing), the system checks session activity, saves the task, and delivers it to the wallet via push notifications or TonConnect protocol. The user can confirm or reject the operation in the wallet application.
+- **Shared session storage (connect read/write)** — provides applications with the ability to save and read data associated with the wallet address in key-value format. All operations are performed with user consent and session signature verification. This function is designed for storing cache, user settings, and application state without the need to deploy a custom backend.
+- **Ecosystem infrastructure** — a centralized platform providing unified API for obtaining currency rates, wallet balances, transaction history, staking functions, smart contract verification, transaction sending, and TonConnect integration. Allows wallet and application developers to avoid logic duplication and direct blockchain interaction.
+- **Push notifications** — a system for registering devices by wallet addresses and delivering notifications to users. Includes notifications about new Connect commands, TonConnect requests, and other events. Implemented through integration with Expo Push and custom notification handlers.
+
+# Which products use it
+
+- [**Tonhub**](/business-overview-1) — uses Whales Connect as the main backend for wallet creation, obtaining current currency rates, integration with external services, executing transactions, and sending push notifications to users.
+- [**Staking**](/business-overview) — uses the service for calculating staking yields and obtaining current cryptocurrency rates.
+- **Internal ecosystem services** — include staking indexer, compiler, and TonhubAPI (for mainnet, testnet, and sandbox environments). Whales Connect serves as the central backend for all wallets and applications in the ecosystem.

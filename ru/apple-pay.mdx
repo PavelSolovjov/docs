@@ -1,1 +1,102 @@
-Not logged in · Please run /login
+---
+title: "Apple Pay overview"
+description: "This document explains what Apple Pay is, what user and regional limitations apply, how In‑app provisioning and its certification work, and how Apple Pay is integrated and certified within Holders."
+---
+
+# What is Apple Pay
+
+[Apple Pay](https://www.apple.com/apple-pay/) is a mobile payment service and digital wallet [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993), developed by [Apple Inc](https://www.apple.com/). This service enables contactless payments through Apple devices, including iPhone, iPad, Apple Watch, and Mac.
+
+# Possible User Limitations
+
+1. **Compatible devices**: [Apple Pay](https://www.apple.com/apple-pay/) is only available on [Apple](https://www.apple.com/) devices such as [iPhone](https://www.apple.com/iphone/), [iPad](https://www.apple.com/ipad/), [Apple Watch](https://www.apple.com/watch/), and [Mac](https://www.apple.com/mac/) that support this feature.
+2. **Supported banks and cards**: Not all financial institutions and payment cards are compatible with [Apple Pay](https://www.apple.com/apple-pay/). When entering into an agreement with an issuing bank, the business team verifies the availability of support for this technology from the specific bank.
+3. **Regional restrictions**: [Apple Pay](https://www.apple.com/apple-pay/) availability varies depending on geographical location. [List of supported regions](https://support.apple.com/ru-ru/102775).
+4. **Transaction limits**: Issuing banks may set restrictions on the maximum amount of transactions conducted through [Apple Pay](https://www.apple.com/apple-pay/).
+5. **Cashback and loyalty programs**: Individual issuers may not provide cashback or bonus rewards when making payments through [Apple Pay](https://www.apple.com/apple-pay/).
+6. **Number of cards**: The maximum number of cards available to a user in [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) is 12, but this value may change, for example, when multiple accounts are linked in the application.
+
+# In-app provisioning
+
+Holders implements advanced integration with [Apple Pay](https://www.apple.com/apple-pay/) through [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology. This technology enables the process of adding a payment card to [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) directly from an application on the [iOS](https://www.apple.com/ios/) platform, which significantly simplifies the card connection procedure for users, eliminating the need to access [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) settings.\
+To use [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology, an organization must undergo mandatory [Apple](https://www.apple.com/) certification. [Apple](https://www.apple.com/) delegates certification authority to accredited organizations such as [Fime](https://www.fime.com/).\
+Наличие [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) не отменяет возможности ручного добавления карты в [Apple Wallet](https://apps.apple.com/us/app/apple-wallet/id1160481993) через его интерфейс.
+
+# In-app provisioning Certification
+
+To implement [in-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) functionality, a company must establish partnership relationships with each issuing bank whose cards are planned to be integrated into the system. Each financial institution undergoes an individual technical verification and certification procedure to confirm full compatibility of banking systems with [in-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) technology and the [Apple Pay](https://www.apple.com/apple-pay/) payment ecosystem.\
+**The certification process includes the following stages:**
+
+1. Submitting a certification application.
+2. Signing a non-disclosure agreement (NDA) with the certifying organization.
+3. Signing a contract and paying for certification services.
+4. Agreeing on certification timeline. The testing procedure is carried out by an accredited company specialist within 5 business days.
+5. Providing marketing materials to the certifying organization:
+   1. [Apple Pay page on the application website](https://tonhub.com/apple-pay)
+   2. [Application Video](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) - demonstration video material of the provisioning process
+   3. [Marketing Creatives](https://developer.apple.com/app-store/marketing/guidelines/) - social media materials about [In-app provisioning](https://developer.apple.com/documentation/passkit/apple_pay/setting_up_apple_pay) implementation (in the absence of a large-scale launch, a [Splash screen](https://developer.apple.com/design/human-interface-guidelines/launch-screen) is sufficient)
+
+Testing is conducted on iPhone, iPad, and Apple Watch devices.\
+Upon completion of testing:
+
+1. The accredited organization representative prepares a report for Apple, including integration and testing checklists.
+2. Apple reviews the certification results within 2 weeks from submission and assigns a launch date by which the feature must be removed from whitelists and ready for full operation.
+
+# Holders Certification
+
+**Company that underwent certification:** [Walleexer s.r.o.](https://walleexer.com/)\
+**Application that underwent certification:** [Tonhub](https://gettonhub.com/)\
+**Partner bank:** [Wallester](https://wallester.com/)\
+**Certificate date:** 20.08.2024\
+**Certification partner:** [Fime](https://www.fime.com/)\
+**Cost:** \$20,000 (certification cost) + \$5,000 (tokenization setup Wallester) = \$25,000.\
+The Wallester tokenization setup includes payment card configuration for integration with the following digital payment systems. In each of them, the card will be displayed with correct parameters and settings:
+
+- [Apple Pay](https://www.apple.com/apple-pay/)
+- [Google Pay](https://pay.google.com/)
+- [Garmin Pay](https://www.garmin.com/en-US/p/pay)
+- [Samsung Pay](https://www.samsung.com/us/samsung-pay/)
+- [Fitbit Pay](https://www.fitbit.com/global/us/technology/fitbit-pay)
+- [Fidesmo Pay](https://fidesmo.com/consumer/fidesmo-pay/)
+
+# Card Verification by User
+
+After adding a card to Apple Wallet, Apple performs a verification procedure to confirm the user's ownership rights to the given payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS message to the phone number specified by the user when registering their profile in the Holders system.
+
+<Info>
+  **Important feature:** Apple Pay does not transmit the actual credit or debit card number when making transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
+</Info>
+
+## Apple Card Verification Statuses
+
+**Green** - the card passes verification immediately without additional requests.\
+**Yellow status** — to complete the verification procedure, the user needs to enter a one-time confirmation code (OTP).\
+**Orange status** — the card is subject to verification exclusively in manual mode through the partner bank.\
+Red - the card cannot be verified
+
+## Orange Flow Card Processing
+
+If a card in the [Apple](https://www.apple.com/) system receives orange status, the user will be offered to complete verification by calling the Tonhub application support phone number (the call may be paid).
+
+<Info>
+  Tonhub phone number (Switzerland) +41587880033.
+</Info>
+
+Currently, the specified number is answered by an automated system that directs the user to the application's online support service. After the user contacts Tonhub support through the Intercom platform, the operator gains the ability to perform card verification in the Wallester administrative panel according to the established instructions.
+
+## Responsibility for Card Transfer
+
+Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.com/private-account-card-agreement) states the following:
+
+> "The Card must only be used by the Client. The Client must not authorise third parties to use the card, i.e., to make the Card or only the Card Data available to the third parties. The card must not be given to third parties as a gift, sold to third parties or otherwise transferred to third parties."
+
+This means that the card must be used only by the client, and the client has no right to authorize third parties to use the card, transfer it, give it as a gift, or sell it.\
+Accordingly, any actions involving the transfer of the card to other persons or granting them the right to use the card are qualified as a violation of the terms of the agreement with Wallester. Such violations result in the application of sanctions in the form of card blocking. In certain cases, depending on the nature of the use of card data and the intent of the participants, such actions may be qualified as fraudulent, which provides for criminal liability in the form of monetary penalties or imprisonment.
+
+# Card Appearance
+
+Users cannot independently change the card design in Apple Wallet. The card design in Apple Wallet is set by the bank or financial institution that issued the card. Each design is approved by the issuer with the payment system and added to the card settings after approval. A similar situation occurs with the bank name that is displayed on the card in Apple Wallet. Holders can change or add designs, but each change will require VISA approval and additional costs.\
+**Cost of adding a design:** 400 EUR\
+**Cost of a minor change:** 100 EUR\
+A minor change is considered, for example, changing a phone number or logo on the card.\
+Adding a design to Apple Wallet happens automatically and does not require approvals or additional payments.

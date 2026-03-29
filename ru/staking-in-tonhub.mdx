@@ -1,1 +1,118 @@
-Not logged in · Please run /login
+---
+title: "Staking in Tonhub"
+---
+
+In Tonhub, TON staking is implemented through **TON Whales** pools ([tonwhales.com](http://tonwhales.com)): users delegate TON to a selected pool and receive a share of rewards for network validation. Below is what staking means in the context of the application and how it works technically.
+
+# What is staking in the context of Tonhub
+
+**Staking** is the delegation of TON coins to a pool that participates in validator elections and receives rewards for network operation. The user doesn't run a node themselves: they send TON to the pool's smart contract and become a nominator of that pool. The pools available in Tonhub belong to [Ton Whales](https://tonwhales.com).\
+In the application, users can:
+
+- **Top up stake (deposit):** send TON to the pool address; the amount is credited to the pool member's account and participates in the next staking cycle. [Deposit guide.](/deposit-withdraw-via-tonhub)
+- **Request withdrawal (withdraw):** initiate full or partial withdrawal of funds from the pool. [Withdraw guide.](/deposit-withdraw-via-tonhub)
+- **View balance:** current stake (balance), funds pending deposit (pendingDeposit), pending withdrawal (pendingWithdraw), and ready for withdrawal (withdraw).
+- **Calculate yield:** use the built-in wallet yield calculator.
+
+All operations are performed on the [TON network](https://ton.org); pool fees (for withdrawal, for "receipt", etc.) are charged in TON. For more details on fees, see the "Fees" section (TON staking).
+
+# How staking is implemented: pools and data
+
+## Available pools
+
+The list of pools that Tonhub displays and works with is defined in the application (KnownPools) and linked to contract addresses in mainnet and testnet. Examples:
+
+- [Nominators 1 / Nominators 2](/staking-pools) — TON Whales nominator pools (open to all).
+- [Team 1 / Team 2](/staking-pools) — team pools (may have restricted access).
+- [Club 1 / Club 2](/staking-pools) — club pools (restricted access; use [tonwhales.com/club](https://tonwhales.com/club) link to join).
+- [Tonkeeper 1 / Tonkeeper 2](/staking-pools) — [Tonkeeper](https://tonkeeper.com) partner pools.
+- [Whales Liquid](/liquid-staking-pool) — liquid staking: delegation to wsTON wrapper (see below).
+- USDe Liquid — [USDe (Ethena)](https://ethena.fi) staking; enabled by app config (features.ethena).
+
+## Pool parameters
+
+Parameters for each pool are requested directly from the smart contract in TON: the `get_params` method is called. The response includes:
+
+- **enabled** — whether deposit acceptance is enabled or not.
+- **minStake** — minimum deposit amount.
+- **depositFee** — deposit fee (in nano-TON).
+- **withdrawFee** — withdrawal fee.
+- **receiptPrice** — cost of "receipt" (accounting unit) for operations.
+- **poolFee** — pool fee (share of rewards, in percentage or base units, depending on contract).
+
+These values are used to display fees to the user and to check minimum amount and sufficient balance for withdrawal (e.g., reserve for withdrawFee and receiptPrice).
+
+## Member state
+
+For each pool and wallet address, the application requests member state by calling `get_member` (argument — nominator address). Returns:
+
+- **balance** — current staked balance.
+- **pendingDeposit** — amount pending deposit to stake.
+- **pendingWithdraw** — amount pending withdrawal (locked until end of cycle).
+- **withdraw** — amount ready for withdrawal to wallet (after unlocking).
+
+Data is updated when opening the staking screen and when switching between pools. For "regular" pools (not liquid), requests go to TON (TonClient4, getLastBlock + runMethod); liquid pool and USDe use separate APIs and contracts (see below).
+
+## Network status and elections
+
+To show current staking cycles and unlock deadlines, the application uses network staking status: election time, minimum/maximum stake, validator list, etc. This data is requested from the staking indexer or, if unavailable, through fallback **fetchStakingStatusV4** using TON data (election config, electors). This way the application knows when the current cycle ends (proxyStakeUntil and similar) and when users can withdraw funds.
+
+# Operations: deposit and withdrawal
+
+## Deposit (deposit / top up)
+
+The user enters a TON amount and confirms the transfer. The application creates a regular outgoing transaction in TON: recipient — pool address, amount — entered value (without separate contract call; pool accepts incoming transfer). After the transaction is included in a block, the pool credits funds to the member's account; they are displayed as balance and/or pendingDeposit depending on the cycle phase. [Deposit guide.](/deposit-withdraw-via-tonhub)
+
+## Withdrawal (withdraw)
+
+The user initiates withdrawal: the application sends a withdraw message (or equivalent per pool protocol) to the pool with the specified amount. TON Whales pools charge **withdrawFee** and **receiptPrice**; the user must have sufficient balance accounting for these fees. After processing the request, the amount moves to "pending withdrawal" state (pendingWithdraw), and after the lock expires — to **withdraw** (ready for withdrawal). The user then performs the final "claim" action, and TON is sent to their wallet. [Withdraw guide.](/deposit-withdraw-via-tonhub)\
+The interface shows the pool fee (withdraw fee + receipt) before withdrawal so the user can see the final amount to receive.
+
+# Liquid staking (Whales Liquid, wsTON)
+
+[Liquid staking](/liquid-staking-pool) in Tonhub is represented by the Whales Liquid product: users delegate TON to a contract and receive wrapped TON - wsTON token, which can be stored, transferred, or exchanged, while the underlying TON continues to participate in staking.
+
+### How it works
+
+- The liquid staking contract has a fixed address in mainnet/testnet (e.g., EQB0SoxuGDx5qjVt0P_bPICFeWdFLBmVopHhjgfs0q-wsTON for mainnet). This is **not** a regular pool from get_member: balance and rate data is requested through Tonhub API: `staking/mainnet/pool/liquid/info` (or testnet). The response includes:
+- **rateDeposit** / **rateWithdraw** — TON:left_right_arrow: wsTON conversion rates.
+- **extras**: minStake, depositFee, withdrawFee, receiptPrice, poolFee (%), roundEnd, proxyStakeUntil, etc.
+- **balances** — protocol volumes (supply, total balance, pending withdraw, etc.).
+- **Deposit:** user sends TON to contract with liquid deposit body (op from LiquidStakingContract: storeLiquidDeposit); in return, wsTON token are credited at current rateDeposit.
+- **Withdrawal:** user sends **liquid withdraw** message specifying wsTON amount (storeLiquidWithdraw); after processing and unlocking, they receive TON back at rateWithdraw. Fees (withdrawFee, receiptPrice) are accounted for in display.
+
+TON-equivalent balance is shown based on wsTON balance and rateWithdraw. APY and pool fee (poolFee) are displayed in the Whales Liquid card (when data is available from API and useStakingApy).
+
+# USDe Liquid (Ethena)
+
+When the [Ethena](https://ethena.fi) feature is enabled (app config: features.ethena), USDe Liquid appears in the pool list: staking of USDe stablecoin. The pool is linked to an Ethena contract not belonging to Ton Whales (tsMinter, etc.). The mechanics in the application are similar to liquid staking: users interact with the contract through special messages; display data (balance, fees) is pulled from API and contract depending on implementation. The pool is placed in the wallet by agreement with [Ethena](https://ethena.fi).
+
+# Limitations and features of staking in Tonhub
+
+- **TON only:** staking in Tonhub works only on the [TON network](https://ton.org) (mainnet/testnet). Solana does not participate in staking.
+- **Whales pools:** the application is designed for [Whales](https://tonwhales.com) and partner pools (Nominators, Team, Club, Tonkeeper, Liquid). Adding arbitrary pools by address without supporting the same protocol in code is not provided.
+- **Restricted pools (Club, Team):** certain conditions must be met to join closed pools.
+- **Fees:** all pool fees (deposit, withdraw, receipt, pool fee) are set by contract and/or API, and the application only displays them and checks balance sufficiency. More details in the "Fees" document.
+
+# Errors and edge cases (typical situations)
+
+### Amount less than minStake
+
+For **deposits**, the pool requires a minimum stake amount: minStake plus deposit fees (depositFee, receiptPrice). If the user entered an amount below this threshold, the application shows a warning under the input field: message about minimum amount (in TON) and need to increase input.\
+The confirmation button remains available, but the pool won't accept deposits below minimum — the transaction may fail or not be credited.
+
+### Insufficient TON for fees (withdrawFee / receiptPrice)
+
+For **withdrawals**, the pool charges a withdrawal fee. If there's insufficient TON in the wallet balance or pool account for these fees, the withdrawal operation won't go through or the user will see an error/insufficient balance message.\
+The interface displays a line with the fee amount (withdraw fee in TON) before withdrawal so the user can estimate what they'll receive.\
+**Recommendation:** always keep a small TON reserve in the wallet and consider that repeated withdrawals (e.g., in two stages) may require fees twice — the application reserves these amounts from available balance when using "Enter all" for deposits.
+
+### Stake "disappeared" from balance and went to pendingWithdraw
+
+After requesting withdrawal, the amount leaves current stake (balance) and moves to pendingWithdraw (pending withdrawal). This is normal behavior: funds are locked until the current staking cycle ends (proxyStakeUntil, etc.). The user sees them in the "Pending withdrawal" section or similar.\
+**What to do:** wait for the cycle to end; then the amount will appear in withdraw (ready to receive), and you can click "Claim" to transfer TON to your wallet. No additional actions required.
+
+### API or indexer unavailable
+
+Data about election status, cycles, and (for liquid) rates comes from the staking indexer and Tonhub API (e.g., staking/.../pool/liquid/info). If API or indexer is temporarily unavailable, the application may approximately show cached data or from the last successful TON contract response (get_params, get_member).\
+Some fields may be temporarily unavailable or outdated: cycle end dates, APY, liquid staking rates. It's recommended to retry later or refresh the screen; critical operations (deposit/withdraw) may be blocked or show warnings when data is insufficient.

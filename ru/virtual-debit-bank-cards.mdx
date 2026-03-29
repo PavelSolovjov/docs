@@ -1,1 +1,91 @@
-Not logged in · Please run /login
+---
+title: "Virtual debit bank cards"
+description: "This document explains what virtual debit cards are in Holders, which types and banks are used, how card ownership and responsibilities are structured, how payments are processed, and how a card’s lifecycle and statuses work."
+---
+
+# What is a virtual debit bank card
+
+A virtual debit bank card is a digital version of a payment card that has no physical medium but contains standard credentials: card number, expiration date, and CVV. It is used for the same operations as a regular plastic card. Physical bank cards are not currently implemented in the project.\
+Cards do not have their own money — they draw funds from the account to which they are connected. In Holders, up to 50 cards can be connected to one account, but the bank may set its own restrictions. If limits are not exceeded, a new card can be issued at any time. The card's currency is the currency of the account to which it is linked.
+
+<Note>
+  **Please note:**\
+  Virtual bank cards in Holders do not have a PIN code, and it should not be requested by merchants during payment. A PIN code request indicates incorrect configuration of the merchant's payment terminal.
+</Note>
+
+# Types of virtual cards in Holders
+
+Holders implements two types of virtual cards:
+
+- **Non-custodial cards** — cards linked to decentralized accounts. Currently, this is the only type of card available for issuance by users.
+- **Prepaid cards** — each such card represents a separate account in a partner bank, with cryptocurrency exchange to fiat funds occurring at the moment of card top-up. Currently, the issuance of such cards is suspended.
+
+# Card issuing banks
+
+Holders does not issue bank cards independently. Card issuance is handled by organizations that have the appropriate license obtained from regulators and payment systems.\
+At the current moment, Holders has one main partner bank:
+
+1. [Wallester](https://wallester.com/) - issues Visa cards in EUR for EU residents. The cost of issuing one card for Holders is 1 EUR. For the client, issuing the first card remains free for now, but issuing each subsequent card will cost 7.92 EUR. Card maintenance is free for the client.
+
+<Info>
+  All virtual bank cards issued by the partner bank belong to the partner bank, not the client (based on the agreement that the client signs with the issuing bank when the card is issued) and are linked to the Holders account at the issuing bank. The client issuing the card does not have their own account created at the issuing bank.
+</Info>
+
+# Available cards
+
+| Card type     | Payment system | Currency | Who is it issued for | Issuer                              | Where can it be used               |
+| :------------ | :------------- | :------- | :------------------- | :---------------------------------- | :--------------------------------- |
+| Non-castodial | Visa           | EUR      | EU                   | [Wallester](https://wallester.com/) | Everywhere Visa cards are accepted |
+
+# Legal status of cards and distribution of responsibilities
+
+Holders bank cards are issued and serviced by the licensed payment institution [Wallester AS](https://wallester.com/) in accordance with the rules of the [Visa](https://www.visa.com/) payment system.\
+The client acts as the cardholder, however the legal ownership of the card itself and the payment infrastructure belongs to the issuing bank.\
+**Partner Responsibilities (Wallester/Holders):**
+
+- Concluding contracts with clients on behalf of Wallester
+- Managing client communications
+- Performing [KYC](https://en.wikipedia.org/wiki/Know_your_customer)/[AML](https://en.wikipedia.org/wiki/Anti-money_laundering) verification procedures
+- Covering settlement and chargeback expenses, including fraud losses in case of lost or uninitiated disputes
+- Maintaining sufficient balance to ensure card operations
+
+**Wallester Responsibilities:**
+
+- Card issuance and processing
+- Compliance with regulatory and [Visa](https://www.visa.com/) payment system requirements
+- Right to restrict card operations in case of insufficient Partner funds
+
+[Wallester's](https://wallester.com/) liability to the Partner is limited in nature, except in cases of intentional actions or gross negligence.
+
+# Virtual card payment scheme
+
+![Screenshot2026 02 03at18 42 49](/images/Screenshot2026-02-03at18.42.49.png)
+
+1. Client initiates a payment operation
+2. The merchant's acquiring bank sends a request to the card issuing bank
+3. The card issuing bank requests confirmation from Holders for the possibility of conducting the operation
+4. The Holders system performs a comprehensive verification of the card and account according to the following parameters:
+   1. Absence of card freeze
+   2. Absence of card blocking
+   3. Active card status
+   4. Sufficient funds in the account (in USDC or TON) to pay for the transaction and Holders commission
+   5. Completion of KYC and AML procedures
+   6. Correctness of entered CVC code and 3D-Secure password (for online payments)
+   7. Payment confirmation by the client using the selected method - through the application or 6-digit code (for online payments)
+1. After successful verification, the Holders backend sends authorization to the issuing bank to conduct the operation
+2. The issuing bank executes the payment and debits the purchase amount from the Holders account
+3. The Holders backend creates a debit task, includes it in the rollup, and subsequently debits from the client's smart contract.
+4. An order is formed on the exchange to sell the required amount in cryptocurrency.
+5. The accumulated fiat amount on the exchange is withdrawn to the balance of the Holders account at the issuing bank.
+
+# Сard lifecycle
+
+![Screenshot%202023 11 24%20at%202 44 52%20PM](/images/Screenshot%202023-11-24%20at%202.44.52%20PM.png)
+
+The current card status is available for viewing both in the application interface and in the Backoffice.
+
+1. When card issuance is initiated, the system assigns it the status `PENDING_CARD` and sends an issuance request to the partner bank.
+2. Until issuance, the card remains in `PENDING_CARD_ISSUE` status. After successful issuance, the card receives `ACTIVE` status. In case of paid card functionality activation, a check for account debt is performed before issuance. If debt is detected, the card transitions to `WAITING_FOR_PAYMENT` status.
+3. At the client's initiative, an active card can be moved to `FROZEN` status. In this status, the card is unavailable for payments but can be unfrozen.
+4. The `BLOCKED` status can be assigned to an active card either at the client's initiative or by the partner bank. This status is irreversible and means complete blocking of the card for payments.
+5. Cards in `ACTIVE`, `FROZEN`, or `BLOCKED` statuses can be closed, after which they receive `CLOSED` status and become unavailable in the user interface.

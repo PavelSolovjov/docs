@@ -1,1 +1,13 @@
-Not logged in · Please run /login
+---
+title: "Billing Mode Feature Flag"
+---
+
+`billing_mode` in `instances.settings` (feature flag):
+
+| Mode | Description | Status |
+| :-- | :-- | :-- |
+| `on_chain` | Fees auto-collected per cheque via SPL delegate | Implemented |
+| `invoice` | Fees accumulated, invoiced monthly, collected off-chain | Scaffolded, not enforced |
+| `hybrid` | On-chain for creation, invoice for others | Planned |
+
+When `billing_mode = 'invoice'`: `collectCreationFee()` should skip the on-chain transfer and set `collection_status = 'invoiced'` instead. The fee then appears in the monthly invoice as a line item for off-chain collection. This gate is not yet implemented.

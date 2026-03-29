@@ -1,1 +1,18 @@
-Not logged in · Please run /login
+---
+title: "Key File Reference"
+---
+
+| File | Purpose |
+| :-- | :-- |
+| `api/fees.ts` | Fee calculation pure functions \+ limit checker |
+| `api/routes/instance-admin.ts` | All billing \+ settlement API actions |
+| `api/routes/check-balance.ts` | `collectCreationFee()` — on-chain fee collection |
+| `api/routes/cheques.ts` | `fee_ledger` INSERT on cheque creation |
+| `api/routes/relayer.ts` | Claim fee INSERT \+ UPDATE |
+| `api/routes/breakage.ts` | Breakage fee INSERT on expiry |
+| `src/pages/InstanceDashboard.tsx` | `RevenueTab` — all billing UI sub-sections |
+| `src/components/admin/AdminRevenueTab.tsx` | Platform admin revenue overview (global) |
+| `src/components/admin/AdminFeeTiersTab.tsx` | Fee tier CRUD (platform admin) |
+| `db/init.sql` | `fee_ledger` (line ~341), `fee_tiers` (line ~285) |
+| `db/migrations/035–037` | Existing billing migrations |
+| `db/migrations/038–044` | Planned distribution \+ payment migrations |

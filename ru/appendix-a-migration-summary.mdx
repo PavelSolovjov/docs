@@ -1,1 +1,16 @@
-Not logged in · Please run /login
+---
+title: "Migration Summary"
+---
+
+| Migration | Description | Status |
+| :-- | :-- | :-- |
+| `035-billing-period-fee-ledger.sql` | Add `billing_period`, <br />`collection_attempts`, <br />`next_retry_at` to `fee_ledger` | Done |
+| `036-invoices.sql` | Create `invoices` \+ `invoice_line_items` | Done |
+| `037-invoices-period-unique.sql` | Unique index <br />`(instance_id, billing_period)` | Done |
+| `038-backfill-billing-period.sql` | Backfill `billing_period` from `created_at` | Planned |
+| `039-credit-notes.sql` | `credit_notes` table | Planned |
+| `040-invoice-payment-fields.sql` | `paid_at`, `payment_ref` on `invoices` | Planned |
+| `041-invoice-rate-fields.sql` | USDC rate columns on `invoices` \+ <br />`fee_ledger` | Planned |
+| `042-merchant-distribution-fields.sql` | `merchant_type`, `agent_commission_pct`, <br />`settlement_currency`, `country` | Planned |
+| `043-distribution-tiers.sql` | `rebate_pct`, `rebate_volume_tiers`, <br />delay on `fee_tiers` | Planned |
+| `044-merchant-settlements.sql` | `merchant_settlements` \+ <br />`merchant_rebates` tables | Planned |

@@ -1,1 +1,55 @@
-Not logged in · Please run /login
+---
+title: "Fee Types"
+---
+
+## Creation Fee (Primary Platform Revenue)
+
+Charged to the **merchant**, drawn from their dedicated fee wallet on the Solana blockchain.
+
+```text
+fee = max(cheque_amount × creation_fee_pct / 100 + creation_fee_flat, creation_fee_min)
+```
+
+- Default: `2.0% + 0.25 USDC flat, 0.25 USDC minimum`
+- Fee is charged **separately** from the cheque amount — recipient always gets the full cheque value
+- Collected automatically via SPL token delegate when the cheque is funded
+- This is the **platform's** revenue, separate from the issuer-merchant distribution economics\
+
+## Claim Fee (Optional)
+
+Charged to the **end-user recipient**, deducted on-chain from the transfer amount.
+
+```text
+net_received = cheque_amount - (cheque_amount × claim_fee_pct / 100 + claim_fee_flat)
+```
+
+- Default: `0%` (disabled)
+- Enabled per-merchant via fee tier configuration\
+
+## Changelly Markup (Exchange Spread)
+
+Applied to Changelly crypto-to-USDC conversions.
+
+```text
+source_amount_user = changelly_quoted_source × (1 + markup_pct / 100)
+```
+
+- Default: `0%` — embedded in exchange rate, not shown as a separate fee
+
+## Bridge Developer Fee (Fiat Onramp)
+
+Applied to [Bridge.xyz](http://Bridge.xyz) USD→USDC transfers.
+
+```text
+bridge_fee = transfer_amount_usd × bridge_developer_fee_pct / 100
+```
+
+- Default: `0%`
+- [Bridge.xyz](http://Bridge.xyz) collects natively via the `developer_fee` parameter and remits to platform
+- Stored in `bridge_transfers.developer_fee_usd`\
+
+## Gas Fee (Platform Cost, Not Revenue)
+
+~0.005 SOL sent automatically from the system wallet to each funded cheque.
+
+- Platform cost, not charged to merchant, not tracked in `fee_ledger`

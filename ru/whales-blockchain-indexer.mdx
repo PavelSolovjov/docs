@@ -1,1 +1,33 @@
-Not logged in · Please run /login
+---
+title: "Whales blockchain indexer"
+---
+
+# What is a blockchain indexer
+
+Indexers transform raw blockchain data into structured databases designed for searching and displaying information. Block explorers and other products (wallets, APIs, etc.) operate based on such databases. Blockchain nodes are not optimized for handling constant multiple queries, so data is extracted from the indexer.\
+In the Whales ecosystem, the indexer serves as the foundation for the v4 API, which in turn ensures the functioning of other company products.\
+**ton-indexer-go** is a TON (The Open Network) blockchain indexer created by the Whales team. It loads blocks and transactions from blockchain nodes, processes them, and stores structured data in **ScyllaDB**. The result is an index that allows quick searching of transactions by addresses, blocks, time, and other criteria.\
+Repository: https://github.com/whalescorp/ton-indexer-go\
+Language: [Go](https://golang.org/)
+
+# What the indexer is used for
+
+- **Creating an index of account state history** — before and after each transaction (account states), including balance, code/data hashes, cells, and libraries.
+- **Creating a block index** — masterchain and shard blocks with metadata (seqno, shard, utime, BOC, etc.).
+- **Creating an index for analytics and explorers** — building block explorers, dashboards, and services that work on top of the index without direct queries to TON nodes.
+
+# Differences from similar products
+
+- **Own index, own infrastructure** — data is stored in proprietary ScyllaDB. No dependency on third-party APIs (TON Center, TONAPI, etc.): full control over schema, history volume, and SLA.
+- **Two loading modes** — not only online synchronization from the network (archsync), but also import from archive (archimport + tximport). This allows quickly setting up an index from scratch using a ready dump or processing offline backups.
+- **ScyllaDB (Cassandra-compatible)** — chosen for high write load and large data volumes, horizontal scaling. Many other solutions (e.g., TON Center API v3) use PostgreSQL — a different scaling and query model.
+- **Deep state indexing** — stores not only transactions and blocks, but also account states (before/after transaction), cells, and libraries. This is convenient for explorers and analytics that need "account state at a point in time". However, note that proofs are not stored completely.
+- **LT-buckets** — special structure for fast pagination of transaction history by address by logical time without heavy scan queries.
+- **Distributed import** — when working with archives, multiple workers (archimport, tximport) coordinate through the database, allowing parallelization of initial loading.
+
+# Operating modes
+
+The indexer supports two main scenarios:
+
+1. **Online synchronization (archsync)** — connects to TON via Lite Client (lite servers), synchronizes new blocks in real-time, and writes data to ScyllaDB.
+2. **Archive import (archimport + tximport)** — reads ready block dumps from disk (archive packages) and transactions, then imports them into the same ScyllaDB. Used for initial history loading or processing offline dumps.

@@ -1,1 +1,11 @@
-Not logged in · Please run /login
+---
+title: "Critical (P0 — required before production billing)"
+---
+
+| Gap | Impact | Solution |
+| :-- | :-- | :-- |
+| No PDF generation | Can't send professional invoices | Implement via `pdfmake` <br />lazy-loaded in <br />`api/lib/pdf-invoice.ts` |
+| No `mark_invoice_paid` action | `payment_status` <br />never updates to `paid` | Add action \+ `paid_at`, <br />`solana_tx_sig` columns |
+| No invoice email delivery | Invoices only visible in admin UI | Trigger email on `finalize_invoice` <br />via existing MS Graph |
+| `billing_period` NULL <br />on old entries | Invoices may miss pre-035 fees | Migration 038: backfill from <br />`DATE_TRUNC('month', created_at)` |
+| Distribution model <br />not implemented | Settlement statements, <br />rebates don't exist | Migrations 042–044 \+ <br />new API actions |

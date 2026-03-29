@@ -1,1 +1,11 @@
-Not logged in · Please run /login
+---
+title: "Lago — Full Billing Infrastructure"
+---
+
+**GitHub**: [https://github.com/getlago/lago](https://github.com/getlago/lago)\
+**License**: AGPLv3 server / MIT JS client\
+**Stack**: Rails \+ PostgreSQL \+ Redis \+ Sidekiq \+ Kafka
+
+**Verdict**: Not recommended for embedding. Heavy stack (6\+ containers). Appropriate only if the platform evolves to event-based metering (per-cheque usage billing) and is deployed as a separate service stack.
+
+JS client (`lago-javascript-client`) is MIT, Deno-compatible via `npm:lago-javascript-client`.

@@ -1,1 +1,12 @@
-Not logged in · Please run /login
+---
+title: "What Is Already Correct"
+---
+
+- Append-only `fee_ledger` with status state machine
+- Unique invoice per period (`invoices_instance_period` index)
+- Secure session (passkey re-auth) for all financial mutations
+- Non-blocking fee collection — cheques work even if fees fail
+- Atomic invoice number generation via JSONB sequence
+- Multi-tenant isolation — all financial queries include `instance_id`
+- CSV export for external accounting
+- On-chain collection with atomic lock (`FOR UPDATE SKIP LOCKED`)

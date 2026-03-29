@@ -1,1 +1,221 @@
-Not logged in · Please run /login
+---
+title: "TON smart-contracts"
+---
+
+# Smart Contract
+
+A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
+The structure of [TON (TON)](https://ton.org/en) and [USDT (TON)](https://tether.to/en/) contracts is based on one blockchain, so a unified description is used.
+
+# What is Toncoin (TON)
+
+[Toncoin (TON)](https://ton.org/) is the native cryptocurrency of [The Open Network (TON)](https://ton.org/), a decentralized blockchain created for fast transactions and convenient integration with the [Telegram](https://telegram.org/) ecosystem.
+
+1. Originally developed by [Telegram](https://telegram.org/), now supported by [TON Foundation](https://ton.org/) and the community.
+2. Created for scalability, supports payments, DeFi and Web3 applications.
+3. Operates on [proof-of-stake](https://coinmarketcap.com/academy/ru/glossary/proof-of-stake-pos) technology.
+4. Enables transactions within the [**Telegram**](https://telegram.org/) application, wallets and decentralized services for over 1 billion users.
+
+Toncoin emerged as part of Telegram's 2017 blockchain initiative (Telegram Open Network). After [Telegram](https://telegram.org/) exited the project in 2020 due to [regulatory complications](https://www.forbes.ru/newsroom/tehnologii/385325-sec-ostanovila-vypusk-kriptovalyuty-ton-pavla-durova), management was transferred to the community under the leadership of TON Foundation. The main task of Toncoin is to provide decentralized digital identity, asset ownership and convenient payments within the [Telegram](https://telegram.org/) messenger.\
+TON in Holders is available to all clients who have European residency and have completed Walleexer onboarding.
+
+# What is Tether USDt (USDT)
+
+Tether [USDt (USDT)](https://tether.to/en/) is a stable cryptocurrency developed by Tether, based on blockchain technology and pegged to the US dollar at a 1:1 ratio. It was created to combine the stability of traditional money with the convenience and speed of cryptocurrency transactions.
+
+1. Maintains a dollar peg, reducing crypto market volatility.
+2. Operates on more than 20 blockchains, providing global access.
+3. Claims full backing in dollars or equivalent assets, although transparency issues remain a subject of discussion.
+
+[USDT](https://tether.to/en/) serves as a bridge between traditional finance and cryptocurrencies, allowing users to conduct operations with a digital asset that is not subject to sharp exchange rate fluctuations. It is widely used for trading, transfers, and protection against market risks. Thanks to its stable peg to the dollar, [USDT](https://tether.to/en/) simplifies international payments and participation in decentralized finance (DeFi).\
+USDT is issued on many blockchains, such as [Ethereum (ERC-20)](https://ethereum.org/), [Tron (TRC-20)](https://tron.network/), [TON](https://ton.org/) and [Solana](https://solana.com/), while support for legacy networks such as [Algorand](https://www.algorand.com/) and [EOS](https://eos.io/) is gradually being discontinued. This multi-chain approach provides low fees and compatibility between different blockchains. However, unlike decentralized stablecoins such as [DAI](https://makerdao.com/), [USDT](https://tether.to/en/) issuance is centrally controlled.\
+[Tether](https://tether.to/) company issues and destroys [USDT](https://tether.to/en/) depending on demand and availability of reserves, which include cash, [US Treasury bonds](https://www.treasurydirect.gov/) (worth \$127 billion as of 2025) and other assets. Management is centralized and belongs to [Tether Holdings Ltd.](https://tether.to/), which faces regulatory oversight but holds [68% of the stablecoin market](https://coinmarketcap.com/view/stablecoin/).\
+Currently, support for USDT smart contracts in Holders has been discontinued due to the implementation of new European regulation (EU regulation [**MiCA (Regulation (EU) 2023/1114)**](https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng)).
+
+# History
+
+The TON contract became the first contract launched in the project in June 2023. With its help, it became possible to conduct transactions on the TON network. Later, the [USDT](https://tether.to/en/) contract was launched. Based on these contracts, the company's first product was implemented - prepaid cards. In the first versions of the contracts, there was no possibility of direct top-up (direct sending of funds to the contract address). This functionality was added in the current final version in March 2024. Currently, opening new [USDT](https://tether.to/en/) accounts is suspended due to MiCA regulatory requirements. According to [Article 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) of the MiCA (EU) 2023/1114 regulation, only licensed issuers can issue and offer stablecoins in the EU. Tether has not obtained such a license, therefore public offering and listing of [USDT](https://tether.to/en/) on regulated EU exchanges is prohibited.
+
+# How the contract works in simple terms
+
+1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account by sending the corresponding command to the Controller authority.
+2. The Controller creates a contract and transfers ownership rights to the user's wallet (wallet authority).
+3. The user tops up the contract balance.
+4. When conducting a transaction, the contract receives a signal from the controller to block the amount necessary to execute the operation.
+5. Blocked amounts are combined into a package (rollup) to optimize gas costs.
+6. The formed package is transferred to the Holders treasury wallet.
+7. When returning funds, the amount is transferred from the treasury wallet back to the user's contract balance.
+
+# General Information
+
+Blockchain: [TON](https://ton.org/)\
+Location: https://github.com/whalescorp/holders-contracts/blob/main/packages/ton/contracts/ton-card-v8.fc\\\\\\\\\\\\\\\\ **Language:**[FunC](https://docs.ton.org/contract-dev/ide/jetbrains#func)\
+License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
+
+# Contract Roles
+
+## **Contract Owner (wallet authority)**
+
+This role is assigned to the Holders user's wallet when creating the contract — the wallet from which the contract creation was initiated is considered the owner. It is impossible to change the contract owner, and if access is lost, it will not be possible to recover funds remaining on the contract. The only way to help a client who has lost access to their wallet is to advise them to spend funds from cards linked to the account.
+
+### Available actions:
+
+- Setting blockchain limits
+- Topping up the contract through the wallet (calling the corresponding instruction)
+- Emergency withdrawal of funds
+
+### Gas payment:
+
+- Gas is paid by the contract owner - the user themselves (Owner wallet).
+
+The contract owner's address can be seen on the main account page in the Linked to wallet card. The owner's wallet address is also available in the backoffice on the User page when clicking on the account tile.
+
+## **Controller** (**Controller authority**)
+
+Controller is a wallet (highload-wallet v3 with rotational public key) that has been delegated management rights and execution of operations on behalf of the owner. It performs automated and operational tasks that are inconvenient or impossible to assign directly to the user.
+
+### Controller addresses:
+
+- [EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2](https://tonviewer.com/EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2) - address of the new (current) Controller for TON and USDT contracts (they use a shared controller since they are created on the same blockchain)
+- [UQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrdN4](https://tonviewer.com/EQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrY69) - old TON and USDT Controller
+
+### Available actions:
+
+- Creating new accounts — after deployment, Controller transfers the Wallet authority role to the client's wallet.
+- Processing payments
+- Processing clearings
+- Closing accounts — can close an account immediately, without waiting (Graceful period)
+- Synchronizing contract balance after direct top-up
+
+### Gas payment:
+
+- Gas for these operations is paid by the Controller owner from their balance. The role belongs to Holders, meaning the Holders service itself pays for gas, so it's important to monitor the controller's balance. Request for replenishing controllers.
+
+## **Treasure authority**
+
+Treasure wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with Treasure wallets, this smart contract has no Wallet authority.
+
+### Available actions:
+
+- Processing refunds and reversals from treasure wallets to client accounts
+- Withdrawal from Treasure wallets (only to wallet addresses specified in the whitelist)
+
+### Gas payment:
+
+- Gas for these operations is paid by Treasure authority, i.e., Holders.
+
+## Owner (also known as Treasure owner)
+
+A role that has administrative rights over a set of contracts.
+
+### Available functions:
+
+- Changing Treasure authority
+- Changing Support authority
+- Changing Controller
+- Setting up Graceful period (withdrawal time after account closure)
+- Updating whitelist for withdrawal from Treasure wallets (adding or excluding addresses).
+
+### Gas payment:
+
+- Gas payment for executing these operations is made by Route owner (Holders).
+
+## Upgrade Owner
+
+A role that has the right to update contract code. In TON — updates happen for each contract individually, as each has its own version (similar to Ethereum). \
+According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however changes to contract logic are allowed.
+
+# Main Operations
+
+1. **Account deployment (**`deploy`**)**
+
+Creates a new account, records parameters, checks seed, addresses, identifiers. After successful deployment, remembers all parameters and returns confirmation. \
+Mechanism: External call that sets initial parameters, includes `seed`, user address (`addressA`, `addressB`), keys, time zones.
+
+### 2. **Top-up (**`topup`**)**
+
+Performed in response to an external call where the top-up amount is passed.\
+This checks account status, balance, limits.\
+Balance is updated, prepared limits, and confirmation is returned. \
+**Features:**
+
+- If balance is topped up through an external source, the account is updated without changing the lock state.
+
+### 3. **Transaction execution (**`execute`**)**
+
+This is the main account operation mechanism. It allows processing debits, transfers, clearings, as well as updating account state. During execution, the following are checked:
+
+- Seed and seqno: guarantee that the message is current and there were no repeated or outdated transactions.
+- Time **(**`timestamp`**)** and deadlines\*\*:\*\* ensuring timely execution of operations and preventing delays.
+- Balance and limits: checking that balance is sufficient and limits are not exceeded.
+- Account status: ensuring the account is not in closed or requested for closure state.
+
+If all checks pass successfully:
+
+- Current balances are updated (deposits, debits, transfers).
+- Limits (daily, monthly, single-time) are updated and checked.
+- Necessary debits or transfers are executed (e.g., fund withdrawal or transfer to another account).
+- A confirmation message (response) about operation execution is generated.
+
+If condition violations are detected during the process (e.g., limit exceeded or account closed), the transaction is rejected with the corresponding error. \
+If the close flag (`close`) is set, the contract automatically initiates withdrawal of all remaining funds, updating the balance and transitioning to closed state.
+
+### 4. **Limit updates (**`update_limits`**)**
+
+Allows the account owner to set new limits: single-time, daily and monthly.\
+Before updating, the correctness of new values and sequence numbering (`seqno`) is checked.\
+Updated limits are saved, increasing the level of protection against abuse.
+
+### 5. **Closure request (**`close`**)**
+
+User or owner can initiate account closure.\
+The account is set to "closure request" status, and automatic withdrawal of remaining funds occurs over time (timeout).\
+Upon execution — the transaction withdraws all balance remainders and transitions the account to `closed` state.
+
+### 6. **Code update (**`update`**)**
+
+Provides smart contract upgrade — code replacement with version and signature verification.\
+It's verified that the version matches the expected one, and signature validation is performed (signatures of owner or authorized participants).\
+After successful update, the contract continues operating with new code.
+
+### 7. **TON and tokens withdrawal (**`withdraw_tons`****`, withdraw_jettons)`****
+
+To ensure interaction with external systems and third-party tokens, TON and tokens withdrawal functions are provided, with authorization and reserve checks.
+
+# Gas
+
+### Contract creation and maintenance
+
+In TON, space allocation (creating a new account) is done permanently, similar to RentExemption in Solana. When sending a transaction, the transfer amount and gas amount that the wallet is ready to spend are specified. If the actual gas cost is less than allocated, the remainder is returned. \
+Contract creation cost — **approximately 0.15–0.2 TON (0.27 USD at TON/USDT rate \$1.8)**.
+
+### Gas for top-up
+
+Gas for account top-up in TON — **approximately 0.01 TON (0.018 USD at TON/USDT rate \$1.8)**.
+
+### Gas for contract storage
+
+In the TON network, a smart contract pays for [storage of occupied space](https://docs.ton.org/foundations/fees) - including code, data and balance (account representation). When TON balance drops below the set threshold, the account can be frozen or deleted. Storage cost is approximately 0.01 nanoTON per byte per day (the value cannot be fractional, but the cost is approximate). This fee is deducted from the gas amount in each transaction to maintain the contract in working condition. \
+In practice, for contract freezing or deletion, [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) interaction with the contract is necessary, which in real conditions happens extremely rarely. Consequently, even with complete exhaustion of balance for paying storage fees, the contract will be frozen only in case of active interaction with it from network participants (e.g., when funds arrive at the contract balance). In the absence of such interaction, the contract continues to function with zero balance. When funds arrive, the storage fee is deducted immediately.
+
+# Data Structure and Storage
+
+The contract contains parameters, reservations and account state, divided into logical blocks:
+
+- General state **(**`ctx_state`**)**:
+  - `0` — open
+  - `1` — closure requested
+  - `3` — closed
+- Balances **(**`ctx_deposited_a`, `ctx_deposited_b`, `ctx_withdrawn_a`, `ctx_withdrawn_b`, `ctx_transferred_a`, `ctx_transferred_b`**) -** store the sum of deposits, debits and transfers by account.
+- Limits **(**`ctx_limits`**) -** declare allowable limit per operation, daily and monthly limit.
+- Timestamps:
+  - `ctx_last_state_at`, `ctx_deadline`, `ctx_close_timeout`, `ctx_tz_offset`.
+- Addresses and keys:
+  - `ctx_address_a`, `ctx_address_b`, `ctx_controller`, `ctx_seed`.
+
+All data is serialized and deserialized using `load_data()` and `store_data()` methods, ensuring integrity and security.
+
+# Audits
+
+1. A smart contract audit was conducted by the Ton Core team. No critical vulnerabilities were found during the audit.
+2. A smart contract audit was performed by [Trail of Bits](https://www.trailofbits.com/). No critical vulnerabilities were found, and all identified minor issues were resolved.

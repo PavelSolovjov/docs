@@ -1,1 +1,79 @@
-Not logged in · Please run /login
+---
+title: "API Reference"
+---
+
+All billing actions via `POST /api/instance-admin` with instance JWT or platform admin JWT.
+
+## Authentication Matrix
+
+| Action | Minimum Role | Secure Session |
+| :-- | :-- | :-- |
+| `get_revenue` | `finance` | No |
+| `list_fee_ledger` | `finance` | No |
+| `export_revenue_csv` | `finance` | No |
+| `list_invoices` | `finance` | No |
+| `get_invoice` | `finance` | No |
+| `generate_invoice` | `admin` | Yes |
+| `finalize_invoice` | `admin` | Yes |
+| `void_invoice` | `admin` | Yes |
+| `list_settlements` _(planned)_ | `finance` | No |
+| `generate_settlement` _(planned)_ | `admin` | Yes |
+| `mark_settlement_paid` _(planned)_ | `admin` | Yes |
+| `list_rebates` _(planned)_ | `finance` | No |
+
+## `get_revenue`
+
+Returns revenue summary for the instance.
+
+```text
+{
+  "summary": [
+    { "fee_type": "creation", "collection_status": "collected", "count": 47, "total_fee": "39.95", "total_gross": "1997.50" }
+  ],
+  "byMerchant": [
+    { "merchant_id": "...", "merchant_name": "Acme Corp", "fee_count": 12, "collected": "10.20", "pending": "0.85" }
+  ]
+}
+```
+
+## `list_fee_ledger`
+
+```text
+{ "action": "list_fee_ledger", "status": "pending", "page": 1, "pageSize": 50 }
+```
+
+Returns: `{ rows, total, page, pageSize }` — each row: `id, fee_type, collection_status, fee_amount, gross_amount, billing_period, created_at, merchant_slug`
+
+## `export_revenue_csv`
+
+```text
+{ "action": "export_revenue_csv", "dateFrom": "2026-01-01", "dateTo": "2026-03-31" }
+```
+
+CSV columns: `id, fee_type, collection_status, fee_amount, gross_amount, billing_period, created_at, merchant_slug, merchant_name`. Max 10,000 rows.
+
+Client-side download:
+
+```text
+const blob = new Blob([data.csv], { type: "text/csv" });
+const a = Object.assign(document.createElement("a"), {
+  href: URL.createObjectURL(blob),
+  download: `revenue-export-${new Date().toISOString().slice(0, 10)}.csv`,
+});
+a.click();
+```
+
+## `generate_invoice`
+
+```text
+{ "action": "generate_invoice", "billingPeriod": "2026-03" }
+```
+
+Errors: `409` duplicate period, `422` no collected fees.
+
+## `finalize_invoice` / `void_invoice`
+
+```text
+{ "action": "finalize_invoice", "invoiceId": "uuid" }
+{ "action": "void_invoice", "invoiceId": "uuid", "reason": "Wrong period" }
+```

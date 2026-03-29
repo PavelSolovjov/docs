@@ -1,1 +1,18 @@
-Not logged in · Please run /login
+---
+title: "pdfmake — PDF Invoice Generation (Recommended)"
+---
+
+**GitHub**: [https://github.com/bpampuch/pdfmake](https://github.com/bpampuch/pdfmake)\
+**Deno**: `import PdfPrimer from "npm:pdfmake/build/pdfmake.js"` — works natively
+
+```text
+// api/lib/pdf-invoice.ts — lazy-loaded (same pattern as api/solana.ts)
+async function loadPdfMake() {
+  const { default: PdfPrimer } = await import("npm:pdfmake/build/pdfmake.js");
+  const { default: pdfFonts } = await import("npm:pdfmake/build/vfs_fonts.js");
+  PdfPrimer.vfs = pdfFonts.pdfMake.vfs;
+  return PdfPrimer;
+}
+```
+
+Use for: platform invoices, settlement statements, rebate notices.

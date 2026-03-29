@@ -8,7 +8,6 @@
     "dark": "#6d0000"
   },
   "favicon": "/images/NEW2.svg",
-
   "navigation": {
     "languages": [
       {
@@ -272,11 +271,267 @@
         ]
       },
       {
-        "language": "ru"
+        "language": "ru",
+        "tabs": [
+          {
+            "tab": "Whales Space",
+            "pages": [
+              "business-review",
+              "main-products"
+            ]
+          },
+          {
+            "tab": "Holders",
+            "pages": [
+              "holders/business-review",
+              "holders/glossary",
+              "holders/privacy-notes",
+              "holders/cards-terms-and-conditions",
+              {
+                "group": "Обзор продукта",
+                "pages": [
+                  {
+                    "group": "Счета и смарт-контракты",
+                    "pages": [
+                      "holders/product-review/accounts-and-smart-contracts/Accountssmart-contractsoverview",
+                      {
+                        "group": "Типы смарт-контрактов",
+                        "pages": [
+                          "holders/product-review/accounts/solana-smart-contracts",
+                          "holders/product-review/accounts/ton-and-usdt-smart-contracts",
+                          "holders/product-review/accounts/trust-smart-contract"
+                        ]
+                      },
+                      "Issuerblockchainlimits",
+                      "holders/product-review/accounts-and-smart-contracts/account-brand"
+                    ]
+                  },
+                  "holders/product-review/onboarding/untitled-page",
+                  {
+                    "group": "Банковские карты",
+                    "pages": [
+                      "virtual-debit-bank-cards"
+                    ]
+                  },
+                  "holders/product-review/user-profile",
+                  {
+                    "group": "Бесконтактные платежи",
+                    "pages": [
+                      "apple-pay",
+                      "google-pay"
+                    ]
+                  },
+                  {
+                    "group": "Выписки и сертификаты",
+                    "pages": [
+                      "holders/product-review/bank-statements",
+                      "holders/product-review/account-ownership-certificate"
+                    ]
+                  },
+                  "holders/product-review/trust-and-vesting",
+                  "holders/product-review/user-transaction-confirmation-mechanism"
+                ]
+              },
+              {
+                "group": "Движение средств",
+                "pages": [
+                  "funds-flow-overview",
+                  "treasure-wallets"
+                ]
+              },
+              {
+                "group": "Руководства по интеграции",
+                "pages": [
+                  {
+                    "group": "Для кошельков",
+                    "pages": [
+                      "integration-gides/technical-integration/techdoc",
+                      "integration-gides/technical-integration/webviewbridgeapis"
+                    ]
+                  },
+                  {
+                    "group": "Для банков",
+                    "pages": [
+                      "list-of-required-information-to-start-the-integration"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Руководства для пользователей",
+                "pages": [
+                  "holders/product-review/onboarding/onboarding-process",
+                  "holders/product-review/accounts/account-operations",
+                  "card-operations",
+                  "blockchainlimitsui",
+                  "apple-pay-ui",
+                  "google-pay-ui",
+                  "holders/product-review/onboarding/issuing-account-statement-of-funds-movement",
+                  "holders/product-review/onboarding/issuing-account-ownership-certificate",
+                  "holders/product-review/onboarding/methods-for-confirming-online-transactions",
+                  "holders/product-review/onboarding/profile-data-modification",
+                  "holders/product-review/onboarding/pricing"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Ton Whales",
+            "pages": [
+              "business-overview",
+              "glossary",
+              "ton-staking-mechanism",
+              {
+                "group": "Обзор продуктов",
+                "pages": [
+                  "staking-pools",
+                  "whales-validators",
+                  {
+                    "group": "Смарт-контракты",
+                    "pages": [
+                      "smart-contract-nominators",
+                      "smart-contract-dao"
+                    ]
+                  },
+                  "liquid-staking-pool",
+                  "whales-club",
+                  "whales-blockchain-indexer",
+                  "api-v4",
+                  "whales-connect"
+                ]
+              },
+              {
+                "group": "Руководства для пользователей",
+                "pages": [
+                  "deposit-withdraw-via-tonhub",
+                  "deposit-withdraw-via-tonwhales-com",
+                  "deposit-withdraw-whales-liquid-pool",
+                  "deposit-withdraw-via-transaction",
+                  "deposit-withdraw-via-ledger",
+                  "deposit-withdraw-via-tonkeeper"
+                ]
+              },
+              "bounty-program"
+            ]
+          },
+          {
+            "tab": "Tonhub",
+            "pages": [
+              "business-overview-1",
+              "privacy-policy",
+              "terms-of-use",
+              {
+                "group": "Обзор продукта",
+                "pages": [
+                  "wallet-management-creation-import-seed-phrase",
+                  "assets-ton-sol-tokens-nfts",
+                  "receiving-and-sending-transactions",
+                  "ton-connect-and-application-integration",
+                  "fees",
+                  "staking-in-tonhub",
+                  "apis",
+                  "exchange-integrations",
+                  "ledger-in-tonhub",
+                  "wallet-modes-wallet-cards",
+                  "token-verification"
+                ]
+              },
+              {
+                "group": "Руководства для пользователей",
+                "pages": [
+                  "creating-deleting-adding-wallet",
+                  "user-settings-in-tonhub",
+                  "staking-guides",
+                  "browser-usage",
+                  "accounts-and-cards-opening"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "PostCash",
+            "pages": [
+              "business-model-overview",
+              "executive-summary",
+              "treasury-and-lending-executive-summary",
+              {
+                "group": "Дистрибуция и агентская модель",
+                "pages": [
+                  "consignment-distribution-cheque-as-commodity",
+                  "legal-structure-offshore-issuer",
+                  "agency-agreement-tax-optimization-for-merchants",
+                  "dual-merchant-compensation",
+                  "settlement-and-rebate-cycle",
+                  "document-types-in-distribution",
+                  "data-model-requirements-for-distribution"
+                ]
+              },
+              {
+                "group": "Архитектура комиссий",
+                "pages": [
+                  "fee-types",
+                  "fee-tiers",
+                  "per-merchant-collection-limits",
+                  "on-chain-collection-pipeline"
+                ]
+              },
+              {
+                "group": "Реестр комиссий — основной финансовый учет",
+                "pages": [
+                  "entry-lifecycle",
+                  "blling-period-assignment",
+                  "retry-infrastructure",
+                  "fee-breakdown-json"
+                ]
+              },
+              {
+                "group": "Жизненный цикл инвойсов и расчетных документов",
+                "pages": [
+                  "invoice-and-settlement-document-lifecycle",
+                  "platform-invoice-states",
+                  "invoice-number-format",
+                  "settlement-statement-states",
+                  "rebate-notice-states",
+                  "generate-platform-invoice",
+                  "finalize-invoice",
+                  "void-invoice",
+                  "invoice-line-items"
+                ]
+              },
+              "database-schema-reference",
+              "api-reference",
+              "frontend-ui",
+              "billing-mode-feature-flag",
+              "audit-trail-and-compliance",
+              "usdc-accounting-specifics",
+              {
+                "group": "Анализ open-source решений",
+                "pages": [
+                  "lago-full-billing-infrastructure",
+                  "pdfmake-pdf-invoice-generation-recommended",
+                  "gotenberg-branded-pdf-microservice-recommended-for-customer-facing-docs",
+                  "rejected-solutions"
+                ]
+              },
+              {
+                "group": "Пробелы относительно лучших практик",
+                "pages": [
+                  "critical-p0-required-before-production-billing",
+                  "high-priority-p1",
+                  "medium-priority-p2",
+                  "what-is-already-correct"
+                ]
+              },
+              "implementation-roadmap",
+              "appendix-a-migration-summary",
+              "key-file-reference",
+              "distribution-model-glossary"
+            ]
+          }
+        ]
       }
     ]
   },
-
   "logo": "/images/NEW2.svg",
   "navbar": {
     "links": [

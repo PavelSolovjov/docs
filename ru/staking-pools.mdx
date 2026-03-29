@@ -1,1 +1,137 @@
-Not logged in · Please run /login
+---
+title: "Staking pools"
+---
+
+# What is a staking pool
+
+A staking pool is [a smart contract-based](/smart-contract-nominators) service that allows multiple users to combine their tokens for joint participation in staking, proportional distribution of rewards according to each participant's contribution size, and eliminates the need to run their own validator.\
+Ton Whales staking pools are divided into proprietary pools — fully owned by Ton Whales, and partner pools — launched jointly with partners.
+
+# Ton Whales Partner Pools
+
+A partner pool is a staking pool launched jointly with a partner. Typically, Whales launch and are responsible for all pool infrastructure, while the partner attracts nominators to it, although there are cases where the infrastructure also falls on the partner, and Whales only provide the smart contract. The commission received from nominators in the partner pool is divided in a pre-agreed ratio between Whales and the partner using a [DAO contract](/smart-contract-dao).
+
+<Info>
+  ## Why can't a partner launch a pool independently if the contract is open source?
+
+  1. Despite the contract being open source, expensive security audits are necessary for its safe use. Whales provides the results of conducted audits to partners after signing a cooperation agreement.
+  2. The staker is proprietary software and is a critically important component for pool functionality. Access to the staker's source code is provided to partners exclusively after contract signing.
+  1. Whales provides comprehensive technical support to partners at all stages of setup, deployment, and launch of staking pools.
+</Info>
+
+# Nominators DAO Contract
+
+A decentralized [smart contract](/smart-contract-dao) with three main functions:
+
+- **Proposal voting** — the contract maintains a list of participants and their share weights. Any DAO participant can create a proposal representing a set of predefined actions. Other participants vote for or against by sending corresponding messages to the contract address.
+- **Staking revenue distribution** — all received income is distributed among DAO participants according to pre-established shares.
+- Staking pool management - the contract can make changes to pool operation parameters if a corresponding proposal is approved through voting.
+
+The contract is deployed before the partner pool launch, and all subsequent pool parameter changes are made exclusively through this contract, ensuring fair procedures and absolute transparency of operations.
+
+# Tonkeeper Partner Pool
+
+The pool was launched in February 2023 as part of a partnership agreement with the [Tonkeeper non-custodial wallet](https://tonkeeper.com/) team. At launch, this pool was the only one integrated into the Tonkeeper wallet. Technical support for the pool infrastructure is provided by the [ePN](https://epn.bz/) team. The pool operates in open mode and is available to all users. The pool commission is 25%.
+
+## Pool Queue Addresses
+
+**Tonkeeper #1**\
+Pool: `EQAA_5_dizuA1w6OpzTSYvXhvUwYTDNTW_MZDdZ0CGKeeper`\
+**Tonkeeper #2**\
+Pool: `EQDvvBmP3wUcjoXPY1jHfT4-fgb294imVYH5EHdLnAKeeper`
+
+# P2P Partner Pool
+
+The pool was launched in July 2025 in partnership with one of the largest multi-currency staking platforms [P2P.org](http://P2P.org) and is displayed in the pool list on the P2P website as the main pool for TON staking. Technical support for the pool infrastructure is provided by the P2P team. The pool operates in open mode and is available to all users. The pool commission is 15%. The pool does not use DAO since in this case Whales only provides the contract.
+
+## Pool Queue Addresses
+
+Pool: `EQAwYg4_Y9LnDJ_zSDCxEHs-BvpHZQM6GQ-2AZBnxeP2PxTW`
+
+# Ledger Partner Pool
+
+The pool was launched in July 2025 as part of a partnership agreement with the [Ledger hardware wallet](https://www.ledger.com/) team with P2P partner participation. The pool is integrated into the Ledger Live application as the main solution for TON staking. Technical support for the pool infrastructure is provided by the P2P team. The pool operates in open mode and is available to all users. The pool commission is 20%. Pool management is carried out without using DAO, since Whales acts exclusively as a smart contract provider.
+
+## Pool Queue Addresses
+
+Pool: `EQAL1QRD508kA3pYrYaLID7Xr5wBtBy-lwlF5oUKneP2PxTW`
+
+# Whales Nominators Pool
+
+[The first proprietary pool](https://tonwhales.com/staking/pool/nominators) of Whales opened on March 14, 2022. Technical support for the pool infrastructure is provided by the Whales team. The pool operates in open mode and is available to all users. The pool commission is 25%.
+
+## Queue Addresses
+
+nominators 1: `EQCkR1cGmnsE45N4K0otPl5EnxnRakmGqeJUNua5fkWhales`\
+nominators 2: `EQCY4M6TZYnOMnGBQlqi_nyeaIB1LeBFfGgP4uXQ1VWhales`
+
+# Whales Club Pool
+
+A private pool available exclusively to holders of [whale NFTs](https://getgems.io/collection/EQDvRFMYLdxmvY3Tk-cfWMLqDnXF_EclO2Fp4wwj33WhlNFT). After funds are sent, the system checks for the presence of a whale NFT from the specified collection at the sender's address, and only if it exists is the stake accepted for processing. The pool was launched in August 2022. The pool commission is 18%.
+
+## Queue Addresses
+
+Club1: `EQDFvnxuyA2ogNPOoEj1lu968U4PP8_FzJfrOWUsi_o1CLUB`\
+Club2: `EQA_cc5tIQ4haNbMVFUD1d0bNRt17S7wgWEqfP_xEaTACLUB`
+
+## How NFT Wallet Verification Works
+
+When a user initiates staking in the club pool, the staker compares the user's address with NFT owner addresses from its own API.\
+If the owner's address does not match current NFT holders, the staker blocks sending the user's stake to the validator, and funds remain on the contract until withdrawal. This verification procedure is performed each time a user sends a stake.\
+Page data is indexed by a proprietary indexer using v4 API.
+
+### How the Indexer Works
+
+For indexers, an NFT represents an entity that implements the open [TON NFT standard](https://github.com/ton-blockchain/TEPs/blob/master/text/0062-nft-standard.md). The standard is a document defining methods that must be present in NFTs, including the format of returned and accepted data. When implementing these methods, an object is classified as an NFT. In fact, an NFT can represent any entity that has these methods.\
+Each NFT has an owner — an address recorded in the owner field of the NFT contract. When transferring an NFT, this field in the contract changes without actual asset movement. The `Transfer` method is used to change ownership. The current owner must send a transaction from their own address with a payload containing the `Transfer` command and the new owner's address. Such transactions are usually formed automatically through [TON Connect](https://docs.ton.org/ecosystem/ton-connect/overview) when transferring NFTs, for example, through the [Getgems.io](http://Getgems.io) platform.\
+Indexers analyze all blockchain transactions to identify new NFT creation. When detecting a corresponding transaction, the system checks the recipient's hash code and compares it with known NFT hash codes to determine collection membership. Since most NFTs are standard, their hash codes are usually known. Indexers call the `getnftdata` get-method, which returns the NFT index, collection address, and owner. The obtained data is stored in a database for subsequent use.
+
+### What Happens If You Move an NFT from a Wallet with Active Stake
+
+If the stake has already been sent to the elector, it will remain there and participate in staking until funds are withdrawn. However, on repeat deposits, the staker will not send funds after checking for NFT presence, even if the user already has some amount in staking. The amount will remain in pending status and await NFT appearance or withdrawal.
+
+<Info>
+  Please note: when listing an NFT for sale, the owner's address changes to the marketplace address, which for the staker means the actual absence of the NFT in the wallet. Therefore, even if the wallet owns an NFT but has listed it for sale, the staker will not allow its stake to pass to the elector.
+</Info>
+
+# Whales Team Pool
+
+[Private pool](https://tonwhales.com/staking/pool/team), available exclusively to Whales team members and [top-15 NFT club participants according to rating](https://tonwhales.com/club/members). The pool was launched in September 2022 and is currently the most advantageous in terms of commission size (as of December 25, 2025). When funds are received, the system automatically checks for the presence of the sender's address in a specialized list hosted in an [Airtable](https://www.airtable.com/) table. Staking is accepted for processing only upon confirmation of the user's address presence in the table. The pool commission is 5%.
+
+## Queue Addresses
+
+Team1: `EQCOj4wEjXUR59Kq0KeXUJouY5iAcujkmwJGsYX7qPnITEAM`\
+Team2: `EQBI-wGVp_x0VFEjd7m9cEUD3tJ_bnxMSp0Tb9qz757ATEAM`
+
+## How Rating Verification Works
+
+Automation of rating updates in the club's top is not implemented. Address verification occurs through a table in the Airtable service, where wallet addresses of the top 15 club members by rating and team members are manually entered.\
+When sending user funds to the elector, the staker queries the table. It checks whether the table contains the wallet address of the user attempting to send funds to the pool. If the table contains the address, funds are sent to the elector. If there is no corresponding entry, the amount will remain in pending status and await the appearance of an entry or withdrawal.
+
+### How Rating is Calculated
+
+A user's rating is the sum of ratings of all their whales and a bonus for completing their profile in Whales Club. For more details on rating formation, read this document. The rating of all users is displayed on the [club's top-15 page](https://tonwhales.com/club/members).
+
+### Adding an Address to Team Pool
+
+1. The user contacts support with a request to add their address to the team pool.
+2. The support operator checks the user's rating and compares it with the ratings of top-15 participants.
+3. If the user meets the top-15 criteria, the operator updates the list: removes the address of the participant who left the top-15 and adds the address of the new participant.
+4. Changes typically take effect within one hour. The operator informs the client about this time interval.
+5. After making changes, the client gains the ability to send funds to the pool.
+
+<Info>
+  **Important.** When first depositing funds into the pool through the Tonhub interface or the [tonwhales.com](http://tonwhales.com) website, the user will receive a warning about the need to ensure that their address is added to the pool. This warning is displayed regardless of the actual presence of the address in the table and is purely informational in nature.
+</Info>
+
+# Profit Calculation
+
+Information about staking profit for any participant can be viewed [on the statistics page](https://tonwhales.com/staking/address/UQCv4CtPY5SKmoC7YzMQ0bWM2MMQxA9FtATp_Cr9tJfcFPPS) by specifying the wallet address. The page displays profit for the last week, as well as the participant's yield in each pool for the entire participation period. Statistical data is generated based on Ton Whales' proprietary staking indexer.
+
+# Staking Fees
+
+Commissions from partner pools are withdrawn to wallets specified in the DAO of these pools or transferred monthly (as in the case with P2P). Commissions from proprietary pools remain on the controller.
+
+# Pool Comparison
+
+The [tonwhales.com](http://tonwhales.com) website features a [yield calculator](https://tonwhales.com/staking/compare) that allows comparing pools with each other and calculating potential profit in pools by specifying the stake amount. Users can enter the amount they want to send to staking and optionally specify yield and TON rate. The [calculator](https://tonwhales.com/staking/compare) will show what amount the user will receive when staking in each of the pools.
