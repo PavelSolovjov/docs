@@ -1,99 +1,99 @@
 ---
-title: "Ledger in Tonhub"
+title: "Ledger в Tonhub"
 ---
 
-In Tonhub, you can use the **Ledger** hardware wallet to store keys and sign transactions on the TON network. Below is a description of how the integration works: connection, account selection, operation signing, limitations, and typical errors.
+В Tonhub можно использовать аппаратный кошелек **Ledger** для хранения ключей и подписи транзакций в сети TON. Ниже описано, как работает эта интеграция: подключение, выбор аккаунта, подписание операций, ограничения и типичные ошибки.
 
-# Purpose and Capabilities
+# Назначение и возможности
 
-**Ledger** is a hardware device, a cold wallet (Nano S, Nano X, Nano S Plus, etc.) with the **TON** application installed (via Ledger Live). Keys never leave the device, and confirmation of transfers and signatures is performed on the Ledger.\
-In Tonhub, Ledger is used as a separate wallet type: the user connects the device via USB (HID) on Android or via Bluetooth (BLE) on iOS and Android, selects one of the accounts (indices 0–9), and can then view balance, send TON and tokens, stake, use Holders, and connect dApps via TON Connect. Transaction and data signing is always performed on the Ledger. You can connect an unlimited number of cold wallets.\
-Minimum TON application version on Ledger: 2.4.1. With an older version, the application will show a message asking to update the TON application in Ledger Live.
+**Ledger** — это аппаратное устройство, холодный кошелек, такой как Nano S, Nano X, Nano S Plus и другие, на котором установлено приложение **TON** через Ledger Live. Ключи никогда не покидают устройство, а подтверждение переводов и подписей происходит непосредственно на Ledger.\
+В Tonhub Ledger используется как отдельный тип кошелька: пользователь подключает устройство по USB, то есть HID, на Android или по Bluetooth, то есть BLE, на iOS и Android, выбирает один из аккаунтов с индексами 0-9 и после этого может просматривать баланс, отправлять TON и токены, стейкать, пользоваться Holders и подключать dApp через TON Connect. Подписание транзакций и данных всегда выполняется на Ledger. Подключать можно неограниченное количество холодных кошельков.\
+Минимальная версия приложения TON на Ledger — 2.4.1. Если установлена более старая версия, приложение покажет сообщение с просьбой обновить TON-приложение через Ledger Live.
 
-# Ledger Connection
+# Подключение Ledger
 
-## Adding Device
+## Добавление устройства
 
-1. The user on the welcome screen selects **"Import Wallet"** (or equivalent) and on the import method selection screen taps **"Connect Ledger"**.
-2. **Ledger Onboarding** opens (LedgerOnboardingFragment): brief description and "Continue" button. Via the link, you can go to the TON application installation instructions: https://tonwhales.com/ledger
-3. Accepting terms and policy (LegalCreate with `ledger: true` parameter), then wallet creation screen with **PIN code** setup (WalletSecurePasscodeComponent with `ledger` flag). PIN is needed for app access, not for keys on Ledger.
-4. After PIN setup, the user proceeds to the device connection screen (HardwareWalletFragment, in navigation — "Ledger").
+1. Пользователь на приветственном экране выбирает **"Import Wallet"** или аналогичный пункт и на экране выбора метода импорта нажимает **"Connect Ledger"**.
+2. Открывается **Ledger Onboarding**, то есть `LedgerOnboardingFragment`: краткое описание и кнопка "Continue". По ссылке можно перейти к инструкции по установке TON-приложения: https://tonwhales.com/ledger
+3. Пользователь принимает условия и политику, то есть `LegalCreate` с параметром `ledger: true`, после чего попадает на экран создания кошелька с настройкой **PIN-кода**, то есть `WalletSecurePasscodeComponent` с флагом `ledger`. Этот PIN нужен для доступа к приложению, а не к ключам на Ledger.
+4. После настройки PIN пользователь переходит на экран подключения устройства, то есть `HardwareWalletFragment`, который в навигации отображается как "Ledger".
 
-## Connection Screen (HardwareWalletFragment)
+## Экран подключения (`HardwareWalletFragment`)
 
-**Android:** two methods available:
+**Android:** доступны два способа:
 
-- **USB (HID):** "Connect via USB" button. Device connects via cable; app creates HID transport and proceeds to account selection (LedgerSelectAccount) or, if account is already selected, returns to the app.
-- **Bluetooth:** "Connect via Bluetooth" button. Starts BLE device search; requests permissions if needed (location on Android for BLE).
+- **USB (HID):** кнопка "Connect via USB". Устройство подключается кабелем, приложение создает HID transport и переходит к выбору аккаунта, то есть `LedgerSelectAccount`, либо сразу возвращает пользователя в приложение, если аккаунт уже был выбран.
+- **Bluetooth:** кнопка "Connect via Bluetooth". Запускается поиск BLE-устройств; при необходимости приложение запрашивает разрешения, например доступ к геолокации на Android для BLE.
 
-**iOS:** only **Bluetooth** available. "Connect" button starts Ledger search via BLE; Bluetooth permissions needed.
+**iOS:** доступен только **Bluetooth**. Кнопка "Connect" запускает поиск Ledger через BLE; требуются Bluetooth-разрешения.
 
-- The screen displays brief instructions and a link to the **TON application installation guide** on Ledger (tonwhales.com/ledger).
+- На экране также показываются краткие инструкции и ссылка на **руководство по установке TON-приложения** на Ledger по адресу `tonwhales.com/ledger`.
 
-## BLE Device Selection (LedgerDeviceSelectionFragment)
+## Выбор BLE-устройства (`LedgerDeviceSelectionFragment`)
 
-After starting BLE search, a list of found devices is displayed. The user selects their Ledger device.\
-The app connects to the selected device via `TransportBLE.open(device.id)` and saves the connection in context (TransportContext). If the selected account is not yet set, it proceeds to the **account selection** screen (LedgerSelectAccount).\
-On access error (e.g., no location permissions on Android), a message with "Grant Permissions" button is shown; on Android, app settings open if needed to grant permissions.
+После запуска поиска BLE отображается список найденных устройств. Пользователь выбирает свой Ledger.\
+Приложение подключается к выбранному устройству через `TransportBLE.open(device.id)` и сохраняет соединение в контексте `TransportContext`. Если выбранный аккаунт еще не задан, пользователь переходит на экран **выбора аккаунта**, то есть `LedgerSelectAccount`.\
+При ошибке доступа, например если на Android не выданы разрешения на геолокацию, показывается сообщение с кнопкой "Grant Permissions"; при необходимости открываются настройки приложения.
 
-## Account Selection (LedgerSelectAccountFragment)
+## Выбор аккаунта (`LedgerSelectAccountFragment`)
 
-- Ledger supports multiple TON accounts (indices 0–9; in code — `pathFromAccountNumber(i, isTestnet)`). The app requests addresses from the device for each index (up to 10) and displays a list with balances.
-- The user must unlock Ledger and open the TON application on the device. While the TON app is closed or device is locked, the screen shows a hint ("Unlock Ledger" / "Open TON application").
-- Readiness check: `isLedgerTonAppReady(tonTransport)` — polling "app open" and requesting address for index 0 if needed (including to work around Ledger S peculiarities).
-- The user selects an account from the list. The selected account is saved in context and storage (`setLedgerSelected(addr.address)`); the Ledger wallet list is updated (`ledgerWallets`), then proceeds to the main Ledger app (LedgerApp).
+- Ledger поддерживает несколько TON-аккаунтов, индексы 0-9; в коде используется `pathFromAccountNumber(i, isTestnet)`. Приложение запрашивает адреса для каждого индекса, максимум до 10, и показывает список с балансами.
+- Пользователь должен разблокировать Ledger и открыть на устройстве приложение TON. Пока TON-приложение закрыто или устройство заблокировано, экран показывает подсказки вроде "Unlock Ledger" или "Open TON application".
+- Проверка готовности выполняется через `isLedgerTonAppReady(tonTransport)`: приложение опрашивает состояние "app open" и при необходимости запрашивает адрес для индекса 0, включая обход особенностей Ledger S.
+- Пользователь выбирает аккаунт из списка. Выбранный аккаунт сохраняется в контексте и хранилище через `setLedgerSelected(addr.address)`; список Ledger-кошельков `ledgerWallets` обновляется, после чего происходит переход в основное Ledger-приложение, то есть `LedgerApp`.
 
-## Reconnection (Wallet Switching)
+## Повторное подключение и переключение кошельков
 
-On the main screen (HomeFragment), tapping the wallet card or via menu opens account selection (AccountSelectorFragment). The list displays both regular wallets and previously added Ledger accounts (from `ledgerContext.wallets`).\
-If Ledger is already connected (has `tonTransport`), selecting "Ledger" opens the account selection screen (LedgerSelectAccount) with the current selected address.\
-If Ledger is not connected, selecting "Ledger" calls `ledgerContext.reset()` and opens the connection screen (HardwareWalletFragment, "Ledger" screen). After BLE connection, the user goes to account selection again; after HID connection — to account selection or back if account was already selected.
+На главном экране, то есть `HomeFragment`, по нажатию на карточку кошелька или через меню открывается выбор аккаунта, то есть `AccountSelectorFragment`. В списке отображаются и обычные кошельки, и ранее добавленные аккаунты Ledger из `ledgerContext.wallets`.\
+Если Ledger уже подключен, то есть есть `tonTransport`, при выборе "Ledger" открывается экран выбора аккаунта `LedgerSelectAccount` с текущим выбранным адресом.\
+Если Ledger не подключен, выбор "Ledger" вызывает `ledgerContext.reset()` и открывает экран подключения `HardwareWalletFragment`. После BLE-подключения пользователь снова переходит к выбору аккаунта; после HID-подключения — к выбору аккаунта или обратно, если аккаунт уже был выбран.
 
-# Main Ledger Interface
+# Основной интерфейс Ledger
 
-After account selection, the user enters LedgerApp — fullscreen mode with bottom tabs:
+После выбора аккаунта пользователь попадает в `LedgerApp` — полноэкранный режим с нижними вкладками:
 
-- **Home (LedgerHome):** wallet card, balance, products (transfer, receive, staking, exchanges, Holders, etc.), Holders/wallet mode toggle (AppModeToggle).
-- **History (LedgerTransactions):** transaction list. Mode depends on account type: regular wallet — TransactionsFragment, Holders mode — HoldersTransactionsFragment.
-- **Settings (LedgerSettings):** for regular wallet — SettingsFragment; in Holders mode — HoldersSettings.
+- **Home (`LedgerHome`)** — карточка кошелька, баланс, продукты, такие как переводы, получение, стейкинг, обмены, Holders и другие, а также переключатель режимов Holders и Wallet, то есть `AppModeToggle`.
+- **History (`LedgerTransactions`)** — список транзакций. Режим зависит от типа аккаунта: для обычного кошелька это `TransactionsFragment`, а для Holders — `HoldersTransactionsFragment`.
+- **Settings (`LedgerSettings`)** — для обычного кошелька открывается `SettingsFragment`, а в режиме Holders — `HoldersSettings`.
 
-The "selected Ledger account" state is stored in the app (`ledgerSelected` in appState). On next launch, if Ledger is selected, onboarding resolves to `LedgerApp` state, and the user immediately enters LedgerApp when there's a saved account in `ledgerContext.wallets` list and `ledgerContext.addr` is restored.
+Состояние выбранного Ledger-аккаунта хранится в приложении через `ledgerSelected` в `appState`. При следующем запуске, если выбран Ledger, onboarding сразу переводит пользователя в состояние `LedgerApp`, и он попадает туда без повторного выбора, если в `ledgerContext.wallets` уже есть сохраненный аккаунт и восстановлен `ledgerContext.addr`.
 
-# Transaction Signing
+# Подписание транзакций
 
-When sending TON or tokens from a Ledger wallet, the app forms an operation order (LedgerOrder) and opens the Ledger signing screen (LedgerSignTransfer). The user sees a summary: recipient, amount, fee, token data if needed.\
-Signing is performed via `tonTransport` (TonTransport from `@ton-community/ton-ledger`): message construction, calling the signing method on device via account path (`pathFromAccountNumber(addr.acc, isTestnet)`).\
-**Important:** the TON application must be open and the device unlocked on Ledger. Otherwise signing will fail.
+Когда пользователь отправляет TON или токены с Ledger-кошелька, приложение формирует order операции, то есть `LedgerOrder`, и открывает экран подписи `LedgerSignTransfer`. Пользователь видит сводку: получатель, сумма, комиссия и при необходимости данные токена.\
+Подписание выполняется через `tonTransport`, то есть `TonTransport` из `@ton-community/ton-ledger`: строится сообщение и вызывается метод подписи на устройстве через путь аккаунта `pathFromAccountNumber(addr.acc, isTestnet)`.\
+**Важно:** на Ledger должно быть открыто TON-приложение, а само устройство должно быть разблокировано. Иначе подпись завершится ошибкой.
 
-## Signing Error Handling
+## Обработка ошибок подписи
 
-- **LockedDeviceError:** shows "Unlock Ledger" message.
-- **No connection** (`!tonTransport`): go back and show "Ledger connection error" dialog with "Connect" (go to connection/device selection screen) and "Cancel" buttons.
-- **TON app not open:** after `isLedgerTonAppReady` check, shows message asking to open TON app on Ledger.
-- **TON app version \< 2.4.1:** check via `checkLedgerTonAppVersion`; message asking to update TON app in Ledger Live.
-- **"Unsafe" transaction with Blind Signing disabled:** if operation is marked unsafe and Ledger settings have unconfirmed data signing disabled, shows message (e.g., "Enable unconfirmed data signing in TON app settings on Ledger" or similar translation).
-- **User cancellation on Ledger** (code 0x6985): message that signing was cancelled.
+- **LockedDeviceError:** показывается сообщение "Unlock Ledger".
+- **Нет соединения**, то есть `!tonTransport`: приложение возвращает пользователя назад и показывает диалог "Ledger connection error" с кнопками "Connect" и "Cancel".
+- **TON-приложение не открыто:** после проверки `isLedgerTonAppReady` показывается сообщение с просьбой открыть TON-приложение на Ledger.
+- **Версия TON-приложения ниже 2.4.1:** проверяется через `checkLedgerTonAppVersion`; пользователь получает сообщение о необходимости обновить TON-приложение в Ledger Live.
+- **"Небезопасная" транзакция при отключенном Blind Signing:** если операция помечена как unsafe и в настройках Ledger отключена подпись неподтвержденных данных, показывается сообщение наподобие "Enable unconfirmed data signing in TON app settings on Ledger".
+- **Пользователь отменил операцию на Ledger**, код `0x6985`: показывается сообщение о том, что подпись была отменена.
 
-In other cases — general "Transaction rejected" message and "Back" button.
+Во всех остальных случаях отображается общее сообщение "Transaction rejected" и кнопка "Back".
 
-# Data Signing
+# Подписание данных
 
-For dApps and TON Connect scenarios, arbitrary data signing may be required (e.g., authentication). The LedgerSignData screen allows entering data (in Base64), domain, and extension (ext) if needed, then signing them on Ledger via `tonTransport.signData` with `app-data` type.\
-Uses current account path; result (signature, cell, timestamp) is displayed on screen. Same requirements: unlocked device and open TON application.
+Для dApp и TON Connect-сценариев может потребоваться подпись произвольных данных, например для аутентификации. Экран `LedgerSignData` позволяет ввести данные, в том числе в Base64, домен и extension, если это нужно, а затем подписать их на Ledger через `tonTransport.signData` с типом `app-data`.\
+Используется текущий путь аккаунта; результат, то есть подпись, cell и timestamp, показывается на экране. Требования те же: устройство должно быть разблокировано, а TON-приложение открыто.
 
-# Connection Loss and Reconnection
+# Потеря соединения и повторное подключение
 
-On connection loss (USB disconnect, Bluetooth off, Ledger off), the `onDisconnect` handler is called. The app tries to reconnect a limited number of times (for HID — 1, for BLE — 2). During attempts, "reconnecting" state may be shown (`isReconnectLedger`).\
-If reconnection fails, BLE state resets to error and `reset()` is called: connection and selected address in context are cleared, user needs to reconnect Ledger and select account if needed.\
-On explicit Ledger wallet logout, a dialog is shown; after confirmation, the selected Ledger account is removed from wallet list, selection is cleared (`clearLedgerSelected`). If this was the last Ledger wallet, context is fully reset.
+При потере соединения, например при отключении USB, выключении Bluetooth или самого Ledger, вызывается обработчик `onDisconnect`. Приложение пытается переподключиться ограниченное число раз: для HID — один раз, для BLE — два раза. Во время попыток может показываться состояние переподключения `isReconnectLedger`.\
+Если переподключение не удалось, BLE-состояние сбрасывается в ошибку и вызывается `reset()`: соединение и выбранный адрес очищаются из контекста, а пользователю нужно снова подключить Ledger и, при необходимости, заново выбрать аккаунт.\
+При явном выходе из Ledger-кошелька показывается диалог подтверждения; после согласия выбранный Ledger-аккаунт удаляется из списка кошельков, выбор очищается через `clearLedgerSelected`. Если это был последний Ledger-кошелек, контекст полностью сбрасывается.
 
-# Limitations and Differences from Regular Wallet
+# Ограничения и отличия от обычного кошелька
 
-**DeDust:** with selected Ledger wallet in "Exchanges" section (SelectExchangeFragment), DeDust.io item is not displayed (`!isLedger`). Only Changelly is available. Reason — DeDust integration via WebView and TON Connect currently doesn't support Ledger.
+**DeDust:** если выбран Ledger-кошелек, в разделе "Exchanges", то есть `SelectExchangeFragment`, элемент DeDust.io не показывается, то есть `!isLedger`. Доступен только Changelly. Причина в том, что интеграция DeDust через WebView и TON Connect в текущем виде не поддерживает Ledger.
 
-# Data Storage
+# Хранение данных
 
-- **Ledger wallet list** (`ledgerWallets`): array of `{ acc, address, deviceId?, publicKey }` objects saved in storage (`ledgerWalletsKey` key). When selecting account, it's added to list if not already added.
-- **Selected Ledger account:** address saved via `setLedgerSelected(addr.address)` (key in appState). On next LedgerApp entry, selected address is restored from this value.
-- **Ledger enabled in app:** `app_ledger_enabled` flag in storage; used to show/hide Ledger option in wallet list (e.g., in settings or first login method selection).
-- Keys and seed phrase are **not stored** in the app; they remain on Ledger.
+- **Список Ledger-кошельков** `ledgerWallets`: массив объектов вида `{ acc, address, deviceId?, publicKey }`, который хранится в storage по ключу `ledgerWalletsKey`. При выборе аккаунта он добавляется в список, если еще не был добавлен.
+- **Выбранный Ledger-аккаунт:** адрес сохраняется через `setLedgerSelected(addr.address)` в `appState`. При следующем входе в `LedgerApp` этот адрес восстанавливается.
+- **Включенная поддержка Ledger в приложении:** флаг `app_ledger_enabled` в storage; он используется для отображения или скрытия опции Ledger в списке кошельков, например в настройках или при первом выборе способа входа.
+- Ключи и seed-фраза **не хранятся** в приложении; они остаются только на Ledger.

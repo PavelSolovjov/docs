@@ -1,75 +1,75 @@
 ---
-title: "Fees"
+title: "Комиссии"
 ---
 
-# TON and tokens: transfers
+# TON и токены: переводы
 
-### What makes up the fee
+### Из чего складывается комиссия
 
-The fee for sending [TON](https://ton.org) or token transactions on the [TON network](https://ton.org) is estimated locally in the application based on the current network configuration (config) and message parameters. The calculation includes:
+Комиссия за отправку [TON](https://ton.org) или токенов в [сети TON](https://ton.org) рассчитывается локально в приложении на основе текущей конфигурации сети и параметров сообщения. В расчет входят:
 
-- **Storage:** fee for using contract cells; depends on data volume and network rates.
-- **Import message:** fee for processing incoming external message that the user initiates the transaction with.
-- **Gas:** fee for code execution; depends on the number of outgoing messages (1 message — less gas, several — more; the code uses fixed gas values for 1–4 messages).
-- **Forward fees:** fee for delivering each outgoing message across the network.
+- **Storage:** комиссия за использование ячеек контракта; зависит от объема данных и сетевых тарифов.
+- **Import message:** комиссия за обработку входящего внешнего сообщения, которым пользователь инициирует транзакцию.
+- **Gas:** комиссия за исполнение кода; зависит от количества исходящих сообщений, где одно сообщение требует меньше газа, а несколько — больше; в коде используются фиксированные значения газа для 1-4 сообщений.
+- **Forward fees:** комиссия за доставку каждого исходящего сообщения по сети.
 
-The total amount is shown in nano-TON and displayed to the user before confirmation as **"Network fee"** (blockchain fee) in TON. The exact amount may slightly differ from what is actually charged by the network after the transaction is included in a block.
+Итоговая сумма показывается в nano-TON и отображается пользователю перед подтверждением как **"Network fee"**, то есть комиссия блокчейна, в TON. Точная сумма может немного отличаться от той, которую сеть фактически спишет после включения транзакции в блок.
 
-### Who pays
+### Кто платит
 
-The fee is always paid by the sender in TON. Without sufficient TON balance in the account, neither TON nor tokens can be sent (exception — gasless scenario for supported jettons, see below).
+Комиссию всегда платит отправитель в TON. Если на балансе аккаунта недостаточно TON, отправить ни TON, ни токены нельзя. Исключение — gasless-сценарий для поддерживаемых jetton, описанный ниже.
 
-### Where it's shown
+### Где это показывается
 
-Before sending a transfer (TON or token), the preview screen displays a line with the fee in TON and, if necessary, the fiat equivalent. For simple transfers, a "Network fee" block is used with a brief description (and a "more details" button, if available).
+Перед отправкой перевода, будь то TON или токен, на экране предпросмотра показывается строка с комиссией в TON и, при необходимости, в фиатном эквиваленте. Для простых переводов используется блок "Network fee" с кратким описанием и, если доступно, кнопкой "more details".
 
 # Gasless
 
-**Gasless** — the ability to pay the fee for token transfer in the token itself (for example, in [USDT](https://tether.to)), rather than in TON. The TON fee is paid for the user by a **relayer** ([Tonhub](https://tonhub.com) service); the equivalent is deducted from the user in the transferred token.
+**Gasless** — это возможность оплатить комиссию за перевод токена самим токеном, например [USDT](https://tether.to), а не в TON. Комиссию в TON за пользователя оплачивает **relayer**, то есть сервис [Tonhub](https://tonhub.com), а эквивалент удерживается с пользователя в переводимом токене.
 
-## When available
+## Когда доступно
 
-- Supported only for **specific** tokens (list is set by backend config: `gas_jettons`).
-- Available only for **W5** wallet (v5R1); gasless is not offered for other wallet versions.
-- Configuration (token list and relayer address) is requested from [Tonhub API](https://tonhub.com): `gasless/mainnet` or `gasless/testnet` → `config`. The config specifies `relay_address` and `gas_jettons` array (master_id).
+- Поддерживается только для **определенных** токенов, список которых задается backend-конфигом `gas_jettons`.
+- Доступно только для кошелька **W5**, то есть `v5R1`; для других версий gasless не предлагается.
+- Конфигурация, включая список токенов и адрес relayer, запрашивается у [Tonhub API](https://tonhub.com): `gasless/mainnet` или `gasless/testnet` → `config`. В конфиге указываются `relay_address` и массив `gas_jettons`, то есть `master_id`.
 
-## How gasless fee is calculated
+## Как рассчитывается gasless-комиссия
 
-Before sending, the application requests a gasless estimate: request to `gasless/.../estimate` with parameters (wallet address, public key, messages in BOC format). The response includes:
+Перед отправкой приложение запрашивает gasless-оценку: выполняется запрос к `gasless/.../estimate` с параметрами, такими как адрес кошелька, публичный ключ и сообщения в формате BOC. В ответе содержатся:
 
-- **relay_address** — relayer address;
-- **commission** — fee (deducted from user in token);
-- **from** — address from which it will be debited;
-- **valid_until** — until what time the estimate is valid;
-- **messages** — final messages (including fee consideration).
+- **relay_address** — адрес relayer;
+- **commission** — комиссия, которая будет списана с пользователя в токене;
+- **from** — адрес, с которого будет произведено списание;
+- **valid_until** — срок действия оценки;
+- **messages** — итоговые сообщения с учетом комиссии.
 
-The user sees how much token will be debited (transfer amount + fee) and can choose: pay fee in TON or in token (gasless). If gasless is selected, the application sends the signed transaction to the backend (`gasless/.../send`); the relayer sends it to the network and pays gas in TON.
+Пользователь видит, сколько токенов будет списано, то есть сумма перевода плюс комиссия, и может выбрать: платить комиссию в TON или в токене через gasless. Если выбран gasless, приложение отправляет подписанную транзакцию на backend по адресу `gasless/.../send`; relayer отправляет ее в сеть и оплачивает gas в TON.
 
-## Limitations and errors
+## Ограничения и ошибки
 
-- **Cooldown:** a pause (several minutes) may be required between gasless transfers; otherwise the user is asked to wait or pay the fee in TON.
-- **Insufficient funds:** if the transfer amount including fee in token exceeds the balance, gasless is unavailable — need to reduce the amount or pay in TON.
-- **Try later / Not enough:** in case of estimation or sending errors, the user sees "Try later" or "Insufficient funds" message and can switch to paying fee in TON if necessary.
+- **Cooldown:** между gasless-переводами может потребоваться пауза в несколько минут; иначе пользователю предложат подождать или оплатить комиссию в TON.
+- **Недостаточно средств:** если сумма перевода вместе с комиссией в токене превышает баланс, gasless становится недоступен — нужно уменьшить сумму или платить в TON.
+- **Try later / Not enough:** при ошибках оценки или отправки пользователь видит сообщение "Try later" или "Insufficient funds" и при необходимости может переключиться на оплату комиссии в TON.
 
-# SOL and SPL tokens: transfers
+# SOL и SPL-токены: переводы
 
-The fee for sending [SOL](https://solana.com) or [SPL tokens](https://spl.solana.com) on the [Solana network](https://solana.com) is **not calculated in the application**. It is requested from the [Tonhub](https://tonhub.com) backend: POST to `/solana/transaction/fees/mainnet` (or `devnet`) with body `{ transaction }` (serialized transaction). The response contains an object with a value field — the fee (displayed to the user in SOL and, if necessary, in fiat equivalent).\
-The fee is paid by the sender in SOL. Without sufficient SOL balance, the transaction will not be signed/sent.
+Комиссия за отправку [SOL](https://solana.com) или [SPL tokens](https://spl.solana.com) в [сети Solana](https://solana.com) **не рассчитывается внутри приложения**. Она запрашивается у backend [Tonhub](https://tonhub.com): POST на `/solana/transaction/fees/mainnet` или `devnet` с телом `{ transaction }`, то есть сериализованной транзакцией. В ответе возвращается объект с полем `value` — это комиссия, которая отображается пользователю в SOL и, если доступно, в фиатном эквиваленте.\
+Комиссия оплачивается отправителем в SOL. Если на балансе недостаточно SOL, транзакция не будет подписана и отправлена.
 
-### Where it's shown
+### Где это показывается
 
-In the [Solana](https://solana.com) transfer preview screen, a "Network fee" (blockchain fee) block is displayed with the amount in SOL and fiat (if exchange rate is available).
+На экране предпросмотра перевода в [Solana](https://solana.com) отображается блок "Network fee", то есть комиссия блокчейна, с суммой в SOL и, если известен курс, в фиатном эквиваленте.
 
-# Staking fees
+# Комиссии за стейкинг
 
-When participating in [TON staking](https://ton.org/stake), users encounter several types of fees that are set individually by each pool. All fees are clearly displayed in the staking interface before performing operations.
+При участии в [TON-стейкинге](https://ton.org/stake) пользователи сталкиваются с несколькими типами комиссий, которые задаются каждым пулом индивидуально. Все комиссии явно отображаются в интерфейсе стейкинга до выполнения операции.
 
-- Deposit fee - the fee for sending funds is 0.2 TON.
-- Withdrawal fee - the fee for withdrawing funds ranges from 0.2 to 0.4 TON.
+- **Комиссия за пополнение** — комиссия за отправку средств составляет 0.2 TON.
+- **Комиссия за вывод** — комиссия за вывод средств обычно составляет от 0.2 до 0.4 TON.
 
-# Token exchange fees
+# Комиссии за обмен токенов
 
-[Tonhub](https://tonhub.com) offers two cryptocurrency exchange options:
+[Tonhub](https://tonhub.com) предлагает два варианта обмена криптовалют:
 
-- [Dedust.io](http://Dedust.io) - decentralized partner exchange. Users pay only the standard exchange fee, no additional charges.
-- [Changelly](https://changelly.com) - partner exchange service. Only the standard service fee is charged, without additional payments.
+- [Dedust.io](http://Dedust.io) — децентрализованная партнерская биржа. Пользователь платит только стандартную комиссию обмена без дополнительных сборов.
+- [Changelly](https://changelly.com) — партнерский сервис обмена. Взимается только стандартная сервисная комиссия без дополнительных платежей.
