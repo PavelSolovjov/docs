@@ -1,78 +1,78 @@
 ---
-title: "Global Settings"
-description: "Mintlify gives you complete control over the look and feel of your documentation using the docs.json file"
+title: "Глобальные настройки"
+description: "Mintlify дает полный контроль над внешним видом и поведением документации через файл docs.json"
 icon: "gear"
 ---
 
-Every Mintlify site needs a `docs.json` file with the core configuration settings. Learn more about the [properties](#properties) below.
+Каждому сайту на Mintlify нужен файл `docs.json` с базовыми настройками конфигурации. Ниже можно посмотреть подробнее про [properties](#properties).
 
 ## Properties
 
 <ResponseField name="name" type="string" required>
-  Name of your project. Used for the global title.
+  Название вашего проекта. Используется как глобальный заголовок.
 
-  Example: `mintlify`
+  Пример: `mintlify`
 </ResponseField>
 
 <ResponseField name="navigation" type="Navigation[]" required>
-  An array of groups with all the pages within that group
+  Массив групп со всеми страницами внутри каждой группы
 
   <Expandable title="Navigation">
     <ResponseField name="group" type="string">
-      The name of the group.
+      Название группы.
 
-      Example: `Settings`
+      Пример: `Settings`
     </ResponseField>
     <ResponseField name="pages" type="string[]">
-      The relative paths to the markdown files that will serve as pages.
+      Относительные пути к markdown-файлам, которые будут использоваться как страницы.
 
-      Example: `["customization", "page"]`
+      Пример: `["customization", "page"]`
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="logo" type="string or object">
-  Path to logo image or object with path to "light" and "dark" mode logo images
+  Путь к логотипу или объект с путями к логотипам для `light` и `dark` режима
 
   <Expandable title="Logo">
     <ResponseField name="light" type="string">
-      Path to the logo in light mode
+      Путь к логотипу для светлой темы
     </ResponseField>
     <ResponseField name="dark" type="string">
-      Path to the logo in dark mode
+      Путь к логотипу для темной темы
     </ResponseField>
     <ResponseField name="href" type="string" default="/">
-      Where clicking on the logo links you to
+      Куда ведет клик по логотипу
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="favicon" type="string">
-  Path to the favicon image
+  Путь к favicon
 </ResponseField>
 
 <ResponseField name="colors" type="Colors">
-  Hex color codes for your global theme
+  HEX-коды цветов для глобальной темы
 
   <Expandable title="Colors">
     <ResponseField name="primary" type="string" required>
-      The primary color. Used for most often for highlighted content, section headers, accents, in light mode
+      Основной цвет. Чаще всего используется для выделенного контента, заголовков разделов и акцентов в светлой теме.
     </ResponseField>
     <ResponseField name="light" type="string">
-      The primary color for dark mode. Used for most often for highlighted content, section headers, accents, in dark mode
+      Основной цвет для темной темы. Используется для выделенного контента, заголовков разделов и акцентов в dark mode.
     </ResponseField>
     <ResponseField name="dark" type="string">
-      The primary color for important buttons
+      Основной цвет для важных кнопок
     </ResponseField>
     <ResponseField name="background" type="object">
-      The color of the background in both light and dark mode
+      Цвет фона в светлой и темной теме
 
       <Expandable title="Object">
         <ResponseField name="light" type="string" required>
-          The hex color code of the background in light mode
+          HEX-код цвета фона в светлой теме
         </ResponseField>
         <ResponseField name="dark" type="string" required>
-          The hex color code of the background in dark mode
+          HEX-код цвета фона в темной теме
         </ResponseField>
       </Expandable>
     </ResponseField>
@@ -80,16 +80,16 @@ Every Mintlify site needs a `docs.json` file with the core configuration setting
 </ResponseField>
 
 <ResponseField name="topbarLinks" type="TopbarLink[]">
-  Array of `name`s and `url`s of links you want to include in the topbar
+  Массив ссылок с полями `name` и `url`, которые вы хотите вывести в topbar
 
   <Expandable title="TopbarLink">
     <ResponseField name="name" type="string">
-      The name of the button.
+      Название кнопки.
 
-      Example: `Contact us`
+      Пример: `Contact us`
     </ResponseField>
     <ResponseField name="url" type="string">
-      The url once you click on the button. Example: `https://mintlify.com/docs`
+      URL, который откроется по нажатию на кнопку. Пример: `https://mintlify.com/docs`
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -97,124 +97,124 @@ Every Mintlify site needs a `docs.json` file with the core configuration setting
 <ResponseField name="topbarCtaButton" type="Call to Action">
   <Expandable title="Topbar Call to Action">
     <ResponseField name="type" type={'"link" or "github"'} default="link">
-      Link shows a button. GitHub shows the repo information at the url provided including the number of GitHub stars.
+      `link` показывает обычную кнопку. `github` показывает информацию о репозитории по указанному URL, включая число звезд GitHub.
     </ResponseField>
     <ResponseField name="url" type="string">
-      If `link`: What the button links to.
+      Если `link`: куда ведет кнопка.
 
-      If `github`: Link to the repository to load GitHub information from.
+      Если `github`: ссылка на репозиторий, из которого нужно подгрузить GitHub-данные.
     </ResponseField>
     <ResponseField name="name" type="string">
-      Text inside the button. Only required if `type` is a `link`.
+      Текст внутри кнопки. Нужен только если `type = "link"`.
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="versions" type="string[]">
-  Array of version names. Only use this if you want to show different versions of docs with a dropdown in the navigation bar.
+  Массив названий версий. Используйте это только если хотите показывать разные версии документации через dropdown в navigation bar.
 </ResponseField>
 
 <ResponseField name="anchors" type="Anchor[]">
-  An array of the anchors, includes the `icon`, `color`, and `url`.
+  Массив anchors, включает `icon`, `color` и `url`.
 
   <Expandable title="Anchor">
     <ResponseField name="icon" type="string">
-      The [Font Awesome](https://fontawesome.com/search?q=heart) icon used to feature the anchor.
+      [Font Awesome](https://fontawesome.com/search?q=heart) иконка, которая будет использоваться для anchor.
 
       Example: `comments`
     </ResponseField>
     <ResponseField name="name" type="string">
-      The name of the anchor label.
+      Название подписи anchor.
 
       Example: `Community`
     </ResponseField>
     <ResponseField name="url" type="string">
-      The start of the URL that marks what pages go in the anchor. Generally, this is the name of the folder you put your pages in.
+      Начало URL, которое определяет, какие страницы попадают в anchor. Обычно это имя папки, в которой лежат страницы.
     </ResponseField>
     <ResponseField name="color" type="string">
-      The hex color of the anchor icon background. Can also be a gradient if you pass an object with the properties `from` and `to` that are each a hex color.
+      HEX-цвет фона иконки anchor. Также можно передать gradient через объект с полями `from` и `to`, где оба значения - это HEX-цвета.
     </ResponseField>
     <ResponseField name="version" type="string">
-      Used if you want to hide an anchor until the correct docs version is selected.
+      Используется, если вы хотите скрывать anchor до выбора нужной версии документации.
     </ResponseField>
     <ResponseField name="isDefaultHidden" type="boolean" default="false">
-      Pass `true` if you want to hide the anchor until you directly link someone to docs inside it.
+      Передайте `true`, если хотите скрыть anchor до тех пор, пока кто-то не перейдет по прямой ссылке на документацию внутри него.
     </ResponseField>
     <ResponseField name="iconType" type="string" default="duotone">
-      One of: "brands", "duotone", "light", "sharp-solid", "solid", or "thin"
+      Одно из значений: `brands`, `duotone`, `light`, `sharp-solid`, `solid` или `thin`
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="topAnchor" type="Object">
-  Override the default configurations for the top-most anchor.
+  Позволяет переопределить настройки верхнего anchor по умолчанию.
 
   <Expandable title="Object">
     <ResponseField name="name" type="string" default="Documentation">
-      The name of the top-most anchor
+      Название верхнего anchor
     </ResponseField>
     <ResponseField name="icon" type="string" default="book-open">
-      Font Awesome icon.
+      Иконка Font Awesome.
     </ResponseField>
     <ResponseField name="iconType" type="string" default="duotone">
-      One of: "brands", "duotone", "light", "sharp-solid", "solid", or "thin"
+      Одно из значений: `brands`, `duotone`, `light`, `sharp-solid`, `solid` или `thin`
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="tabs" type="Tabs[]">
-  An array of navigational tabs.
+  Массив навигационных вкладок.
 
   <Expandable title="Tabs">
     <ResponseField name="name" type="string">
-      The name of the tab label.
+      Название вкладки.
     </ResponseField>
     <ResponseField name="url" type="string">
-      The start of the URL that marks what pages go in the tab. Generally, this is the name of the folder you put your pages in.
+      Начало URL, которое определяет, какие страницы попадают во вкладку. Обычно это имя папки, в которой лежат страницы.
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="api" type="API">
-  Configuration for API settings. Learn more about API pages at [API Components](/api-playground/demo).
+  Настройки API. Подробнее про API-страницы см. в разделе [API Components](/api-playground/demo).
 
   <Expandable title="API">
     <ResponseField name="baseUrl" type="string">
-      The base url for all API endpoints. If `baseUrl` is an array, it will enable for multiple base url options that the user can toggle.
+      Базовый URL для всех API-эндпоинтов. Если `baseUrl` передан как массив, пользователь сможет переключаться между несколькими вариантами base URL.
     </ResponseField>
     <ResponseField name="auth" type="Auth">
       <Expandable title="Auth">
         <ResponseField name="method" type='"bearer" | "basic" | "key"'>
-          The authentication strategy used for all API endpoints.
+          Стратегия аутентификации, используемая для всех API-эндпоинтов.
         </ResponseField>
         <ResponseField name="name" type="string">
-          The name of the authentication parameter used in the API playground.
+          Имя параметра аутентификации, используемого в API playground.
 
-          If method is `basic`, the format should be `[usernameName]:[passwordName]`
+          Если используется метод `basic`, формат должен быть `[usernameName]:[passwordName]`
         </ResponseField>
         <ResponseField name="inputPrefix" type="string">
-          The default value that's designed to be a prefix for the authentication input field.
+          Значение по умолчанию, которое будет использоваться как префикс в поле ввода аутентификации.
 
-          E.g. If an `inputPrefix` of `AuthKey` would inherit the default input result of the authentication field as `AuthKey`.
+          Например, если `inputPrefix = "AuthKey"`, то поле аутентификации будет по умолчанию начинаться с `AuthKey`.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="playground" type="Playground">
-      Configurations for the API playground
+      Настройки API playground
 
       <Expandable title="Playground">
         <ResponseField name="mode" type='"show" | "simple" | "hide"' default="show">
-          Whether the playground is showing, hidden, or only displaying the endpoint with no added user interactivity `simple`
+          Определяет, будет ли playground показан, скрыт или только отображать endpoint без пользовательского взаимодействия, режим `simple`.
 
-          Learn more at the [playground guides](/api-playground/demo)
+          Подробнее см. в [гайдах по playground](/api-playground/demo)
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="maintainOrder" type="boolean">
-      Enabling this flag ensures that key ordering in OpenAPI pages matches the key ordering defined in the OpenAPI file.
+      Включение этого флага гарантирует, что порядок ключей на OpenAPI-страницах будет соответствовать порядку ключей в самом OpenAPI-файле.
 
       <Warning>
-        This behavior will soon be enabled by default, at which point this field will be deprecated.
+        Скоро это поведение будет включено по умолчанию, после чего это поле станет deprecated.
       </Warning>
     </ResponseField>
   </Expandable>

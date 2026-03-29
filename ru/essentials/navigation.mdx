@@ -1,20 +1,20 @@
 ---
-title: "Navigation"
-description: "The navigation field in docs.json defines the pages that go in the navigation menu"
+title: "Навигация"
+description: "Поле navigation в docs.json определяет, какие страницы попадают в меню навигации"
 icon: "map"
 ---
 
-The navigation menu is the list of links on every website.
+Меню навигации - это список ссылок, который отображается на сайте.
 
-You will likely update `docs.json` every time you add a new page. Pages do not show up automatically.
+Скорее всего, вам придется обновлять `docs.json` каждый раз, когда вы добавляете новую страницу. Страницы не появляются автоматически.
 
-## Navigation syntax
+## Синтаксис navigation
 
-Our navigation syntax is recursive which means you can make nested navigation groups. You don't need to include `.mdx` in page names.
+Синтаксис navigation рекурсивный, а значит вы можете создавать вложенные группы навигации. Указывать `.mdx` в названиях страниц не нужно.
 
 <CodeGroup>
 
-```json Regular Navigation
+```json Обычная навигация
 "navigation": {
   "tabs": [
     {
@@ -31,7 +31,7 @@ Our navigation syntax is recursive which means you can make nested navigation gr
 ```
 
 
-```json Nested Navigation
+```json Вложенная навигация
 "navigation": {
   "tabs": [
     {
@@ -55,17 +55,17 @@ Our navigation syntax is recursive which means you can make nested navigation gr
 
 </CodeGroup>
 
-## Folders
+## Папки
 
-Simply put your MDX files in folders and update the paths in `docs.json`.
+Просто размещайте ваши MDX-файлы в папках и обновляйте пути в `docs.json`.
 
-For example, to have a page at `https://yoursite.com/your-folder/your-page` you would make a folder called `your-folder` containing an MDX file called `your-page.mdx`.
+Например, чтобы получить страницу по адресу `https://yoursite.com/your-folder/your-page`, нужно создать папку `your-folder` и поместить в нее файл `your-page.mdx`.
 
 <Warning>
-  You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
+  Вы не можете использовать `api` как имя папки, если только она не вложена в другую папку. Mintlify использует Next.js, а он резервирует верхнеуровневую папку `api` для внутренних server calls. Например, имя папки `api-reference` будет допустимым.
 </Warning>
 
-```json Navigation With Folder
+```json Навигация с папкой
 "navigation": {
   "tabs": [
     {
@@ -81,6 +81,6 @@ For example, to have a page at `https://yoursite.com/your-folder/your-page` you 
 }
 ```
 
-## Hidden pages
+## Скрытые страницы
 
-MDX files not included in `docs.json` will not show up in the sidebar but are accessible through the search bar and by linking directly to them.
+MDX-файлы, не включенные в `docs.json`, не появятся в sidebar, но останутся доступны через поиск и по прямой ссылке.

@@ -1,6 +1,6 @@
 ---
-title: 'Images and embeds'
-description: 'Add image, video, and other HTML elements'
+title: 'Изображения и embeds'
+description: 'Добавление изображений, видео и других HTML-элементов'
 icon: 'image'
 ---
 
@@ -9,27 +9,27 @@ icon: 'image'
   src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
 />
 
-## Image
+## Изображения
 
-### Using Markdown
+### Использование Markdown
 
-The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
+С помощью [синтаксиса markdown](https://www.markdownguide.org/basic-syntax/#images) вы можете добавлять изображения следующим образом:
 
 ```md
 ![title](/path/image.jpg)
 ```
 
-Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
+Обратите внимание: размер файла изображения должен быть меньше 5MB. Иначе лучше хранить изображение на сервисе вроде [Cloudinary](https://cloudinary.com/) или [S3](https://aws.amazon.com/s3/), а затем использовать этот URL для вставки.
 
-### Using embeds
+### Использование embeds
 
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
+Если вам нужна более гибкая настройка отображения изображения, можно использовать [embeds](/writing-content/embed):
 
 ```html
 <img height="200" src="/path/image.jpg" />
 ```
 
-## Embeds and HTML elements
+## Embeds и HTML-элементы
 
 <iframe
   width="560"
@@ -47,12 +47,12 @@ To get more customizability with images, you can also use [embeds](/writing-cont
 <Tip>
 
 Mintlify supports [HTML tags in Markdown](https://www.markdownguide.org/basic-syntax/#html). This is helpful if you prefer HTML tags to Markdown syntax, and lets you create documentation with infinite flexibility.
-
+Mintlify поддерживает [HTML-теги в Markdown](https://www.markdownguide.org/basic-syntax/#html). Это удобно, если вы предпочитаете HTML-теги обычному Markdown-синтаксису, и дает почти неограниченную гибкость при создании документации.
 </Tip>
 
 ### iFrames
 
-Loads another HTML page within the document. Most commonly used for embedding videos.
+Загружает другую HTML-страницу прямо внутри документа. Чаще всего используется для встраивания видео.
 
 ```html
 <iframe src="https://www.youtube.com/embed/4KzFe50RQkQ"> </iframe>

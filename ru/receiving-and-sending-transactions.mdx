@@ -5,115 +5,115 @@ title: "Получение и отправка транзакций"
 # Отправка TON-транзакций
 
 <Info>
-  Please note: sending a transaction is an irreversible process. It is impossible to cancel the sending after confirmation.
+  Обратите внимание: отправка транзакции является необратимым процессом. После подтверждения отменить отправку невозможно.
 </Info>
 
-1. Transaction preparation:
+1. Подготовка транзакции:
 
-- The application retrieves the current wallet `seqno` via RPC (`fetchSeqno`).
+- Приложение получает текущее значение `seqno` кошелька через RPC, функция `fetchSeqno`.
 
 <Info>
-  Seqno (sequence number) is the sequential number of a wallet transaction in TON. It's a counter that shows how many transactions this wallet has already sent.
+  `Seqno`, то есть `sequence number`, - это порядковый номер транзакции кошелька в TON. Это счетчик, показывающий, сколько транзакций этот кошелек уже отправил.
 </Info>
 
-- Gets the latest blockchain block for transaction relevance.
-- Forms an internal message with parameters:
-  - recipient address
-  - amount in nanotons
-  - payload (comment or data)
-  - `stateInit` (if recipient wallet activation is needed)
+- Получает последний блок блокчейна для проверки актуальности транзакции.
+- Формирует internal message с параметрами:
+  - адрес получателя
+  - сумма в nanotons
+  - payload, то есть комментарий или данные
+  - `stateInit`, если нужна активация кошелька получателя
 
-2. Creating external message:
+2. Создание external message:
 
-- An external message is created to the wallet smart contract.
-- If `seqno === 0` (first transaction), `init` is added for contract deployment.
-- The message is signed locally with private key (via `WalletContract.createTransfer`).
+- Создается external message для smart contract кошелька.
+- Если `seqno === 0`, то есть это первая транзакция, добавляется `init` для деплоя контракта.
+- Сообщение подписывается локально приватным ключом через `WalletContract.createTransfer`.
 
-3. Signing:
+3. Подписание:
 
-- Private key is extracted from secure storage after authentication (PIN/biometrics).
-- Signing is performed locally on the device; private key never leaves the device.
+- Приватный ключ извлекается из secure storage после аутентификации через PIN или биометрию.
+- Подписание выполняется локально на устройстве, приватный ключ никогда не покидает устройство.
 
-4. Network transmission:
+4. Отправка в сеть:
 
-- Signed message is serialized to BOC (Bag of Cells).
-- Sent to TON RPC node via `client.sendMessage(msg.toBoc())`.
-- Application registers transaction as "pending" for status tracking.
+- Подписанное сообщение сериализуется в `BOC`, то есть `Bag of Cells`.
+- Отправляется в TON RPC node через `client.sendMessage(msg.toBoc())`.
+- Приложение регистрирует транзакцию как `pending` для отслеживания статуса.
 
-5. Confirmation waiting:
+5. Ожидание подтверждения:
 
-- Application tracks status via `BlocksWatcher` (SSE connection to blockchain).
-- When transaction appears in block, status changes from "pending" to "confirmed".
+- Приложение отслеживает статус через `BlocksWatcher`, то есть SSE-подключение к блокчейну.
+- Когда транзакция появляется в блоке, статус меняется с `pending` на `confirmed`.
 
 # Отправка TON-токенов
 
-Sending token is sending an internal message to the sender's token-wallet address.
+Отправка token - это отправка internal message на адрес token-wallet отправителя.
 
-- Sender in Tonhub signs and sends an external TON transaction to their token-wallet with token transfer instruction.
-- This external transaction goes to the sender's main wallet contract.
-- Token-wallet sends internal message to recipient's token-wallet (or creates it if needed).
+- Отправитель в Tonhub подписывает и отправляет внешнюю TON-транзакцию в свой token-wallet с инструкцией перевода token.
+- Эта внешняя транзакция уходит в основной wallet contract отправителя.
+- Token-wallet отправляет internal message в token-wallet получателя, либо создает его при необходимости.
 
-TON transaction structure:
+Структура TON-транзакции:
 
-- In the payload of message to token-wallet:
-  - `op_code` = `0xf8a7ea5` (token Transfer)
-  - token amount
-  - recipient address
-  - address for excess return (usually sender's address)
-  - `forward_ton_amount` - fee for token delivery to recipient
-  - `forward_payload` - comment, if any
+- В payload сообщения в token-wallet передается:
+  - `op_code = 0xf8a7ea5`, это token transfer
+  - сумма token
+  - адрес получателя
+  - адрес для возврата excess, обычно адрес отправителя
+  - `forward_ton_amount`, комиссия за доставку token получателю
+  - `forward_payload`, комментарий при наличии
 
 # Отправка Solana-транзакций
 
-1. Getting latest blockhash:
+1. Получение latest blockhash:
 
-- Request `getLatestBlockhash()` to Solana RPC node.
-- Blockhash is needed for transaction validity (usually valid ~60 seconds).
+- Выполняется запрос `getLatestBlockhash()` к Solana RPC node.
+- `Blockhash` нужен для валидности транзакции и обычно действует около 60 секунд.
 
-2. Building transaction:
+2. Сборка транзакции:
 
 - `SystemProgram.transfer` instruction is created.
 
-3. Adding comment (memo):
+3. Добавление комментария, memo:
 
 - If there's a comment, instruction is added with `programId` = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr".
 
-4. Transaction signing:
+4. Подписание транзакции:
 
-- Private key is extracted after authentication.
-- Transaction is signed locally via `transaction.sign`(keyPair).
-- Signing is performed on device.
+- После аутентификации извлекается приватный ключ.
+- Транзакция подписывается локально через `transaction.sign(keyPair)`.
+- Подписание выполняется на устройстве.
 
-5. Serialization and sending:
+5. Сериализация и отправка:
 
-- Transaction is serialized to base64 via `transaction.serialize().toString('base64')`.
-- Sent to Solana RPC via `client.sendEncodedTransaction(encodedTx)`.
-- Returns signature (base58), which is the transaction ID.
+- Транзакция сериализуется в base64 через `transaction.serialize().toString('base64')`.
+- Отправляется в Solana RPC через `client.sendEncodedTransaction(encodedTx)`.
+- Возвращается signature в base58, это и есть transaction ID.
 
-6. Fallback mechanism:
+6. Fallback-механизм:
 
-- If main RPC is unavailable, public fallback client is used.
+- Если основной RPC недоступен, используется публичный fallback client.
 
 # Отправка SPL-токенов (Solana)
 
-Structure is similar to sending SOL, but with specifics:
+Структура похожа на отправку SOL, но есть свои особенности:
 
-1. Tonhub supports displaying a single token on SOL
-1. Token Account (ATA):
+1. Tonhub поддерживает отображение отдельного token на SOL.
+2. Token Account, то есть ATA:
 
-- Each SPL token is stored in separate token account (Associated Token Account).
-- ATA address is computed deterministically from owner address and token mint address.
+- Каждый SPL token хранится в отдельном token account, то есть `Associated Token Account`.
+- Адрес ATA вычисляется детерминированно на основе owner address и token mint address.
 
-3. Automatic ATA creation:
+3. Автоматическое создание ATA:
 
-- When sending token, application checks for recipient's ATA existence.
-- If ATA doesn't exist, `createAssociatedTokenAccount` instruction is automatically added.
-- This requires additional SOL fee (~0.002–0.003 SOL).
+- При отправке token приложение проверяет, существует ли ATA у получателя.
+- Если ATA отсутствует, автоматически добавляется инструкция `createAssociatedTokenAccount`.
+- Это требует дополнительной комиссии в SOL, примерно 0.002–0.003 SOL.
 
-4. Transaction structure:
+4. Структура транзакции:
 
-- Instruction 1 (if needed): `createAssociatedTokenAccount` for recipient.
-- Instruction 2: `createTransferInstruction` to transfer tokens from sender's ATA to recipient's ATA.
+- Instruction 1, при необходимости, это `createAssociatedTokenAccount` для получателя.
+- Instruction 2 - `createTransferInstruction` для перевода token из ATA отправителя в ATA получателя.
 
 # Мониторинг транзакций
 
@@ -137,29 +137,29 @@ Structure is similar to sending SOL, but with specifics:
 
 ## Solana
 
-1. Polling via RPC:
+1. Polling через RPC:
 
-- Periodic requests to Solana RPC to get transactions by address. No exact update interval - request is made each time when opening/enabling screen.
-- Uses `getSignaturesForAddress` and `getTransaction`.
+- Выполняются периодические запросы в Solana RPC, чтобы получить транзакции по адресу. Точного fixed interval нет, запрос выполняется каждый раз при открытии или повторной активации экрана.
+- Используются `getSignaturesForAddress` и `getTransaction`.
 
-2. Token account monitoring:
+2. Мониторинг token account:
 
-- For each known SPL token, corresponding ATA balance is checked.
-- Balance changes are interpreted as incoming/outgoing transactions.
+- Для каждого известного SPL token проверяется баланс соответствующего ATA.
+- Изменения баланса интерпретируются как входящие или исходящие транзакции.
 
-3. Processing:
+3. Обработка:
 
-- Parsing transaction instructions to determine operation type.
-- Updating SOL and SPL token balances.
+- Разбор transaction instructions для определения типа операции.
+- Обновление балансов SOL и SPL token.
 
 # Лимиты суммы транзакций
 
-**TON, SOL** — no minimum sending amount restrictions. User can send 0, however system will display zero transaction warning. Incoming transactions under 0.1 TON (user-configurable value) are automatically classified as SPAM, and notifications for such operations are not sent. SOL transactions are not marked as spam. Maximum transaction amount is limited by balance size minus fees.\
-**Tokens** — minimum token transfer amount must exceed zero. Exact minimum value is determined by specific token characteristics (usually one smallest unit, e.g. 0.000001 for USDT). TON fee is paid by sender, except when using gasless transactions.
+**TON, SOL** — минимального ограничения на сумму отправки нет. Пользователь может отправить даже 0, но система покажет предупреждение о нулевой транзакции. Входящие транзакции меньше 0.1 TON, это настраиваемое пользователем значение, автоматически классифицируются как SPAM, и уведомления по ним не отправляются. SOL-транзакции как spam не маркируются. Максимальная сумма ограничена балансом за вычетом fees.\
+**Tokens** — минимальная сумма перевода token должна быть больше нуля. Точное минимальное значение определяется характеристиками конкретного token, обычно это одна минимальная единица, например 0.000001 для USDT. Комиссия в TON оплачивается отправителем, кроме случая gasless transactions.
 
 # Статусы транзакций
 
-Pending (awaiting confirmation):
+Pending, ожидание подтверждения:
 
 - Transaction sent but not yet included in a block.
 - For TON: waiting for block inclusion via BlocksWatcher.
@@ -194,16 +194,16 @@ Failed:
 
 ### Транзакция зависла в pending-статусе
 
-Timeout for TON and Solana is 60 seconds. App polls status every ~6 seconds. On confirmation, pending transitions to sent. If no confirmation within 60 seconds, status changes to timed-out without re-debiting funds.
+Timeout для TON и Solana составляет 60 секунд. Приложение опрашивает статус примерно каждые 6 секунд. При подтверждении `pending` переходит в `sent`. Если подтверждение не пришло за 60 секунд, статус меняется на `timed-out`, без повторного списания средств.
 
 ### Solana: истечение blockhash
 
-In Solana, transactions have limited lifetime by `lastValidBlockHeight`. Tonhub doesn't check blockhash expiration separately — transaction remains pending until confirmation or 60-second timeout.
+В Solana транзакции имеют ограниченный срок жизни через `lastValidBlockHeight`. Tonhub отдельно не проверяет истечение `blockhash`, поэтому транзакция остается в `pending` до подтверждения или 60-секундного timeout.
 
 ### Политика повторной отправки
 
-**TON:** "Send again" button appears only after transitioning to timed-out status.\
-**Solana:** No retry button. After timeout, user creates new transfer manually.
+**TON:** кнопка `Send again` появляется только после перехода в статус `timed-out`.\
+**Solana:** кнопки retry нет. После timeout пользователь создает новый transfer вручную.
 
 - While transaction is in pending status (first 60 seconds), app only waits for confirmation.
 
@@ -217,24 +217,24 @@ In Solana, transactions have limited lifetime by `lastValidBlockHeight`. Tonhub 
 
 # Gas при отправке
 
-Transaction fee is always paid by the sender, regardless of the type of assets being transferred. Tonhub doesn't provide users the ability to adjust fee size. Fee amount is calculated with margin to guarantee coverage of all transaction execution costs. Unused portion of the fee is automatically returned to user's balance as separate incoming transaction. Fee payment is made exclusively in the native currency of the corresponding blockchain: TON for TON network and SOL for Solana network. This feature can lead to situations where user has tokens in account but cannot send them due to lack of native currency for fee payment. To solve this problem, a new wallet version W5 was developed in the TON ecosystem, which supports gasless transaction functionality.
+Комиссия за транзакцию всегда оплачивается отправителем, независимо от типа переводимых активов. Tonhub не дает пользователю возможности настраивать размер fee вручную. Сумма рассчитывается с запасом, чтобы гарантировать покрытие всех расходов на выполнение транзакции. Неиспользованная часть комиссии автоматически возвращается на баланс пользователя как отдельная входящая транзакция. Комиссия оплачивается только в нативной валюте соответствующего блокчейна: TON для TON network и SOL для Solana network. Из-за этого у пользователя могут быть tokens на балансе, но не быть возможности отправить их из-за нехватки нативной валюты на fee. Чтобы решить эту проблему, в TON ecosystem была разработана новая версия кошелька W5 с поддержкой gasless transactions.
 
 # Gasless-транзакции
 
-Gasless transaction functionality doesn't imply complete absence of fees for the user. This technology allows paying fees when sending certain tokens in the currency of the tokens themselves. Tonhub supports gasless transactions exclusively for TON blockchain. For example, when using W5 wallet, user can pay fee for sending USDT directly with USDT tokens, without having TON in balance. User can choose fee payment method: in token currency (amount will be higher due to exchange costs) or in native currency.
+Gasless transactions не означают полного отсутствия комиссий для пользователя. Эта технология позволяет оплачивать fee при отправке некоторых tokens в валюте самих tokens. Tonhub поддерживает gasless transactions только для TON blockchain. Например, при использовании W5 wallet пользователь может оплатить fee за отправку USDT напрямую токенами USDT, даже если на балансе нет TON. Пользователь может выбрать способ оплаты: в token currency, это будет дороже из-за обменных издержек, либо в нативной валюте.
 
 ## Как работает gasless
 
-Gasless sending is essentially an overlay over regular transactions. The network cannot send transactions without paying fees in native currency, since these funds go to pay validators' work. In gasless sending, the relayer pays the transaction fee, taking part of the sent token for itself. Relayer in gasless context is a service with TON wallet that:
+Gasless sending по сути является надстройкой над обычными транзакциями. Сеть не может отправлять транзакции без оплаты fee в нативной валюте, потому что именно эти средства идут валидаторам. В gasless sending relayer оплачивает комиссию сам, удерживая часть отправляемого token себе. Relayer в этом контексте - это сервис с TON wallet, который:
 
-- Accepts signed transaction from user (user pays fee in token)
-- Independently sends this transaction to blockchain and pays fee in TON from its wallet
-- Retains fee in token
+- Принимает подписанную транзакцию от пользователя, где пользователь платит fee token-ом
+- Самостоятельно отправляет эту транзакцию в блокчейн и оплачивает fee в TON со своего wallet
+- Удерживает fee в token
 
-Tonhub doesn't have its own relayer and uses third-party one.
+У Tonhub нет собственного relayer, поэтому используется сторонний сервис.
 
 ## Ограничения gasless
 
-- Available only for part of tokens; list comes from server (config); example — USDT.
-- Supported only on V5 wallets
-- Cooldown exists (paying fee in token once every few minutes); If needed, user can wait or pay in TON.
+- Доступно только для части tokens, список приходит с сервера из config, например это USDT.
+- Поддерживается только на V5 wallets.
+- Существует cooldown: оплачивать fee token-ом можно только раз в несколько минут. При необходимости пользователь может подождать или заплатить в TON.

@@ -1,5 +1,5 @@
 ---
-title: "Whales Club"
+title: "Клуб Whales"
 ---
 
 # Что такое Whales Club
@@ -22,90 +22,90 @@ Telegram-каналы клуба:
 
 - https://tonwhales.com/club
 
-# Mint Smart Contract
+# Mint smart contract
 
-The smart contract allows users to obtain (mint) NFTs with random attributes by sending funds to its address. The user's address becomes the owner address upon minting. Users can mint one or multiple items. The quantity is calculated based on the amount sent.\
-A key feature of the mint smart contract is dynamic pricing with constant token price increases. The price increased according to the algorithm presented in the table below. The step size decreased proportionally to the current price, ensuring rapid price growth in the initial stage followed by a slowdown in growth rates.\
-Example: the first whale in the collection cost 100 TON, the next one cost 100.6 TON, and so on. Once the whale price reaches 399 TON, the step decreases from 0.6 to 0.05 TON.
+Этот smart contract позволяет пользователям получать, то есть mint, NFT со случайными атрибутами, отправляя средства на его адрес. При mint адрес пользователя становится owner-адресом NFT. Пользователь может mint-ить один или несколько item, а количество рассчитывается на основе отправленной суммы.\
+Ключевая особенность mint smart contract - динамическое ценообразование с постоянным ростом цены токена. Цена росла по алгоритму, показанному в таблице ниже. Размер шага уменьшался пропорционально текущей цене, что давало быстрый рост цены на раннем этапе и более медленное увеличение позже.\
+Пример: первый whale в коллекции стоил 100 TON, следующий - 100.6 TON и так далее. Когда цена whale доходила до 399 TON, шаг уменьшался с 0.6 до 0.05 TON.
 
 <Frame>
   ![Screenshot2026 01 14at17 09 30](/images/Screenshot2026-01-14at17.09.30.png)
 </Frame>
 
-The mint contract consists of 2 main parts
+Mint-контракт состоит из двух основных частей:
 
 1. Collection mint contract
 2. Individual item mint contract
 
 ## Collection mint contract
 
-Allows creating a collection with specified parameters.\
-**Link:** https://github.com/tonwhales/nft-minter\
-**Language: TypeScript**
+Позволяет создавать коллекцию с заданными параметрами.\
+**Ссылка:** https://github.com/tonwhales/nft-minter\
+**Язык:** TypeScript
 
-### Main Operations
+### Основные операции
 
-If `sender_address == ctx_owner` → **admin handler **`op_owner`:
+Если `sender_address == ctx_owner`, то используется **admin handler** `op_owner`:
 
-- `op::update` — change parameters:
-  - `ctx_sale_opened`, `ctx_total_supply`, `ctx_mint_limit`, `ctx_price`, `ctx_step` (with limit/minimum price checks).
-- `op::close` — close sale (sale_opened=false, mintLimit=minted).
-- `op::open` — open/expand sale (`+count` to mintLimit, new `step`, `sale_opened=true`).
-- `op::upgrade` — update code (write new `code`).
-- `op::purchase` — mint on behalf of owner (proceeds to `op_purchase`, flag indicates buyer is owner).
-- `op::topup` — simply accept funds (no logic).
-- `op::update_content` — update `content` (URIs).
-- `op::transfer_ownership` — change `owner`.
-- `op::update_royalty_params` — update royalty.
-- `op == 0` + text `"NFT"` — mint 1 NFT (text form).
+- `op::update` — изменить параметры:
+  - `ctx_sale_opened`, `ctx_total_supply`, `ctx_mint_limit`, `ctx_price`, `ctx_step`, с проверками лимитов и минимальной цены.
+- `op::close` — закрыть sale, то есть `sale_opened=false`, `mintLimit=minted`.
+- `op::open` — открыть или расширить sale, добавить `+count` к `mintLimit`, задать новый `step`, установить `sale_opened=true`.
+- `op::upgrade` — обновить код, записать новый `code`.
+- `op::purchase` — выполнить mint от имени owner, дальше управление переходит в `op_purchase`, флаг показывает, что buyer - это owner.
+- `op::topup` — просто принять средства, без дополнительной логики.
+- `op::update_content` — обновить `content`, то есть URI.
+- `op::transfer_ownership` — сменить `owner`.
+- `op::update_royalty_params` — обновить royalty.
+- `op == 0` + текст `"NFT"` — mint одного NFT, текстовая форма.
 
-Public operations (if not owner):
+Публичные операции, если вызов идет не от owner:
 
-- `op == 0` and string `"NFT"` → single mint (`op_purchase(sender, ..., count=1)`).
+- `op == 0` и строка `"NFT"` → single mint, то есть `op_purchase(sender, ..., count=1)`.
 - `op::purchase` → mint `count` NFT (`op_purchase(sender, ..., count)`).
 
-### How to Start Mint
+### Как запустить mint
 
-1. Generate BOC:
+1. Сгенерируйте BOC:
 
-- Through script: `bash` , it will output `Open:` \<base64 BOC\>.
+- Через скрипт `bash`, который выведет `Open:` \<base64 BOC\>.
 
 ```
 yarn ts-node manage/mainnet/open.ts
 ```
 
-it will output `Open:` \<base64 BOC\>.
+В результате он выведет `Open:` \<base64 BOC\>.
 
-- or programmatically call `createOpenMessage(count, step)`.
-  2. Send internal message:
+- либо программно вызвать `createOpenMessage(count, step)`.
+2. Отправьте internal message:
 
 
-- recipient — collection address,
-- sender — `owner` wallet,
-- body — this BOC,
-- value — some reserve for commission (e.g. 0.1–0.2 TON, depends on network).
+- recipient — адрес collection,
+- sender — кошелек `owner`,
+- body — этот BOC,
+- value — небольшой резерв на комиссию, например 0.1–0.2 TON, в зависимости от сети.
 
-After this:
+После этого:
 
 - `sale_opened = true`,
 - `mintLimit` increased,
-- minting through `purchase`/`"NFT"` becomes possible within the new limit.
+- mint через `purchase` или `"NFT"` становится доступным в рамках нового лимита.
 
-### How to stop mint
+### Как остановить mint
 
-1. Generate BOC: `createCloseMessage().toBoc().toString('base64')` (or run `close.ts`).
-2. Send internal message:
-   1. to collection address,
-   2. **from owner wallet**,
-   3. body = this BOC,
-   4. with small amount of TON for gas.
+1. Сгенерируйте BOC: `createCloseMessage().toBoc().toString('base64')`, либо запустите `close.ts`.
+2. Отправьте internal message:
+   1. на адрес collection,
+   2. **из owner wallet**,
+   3. с `body = this BOC`,
+   4. и небольшим количеством TON для gas.
 
-After this minting stops.
+После этого mint останавливается.
 
-### How to update collection royalty
+### Как обновить royalty коллекции
 
-- `factor / base` = royalty share (e.g. `5 / 100 = 5%`),
-- `address` — where royalties go.
+- `factor / base` = доля royalty, например `5 / 100 = 5%`,
+- `address` — адрес, на который отправляются royalties.
 
 ```
 ts
@@ -120,47 +120,47 @@ const royaltyAddress = Address.parse('...');
 const body = updateRoyaltyParams(factor, base, royaltyAddress);
 const boc = body.toBoc().toString('base64');
 
-// after this send internal-message to collection address with this body
+// после этого отправьте internal-message на адрес коллекции с этим body
 ```
 
-### How to change collection owner
+### Как сменить owner коллекции
 
-Works only if **sender = current owner**.
+Работает только если **sender = текущий owner**.
 
-1. In `manage/mainnet/transfer-ownership.ts`:
-   1. in `Address.parse('')` enter the new owner's address (string in friendly format).
-2. Run the script:
+1. В `manage/mainnet/transfer-ownership.ts`:
+   1. в `Address.parse('')` укажите адрес нового owner в friendly-формате.
+2. Запустите скрипт:
 
 ```
 yarn ts-node manage/mainnet/transfer-ownership.ts
 ```
 
-3. It will output a link of the form:
+3. Скрипт выведет ссылку вида:
 
 ```
 Transfer ownership: https://tonhub.com/transfer/EQ...NFT?amount=...&bin=...
 ```
 
-and QR‑code.
+а также QR-код.
 
-4. Open this link with the **current owner's wallet** (the one recorded in `owner`/`ctx_owner`) and confirm the transaction.
+4. Откройте эту ссылку через **кошелек текущего owner**, то есть тот, который записан в `owner` или `ctx_owner`, и подтвердите транзакцию.
 
 ## Individual item mint contract
 
-Allows the owner to specify the buyer's wallet address for a specific item in the collection.\
-**Link:** https://github.com/tonwhales/nft-contract\
-**Language: Solidity**
+Позволяет owner указать адрес кошелька покупателя для конкретного item в коллекции.\
+**Ссылка:** https://github.com/tonwhales/nft-contract\
+**Язык:** Solidity
 
-### Main Operations
+### Основные операции
 
-`op_transfer(slice cs)` - transfer of an already existing token.\
-`op_award(slice cs)` - distribution of **uninitialized** NFT (airdrop) to a specific address.\
-`op_update_metadata(slice cs)` - updating **collection's general metadata**.\
-`op_mint(slice cs)` - mint new token according to minting settings.\
-`op_ping(slice cs)` - ensures the contract is alive and you are the owner.\
-`op_upgrade(slice cs)` - contract code update.
+`op_transfer(slice cs)` - transfer уже существующего token.\
+`op_award(slice cs)` - распределение **uninitialized** NFT, то есть airdrop, на конкретный адрес.\
+`op_update_metadata(slice cs)` - обновление **общих metadata коллекции**.\
+`op_mint(slice cs)` - mint нового token по текущим настройкам mint.\
+`op_ping(slice cs)` - проверяет, что контракт активен и вы являетесь owner.\
+`op_upgrade(slice cs)` - обновление кода контракта.
 
-# Mint History and Fees
+# История mint и комиссии
 
 | Mint date | Number of NFTs | Amount TON | Price at the start | Price at the end |
 | :-------- | :------------- | :--------- | :----------------- | :--------------- |
@@ -169,104 +169,104 @@ Allows the owner to specify the buyer's wallet address for a specific item in th
 | 08/20/22  | 165            | 73 738     | 453                | 461              |
 | 12/17/22  | 100            | 45 352     | 461                | 466              |
 
-## Wallets for collecting funds
+## Кошельки для сбора средств
 
-Initially, sales proceeds were sent to a wallet that was subsequently replaced with another one. Currently, all royalties from the secondary market are sent to the new NFT treasury wallet.
+Изначально выручка от продаж отправлялась на один кошелек, который позже был заменен другим. Сейчас все royalties со secondary market отправляются на новый NFT treasury wallet.
 
 ## Secondary market
 
-The company receives royalties from whale sales on the secondary market. Royalties amount to 5% of each whale sale and can be changed by the collection owner. Additionally, 5% of the sale goes to the marketplace where the sale occurs - this share cannot be changed. All royalties are sent to the same wallet that receives mint proceeds and can be withdrawn by the wallet owner. 
+Компания получает royalties от продажи whales на secondary market. Royalties составляют 5% от каждой продажи whale и могут быть изменены owner коллекции. Дополнительно еще 5% от продажи уходит marketplace, на котором происходит сделка, и эта доля не изменяется. Все royalties отправляются на тот же кошелек, который получает выручку от mint, и могут быть выведены owner этого кошелька.
 
 # Telegram Club Bot
 
-Any NFT whale owner gets access to the private Ton Whales chat in TG. In the chat, users can communicate with the company's CEO, make new connections, and learn news. Access to the chat is provided through the bot \
+Любой владелец NFT whale получает доступ в приватный чат Ton Whales в Telegram. В чате пользователи могут общаться с CEO компании, заводить новые знакомства и узнавать новости. Доступ к чату предоставляется через бота \
 https://t.me/whalesclub_bot\
-The bot works in inline mode and can be called from any chat.
+Бот работает в inline-режиме и может быть вызван из любого чата.
 
-## Instructions for entering the chat
+## Инструкция по входу в чат
 
-1. Go to the bot https://t.me/whalesclub_bot
-2. Choose how you want to verify yourself
-   1. Through Tonhub - this method allows you to scan a QR code with the wallet app that has the address containing the NFT whale open.
-   2. Through another wallet - this method allows you to send a minimal transaction to the address specified by the bot from the address containing the NFT whale.
-3. In the response message, the bot will send links to enter the private chats.
+1. Перейдите в бот https://t.me/whalesclub_bot
+2. Выберите способ верификации
+   1. Через Tonhub, этот способ позволяет отсканировать QR-код приложением кошелька, в котором открыт адрес с NFT whale.
+   2. Через другой кошелек, этот способ позволяет отправить минимальную транзакцию на адрес, указанный ботом, с адреса, на котором находится NFT whale.
+3. В ответном сообщении бот пришлет ссылки для входа в приватные чаты.
 
-## How the bot checks for NFT ownership
+## Как бот проверяет владение NFT
 
-The bot is an admin and every two hours checks all chat participants for NFT tokens in their wallets (the bot accesses the same page as the staker). If the corresponding NFT is absent, the participant is automatically removed from the chat.\
-It should be noted that the bot does not account for NFT movement to sale contract addresses, meaning users who have listed their NFT for sale without actual completion retain access to the chat.
+Бот является администратором и каждые два часа проверяет у всех участников чата наличие NFT-токенов в кошельках, бот обращается к той же странице, что и стейкер. Если соответствующего NFT нет, участник автоматически удаляется из чата.\
+Важно учитывать, что бот не отслеживает перевод NFT на адреса sale contracts, поэтому пользователи, выставившие NFT на продажу, но не завершившие сделку, сохраняют доступ к чату.
 
-## Bot buttons and commands
+## Кнопки и команды бота
 
-- My profile - allows the user to fill out a form for the handshake system.
-- Whales club staking pools - redirects the user to the staking page.
-- Show my whales - generates a gif with all the user's whales.
-- Set the club status - allows sending an application for club status.
-- Join the club - generates links to enter the club's private chats.
-- Members projects section - allows submitting an application to feature a project in the projects section on the website.
-- Accelerator program - submitting an application to the project support program.
-- My wallets - allows adding multiple wallets to combine into one profile
-- /mywhales - command allows sharing a gif with all club member's whales in any chat
+- `My profile` - позволяет заполнить форму для handshake system.
+- `Whales club staking pools` - перенаправляет пользователя на страницу стейкинга.
+- `Show my whales` - генерирует gif со всеми whales пользователя.
+- `Set the club status` - позволяет отправить заявку на club status.
+- `Join the club` - генерирует ссылки для входа в приватные чаты клуба.
+- `Members projects section` - позволяет отправить заявку на публикацию проекта в разделе проектов на сайте.
+- `Accelerator program` - отправка заявки в программу поддержки проектов.
+- `My wallets` - позволяет добавить несколько кошельков и объединить их в один профиль.
+- `/mywhales` - команда, которая позволяет делиться gif со всеми whales участника клуба в любом чате.
 
-### Additional features
+### Дополнительные возможности
 
-- Each new completed profile from the handshake system is automatically published by the bot in club chats.
-- Each new project posted by participants on the project board is automatically published by the bot in club chats.
-- Each NFT whale sold on the secondary market is automatically published by the bot in club chats with the sale price indicated.
+- Каждый новый заполненный профиль из handshake system автоматически публикуется ботом в клубных чатах.
+- Каждый новый проект, опубликованный участниками на project board, автоматически публикуется ботом в клубных чатах.
+- Каждая продажа NFT whale на secondary market автоматически публикуется ботом в клубных чатах с указанием цены.
 
-# Handshake System
+# Handshake system
 
-The handshake system enables anonymous introductions between club members. Users create a profile in the club bot, specifying their field of activity and a brief description of their occupation. The profile is posted on the page:
-
-- https://tonwhales.com/club/members
-
-Other users can send a handshake (express interest) to the profile owner, attaching a brief message. The handshake recipient is notified through the bot about the expressed interest in their profile and gets the opportunity to review the sender's profile. The user can accept the introduction proposal, ignore it, or decline it. When accepting the proposal, participants gain access to each other's Telegram usernames.\
-The handshake receiving function can be disabled by the user in the club bot settings. When this option is deactivated, the handshake sending button in the user's profile becomes unavailable.
-
-<Info>
-  The handshake system does not function for users without a set username in Telegram — in such cases, the bot returns an error message.
-</Info>
-
-Monitoring of sent handshakes and management of their sending limitations is carried out through the corresponding section of the NFT admin panel.
-
-# Club Statuses
-
-To simplify the adaptation of new members in club chats, a status system has been implemented. The status is displayed to the right of the user's name and contains information that facilitates faster and more effective participant identification. In essence, a status is an admin role with additional privileges disabled.
-
-<Info>
-  It should be noted that the number of administrators in a Telegram chat is limited to 50 users, which is why a status verification system was implemented.
-</Info>
-
-## How to Set a Status
-
-1. The user goes to the club bot, section Set the club status.
-2. The user specifies the status they want to see in their chat profile.
-3. A status change request is sent to the NFT admin panel.
-4. The administrator can approve or reject the request (in case the status does not provide useful information for other users).
-
-If a user wants to change a previously received status, they can submit a new request through the club bot.
-
-# Individual User Rating
-
-A user's rating in the club is an indicator that displays their activity, as well as the rarity and quantity of NFT whales they own. The rating is displayed on the user's card on the page.
+Handshake system позволяет анонимно знакомить участников клуба между собой. Пользователь создает профиль в клубном боте, указывая свою сферу деятельности и краткое описание того, чем он занимается. Профиль публикуется на странице:
 
 - https://tonwhales.com/club/members
 
-## What the Rating is For
+Другие пользователи могут отправить owner профиля handshake, то есть выразить интерес, приложив короткое сообщение. Получатель handshake получает уведомление через бота и может посмотреть профиль отправителя. Пользователь может принять предложение познакомиться, проигнорировать его или отклонить. При принятии участники получают доступ к Telegram usernames друг друга.\
+Функцию получения handshake пользователь может отключить в настройках club bot. Когда эта опция деактивирована, кнопка отправки handshake в профиле пользователя становится недоступной.
 
-1. The rating determines the position of the user's card on the club members page: participants with higher ratings are placed at the top of the general list. Profiles of users with high ratings receive increased attention, providing enhanced networking opportunities.
-2. Participants in the top 15 by rating get exclusive access to place funds in the most profitable staking pool of Ton Whales — Team Pool.
+<Info>
+  Handshake system не работает для пользователей без заданного username в Telegram. В таком случае бот возвращает сообщение об ошибке.
+</Info>
 
-## How the Rating is Formed
+Мониторинг отправленных handshakes и управление лимитами на их отправку выполняются через соответствующий раздел NFT admin panel.
 
-The rating consists of two main parts:
+# Статусы клуба
 
-- Rarity score of their NFT whales
-- Bonus for completing the profile
+Чтобы упростить адаптацию новых участников в клубных чатах, была внедрена система статусов. Статус отображается справа от имени пользователя и содержит информацию, которая помогает быстрее и точнее идентифицировать участника. По сути, статус - это admin role с отключенными дополнительными привилегиями.
 
-## Rarity Score of Whales
+<Info>
+  Важно учитывать, что количество администраторов в Telegram-чате ограничено 50 пользователями, поэтому и была внедрена система проверки статусов.
+</Info>
 
-The sum of rarity scores of all the user's whales. Each whale has a different number of points depending on the rarity of its attributes (cigars, flags, toys, etc.). The rarity score of a specific whale can be viewed [on the preview page](https://tonwhales.com/club/preview) by entering its rank.
+## Как установить статус
+
+1. Пользователь переходит в club bot, в раздел `Set the club status`.
+2. Указывает статус, который хочет видеть в своем чат-профиле.
+3. Запрос на смену статуса отправляется в NFT admin panel.
+4. Администратор может одобрить или отклонить запрос, если статус не дает полезной информации другим пользователям.
+
+Если пользователь хочет изменить уже полученный статус, он может отправить новый запрос через club bot.
+
+# Индивидуальный рейтинг пользователя
+
+Рейтинг пользователя в клубе - это показатель, который отражает его активность, а также редкость и количество принадлежащих ему NFT whales. Рейтинг показывается на карточке пользователя на странице:
+
+- https://tonwhales.com/club/members
+
+## Для чего нужен рейтинг
+
+1. Рейтинг определяет позицию карточки пользователя на странице участников клуба: участники с более высоким рейтингом попадают выше в общем списке. Профили пользователей с высоким рейтингом получают больше внимания, а значит и лучшие возможности для нетворкинга.
+2. Участники из топ-15 по рейтингу получают эксклюзивный доступ к размещению средств в самом выгодном staking pool Ton Whales - Team Pool.
+
+## Как формируется рейтинг
+
+Рейтинг состоит из двух основных частей:
+
+- rarity score их NFT whales
+- bonus за заполнение профиля
+
+## Rarity score whales
+
+Это сумма rarity scores всех whales пользователя. Каждый whale получает разное количество баллов в зависимости от редкости его атрибутов, например cigars, flags, toys и так далее. Rarity score конкретного whale можно посмотреть [на preview page](https://tonwhales.com/club/preview), введя его rank.
 
 <img
   src="/images/Screenshot2026-01-15at16.16.01.png"
@@ -276,15 +276,15 @@ The sum of rarity scores of all the user's whales. Each whale has a different nu
   style={{ width:"58%" }}
 />
 
-The card displays the whale's rank among 10,000, rarity score, as well as the metrics that make up the rarity score by attributes. The whale's rarity score also depends on its "health" (see health system) - it can be either higher or lower.\
-If there are multiple whales, all rarity scores of all user's whales will be added together to calculate the user's rating.
+На карточке показывается rank whale среди 10,000, его rarity score, а также метрики по атрибутам, из которых этот score складывается. Rarity score whale также зависит от его "health", см. health system, и может быть как выше, так и ниже.\
+Если whales несколько, то для расчета рейтинга пользователя суммируются rarity scores всех whales.
 
 ### Special Whales
 
-There are several types of whales in the collection:
+В коллекции есть несколько типов whales:
 
-- Regular whales - almost all whales in the collection. They have different rarity score indicators depending on their attributes.
-- Tagged whales - whales that have a tag on their tail. In addition to bonuses for regular attributes, they have an additional bonus of 3000 points to the user's rating.
+- Regular whales - это почти все whales в коллекции. Их rarity score зависит от атрибутов.
+- Tagged whales - whales с тегом на хвосте. Помимо бонусов за обычные атрибуты, они дают дополнительный бонус в 3000 points к рейтингу пользователя.
 
 <img
   src="/images/Screenshot2026-01-15at16.26.02.png"
@@ -294,7 +294,7 @@ There are several types of whales in the collection:
   style={{ width:"53%" }}
 />
 
-- Legendary whales represent a limited number of NFT tokens that are visually distinct from standard collection items. These tokens feature exclusive accessories and provide a significant boost to user rating, practically guaranteeing the owner's placement in the top rankings. Owning a legendary whale grants access to the Team Pool regardless of the total accumulated rating points, even without reaching the standard threshold value required for participation in this pool.
+- Legendary whales - это ограниченное количество NFT-токенов, которые визуально отличаются от стандартных элементов коллекции. У них есть эксклюзивные аксессуары, и они дают сильный буст к рейтингу пользователя, практически гарантируя owner место в топе. Владение legendary whale дает доступ к Team Pool независимо от общего числа accumulated rating points, даже если стандартный порог для участия в этом pool не достигнут.
 
 <img
   src="/images/Screenshot2026-01-15at16.30.02.png"
@@ -305,24 +305,24 @@ There are several types of whales in the collection:
 />
 
 <Info>
-  **Important:** The rarity indicator of whales may differ between the Ton Whales system and marketplaces. This discrepancy is due to the fact that marketplaces calculate the rarity indicator exclusively based on already minted NFT tokens, while the Ton Whales system takes into account the complete collection of 10,000 items. The reference value for the rarity indicator is considered to be the calculation performed by the Ton Whales system.
+  **Важно:** показатель rarity у whales может отличаться между системой Ton Whales и маркетплейсами. Это связано с тем, что маркетплейсы считают rarity только по уже выпущенным NFT-токенам, тогда как Ton Whales учитывает всю коллекцию из 10,000 item. Эталонным считается именно расчет Ton Whales system.
 
   - https://tonwhales.com/club/preview
 </Info>
 
-### Whale Health System
+### Whale health system
 
-To motivate users to remove whales from sale and hold them longer, a whale health system was implemented. This system affects the whale's rarity score if it has been put up for sale.\
-**Health system parameters:**\
-NFT token currently in active sale — 0% of base rating\
-NFT token removed from sale less than a month ago — 50% of base rating\
-NFT token removed from sale less than three months ago — 75% of base rating\
-NFT token not listed for sale for 3-6 months — 100% of base rating\
-NFT token not listed for sale for 6-12 months — 125% of base rating\
-Whale not listed for sale for more than a year — 150% rating
+Чтобы мотивировать пользователей снимать whales с продажи и держать их дольше, была внедрена whale health system. Эта система влияет на rarity score whale, если он был выставлен на продажу.\
+**Параметры health system:**\
+NFT token сейчас находится в активной продаже — 0% базового рейтинга\
+NFT token снят с продажи меньше месяца назад — 50% базового рейтинга\
+NFT token снят с продажи меньше трех месяцев назад — 75% базового рейтинга\
+NFT token не выставлялся на продажу 3-6 месяцев — 100% базового рейтинга\
+NFT token не выставлялся на продажу 6-12 месяцев — 125% базового рейтинга\
+Whale не выставлялся на продажу больше года — 150% рейтинга
 
-### Mixtures Collection (Health Recovery)
+### Коллекция mixtures, восстановление health
 
-For cases when a user wants to quickly restore the rarity score of all their whales (for example, to gain access to a team pool), an additional collection was released — [**Whales' mixtures**](https://getgems.io/collection/EQBfzg4YVfjikDozTkMR1xHGWeyLRsfvgHWL6SoUfzmW5j4B#activity). Using this mixture provides instant full restoration of the rarity score of all user's whales to 100%.\
-To use the mixture, the user must transfer it to the [NFT treasury wallet](https://tonwhales.com/explorer/address/EQBgxXRsXrDbcYuHD6Gn9dzv5FCE-FdsJqqI2QfqpfwxCNGZ) and notify the project manager or community manager about it. The manager logs into the administrative panel and manually sets the health indicator of each user's whale to 100%, which immediately improves their position in the rating table.\
-Currently, mixtures are available for purchase exclusively on the secondary market.
+Если пользователь хочет быстро восстановить rarity score всех своих whales, например чтобы получить доступ к team pool, для этого была выпущена отдельная коллекция — [**Whales' mixtures**](https://getgems.io/collection/EQBfzg4YVfjikDozTkMR1xHGWeyLRsfvgHWL6SoUfzmW5j4B#activity). Использование такой mixture мгновенно восстанавливает rarity score всех whales пользователя до 100%.\
+Чтобы использовать mixture, пользователь должен перевести ее на [NFT treasury wallet](https://tonwhales.com/explorer/address/EQBgxXRsXrDbcYuHD6Gn9dzv5FCE-FdsJqqI2QfqpfwxCNGZ) и уведомить об этом project manager или community manager. Менеджер заходит в административную панель и вручную выставляет health indicator каждого whale пользователя на 100%, что сразу улучшает его позицию в rating table.\
+Сейчас mixtures доступны для покупки только на secondary market.

@@ -1,20 +1,20 @@
 ---
-title: 'Markdown syntax'
-description: 'Text, title, and styling in standard markdown'
+title: 'Синтаксис Markdown'
+description: 'Текст, заголовки и оформление в стандартном markdown'
 icon: 'text-size'
 ---
 
-## Titles
+## Заголовки
 
-Best used for section headers.
+Лучше всего подходят для заголовков разделов.
 
 ```md
 ## Titles
 ```
 
-### Subtitles
+### Подзаголовки
 
-Best used for subsection headers.
+Лучше всего подходят для заголовков подразделов.
 
 ```md
 ### Subtitles
@@ -22,42 +22,42 @@ Best used for subsection headers.
 
 <Tip>
 
-Each **title** and **subtitle** creates an anchor and also shows up on the table of contents on the right.
+Каждый **title** и **subtitle** создает anchor и также появляется в оглавлении справа.
 
 </Tip>
 
-## Text formatting
+## Форматирование текста
 
-We support most markdown formatting. Simply add `**`, `_`, or `~` around text to format it.
+Поддерживается большинство вариантов markdown-форматирования. Просто добавьте `**`, `_` или `~` вокруг текста, чтобы изменить его оформление.
 
-| Style         | How to write it   | Result          |
+| Стиль         | Как записать      | Результат       |
 | ------------- | ----------------- | --------------- |
 | Bold          | `**bold**`        | **bold**        |
 | Italic        | `_italic_`        | _italic_        |
 | Strikethrough | `~strikethrough~` | ~strikethrough~ |
 
-You can combine these. For example, write `**_bold and italic_**` to get **_bold and italic_** text.
+Их можно комбинировать. Например, запись `**_bold and italic_**` даст текст **_bold and italic_**.
 
-You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
+Для верхнего и нижнего индекса нужно использовать HTML, то есть теги `<sup>` и `<sub>`.
 
-| Text Size   | How to write it          | Result                 |
+| Вид текста  | Как записать             | Результат              |
 | ----------- | ------------------------ | ---------------------- |
 | Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
 | Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
 
-## Linking to pages
+## Ссылки на страницы
 
-You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
+Ссылку можно добавить, обернув текст в `[]()`. Например, запись `[link to google](https://google.com)` создаст ссылку [link to google](https://google.com).
 
-Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to text](/writing-content/text)` links to the page "Text" in our components section.
+Ссылки на страницы внутри вашей документации должны быть root-relative. То есть нужно указывать полный путь от корня. Например, `[link to text](/writing-content/text)` ведет на страницу `Text` в разделе компонентов.
 
-Relative links like `[link to text](../text)` will open slower because we cannot optimize them as easily.
+Относительные ссылки вроде `[link to text](../text)` будут открываться медленнее, потому что их сложнее оптимизировать.
 
-## Blockquotes
+## Цитатные блоки
 
-### Singleline
+### Одна строка
 
-To create a blockquote, add a `>` in front of a paragraph.
+Чтобы создать blockquote, добавьте символ `>` перед абзацем.
 
 > Dorothy followed her through many of the beautiful rooms in her castle.
 
@@ -65,7 +65,7 @@ To create a blockquote, add a `>` in front of a paragraph.
 > Dorothy followed her through many of the beautiful rooms in her castle.
 ```
 
-### Multiline
+### Несколько строк
 
 > Dorothy followed her through many of the beautiful rooms in her castle.
 >
@@ -79,7 +79,7 @@ To create a blockquote, add a `>` in front of a paragraph.
 
 ### LaTeX
 
-Mintlify supports [LaTeX](https://www.latex-project.org) through the Latex component.
+Mintlify поддерживает [LaTeX](https://www.latex-project.org) через компонент `Latex`.
 
 <Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
 
