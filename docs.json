@@ -272,16 +272,7 @@
         ]
       },
       {
-        "language": "ru",
-        "tabs": [
-          {
-            "tab": "Whales Space",
-            "pages": [
-              "o-nas",
-              "obzor-produktov"
-            ]
-          }
-        ]
+        "language": "ru"
       }
     ]
   },
