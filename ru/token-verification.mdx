@@ -1,8 +1,8 @@
 ---
-title: "Token Verification"
+title: "Верификация токенов"
 ---
 
-# What does the green checkmark mean for tokens
+# Что означает зеленая галочка у токена
 
 <img
   src="/images/2026-02-2412.12.28.jpg"
@@ -12,48 +12,48 @@ title: "Token Verification"
   style={{ width:"44%" }}
 />
 
-The green checkmark in Tonhub shows that the token is official.
+Зеленая галочка в Tonhub показывает, что токен является официальным.
 
-## **How it works**
+## Как это работает
 
-The application checks the token's master contract address against a special list of trusted contracts. If the address is in this list — a green checkmark appears.\
-**Where the list of verified tokens comes from:**
+Приложение проверяет адрес master-контракта токена по специальному списку доверенных контрактов. Если адрес есть в этом списке, рядом с токеном появляется зеленая галочка.\
+**Откуда берется список проверенных токенов:**
 
-- Built-in data in the application
-- Updatable config from GitHub
+- встроенные данные приложения,
+- обновляемый конфиг из GitHub.
 
-**Why this is needed:**\
-The checkmark guarantees that you see the original token, not a fake. Counterfeit copies will have different contract addresses, so the checkmark will not appear for them. However, the checkmark does not guarantee that this token was not created for fraudulent purposes, the wallet bears no responsibility for this.
+**Зачем это нужно:**\
+Галочка помогает убедиться, что перед вами оригинальный токен, а не подделка. У фейковых копий будут другие адреса контрактов, поэтому галочка для них не появится. При этом галочка не гарантирует, что сам токен не был создан в мошеннических целях, и кошелек не несет за это ответственность.
 
-# How token verification works
+# Как работает верификация токенов
 
-The application has a system that checks whether a token is real or fake. When you see a green checkmark next to a token, it means the application found this token's address in a special list of verified tokens.\
-The green checkmark appears if the address of the token's main contract (its "passport" in the blockchain) is in the list of trusted addresses.
+В приложении есть система, которая проверяет, является ли токен настоящим или поддельным. Когда вы видите зеленую галочку рядом с токеном, это означает, что приложение нашло адрес этого токена в специальном списке проверенных токенов.\
+Зеленая галочка появляется, если адрес основного контракта токена, то есть его "паспорта" в блокчейне, есть в списке доверенных адресов.
 
-# Where the list of verified tokens comes from
+# Откуда берется список проверенных токенов
 
-## Built-in list of popular tokens
+## Встроенный список популярных токенов
 
-- The application itself has a pre-prepared list of addresses of known tokens. This includes popular tokens like jUSDT, jUSDC, NOT, USD₮ and others. This list is compiled manually by developers
-- For some special tokens (for example Ethena USDe) addresses are added automatically
+- В самом приложении есть заранее подготовленный список адресов известных токенов. В него входят популярные токены, такие как jUSDT, jUSDC, NOT, USD₮ и другие. Этот список составляется разработчиками вручную.
+- Для некоторых специальных токенов, например Ethena USDe, адреса добавляются автоматически.
 
-The built-in list has priority — first these verified tokens are used, then data from the internet is added.
+Встроенный список имеет приоритет: сначала используются эти проверенные токены, а затем к ним добавляются данные из интернета.
 
-## Updatable list from the internet
+## Обновляемый список из интернета
 
-The application downloads a fresh list of verified tokens from GitHub. This list is updated separately from the application and contains new verified tokens. The list has sections for mainnet and testnet. Each section contains addresses of verified tokens and a list of known token names\
-Final list = built-in tokens + tokens from the internet. The application updates this list every 5 minutes and each time it opens.
+Приложение загружает свежий список проверенных токенов из GitHub. Этот список обновляется отдельно от приложения и содержит новые проверенные токены. В нем есть разделы для mainnet и testnet. В каждом разделе содержатся адреса проверенных токенов и список известных названий токенов.\
+Итоговый список = встроенные токены + токены из интернета. Приложение обновляет этот список каждые 5 минут и при каждом открытии.
 
-# Where the checkmark is shown
+# Где показывается галочка
 
-- **On the token icon:** a green checkmark appears directly on the token image if its address is in the verified list
-- **During transfers:** the checkmark is shown next to the token name in the wallet, during transfers
-- **For TON:** the main TON coin is always shown with a checkmark — it is considered verified by default
+- **На иконке токена:** зеленая галочка появляется прямо на изображении токена, если его адрес есть в списке проверенных.
+- **Во время переводов:** галочка отображается рядом с названием токена в кошельке и на экранах перевода.
+- **Для TON:** основная монета TON всегда показывается с галочкой, так как по умолчанию считается проверенной.
 
-# Verification requests
+# Запросы на верификацию
 
-Currently, due to the increase in the number of fraudulent projects and short-term tokens, a decision has been made to suspend the verification procedure for third-party tokens. Verification status is assigned exclusively to stablecoins and native coins.
+Сейчас из-за роста количества мошеннических проектов и краткоживущих токенов было принято решение приостановить процедуру верификации сторонних токенов. Статус верификации присваивается только стейблкоинам и нативным монетам.
 
-# Automatic SCAM marking
+# Автоматическая маркировка SCAM
 
-The wallet implements a mechanism for automatic identification of fraudulent tokens. The system analyzes the token ticker and compares it with a database of known tickers. If the ticker is present in the list of known ones, but the master contract address is absent from the list of verified masters, the token is automatically marked as Scam. In the interface, such tokens are displayed with a red SCAM label instead of a green verification checkmark. This mechanism provides protection for users from fake tokens using popular tickers, such as USDT.
+В кошельке реализован механизм автоматического определения мошеннических токенов. Система анализирует ticker токена и сравнивает его с базой известных тикеров. Если тикер присутствует в списке известных, но адрес master-контракта отсутствует в списке проверенных master-адресов, токен автоматически помечается как Scam. В интерфейсе такие токены отображаются с красной меткой SCAM вместо зеленой галочки верификации. Этот механизм защищает пользователей от поддельных токенов, использующих популярные тикеры, например USDT.
