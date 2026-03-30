@@ -5,9 +5,9 @@ description: "Этот документ описывает, как пользо�
 
 # Создание профиля: шаги пользователя
 
-User progression through steps is displayed based on integration into the Tonhub mobile wallet.
+Переход пользователя по шагам показан на примере интеграции в мобильный кошелек Tonhub.
 
-1. User clicks on the banner on the wallet's main screen. The wallet redirects the user to the Holders WebApp.
+1. Пользователь нажимает на баннер на главном экране кошелька. Кошелек перенаправляет его в Holders WebApp.
 
    <img
      src="/images/Banner(1).png"
@@ -16,7 +16,7 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"32%" }}
      className="mx-auto"
    />
-2. User session creation screen. Displayed when there is no user token in the system. Clicking the "Continue" button initiates the generation of a new token and creation of a new user session.
+2. Экран создания пользовательской сессии. Он показывается, когда в системе еще нет пользовательского токена. Нажатие на кнопку `Continue` запускает генерацию нового токена и создание новой пользовательской сессии.
 
    <img
      src="/images/Landing(1)(1).png"
@@ -25,7 +25,7 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"26%" }}
      className="mx-auto"
    />
-3. Residency selection screen (pre-onboarding). At this stage, the system applies restrictions according to the country list loaded from the Holders backend. If the user's country of residence falls under the current restrictions, the user is redirected to the application form. Currently (January 2026), restrictions apply exclusively to residents of countries included in the [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information) sanctions lists.
+3. Экран выбора резидентства, то есть pre-onboarding. На этом этапе система применяет ограничения в соответствии со списком стран, загруженным из Holders backend. Если страна резидентства пользователя подпадает под текущие ограничения, пользователь перенаправляется на форму заявки. На текущий момент, январь 2026 года, ограничения распространяются только на резидентов стран, входящих в санкционные списки [OFAC](https://ofac.treasury.gov/sanctions-programs-and-country-information).
 
    <img
      src="/images/IMG_0454.PNG"
@@ -34,11 +34,11 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"25%" }}
      className="mx-auto"
    />
-4. Phone number entry and confirmation (OTP). The user enters their phone number and confirms it using a code received via SMS message. By default, the system suggests the country code selected by the user during the pre-onboarding stage, however the code can be changed by clicking on the corresponding country flag. Confirmation code delivery is implemented in partnership with [Twilio](https://www.twilio.com/en-us) service. Upon phone number confirmation, a user profile is created in the Holders database and Holders policies are accepted — Privacy Notes. The version of accepted policies is also saved in the service database.
+4. Ввод и подтверждение номера телефона, OTP. Пользователь вводит свой номер телефона и подтверждает его с помощью кода, полученного в SMS. По умолчанию система предлагает код страны, выбранный пользователем на этапе pre-onboarding, однако его можно изменить, нажав на соответствующий флаг страны. Доставка кода подтверждения реализована в партнерстве с сервисом [Twilio](https://www.twilio.com/en-us). После подтверждения номера телефона в базе данных Holders создается профиль пользователя, а также принимаются политики Holders, Privacy Notes. Версия принятых политик тоже сохраняется в базе сервиса.
 
-   The page has two additional options:
-   - **Resend code** — function for resending the authorization code with a 40-second interval. The number of requests is limited to five per day, however this limitation can be removed by the Backoffice system administrator on the user management page.
-   - **Didn't receive the code?** — function for opening a modal window with an informational message: "**Not received the code?** Check your number, it may have been entered with an error. It is also possible that airplane mode is turned on or there is no access to the operator's network. Or write to support, we will try to help you" and the ability to contact support through the integrated Intercom service.
+   На странице есть две дополнительные опции:
+   - **Resend code** — функция повторной отправки кода авторизации с интервалом 40 секунд. Количество запросов ограничено пятью в день, однако это ограничение может снять администратор Backoffice на странице управления пользователем.
+   - **Didn't receive the code?** — функция открытия модального окна с информационным сообщением: "**Not received the code?** Check your number, it may have been entered with an error. It is also possible that airplane mode is turned on or there is no access to the operator's network. Or write to support, we will try to help you" и возможностью связаться с поддержкой через встроенный сервис Intercom.
 
      <img
        src="/images/Phone(1).png"
@@ -47,8 +47,8 @@ User progression through steps is displayed based on integration into the Tonhub
        style={{ width:"27%" }}
        className="mx-auto"
      />
-5. Email address confirmation. The user enters an address and clicks continue. The system checks the address for fraud using the external service [_Postmark_](https://postmarkapp.com/). After successful verification, the user receives an email with a six-digit numeric confirmation code that must be entered in the corresponding field. Alternatively, the user can confirm the email address by clicking a special button in the received email. If the email was not received, the user has the option to return to the email address entry screen and repeat the process. Note: there is a limit of no more than 3 emails with confirmation codes within 24 hours.
-6. Beginning verification. The user arrives at a screen with an offer to complete verification and clicks Continue.
+5. Подтверждение email-адреса. Пользователь вводит адрес и нажимает `Continue`. Система проверяет адрес на мошеннические признаки с помощью внешнего сервиса [_Postmark_](https://postmarkapp.com/). После успешной проверки пользователь получает письмо с шестизначным цифровым кодом подтверждения, который нужно ввести в соответствующее поле. Также пользователь может подтвердить email, нажав специальную кнопку в полученном письме. Если письмо не пришло, у пользователя есть возможность вернуться к экрану ввода адреса и повторить процесс. Важно: действует ограничение — не более 3 писем с кодом подтверждения в течение 24 часов.
+6. Начало верификации. Пользователь попадает на экран с предложением пройти verification и нажимает `Continue`.
 
    <img
      src="/images/KYC-intro(1)-1.png"
@@ -57,10 +57,10 @@ User progression through steps is displayed based on integration into the Tonhub
      className="mx-auto"
      style={{ width:"26%" }}
    />
-7. Next, the user proceeds to the Sumsub SDK, where they complete KYC. KYC consists of predefined stages in Sumsub settings.
-   1. Completing a questionnaire about the source of funds
-   2. Uploading documents for identification
-   3. Taking a live selfie
+7. Далее пользователь переходит в Sumsub SDK, где проходит KYC. KYC состоит из заранее заданных этапов в настройках Sumsub:
+   1. заполнение анкеты об источнике средств
+   2. загрузка документов для идентификации
+   3. запись live selfie
 
    <img
      src="/images/IMG_0462(1).PNG"
@@ -80,7 +80,7 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"26%" }}
    />
 
-   Upon completion of the verification procedure, the user is directed to a page awaiting verification results.
+   После завершения процедуры верификации пользователь попадает на страницу ожидания результатов проверки.
 
    <img
      src="/images/KYC-processing(1).png"
@@ -90,7 +90,7 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"31%" }}
    />
 
-   Users can also view verification results through corresponding statuses displayed on the wallet's main screen banner. When clicking on the banner, the user is redirected to the last onboarding step where they left off.
+   Пользователь также может видеть результаты верификации через соответствующие статусы, отображаемые на баннере на главном экране кошелька. При нажатии на баннер пользователь будет перенаправлен на последний шаг онбординга, на котором он остановился.
 
    <img
      src="/images/BannerStates(1)(1).png"
@@ -100,12 +100,12 @@ User progression through steps is displayed based on integration into the Tonhub
      style={{ width:"31%" }}
    />
 
-   Following the moderation results, the partner sends a webhook to Holders with one of the following decisions:
-   1. Moderation passed successfully — the user receives a push notification and can begin using the service.
-   2. Moderation failed — the user receives a push notification about the inability to use the service with the reason specified. In case of a non-final decision (for example, when uploading a poor-quality document image), the user is provided with the opportunity to re-complete verification.
+   По итогам модерации партнер отправляет webhook в Holders с одним из следующих решений:
+   1. Модерация успешно пройдена — пользователь получает push-уведомление и может начать пользоваться сервисом.
+   2. Модерация не пройдена — пользователь получает push-уведомление о невозможности использования сервиса с указанием причины. В случае неокончательного решения, например при загрузке изображения документа низкого качества, пользователю предоставляется возможность пройти verification повторно.
 
-   Subsequently, the user can re-complete verification using other documents, but this can only be done by contacting support or after their expiration date.
-1. The user proceeds to the product selection page, where they are given the opportunity to choose one of three available products. After confirming their choice, the user awaits account issuance.
+   В дальнейшем пользователь может пройти verification повторно с другими документами, но сделать это можно только через обращение в поддержку или после истечения срока действия текущих документов.
+1. Затем пользователь переходит на страницу выбора продукта, где ему предлагается выбрать один из трех доступных продуктов. После подтверждения выбора пользователь ожидает выпуска счета.
    - Account + virtual bank card
    - Account
    - Private Trust
@@ -117,7 +117,7 @@ User progression through steps is displayed based on integration into the Tonhub
      className="mx-auto"
      style={{ width:"30%" }}
    />
-2. The user arrives at the account page and waits for the smart contract deployment to complete. After deployment finishes, the user sees a modal window with an offer to fund their account. The modal window will appear each time the user navigates to the account page until the first funding is completed.
+2. Пользователь попадает на страницу счета и ждет завершения деплоя смарт-контракта. После завершения деплоя он видит модальное окно с предложением пополнить счет. Это модальное окно будет появляться каждый раз при переходе на страницу счета до тех пор, пока не будет выполнено первое пополнение.
 
 <img
   src="/images/Home(1)(1).png"
@@ -129,20 +129,20 @@ User progression through steps is displayed based on integration into the Tonhub
 
 # Вход в профиль
 
-The user logs into an existing account within the Holders extension in the partner wallet.
+Пользователь входит в уже существующий аккаунт внутри расширения Holders в партнерском кошельке.
 
 - Login by phone number
 - Login by seed phrase
 
 ## Вход по номеру телефона
 
-Used when the user has previously used the service or wants to link an additional wallet address to their profile (the number of wallets linked to one profile is unlimited).
+Используется, когда пользователь уже пользовался сервисом или хочет привязать к своему профилю дополнительный адрес кошелька, число кошельков, связанных с одним профилем, не ограничено.
 
-1. The user navigates to the Holders application from the wallet interface. The transition design depends on the partner: when transitioning from the Tonhub application, the user clicks on the banner on the wallet's main screen.
-2. The user selects their country of residence by scrolling through the list of flags or entering the country name in the search field. The system supports input of both full country names and abbreviations (for example, UAE, USA) in any language. When logging into an existing account, we already know the user's country, however until the phone number is entered, it's unclear whether the user is attempting to log into an existing account or create a new one.
-3. The user enters the phone number they previously used in the service. After clicking the "Continue" button, the user proceeds to the number confirmation page. At this stage, automatic acceptance of the current _Privacy Policy_ also occurs.
-4. Upon correct entry of the confirmation code, the user is taken to the page of the last created account.
+1. Пользователь переходит в приложение Holders из интерфейса кошелька. Конкретный сценарий перехода зависит от партнера: например, в Tonhub пользователь нажимает на баннер на главном экране кошелька.
+2. Пользователь выбирает страну резидентства, пролистывая список флагов или вводя название страны в поле поиска. Система поддерживает ввод как полных названий стран, так и сокращений, например UAE или USA, на любом языке. При входе в существующий аккаунт страна пользователя нам уже известна, однако до ввода номера телефона нельзя понять, пытается ли пользователь войти в существующий профиль или создать новый.
+3. Пользователь вводит номер телефона, который уже использовал в сервисе. После нажатия кнопки `Continue` он переходит на страницу подтверждения номера. На этом этапе также автоматически принимается текущая _Privacy Policy_.
+4. При правильном вводе кода подтверждения пользователь попадает на страницу последнего созданного счета.
 
 ## Вход по seed-фразе
 
-Used when the user knows the seed phrase from the TON wallet linked to the profile in Holders. After entering the seed phrase, the profile opens along with the wallet. To log into the profile, you need to go to the "Cards" section at the top of the wallet and then click the "Continue" button — the user will be taken to the page of the last created account.
+Используется, когда пользователь знает seed phrase от TON-кошелька, привязанного к профилю в Holders. После ввода seed phrase профиль открывается вместе с кошельком. Чтобы войти в профиль, нужно перейти в раздел `Cards` в верхней части кошелька и затем нажать кнопку `Continue` — пользователь будет перенаправлен на страницу последнего созданного счета.

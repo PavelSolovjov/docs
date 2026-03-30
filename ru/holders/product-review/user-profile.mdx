@@ -72,32 +72,32 @@ Sumsub — ведущая платформа проверки личности, 
 
 При каждом входе сервис собирает доступные данные сессии и сохраняет их в профиле:
 
-- Flag indicating whether the session is terminated (`revoked`)
-- Device type (`device`)
-- IP address (`ip`)
-- User agent (`userAgent`)
-- Browser (`browserName`)
-- Browser version (`browserVersion`)
-- Operating system (`osName`)
-- Operating system version (`oVersion`)
-- Data processing engine (`engineName`)
-- Data processing engine version (`engineVersion`)
-- Authentication method (`authMethod`)
-- Browser field mapping (`browser`)
-- Metadata (`meta`)
-- Location (`geo`)
-- Security (`security`) - not used but stored ([more details](https://ipgeolocation.io/ip-security-api.html#documentation-overview)).
-- Inviter ID (`inviteld`)
+- флаг того, завершена ли сессия, `revoked`
+- тип устройства, `device`
+- IP-адрес, `ip`
+- user agent, `userAgent`
+- браузер, `browserName`
+- версия браузера, `browserVersion`
+- операционная система, `osName`
+- версия операционной системы, `oVersion`
+- движок обработки данных, `engineName`
+- версия движка обработки данных, `engineVersion`
+- способ аутентификации, `authMethod`
+- браузерное сопоставление полей, `browser`
+- метаданные, `meta`
+- геолокация, `geo`
+- безопасность, `security`, сейчас не используется, но хранится ([подробнее](https://ipgeolocation.io/ip-security-api.html#documentation-overview))
+- идентификатор пригласившего, `inviteId`
 
 # Активные сессии пользователя
 
 Пользователь может посмотреть все свои активные сессии, перейдя в раздел "Devices" в настройках Holders. Там же можно завершить сессии на неиспользуемых устройствах для повышения безопасности средств. Для каждой сессии пользователю показываются:
 
-- Connected wallet address
-- Application name
-- IP address
-- Geolocation
-- Last login time
+- адрес подключенного кошелька
+- название приложения
+- IP-адрес
+- геолокация
+- время последнего входа
 
 # Адреса кошельков
 
@@ -106,67 +106,67 @@ Sumsub — ведущая платформа проверки личности, 
 
 # Рейтинг TON-адреса
 
-Each wallet linked to a user's profile is assigned a risk rating — an indicator of the wallet's "cleanliness" from the blockchain perspective (presence of transactions from suspicious addresses: casinos, mixers, etc.). Address verification in the TON blockchain is performed by partner [Tonguard](https://tonguard.org/). The rating ranges from 1 (worst) to 100 (completely clean).\
-The rating participates in calculating the AML risk level. It is recalculated after each incoming transaction and automatically every 3 hours, and is overwritten in case of changes.\
-If multiple addresses are linked to a profile, the final rating is determined as the lowest value among the ratings of all wallets. The final rating is displayed in the user's profile and is available on the profile page in the service.
+Каждому кошельку, привязанному к профилю пользователя, присваивается риск-рейтинг — показатель "чистоты" кошелька с точки зрения блокчейна, то есть наличия транзакций с подозрительных адресов, например казино, миксеров и других подобных источников. Проверку адресов в блокчейне TON выполняет партнер [Tonguard](https://tonguard.org/). Рейтинг находится в диапазоне от 1, это худшее значение, до 100, то есть полностью чистый адрес.\
+Этот рейтинг участвует в расчете AML risk level. Он пересчитывается после каждой входящей транзакции и автоматически каждые 3 часа, а при изменениях заменяется новым значением.\
+Если к одному профилю привязано несколько адресов, итоговый рейтинг определяется как наименьшее значение среди рейтингов всех кошельков. Финальный рейтинг отображается в профиле пользователя и доступен на странице профиля в сервисе.
 
 # Уровень AML-риска
 
-An AML risk level is calculated for each user in the system. The assessment is conducted based on data provided by the user during registration. If a user's risk level equals or exceeds the "high" threshold, the AML officer receives a notification about the need for additional verification. An operator can view a user's AML risk level on their profile page in the Backoffice.
+Для каждого пользователя в системе рассчитывается уровень AML-риска. Оценка проводится на основе данных, предоставленных пользователем при регистрации. Если уровень риска пользователя достигает или превышает порог `high`, AML-офицер получает уведомление о необходимости дополнительной проверки. Оператор может увидеть уровень AML-риска пользователя на его странице профиля в Backoffice.
 
 # Удаление данных
 
-Users cannot delete their data independently, however they can contact Holders support service with a corresponding request. In such cases, the support agent acts in accordance with the established data deletion algorithm. In the European Union, the timeframe for processing and deleting personal data is regulated by the [General Data Protection Regulation (GDPR)](https://gdpr-info.eu/). According to article [17 GDPR](https://gdpr-info.eu/art-17-gdpr/) (Right to erasure ('right to be forgotten')), the data subject has the right to request deletion of their data.\
-However, GDPR does not establish a fixed timeframe within which a company must delete personal data; the timeframe depends on circumstances, such as the type of data, the purpose of its storage, and contractual or legal requirements. Usually, the company is obligated to fulfill the deletion request "without undue delay," which typically corresponds to approximately 30 days.\
-The general principle is that data must be deleted as soon as its processing becomes unlawful or the processing purpose is achieved, and no retention period is provided or required for legal compliance.\
-For Holders, as a service, data deletion means that the user cannot be identified by the data remaining in the system.\
-List of data that will be deleted or remain in the system after fulfilling the request:
+Пользователи не могут удалить свои данные самостоятельно, однако могут обратиться с соответствующим запросом в службу поддержки Holders. В таких случаях сотрудник поддержки действует в соответствии с установленным алгоритмом удаления данных. В Европейском союзе сроки обработки и удаления персональных данных регулируются [General Data Protection Regulation, GDPR](https://gdpr-info.eu/). Согласно статье [17 GDPR](https://gdpr-info.eu/art-17-gdpr/), то есть Right to erasure, или "right to be forgotten", субъект данных имеет право потребовать удаления своих данных.\
+При этом GDPR не устанавливает жесткий фиксированный срок, в течение которого компания обязана удалить персональные данные; срок зависит от обстоятельств, например от типа данных, целей их хранения и договорных или правовых требований. Обычно компания обязана исполнить запрос на удаление "without undue delay", что на практике обычно соответствует примерно 30 дням.\
+Общий принцип состоит в том, что данные должны быть удалены, как только их обработка становится незаконной или цель обработки достигнута и при этом не существует обязательного срока хранения по закону.\
+Для Holders удаление данных означает, что пользователя больше нельзя идентифицировать по данным, оставшимся в системе.\
+Список данных, которые будут удалены или останутся в системе после выполнения такого запроса:
 
-- **Phone number** - data is deleted
-- \*\*Email \*\*- data is deleted
-- **First name, last name** - data is deleted
-- **Residential address** - data is deleted
-- **Document issue date** - data is retained
-- **Document validity period** - data is retained
-- **Telegram ID** - data is retained
-- **Wallet addresses** - data is retained
-- **Account addresses** - data is retained
-- **System operation history** - data is retained
-- **Document images** - must be deleted if stored on our side
-- **User profile in Sumsub** - deactivated (Sumsub ID is retained)
+- **Phone number** — удаляется
+- **Email** — удаляется
+- **First name, last name** — удаляются
+- **Residential address** — удаляется
+- **Document issue date** — сохраняется
+- **Document validity period** — сохраняется
+- **Telegram ID** — сохраняется
+- **Wallet addresses** — сохраняются
+- **Account addresses** — сохраняются
+- **System operation history** — сохраняется
+- **Document images** — должны быть удалены, если хранятся на нашей стороне
+- **User profile in Sumsub** — деактивируется, при этом Sumsub ID сохраняется
 
 # Изменение данных
 
-Certain data in the user profile can be modified by both the user themselves and service employees:
+Часть данных в профиле пользователя может изменяться как самим пользователем, так и сотрудниками сервиса:
 
-- **Phone number** — changed exclusively by the user
-- **Email address** — changed exclusively by the user
-- **KYC data** — changes are initiated by the Sumsub system when documents expire or by service employees when issues arise
-- **AML rating** — updated automatically when new data is received
-- **Session data** — updated automatically when new data is received
-- **Wallet addresses linked to the profile** — previously added addresses cannot be changed by either the user or service employees. The user has the ability to add new addresses
-- **User's blockchain address rating** — updated automatically in the profile when new data is received from the partner
+- **Phone number** — меняется только пользователем
+- **Email address** — меняется только пользователем
+- **KYC data** — изменение инициируется системой Sumsub при истечении документов или сотрудниками сервиса при возникновении проблем
+- **AML rating** — обновляется автоматически при получении новых данных
+- **Session data** — обновляются автоматически при получении новых данных
+- **Wallet addresses linked to the profile** — уже добавленные адреса нельзя изменить ни пользователю, ни сотрудникам сервиса. При этом пользователь может добавлять новые адреса
+- **User's blockchain address rating** — автоматически обновляется в профиле при получении новых данных от партнера
 
-## Changing Phone Number (Pages and Behavior)
+## Изменение номера телефона, страницы и поведение
 
-Users can independently change their phone number at any time directly within the Holders SDK. To do this, they need to go to the "Cards" section on the wallet's main page and then tap the "Settings" button in the right part of the bottom bar. Then, in the contact information section, the user taps on their current phone number and is taken to the replacement page. The new number will also need to be confirmed with a code, just like when creating a profile. The number of phone number changes per day is unlimited, but the number of confirmations for a new number is limited to 5.
+Пользователи могут самостоятельно менять номер телефона в любое время прямо внутри Holders SDK. Для этого нужно перейти в раздел `Cards` на главной странице кошелька, затем нажать кнопку `Settings` в правой части нижней панели. После этого в секции контактной информации пользователь нажимает на текущий номер телефона и попадает на страницу замены. Новый номер также потребуется подтвердить кодом, как и при создании профиля. Количество смен номера телефона в день не ограничено, но число подтверждений нового номера ограничено пятью.
 
 <Info>
-  Please note!\
-  Some partners impose regional restrictions on phone numbers that are acceptable for linking in the profile. If the entered number is not supported by the selected partner, the user will be redirected to a page requesting to enter a different number, and the application interface will be temporarily restricted until the number is replaced with one corresponding to the partner's region.
+  Обрати внимание!\
+  Некоторые партнеры накладывают региональные ограничения на номера телефонов, которые можно привязать к профилю. Если введенный номер не поддерживается выбранным партнером, пользователь будет перенаправлен на страницу с просьбой указать другой номер, а интерфейс приложения будет временно ограничен до тех пор, пока номер не будет заменен на соответствующий региону партнера.
 </Info>
 
-The user's phone number cannot be changed remotely by a support service employee or any other department.
+Номер телефона пользователя не может быть изменен удаленно сотрудником поддержки или любым другим подразделением.
 
-## Changing Email Address
+## Изменение email-адреса
 
-The procedure for changing an email address is similar to the phone number change procedure described above. The service supports any domain zones in email addresses that have passed the [Postmark](https://postmarkapp.com/) anti-fraud system. The number of email address changes per day is unlimited. A user's email cannot be changed remotely by a support service employee or any other department.
+Процедура смены email-адреса аналогична описанной выше процедуре смены номера телефона. Сервис поддерживает любые доменные зоны в email-адресах, которые прошли антифрод-систему [Postmark](https://postmarkapp.com/). Количество изменений email-адреса в день не ограничено. Email пользователя не может быть изменен удаленно сотрудником поддержки или любым другим подразделением.
 
-## Changing KYC Data
+## Изменение KYC-данных
 
-Data obtained during KYC cannot be changed by the user independently. Changes are only possible by contacting support service — in this case, the data is reset and the user must undergo verification again.\
-If the document used for verification has expired, verification is automatically removed and the user will need to undergo KYC again. The service has implemented a reminder mechanism to notify users about the approaching and actual expiration of their documents.
+Данные, полученные во время KYC, пользователь не может изменить самостоятельно. Изменения возможны только через обращение в службу поддержки — в этом случае данные сбрасываются, и пользователь должен пройти верификацию заново.\
+Если документ, использованный для проверки, истек, верификация автоматически снимается, и пользователю потребуется снова пройти KYC. В сервисе реализован механизм напоминаний, который уведомляет пользователей о приближающемся и фактическом истечении срока действия документов.
 
-## Changing AML Rating
+## Изменение AML-рейтинга
 
-Neither users nor support service employees can change a user's rating in the system. Currently, such a situation does not lead to automatic user blocking; instead, a corresponding AML flag is set, indicating an elevated risk level.
+Ни пользователи, ни сотрудники службы поддержки не могут изменить рейтинг пользователя в системе. Сейчас такая ситуация не приводит к автоматической блокировке пользователя; вместо этого выставляется соответствующий AML-флаг, указывающий на повышенный уровень риска.
