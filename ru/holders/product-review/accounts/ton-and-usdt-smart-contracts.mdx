@@ -4,47 +4,47 @@ title: "TON смарт-контракты"
 
 # Смарт-контракт
 
-A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.\
-The structure of [TON (TON)](https://ton.org/en) and [USDT (TON)](https://tether.to/en/) contracts is based on one blockchain, so a unified description is used.
+Смарт-контракт — это программа, которая автоматически исполняет и обеспечивает выполнение заданных условий в блокчейне. Ее код хранится и выполняется прямо в сети, без посредников, по заранее определенным правилам.\
+Структура контрактов [TON (TON)](https://ton.org/en) и [USDT (TON)](https://tether.to/en/) основана на одном блокчейне, поэтому для них используется единое описание.
 
 # Что такое Toncoin (TON)
 
-[Toncoin (TON)](https://ton.org/) is the native cryptocurrency of [The Open Network (TON)](https://ton.org/), a decentralized blockchain created for fast transactions and convenient integration with the [Telegram](https://telegram.org/) ecosystem.
+[Toncoin (TON)](https://ton.org/) — это нативная криптовалюта [The Open Network (TON)](https://ton.org/), децентрализованного блокчейна, созданного для быстрых транзакций и удобной интеграции с экосистемой [Telegram](https://telegram.org/).
 
-1. Originally developed by [Telegram](https://telegram.org/), now supported by [TON Foundation](https://ton.org/) and the community.
-2. Created for scalability, supports payments, DeFi and Web3 applications.
-3. Operates on [proof-of-stake](https://coinmarketcap.com/academy/ru/glossary/proof-of-stake-pos) technology.
-4. Enables transactions within the [**Telegram**](https://telegram.org/) application, wallets and decentralized services for over 1 billion users.
+1. Изначально разрабатывался [Telegram](https://telegram.org/), а сейчас поддерживается [TON Foundation](https://ton.org/) и сообществом.
+2. Создан с расчетом на масштабируемость и поддерживает платежи, DeFi и Web3-приложения.
+3. Работает на технологии [proof-of-stake](https://coinmarketcap.com/academy/ru/glossary/proof-of-stake-pos).
+4. Позволяет проводить транзакции внутри [**Telegram**](https://telegram.org/), кошельков и децентрализованных сервисов для аудитории более 1 миллиарда пользователей.
 
-Toncoin emerged as part of Telegram's 2017 blockchain initiative (Telegram Open Network). After [Telegram](https://telegram.org/) exited the project in 2020 due to [regulatory complications](https://www.forbes.ru/newsroom/tehnologii/385325-sec-ostanovila-vypusk-kriptovalyuty-ton-pavla-durova), management was transferred to the community under the leadership of TON Foundation. The main task of Toncoin is to provide decentralized digital identity, asset ownership and convenient payments within the [Telegram](https://telegram.org/) messenger.\
-TON in Holders is available to all clients who have European residency and have completed Walleexer onboarding.
+Toncoin появился как часть блокчейн-инициативы Telegram 2017 года, Telegram Open Network. После того как [Telegram](https://telegram.org/) вышел из проекта в 2020 году из-за [регуляторных осложнений](https://www.forbes.ru/newsroom/tehnologii/385325-sec-ostanovila-vypusk-kriptovalyuty-ton-pavla-durova), управление перешло сообществу под руководством TON Foundation. Основная задача Toncoin — обеспечить децентрализованную цифровую идентичность, владение активами и удобные платежи внутри мессенджера [Telegram](https://telegram.org/).\
+TON в Holders доступен всем клиентам с европейским резидентством, которые прошли onboarding в Walleexer.
 
 # Что такое Tether USDt (USDT)
 
-Tether [USDt (USDT)](https://tether.to/en/) is a stable cryptocurrency developed by Tether, based on blockchain technology and pegged to the US dollar at a 1:1 ratio. It was created to combine the stability of traditional money with the convenience and speed of cryptocurrency transactions.
+Tether [USDt (USDT)](https://tether.to/en/) — это стабильная криптовалюта, разработанная компанией Tether, основанная на блокчейн-технологии и привязанная к доллару США в соотношении 1:1. Она была создана, чтобы объединить стабильность традиционных денег с удобством и скоростью криптовалютных транзакций.
 
-1. Maintains a dollar peg, reducing crypto market volatility.
-2. Operates on more than 20 blockchains, providing global access.
-3. Claims full backing in dollars or equivalent assets, although transparency issues remain a subject of discussion.
+1. Поддерживает привязку к доллару, снижая волатильность крипторынка.
+2. Работает более чем в 20 блокчейнах, обеспечивая глобальную доступность.
+3. Заявляет о полном обеспечении долларами или эквивалентными активами, хотя вопросы прозрачности все еще остаются предметом обсуждения.
 
-[USDT](https://tether.to/en/) serves as a bridge between traditional finance and cryptocurrencies, allowing users to conduct operations with a digital asset that is not subject to sharp exchange rate fluctuations. It is widely used for trading, transfers, and protection against market risks. Thanks to its stable peg to the dollar, [USDT](https://tether.to/en/) simplifies international payments and participation in decentralized finance (DeFi).\
-USDT is issued on many blockchains, such as [Ethereum (ERC-20)](https://ethereum.org/), [Tron (TRC-20)](https://tron.network/), [TON](https://ton.org/) and [Solana](https://solana.com/), while support for legacy networks such as [Algorand](https://www.algorand.com/) and [EOS](https://eos.io/) is gradually being discontinued. This multi-chain approach provides low fees and compatibility between different blockchains. However, unlike decentralized stablecoins such as [DAI](https://makerdao.com/), [USDT](https://tether.to/en/) issuance is centrally controlled.\
-[Tether](https://tether.to/) company issues and destroys [USDT](https://tether.to/en/) depending on demand and availability of reserves, which include cash, [US Treasury bonds](https://www.treasurydirect.gov/) (worth \$127 billion as of 2025) and other assets. Management is centralized and belongs to [Tether Holdings Ltd.](https://tether.to/), which faces regulatory oversight but holds [68% of the stablecoin market](https://coinmarketcap.com/view/stablecoin/).\
-Currently, support for USDT smart contracts in Holders has been discontinued due to the implementation of new European regulation (EU regulation [**MiCA (Regulation (EU) 2023/1114)**](https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng)).
+[USDT](https://tether.to/en/) служит мостом между традиционными финансами и криптовалютами, позволяя пользователям проводить операции с цифровым активом, не подверженным резким курсовым колебаниям. Он широко используется для торговли, переводов и защиты от рыночных рисков. Благодаря стабильной привязке к доллару [USDT](https://tether.to/en/) упрощает международные платежи и участие в децентрализованных финансах, DeFi.\
+USDT выпускается во многих блокчейнах, таких как [Ethereum (ERC-20)](https://ethereum.org/), [Tron (TRC-20)](https://tron.network/), [TON](https://ton.org/) и [Solana](https://solana.com/), тогда как поддержка legacy-сетей, например [Algorand](https://www.algorand.com/) и [EOS](https://eos.io/), постепенно прекращается. Такой мультичейн-подход обеспечивает низкие комиссии и совместимость между разными блокчейнами. Однако, в отличие от децентрализованных стейблкоинов вроде [DAI](https://makerdao.com/), выпуск [USDT](https://tether.to/en/) централизованно контролируется.\
+Компания [Tether](https://tether.to/) выпускает и сжигает [USDT](https://tether.to/en/) в зависимости от спроса и наличия резервов, в которые входят наличные средства, [казначейские облигации США](https://www.treasurydirect.gov/) на сумму \$127 млрд по состоянию на 2025 год, и другие активы. Управление централизовано и принадлежит [Tether Holdings Ltd.](https://tether.to/), которая находится под регуляторным контролем, но при этом занимает [68% рынка стейблкоинов](https://coinmarketcap.com/view/stablecoin/).\
+Сейчас поддержка USDT-смарт-контрактов в Holders прекращена из-за вступления в силу нового европейского регулирования, а именно [**MiCA (Regulation (EU) 2023/1114)**](https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng).
 
 # История
 
-The TON contract became the first contract launched in the project in June 2023. With its help, it became possible to conduct transactions on the TON network. Later, the [USDT](https://tether.to/en/) contract was launched. Based on these contracts, the company's first product was implemented - prepaid cards. In the first versions of the contracts, there was no possibility of direct top-up (direct sending of funds to the contract address). This functionality was added in the current final version in March 2024. Currently, opening new [USDT](https://tether.to/en/) accounts is suspended due to MiCA regulatory requirements. According to [Article 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) of the MiCA (EU) 2023/1114 regulation, only licensed issuers can issue and offer stablecoins in the EU. Tether has not obtained such a license, therefore public offering and listing of [USDT](https://tether.to/en/) on regulated EU exchanges is prohibited.
+TON-контракт стал первым контрактом, запущенным в проекте в июне 2023 года. Благодаря ему стало возможно проводить операции в сети TON. Позже был запущен контракт [USDT](https://tether.to/en/). На базе этих контрактов был реализован первый продукт компании — prepaid cards. В первых версиях контрактов не было возможности прямого пополнения, то есть direct sending средств на адрес контракта. Этот функционал был добавлен в текущей финальной версии в марте 2024 года. Сейчас открытие новых счетов [USDT](https://tether.to/en/) приостановлено из-за требований регулирования MiCA. Согласно [статье 16](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) регламента MiCA (EU) 2023/1114, выпускать и предлагать стейблкоины в ЕС могут только лицензированные эмитенты. Tether такую лицензию не получил, поэтому публичное предложение и листинг [USDT](https://tether.to/en/) на регулируемых биржах ЕС запрещены.
 
 # Как контракт работает простыми словами
 
-1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account by sending the corresponding command to the Controller authority.
-2. The Controller creates a contract and transfers ownership rights to the user's wallet (wallet authority).
-3. The user tops up the contract balance.
-4. When conducting a transaction, the contract receives a signal from the controller to block the amount necessary to execute the operation.
-5. Blocked amounts are combined into a package (rollup) to optimize gas costs.
-6. The formed package is transferred to the Holders treasury wallet.
-7. When returning funds, the amount is transferred from the treasury wallet back to the user's contract balance.
+1. Пользователь выбирает валюту, [TON](https://ton.org/en) или [USDT](https://tether.to/en/), и инициирует создание нового счета, отправляя соответствующую команду в `Controller authority`.
+2. Controller создает контракт и передает права владения кошельку пользователя, `wallet authority`.
+3. Пользователь пополняет баланс контракта.
+4. При проведении транзакции контракт получает сигнал от контроллера заблокировать сумму, необходимую для выполнения операции.
+5. Заблокированные суммы объединяются в пакет, то есть rollup, чтобы оптимизировать затраты на gas.
+6. Сформированный пакет переводится на казначейский кошелек Holders.
+7. При возврате средств сумма переводится с казначейского кошелька обратно на баланс пользовательского контракта.
 
 # Общая информация
 
@@ -56,166 +56,166 @@ License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 ## **Contract Owner (wallet authority)**
 
-This role is assigned to the Holders user's wallet when creating the contract — the wallet from which the contract creation was initiated is considered the owner. It is impossible to change the contract owner, and if access is lost, it will not be possible to recover funds remaining on the contract. The only way to help a client who has lost access to their wallet is to advise them to spend funds from cards linked to the account.
+Эта роль назначается кошельку пользователя Holders при создании контракта — владельцем считается кошелек, с которого было инициировано создание контракта. Изменить владельца контракта невозможно, а при потере доступа к кошельку восстановить оставшиеся на контракте средства не получится. Единственный способ помочь клиенту, потерявшему доступ к своему кошельку, — посоветовать ему потратить средства с карт, привязанных к счету.
 
-### Available actions:
+### Доступные действия:
 
-- Setting blockchain limits
-- Topping up the contract through the wallet (calling the corresponding instruction)
-- Emergency withdrawal of funds
+- Установка блокчейн-лимитов
+- Пополнение контракта через кошелек, то есть вызов соответствующей инструкции
+- Экстренный вывод средств
 
-### Gas payment:
+### Оплата gas:
 
-- Gas is paid by the contract owner - the user themselves (Owner wallet).
+- Gas оплачивает владелец контракта, то есть сам пользователь, `Owner wallet`.
 
-The contract owner's address can be seen on the main account page in the Linked to wallet card. The owner's wallet address is also available in the backoffice on the User page when clicking on the account tile.
+Адрес владельца контракта можно увидеть на основной странице счета в карточке `Linked to wallet`. Адрес кошелька владельца также доступен в backoffice на странице пользователя при нажатии на плитку счета.
 
 ## **Controller** (**Controller authority**)
 
-Controller is a wallet (highload-wallet v3 with rotational public key) that has been delegated management rights and execution of operations on behalf of the owner. It performs automated and operational tasks that are inconvenient or impossible to assign directly to the user.
+Controller — это кошелек, `highload-wallet v3` с ротационным публичным ключом, которому делегированы права управления и выполнения операций от имени владельца. Он выполняет автоматические и операционные задачи, которые неудобно или невозможно возложить непосредственно на пользователя.
 
-### Controller addresses:
+### Адреса контроллера:
 
-- [EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2](https://tonviewer.com/EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2) - address of the new (current) Controller for TON and USDT contracts (they use a shared controller since they are created on the same blockchain)
-- [UQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrdN4](https://tonviewer.com/EQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrY69) - old TON and USDT Controller
+- [EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2](https://tonviewer.com/EQA0C826DnBq2jmlnVViypv8N7Jewog1EhiM6Q3tUWrmj3G2) — адрес нового, то есть текущего Controller для TON- и USDT-контрактов, у них общий controller, поскольку оба создаются в одном блокчейне
+- [UQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrdN4](https://tonviewer.com/EQAy1m3UJN9xJnj7_V1ZEJ9Z81jzT1r7ukaEKQu1XkNcrY69) — старый Controller для TON и USDT
 
-### Available actions:
+### Доступные действия:
 
-- Creating new accounts — after deployment, Controller transfers the Wallet authority role to the client's wallet.
-- Processing payments
-- Processing clearings
-- Closing accounts — can close an account immediately, without waiting (Graceful period)
-- Synchronizing contract balance after direct top-up
+- Создание новых счетов — после деплоя Controller передает роль `Wallet authority` кошельку клиента
+- Обработка платежей
+- Обработка clearing-операций
+- Закрытие счетов — может закрыть счет сразу, не дожидаясь `Graceful period`
+- Синхронизация баланса контракта после прямого пополнения
 
-### Gas payment:
+### Оплата gas:
 
-- Gas for these operations is paid by the Controller owner from their balance. The role belongs to Holders, meaning the Holders service itself pays for gas, so it's important to monitor the controller's balance. Request for replenishing controllers.
+- Gas за эти операции оплачивает владелец Controller со своего баланса. Эта роль принадлежит Holders, то есть gas фактически оплачивает сам сервис Holders, поэтому важно следить за балансом контроллера. При необходимости инициируется запрос на пополнение контроллеров.
 
 ## **Treasure authority**
 
-Treasure wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with Treasure wallets, this smart contract has no Wallet authority.
+Treasure wallets — это кошельки Holders, на которые переводятся средства, [USDC](https://www.circle.com/usdc) или [TON](https://ton.org/en), после обработки clearing-операций. Это тоже смарт-контракты, но с ограниченными правами. Только `Treasure authority` может выполнять действия с Treasure wallets; у этого смарт-контракта нет `Wallet authority`.
 
-### Available actions:
+### Доступные действия:
 
-- Processing refunds and reversals from treasure wallets to client accounts
-- Withdrawal from Treasure wallets (only to wallet addresses specified in the whitelist)
+- Обработка refund-ов и reversal-ов с treasure wallets на клиентские счета
+- Вывод средств из Treasure wallets, только на адреса кошельков, указанные в whitelist
 
-### Gas payment:
+### Оплата gas:
 
-- Gas for these operations is paid by Treasure authority, i.e., Holders.
+- Gas за эти операции оплачивает `Treasure authority`, то есть Holders.
 
 ## Owner (also known as Treasure owner)
 
-A role that has administrative rights over a set of contracts.
+Роль, имеющая административные права над набором контрактов.
 
-### Available functions:
+### Доступные функции:
 
-- Changing Treasure authority
-- Changing Support authority
-- Changing Controller
-- Setting up Graceful period (withdrawal time after account closure)
-- Updating whitelist for withdrawal from Treasure wallets (adding or excluding addresses).
+- Изменение `Treasure authority`
+- Изменение `Support authority`
+- Изменение Controller
+- Настройка `Graceful period`, то есть времени вывода после закрытия счета
+- Обновление whitelist для вывода из Treasure wallets, включая добавление и исключение адресов
 
-### Gas payment:
+### Оплата gas:
 
-- Gas payment for executing these operations is made by Route owner (Holders).
+- Gas за выполнение этих операций оплачивает `Route owner`, то есть Holders.
 
 ## Upgrade Owner
 
-A role that has the right to update contract code. In TON — updates happen for each contract individually, as each has its own version (similar to Ethereum). \
-According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however changes to contract logic are allowed.
+Роль, имеющая право обновлять код контракта. В TON обновления выполняются отдельно для каждого контракта, так как у каждого своя версия, аналогично Ethereum. \
+Согласно внутренней политике Holders, обновления не должны затрагивать состояние контракта, чтобы сохранять целостность данных, однако изменения в логике контракта допускаются.
 
 # Основные операции
 
 1. **Account deployment (**`deploy`**)**
 
-Creates a new account, records parameters, checks seed, addresses, identifiers. After successful deployment, remembers all parameters and returns confirmation. \
-Mechanism: External call that sets initial parameters, includes `seed`, user address (`addressA`, `addressB`), keys, time zones.
+Создает новый счет, записывает параметры, проверяет `seed`, адреса и идентификаторы. После успешного деплоя сохраняет все параметры и возвращает подтверждение. \
+Механизм: внешний вызов, который задает начальные параметры, включая `seed`, адрес пользователя, `addressA`, `addressB`, ключи и часовые пояса.
 
 ### 2. **Top-up (**`topup`**)**
 
-Performed in response to an external call where the top-up amount is passed.\
-This checks account status, balance, limits.\
-Balance is updated, prepared limits, and confirmation is returned. \
-**Features:**
+Выполняется в ответ на внешний вызов, в котором передается сумма пополнения.\
+При этом проверяются статус счета, баланс и лимиты.\
+Баланс обновляется, подготовленные лимиты учитываются, после чего возвращается подтверждение. \
+**Особенности:**
 
-- If balance is topped up through an external source, the account is updated without changing the lock state.
+- Если баланс пополняется через внешний источник, счет обновляется без изменения состояния блокировки.
 
 ### 3. **Transaction execution (**`execute`**)**
 
-This is the main account operation mechanism. It allows processing debits, transfers, clearings, as well as updating account state. During execution, the following are checked:
+Это основной механизм работы счета. Он позволяет обрабатывать списания, переводы, clearing-операции, а также обновлять состояние счета. Во время выполнения проверяются:
 
-- Seed and seqno: guarantee that the message is current and there were no repeated or outdated transactions.
-- Time **(**`timestamp`**)** and deadlines\*\*:\*\* ensuring timely execution of operations and preventing delays.
-- Balance and limits: checking that balance is sufficient and limits are not exceeded.
-- Account status: ensuring the account is not in closed or requested for closure state.
+- `seed` и `seqno`: они гарантируют, что сообщение актуально и что не было повторных или устаревших транзакций.
+- Время, `timestamp`, и дедлайны: они обеспечивают своевременное выполнение операций и предотвращают задержки.
+- Баланс и лимиты: проверяется достаточность баланса и отсутствие превышения лимитов.
+- Статус счета: система убеждается, что счет не находится в состоянии `closed` или в статусе запроса на закрытие.
 
-If all checks pass successfully:
+Если все проверки проходят успешно:
 
-- Current balances are updated (deposits, debits, transfers).
-- Limits (daily, monthly, single-time) are updated and checked.
-- Necessary debits or transfers are executed (e.g., fund withdrawal or transfer to another account).
-- A confirmation message (response) about operation execution is generated.
+- обновляются текущие балансы, то есть депозиты, списания и переводы
+- обновляются и проверяются лимиты, дневные, месячные и разовые
+- выполняются необходимые списания или переводы, например вывод средств или перевод на другой счет
+- формируется подтверждающее сообщение, `response`, о выполнении операции
 
-If condition violations are detected during the process (e.g., limit exceeded or account closed), the transaction is rejected with the corresponding error. \
-If the close flag (`close`) is set, the contract automatically initiates withdrawal of all remaining funds, updating the balance and transitioning to closed state.
+Если в процессе выявляются нарушения условий, например превышение лимита или закрытый счет, транзакция отклоняется с соответствующей ошибкой. \
+Если установлен флаг закрытия, `close`, контракт автоматически инициирует вывод всех оставшихся средств, обновляет баланс и переводит счет в состояние `closed`.
 
 ### 4. **Limit updates (**`update_limits`**)**
 
-Allows the account owner to set new limits: single-time, daily and monthly.\
-Before updating, the correctness of new values and sequence numbering (`seqno`) is checked.\
-Updated limits are saved, increasing the level of protection against abuse.
+Позволяет владельцу счета задавать новые лимиты: разовые, дневные и месячные.\
+Перед обновлением проверяется корректность новых значений и последовательность нумерации, `seqno`.\
+После этого обновленные лимиты сохраняются, повышая уровень защиты от злоупотреблений.
 
 ### 5. **Closure request (**`close`**)**
 
-User or owner can initiate account closure.\
-The account is set to "closure request" status, and automatic withdrawal of remaining funds occurs over time (timeout).\
-Upon execution — the transaction withdraws all balance remainders and transitions the account to `closed` state.
+Пользователь или владелец могут инициировать закрытие счета.\
+Счет переводится в статус запроса на закрытие, `closure request`, а через некоторое время, по `timeout`, происходит автоматический вывод оставшихся средств.\
+При выполнении этой операции транзакция выводит весь остаток баланса и переводит счет в состояние `closed`.
 
 ### 6. **Code update (**`update`**)**
 
-Provides smart contract upgrade — code replacement with version and signature verification.\
-It's verified that the version matches the expected one, and signature validation is performed (signatures of owner or authorized participants).\
-After successful update, the contract continues operating with new code.
+Обеспечивает обновление смарт-контракта, то есть замену кода с проверкой версии и подписи.\
+Проверяется, что версия совпадает с ожидаемой, и выполняется валидация подписи, владельца или уполномоченных участников.\
+После успешного обновления контракт продолжает работу уже с новым кодом.
 
 ### 7. **TON and tokens withdrawal (**`withdraw_tons`****`, withdraw_jettons)`****
 
-To ensure interaction with external systems and third-party tokens, TON and tokens withdrawal functions are provided, with authorization and reserve checks.
+Для взаимодействия с внешними системами и сторонними токенами предусмотрены функции вывода TON и токенов, с проверкой авторизации и резервов.
 
 # Gas
 
 ### Contract creation and maintenance
 
-In TON, space allocation (creating a new account) is done permanently, similar to RentExemption in Solana. When sending a transaction, the transfer amount and gas amount that the wallet is ready to spend are specified. If the actual gas cost is less than allocated, the remainder is returned. \
-Contract creation cost — **approximately 0.15–0.2 TON (0.27 USD at TON/USDT rate \$1.8)**.
+В TON выделение места, то есть создание нового счета, выполняется на постоянной основе, аналогично `RentExemption` в Solana. При отправке транзакции указывается сумма перевода и объем gas, который кошелек готов потратить. Если фактическая стоимость gas оказывается ниже выделенной, остаток возвращается. \
+Стоимость создания контракта — **примерно 0.15–0.2 TON, это около 0.27 USD при курсе TON/USDT \$1.8**.
 
 ### Gas for top-up
 
-Gas for account top-up in TON — **approximately 0.01 TON (0.018 USD at TON/USDT rate \$1.8)**.
+Gas за пополнение счета в TON — **примерно 0.01 TON, это около 0.018 USD при курсе TON/USDT \$1.8**.
 
 ### Gas for contract storage
 
-In the TON network, a smart contract pays for [storage of occupied space](https://docs.ton.org/foundations/fees) - including code, data and balance (account representation). When TON balance drops below the set threshold, the account can be frozen or deleted. Storage cost is approximately 0.01 nanoTON per byte per day (the value cannot be fractional, but the cost is approximate). This fee is deducted from the gas amount in each transaction to maintain the contract in working condition. \
-In practice, for contract freezing or deletion, [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) interaction with the contract is necessary, which in real conditions happens extremely rarely. Consequently, even with complete exhaustion of balance for paying storage fees, the contract will be frozen only in case of active interaction with it from network participants (e.g., when funds arrive at the contract balance). In the absence of such interaction, the contract continues to function with zero balance. When funds arrive, the storage fee is deducted immediately.
+В сети TON смарт-контракт оплачивает [хранение занимаемого пространства](https://docs.ton.org/foundations/fees), включая код, данные и баланс, то есть представление аккаунта. Когда баланс TON падает ниже установленного порога, аккаунт может быть заморожен или удален. Стоимость хранения составляет примерно 0.01 nanoTON за байт в день, значение не может быть дробным, поэтому цифра ориентировочная. Эта комиссия удерживается из gas каждой транзакции, чтобы контракт оставался в рабочем состоянии. \
+На практике для заморозки или удаления контракта необходимо взаимодействие [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) с контрактом, а в реальных условиях это происходит крайне редко. Поэтому даже при полном исчерпании баланса на оплату хранения контракт будет заморожен только в случае активного взаимодействия с ним со стороны участников сети, например когда на баланс контракта приходят средства. Если такого взаимодействия нет, контракт продолжает существовать с нулевым балансом. Когда средства поступают, комиссия за хранение списывается сразу.
 
 # Структура данных и хранение
 
-The contract contains parameters, reservations and account state, divided into logical blocks:
+Контракт содержит параметры, резервы и состояние счета, разделенные на логические блоки:
 
-- General state **(**`ctx_state`**)**:
+- Общее состояние, `ctx_state`:
   - `0` — open
   - `1` — closure requested
   - `3` — closed
-- Balances **(**`ctx_deposited_a`, `ctx_deposited_b`, `ctx_withdrawn_a`, `ctx_withdrawn_b`, `ctx_transferred_a`, `ctx_transferred_b`**) -** store the sum of deposits, debits and transfers by account.
-- Limits **(**`ctx_limits`**) -** declare allowable limit per operation, daily and monthly limit.
-- Timestamps:
+- Балансы, `ctx_deposited_a`, `ctx_deposited_b`, `ctx_withdrawn_a`, `ctx_withdrawn_b`, `ctx_transferred_a`, `ctx_transferred_b`, хранят суммы депозитов, списаний и переводов по счету.
+- Лимиты, `ctx_limits`, определяют допустимый лимит на операцию, дневной и месячный лимиты.
+- Временные метки:
   - `ctx_last_state_at`, `ctx_deadline`, `ctx_close_timeout`, `ctx_tz_offset`.
-- Addresses and keys:
+- Адреса и ключи:
   - `ctx_address_a`, `ctx_address_b`, `ctx_controller`, `ctx_seed`.
 
-All data is serialized and deserialized using `load_data()` and `store_data()` methods, ensuring integrity and security.
+Все данные сериализуются и десериализуются с помощью методов `load_data()` и `store_data()`, что обеспечивает целостность и безопасность.
 
 # Аудиты
 
-1. A smart contract audit was conducted by the Ton Core team. No critical vulnerabilities were found during the audit.
-2. A smart contract audit was performed by [Trail of Bits](https://www.trailofbits.com/). No critical vulnerabilities were found, and all identified minor issues were resolved.
+1. Аудит смарт-контракта проводила команда Ton Core. Критических уязвимостей в ходе аудита найдено не было.
+2. Аудит смарт-контракта также выполняла компания [Trail of Bits](https://www.trailofbits.com/). Критических уязвимостей обнаружено не было, а все найденные минорные проблемы были исправлены.

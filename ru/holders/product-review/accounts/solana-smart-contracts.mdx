@@ -4,44 +4,44 @@ title: "SOLANA смарт-контракты"
 
 # Смарт-контракт
 
-A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed on the network, without intermediaries, according to predefined rules.\
-The structure of [USDC](https://www.circle.com/usdc) and USDY contracts is based on one blockchain, so a unified description is used.
+Смарт-контракт — это программа, которая автоматически исполняет и обеспечивает выполнение заданных условий в блокчейне. Ее код хранится и выполняется прямо в сети, без посредников, по заранее определенным правилам.\
+Структура контрактов [USDC](https://www.circle.com/usdc) и USDY основана на одном блокчейне, поэтому для них используется единое описание.
 
 # Что такое USDC
 
-[USDC](https://www.circle.com/usdc) (short for USD Coin) is a stablecoin created in 2018, designed to maintain stable value by pegging to a reserve asset. In the case of USDC, it is backed by the US dollar in a 1:1 ratio, meaning each token can be exchanged for one US dollar or equivalent asset stored in reserve. This makes USDC less volatile compared to other cryptocurrencies.\
-It is owned and managed by [Centre](https://www.centre.io/), a consortium created by [Circle](https://www.circle.com/) and [Coinbase](https://www.coinbase.com/), which ensures trust and transparency in its management. These two major companies are responsible for the development, issuance, and management of this coin. Circle controls the issuance and redemption of [USDC](https://www.circle.com/usdc), while Coinbase plays a key role in distributing the token across various platforms and exchanges, ensuring its wide availability and usage.\
-Currently, there are approximately 28 billion [USDC](https://www.circle.com/usdc) tokens in circulation. Each token is fully reserved, meaning it is backed 1:1 by US dollars or equivalent assets, which guarantees its stability. Although USDC itself is not FDIC (Federal Deposit Insurance Corporation) insured, the reserves supporting it are held in regulated financial institutions. Additionally, these reserves are regularly audited by independent third parties to ensure that USDC is always fully backed, providing transparency and security for its users.\
-[USDC](https://www.circle.com/usdc) is a stablecoin operating on multiple blockchain networks, such as [Solana](https://solana.com/), [Ethereum](https://ethereum.org/), [Tron](https://tron.network/) and others. Each network uses a specific contract address to manage [USDC](https://www.circle.com/usdc) transactions.\
-[USDC](https://www.circle.com/usdc) in Holders is available to all clients [with European residency](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FNDP3PT7) who have completed onboarding on Walleexer.
+[USDC](https://www.circle.com/usdc), сокращение от USD Coin, — это стейблкоин, созданный в 2018 году для поддержания стабильной стоимости за счет привязки к резервному активу. В случае USDC он обеспечен долларом США в соотношении 1:1, то есть каждый токен можно обменять на один доллар США или эквивалентный резервный актив. Благодаря этому USDC менее волатилен по сравнению с большинством других криптовалют.\
+Он принадлежит и управляется [Centre](https://www.centre.io/), консорциумом, созданным [Circle](https://www.circle.com/) и [Coinbase](https://www.coinbase.com/), что обеспечивает доверие и прозрачность управления. Эти две крупные компании отвечают за развитие, выпуск и обслуживание монеты. Circle контролирует выпуск и погашение [USDC](https://www.circle.com/usdc), а Coinbase играет ключевую роль в распространении токена на различных платформах и биржах, обеспечивая его широкую доступность и использование.\
+Сейчас в обращении находится примерно 28 миллиардов токенов [USDC](https://www.circle.com/usdc). Каждый токен полностью зарезервирован, то есть обеспечен долларами США или эквивалентными активами в соотношении 1:1, что и гарантирует его стабильность. Хотя сам USDC не застрахован FDIC, резервы, которые его обеспечивают, хранятся в регулируемых финансовых организациях. Кроме того, эти резервы регулярно проходят независимый аудит, чтобы подтверждать полное обеспечение USDC и давать пользователям прозрачность и безопасность.\
+[USDC](https://www.circle.com/usdc) — это стейблкоин, работающий в нескольких блокчейн-сетях, таких как [Solana](https://solana.com/), [Ethereum](https://ethereum.org/), [Tron](https://tron.network/) и других. В каждой сети используется собственный адрес контракта для управления транзакциями [USDC](https://www.circle.com/usdc).\
+[USDC](https://www.circle.com/usdc) в Holders доступен всем клиентам [с европейским резидентством](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FNDP3PT7), которые прошли onboarding в Walleexer.
 
 # Что такое USDY
 
-[Ondo US Dollar Yield (USDY)](https://ondo.finance/usdy) is a tokenized financial instrument that combines the convenience of stablecoin usage with yield from ultra-safe US Treasury bonds and bank deposits. It is primarily designed for investors outside the United States.
+[Ondo US Dollar Yield (USDY)](https://ondo.finance/usdy) — это токенизированный финансовый инструмент, который сочетает удобство использования стейблкоина с доходностью от сверхнадежных казначейских облигаций США и банковских депозитов. В первую очередь он рассчитан на инвесторов за пределами США.
 
-1. Backed by short-term [US Treasury bonds](https://www.treasurydirect.gov/) and deposits, it offers daily yield accrual while maintaining a 1:1 parity with the US dollar.
-2. Protected from bankruptcy, with independent oversight, over 3% excess collateralization, and token transfer restrictions to comply with regulatory standards.
-3. Functions as composable collateral on [Ethereum](https://ethereum.org/), [Solana](https://solana.com/), and other blockchains, combining traditional finance yields with blockchain liquidity.
+1. Обеспечен краткосрочными [казначейскими облигациями США](https://www.treasurydirect.gov/) и депозитами, поэтому дает ежедневное начисление доходности, сохраняя при этом привязку к доллару США.
+2. Защищен от банкротных рисков, имеет независимый надзор, избыточное обеспечение свыше 3% и ограничения на перевод токена для соблюдения регуляторных требований.
+3. Используется как composable collateral в сетях [Ethereum](https://ethereum.org/), [Solana](https://solana.com/) и других блокчейнах, объединяя доходность традиционных финансов и ликвидность блокчейна.
 
-[USDY](https://ondo.finance/usdy) bridges the gap between traditional finance and decentralized ecosystems by tokenizing low-risk investment in [US Treasury bonds](https://www.treasurydirect.gov/). This allows investors worldwide to earn yield (~4.25% annually) that is typically only available to institutional players, while providing 24/7 liquidity through blockchain. Unlike regular stablecoins, USDY's value is not simply pegged to the dollar — it is directly backed by yield-generating assets, creating a hybrid product that combines stability and passive income.\
-[USDY](https://ondo.finance/usdy) in Holders is currently in testing phase, but will be available to all clients with European residency who have completed onboarding on Walleexer.
+[USDY](https://ondo.finance/usdy) соединяет традиционные финансы и децентрализованные экосистемы, токенизируя низкорисковые инвестиции в [казначейские облигации США](https://www.treasurydirect.gov/). Это позволяет инвесторам по всему миру получать доходность, около 4.25% годовых, которая обычно доступна только институциональным игрокам, и одновременно иметь круглосуточную ликвидность через блокчейн. В отличие от обычных стейблкоинов, стоимость USDY не просто привязана к доллару — она напрямую обеспечена доходными активами, что делает его гибридным продуктом, сочетающим стабильность и пассивный доход.\
+[USDY](https://ondo.finance/usdy) в Holders сейчас находится в стадии тестирования, но в дальнейшем будет доступен всем клиентам с европейским резидентством, прошедшим onboarding в Walleexer.
 
 # История
 
-The Solana contract was written by Holders in January 2025 and allowed users to use [USDC](https://www.circle.com/usdc) as their account currency. One of the problems that the company solved by introducing this contract was the absence of an EU license for the [USDT token](https://tether.to/en/), which was being used as the primary currency for opening accounts at that time. Since the main application at the time of writing the contract was the mobile wallet Tonhub, the company had to add Solana blockchain support to the wallet, thereby making it multi-currency.\
-Since the company's main application at the time of contract development was the mobile wallet [Tonhub](https://gettonhub.com/), it was necessary to add Solana blockchain support to it, which made the wallet multi-currency.\
-The contract for the increasingly popular [USDY](https://ondo.finance/usdy) token was implemented in November 2025 as an alternative to [USDC](https://www.circle.com/usdc), since storing funds in this token allows users not only to pay with it but also to receive additional income from holding it.
+Контракт Solana был написан Holders в январе 2025 года и дал пользователям возможность использовать [USDC](https://www.circle.com/usdc) как валюту счета. Одной из задач, которую компания решила этим контрактом, было отсутствие европейской лицензии у [токена USDT](https://tether.to/en/), который на тот момент использовался как основная валюта для открытия счетов. Поскольку основным приложением на момент разработки был мобильный кошелек Tonhub, компании пришлось добавить в кошелек поддержку блокчейна Solana и тем самым сделать его мультивалютным.\
+Так как главным приложением компании во время разработки контракта был мобильный кошелек [Tonhub](https://gettonhub.com/), в него нужно было встроить поддержку блокчейна Solana, что и сделало кошелек мультивалютным.\
+Контракт для все более популярного токена [USDY](https://ondo.finance/usdy) был реализован в ноябре 2025 года как альтернатива [USDC](https://www.circle.com/usdc), поскольку хранение средств в этом токене позволяет пользователям не только платить им, но и получать дополнительный доход от владения.
 
 # Как контракт работает простыми словами
 
-1. The user selects a currency ([TON](https://ton.org/en) or [USDT](https://tether.to/en/)) and initiates the creation of a new account, passing the corresponding command to the controller.
-2. The controller creates a contract and transfers ownership rights to the user's wallet .
-3. The user tops up the contract balance.
-4. When conducting a transaction, the contract receives a signal from the controller to block the amount needed to execute the operation.
-5. Blocked amounts are combined into a batch (rollup) to optimize gas costs.
-6. The formed batch is transferred to the Holders treasure wallet.
-7. When returning funds, the amount is transferred from the treasure wallet back to the user's contract balance.
-8. If the user initiates a withdrawal to an external account, the contract implements multi-signature and sends the funds.
+1. Пользователь выбирает валюту и инициирует создание нового счета, передавая соответствующую команду контроллеру.
+2. Контроллер создает контракт и передает права владения кошельку пользователя.
+3. Пользователь пополняет баланс контракта.
+4. При проведении транзакции контракт получает сигнал от контроллера заблокировать сумму, необходимую для выполнения операции.
+5. Заблокированные суммы объединяются в batch, то есть rollup, чтобы оптимизировать затраты на gas.
+6. Сформированный batch переводится на казначейский кошелек Holders.
+7. При возврате средств сумма переводится с казначейского кошелька обратно на баланс пользовательского контракта.
+8. Если пользователь инициирует вывод на внешний счет, контракт использует multi-signature и отправляет средства.
 
 # Общая информация
 
@@ -53,40 +53,40 @@ License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 ## **Contract Owner (wallet authority)**
 
-This role is assigned to the Holders user when deploying the contract — the owner is considered to be the wallet from which the contract creation was initiated. It is impossible to change the contract owner, and in case of access loss, it will not be possible to recover funds remaining on the contract. The only way to help a client who has lost access to their wallet is to advise them to spend funds from cards linked to the account.
+Эта роль назначается пользователю Holders при деплое контракта — владельцем считается кошелек, с которого было инициировано создание контракта. Изменить владельца контракта невозможно, а при потере доступа к кошельку восстановить оставшиеся на контракте средства не получится. Единственный способ помочь клиенту, потерявшему доступ к кошельку, — посоветовать ему потратить средства с карт, привязанных к счету.
 
-### Available actions:
+### Доступные действия:
 
-- Setting account limits
-- Topping up the contract through the wallet (calling the corresponding instruction)
-- Emergency withdrawal of funds
+- Установка лимитов счета
+- Пополнение контракта через кошелек, то есть вызов соответствующей инструкции
+- Экстренный вывод средств
 
-### Gas payment:
+### Оплата gas:
 
-- Gas is paid by the contract owner - the user themselves (Owner wallet).
+- Gas оплачивает владелец контракта, то есть сам пользователь, `Owner wallet`.
 
-The contract owner's address can be seen on the main account page in the Linked to wallet card. The owner's wallet address is also available in the backoffice on the User page when clicking on the account tile.
+Адрес владельца контракта можно увидеть на основной странице счета в карточке `Linked to wallet`. Адрес кошелька владельца также доступен в backoffice на странице пользователя при нажатии на плитку счета.
 
 ## **Controller** (**Controller authority**)
 
-Controller is a wallet (highload-wallet v3 with rotational public key) that has been delegated management rights and execution of operations on behalf of the owner. It performs automated and operational tasks that are inconvenient or impossible to assign directly to the user.
+Controller — это кошелек, `highload-wallet v3` с ротационным публичным ключом, которому делегированы права управления и выполнения операций от имени владельца. Он выполняет автоматические и операционные задачи, которые неудобно или невозможно возложить непосредственно на пользователя.
 
-### Controller addresses:
+### Адреса контроллера:
 
 - [4XzRdcK1M1koygnvS51V9YfuQzyJMLWDZqJQ73Jymg59](https://solscan.io/account/4XzRdcK1M1koygnvS51V9YfuQzyJMLWDZqJQ73Jymg59) - SOL controller
 
-### Available actions:
+### Доступные действия:
 
-- Creating new accounts — after creation, Controller transfers the Wallet authority role to the client's wallet.
-- Processing payments
-- Processing clearings
-- Closing accounts — can close an account immediately, without waiting (Graceful period).
-- Synchronizing contract balance after direct top-up
-- Withdrawing funds to external accounts - can sign withdrawals from its side
+- Создание новых счетов — после создания Controller передает роль `Wallet authority` кошельку клиента
+- Обработка платежей
+- Обработка clearing-операций
+- Закрытие счетов — может закрыть счет сразу, не дожидаясь `Graceful period`
+- Синхронизация баланса контракта после прямого пополнения
+- Вывод средств на внешние счета — может подписывать такие выводы со своей стороны
 
-### Gas payment:
+### Оплата gas:
 
-- Gas for these operations is paid by the Controller owner from their balance. The role belongs to Holders, meaning the Holders service itself pays for gas, so it's important to monitor the controller's balance.
+- Gas за эти операции оплачивает владелец Controller со своего баланса. Эта роль принадлежит Holders, то есть gas фактически оплачивает сам сервис Holders, поэтому важно следить за балансом контроллера.
 
 ## **Treasure authority**
 

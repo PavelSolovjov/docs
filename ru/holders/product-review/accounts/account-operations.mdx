@@ -5,31 +5,31 @@ description: "Этот документ кратко объясняет осно
 
 # Операции по счету
 
-1. **Opening a new account** – creating a new account with its own balance and the ability to issue cards.
-2. **Account closure** — the procedure for permanently terminating account services, making operations on this account impossible, and transferring remaining funds in accordance with established regulations.
-3. **Account funding** — the operation of crediting funds to an account through available deposit methods.
-4. **Withdrawal from account** — the operation of transferring funds from an account using provided withdrawal methods.
-5. **Payments** — operations for sending funds from an account using available transfer methods.
-6. **Setting account limits** — the procedure for determining and adjusting spending restrictions (limits per individual operation, daily, monthly, and other time-based restrictions).
+1. **Открытие нового счета** — создание нового счета с собственным балансом и возможностью выпуска карт.
+2. **Закрытие счета** — процедура окончательного прекращения обслуживания счета, после которой операции по нему становятся невозможны, а оставшиеся средства переводятся по установленным правилам.
+3. **Пополнение счета** — зачисление средств на счет через доступные методы депозита.
+4. **Вывод со счета** — перевод средств со счета с использованием доступных способов вывода.
+5. **Платежи** — операции по отправке средств со счета через доступные методы перевода.
+6. **Установка лимитов счета** — процедура определения и настройки ограничений на траты, например лимита на одну операцию, дневного, месячного и других временных ограничений.
 
 # Открытие нового счета
 
-Opening a new account is available to all Holders users who have residency in countries not on the sanctions list. The number of accounts that can be opened per user is unlimited.
+Открытие нового счета доступно всем пользователям Holders, имеющим резидентство стран, не входящих в санкционные списки. Количество счетов, которые может открыть один пользователь, не ограничено.
 
 ## Условия открытия нового счета
 
-- User profile must pass KYC verification procedure
+- Профиль пользователя должен пройти процедуру KYC-верификации
 
 ## Доступные валюты счета
 
-- **USDC (SOL)** — publicly available currency for all account types
-- **TON** — publicly available currency for regular accounts (not vesting)
-- **USDY (SOL)** — currently in testing mode. Will be available for both regular and vesting accounts.
-- **USDT (TON)** — support discontinued
+- **USDC (SOL)** — публично доступная валюта для всех типов счетов
+- **TON** — публично доступная валюта для обычных счетов, не vesting
+- **USDY (SOL)** — сейчас находится в режиме тестирования, будет доступна и для обычных, и для vesting-счетов
+- **USDT (TON)** — поддержка прекращена
 
 ## Интерфейс
 
-1. Opening a new account is available to the user from the main wallet page. The user clicks on Add new account and selects the type of account they want to open. Three possible options are available:
+1. Открытие нового счета доступно пользователю с главной страницы кошелька. Пользователь нажимает `Add new account` и выбирает тип счета, который хочет открыть. Доступны три варианта:
    1. **Account with card** — the first card is issued free of charge, subsequent card issuance is paid.
    2. **Account without card** — a card can be additionally issued at any time.
    3. **Vesting account** — provides the ability to create automatic payments to beneficiaries from the account.
@@ -41,7 +41,7 @@ Opening a new account is available to all Holders users who have residency in co
         className="mx-auto"
         style={{ width:"27%" }}
       />
-1. The user selects the currency for the account being created
+1. Пользователь выбирает валюту создаваемого счета
 
    <img
      src="/images/Currency(2)(1).png"
@@ -50,19 +50,19 @@ Opening a new account is available to all Holders users who have residency in co
      className="mx-auto"
      style={{ width:"25%" }}
    />
-2. The system deploys a smart contract on the blockchain, after which the created account becomes available to the user
+2. Система деплоит смарт-контракт в блокчейне, после чего созданный счет становится доступен пользователю
 
 # Закрытие счета
 
-Account closure is an operation to decommission an account, making it impossible to conduct deposit, withdrawal, and transfer operations. The account is removed from the user interface and moved to the final CLOSED status. Before executing the closure procedure, the system checks for the absence of active cards linked to the account. Remaining funds (if any) are transferred to the account owner's wallet in accordance with established regulations.
+Закрытие счета — это операция вывода счета из эксплуатации, после которой становятся невозможны пополнение, вывод и переводы. Счет исчезает из пользовательского интерфейса и переводится в финальный статус `CLOSED`. Перед выполнением процедуры система проверяет, что к счету не привязаны активные карты. Оставшиеся средства, если они есть, переводятся на кошелек владельца счета в соответствии с установленными правилами.
 
 <Info>
-  **Important:** In case of a refund to a closed account, automatic transfer to an active account is not performed. The refund is moved to pending payment status and is subject to distribution after the closed account owner contacts technical support.
+  **Важно:** если refund поступает на уже закрытый счет, автоматический перевод на активный счет не выполняется. Такой refund переводится в статус pending payment и распределяется только после обращения владельца закрытого счета в техническую поддержку.
 </Info>
 
-## Interface
+## Интерфейс
 
-1. The user goes to settings and selects Close account and confirms the closure
+1. Пользователь переходит в настройки, выбирает `Close account` и подтверждает закрытие
 
    <img
      src="/images/Settings.png"
@@ -71,54 +71,54 @@ Account closure is an operation to decommission an account, making it impossible
      className="mx-auto"
      style={{ width:"23%" }}
    />
-2. If cards are linked to the account, the user must either close them or transfer them to other accounts before closure.
-3. The remaining balance of the account being closed is subject to return to the wallet from which the account creation process was carried out. The address of the corresponding wallet is displayed on the account page in the "Linked to" information block.
+2. Если к счету привязаны карты, пользователь должен либо закрыть их, либо перевести на другие счета до закрытия.
+3. Остаток баланса закрываемого счета подлежит возврату на кошелек, с которого создавался этот счет. Адрес соответствующего кошелька отображается на странице счета в информационном блоке `Linked to`.
 
 # Пополнение счета
 
-To use the main features of the service, users need to fund their [smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), which acts as a bank account. User [bank cards](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) are linked to the smart contract for making payments. When paying with [a bank card](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM), funds are debited from the user's account to which the card is attached.
+Чтобы пользоваться основными функциями сервиса, пользователю нужно пополнить свой [smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02), который выступает в роли банковского счета. Пользовательские [bank cards](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) привязаны к этому смарт-контракту для проведения платежей. При оплате [банковской картой](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FE5D3DLM) средства списываются со счета пользователя, к которому привязана карта.
 
 # Способы пополнения счета
 
-1. **From savings account (from connected wallet balance)** - allows transferring funds from the connected wallet to the account.
-2. **From another wallet** — provides the ability to fund the account in a currency different from the account currency, with automatic currency conversion.
-3. **Deposit by details (direct funding)** — provides the ability to transfer funds to the account from any source using the account details.
-4. **From exchange** — enables transferring funds to the account balance from an exchange balance.
+1. **From savings account, то есть с баланса подключенного кошелька** — позволяет перевести средства из подключенного кошелька на счет.
+2. **From another wallet** — позволяет пополнить счет в валюте, отличной от валюты счета, с автоматической конвертацией.
+3. **Deposit by details, direct funding** — дает возможность перевести средства на счет из любого источника по реквизитам счета.
+4. **From exchange** — позволяет зачислить средства на баланс счета с биржевого баланса.
 
 <Info>
-  In the Holders + Tonhub system, the following terminology is used for accounts:
+  В системе Holders + Tonhub для счетов используется следующая терминология:
 
-  - **Spending accounts** - accounts in Holders designed for linking cards and making purchases
-  - **Savings accounts** - balances of the connected wallet in various currencies, used for storing funds
+  - **Spending accounts** — счета в Holders, предназначенные для привязки карт и совершения покупок
+  - **Savings accounts** — балансы подключенного кошелька в разных валютах, используемые для хранения средств
 </Info>
 
 # Gas fees при пополнении счета
 
-Gas fees (commission) for account funding consist of two main parts:
+Gas fees, то есть комиссия за пополнение счета, состоят из двух основных частей:
 
-1. Gas for sending the funding transaction - any transaction on the blockchain requires paying a network fee. Paid by the user.
-2. Gas for updating the contract balance. To recognize funds received on the contract balance, a Controller is used that continuously scans all transactions on the blockchain. When a transaction sent to a Holders account address is detected, the Controller initiates an update of the corresponding contract balance. Paid by Holders.
+1. Gas за отправку транзакции пополнения — любая транзакция в блокчейне требует оплаты сетевой комиссии. Эту часть оплачивает пользователь.
+2. Gas за обновление баланса контракта. Чтобы распознать поступившие на баланс контракта средства, используется Controller, который непрерывно сканирует транзакции в блокчейне. Когда система обнаруживает транзакцию, отправленную на адрес счета Holders, Controller инициирует обновление соответствующего баланса контракта. Эту часть оплачивает Holders.
 
-The gas amount will vary depending on the blockchain and the method of contract funding.
+Размер gas зависит от блокчейна и способа пополнения контракта.
 
 ## Размер комиссий
 
-1. Commission for conducting the funding transaction:
+1. Комиссия за проведение транзакции пополнения:
    1. **TON** - approximately **0.03 TON**
    2. **Solana** - **0.000005 SOL**
-1. Commission for updating the contract balance:
+1. Комиссия за обновление баланса контракта:
    1. **TON** - approximately **0.1 TON** (paid by Holders)
    2. **Solana** - **not charged**
 
-Note: maximum commission values are indicated. The actual commission may be lower - in this case, the unused portion is returned to the user's wallet balance.
+Примечание: указаны максимальные значения комиссий. Фактическая комиссия может быть ниже; в этом случае неиспользованный остаток возвращается на баланс кошелька пользователя.
 
 ## Пополнение со savings account
 
-The simplest way to fund an account. This function is available when there is a positive balance in the savings account in the corresponding currency. The user specifies the required amount and confirms the funding operation. Funds are credited to the account within a few minutes.
+Это самый простой способ пополнить счет. Функция доступна, если на savings account есть положительный баланс в соответствующей валюте. Пользователь указывает нужную сумму и подтверждает операцию пополнения. Средства зачисляются на счет в течение нескольких минут.
 
 ## Пополнение с другого кошелька
 
-This funding method works through the partner service [Changelly](https://changelly.com/). It allows you to fund your account with cryptocurrencies that are not directly supported by the platform:
+Этот способ пополнения работает через партнерский сервис [Changelly](https://changelly.com/). Он позволяет пополнять счет криптовалютами, которые платформа не поддерживает напрямую:
 
 - **USDT (TRC-20)**
 - **USDT (Polygon)**
@@ -128,12 +128,12 @@ This funding method works through the partner service [Changelly](https://change
 - **USDC (ERC-20)**
 - **USDC (SOL) for contracts on the TON blockchain**
 
-**How it works:** the user sends funds in one of the listed currencies to a [Changelly](https://changelly.com/) address, and they automatically convert and credit the money to the account in the required currency. This is especially convenient for using cryptocurrencies that are restricted by [MICA regulations](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114) (for example, [USDT](https://tether.to/)). Holders covers the exchange commission. Funding this way typically takes up to 60 minutes.\
-As part of the integration with Holders, [Changelly](https://changelly.com/) supports exchanges exclusively at a fixed rate (Fix rate). With this exchange method, the rate is fixed for a certain period, allowing the client to know exactly the final amount. 3 hours are provided to complete the operation. This approach became possible because exchanges are only made between stable currencies.
+**Как это работает:** пользователь отправляет средства в одной из перечисленных валют на адрес [Changelly](https://changelly.com/), после чего сервис автоматически конвертирует их и зачисляет деньги на счет в нужной валюте. Это особенно удобно для использования криптовалют, ограниченных [регулированием MICA](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114), например [USDT](https://tether.to/). Комиссию за обмен покрывает Holders. Обычно такое пополнение занимает до 60 минут.\
+В рамках интеграции с Holders сервис [Changelly](https://changelly.com/) поддерживает обмены только по фиксированному курсу, то есть `Fix rate`. При таком способе курс фиксируется на определенное время, поэтому клиент заранее знает точную итоговую сумму. На завершение операции дается 3 часа. Такой подход возможен потому, что обмен выполняется только между стабильными валютами.
 
 ### Interface
 
-1. The user selects the currency in which they want to fund the account.
+1. Пользователь выбирает валюту, в которой хочет пополнить счет.
 
    <img
      src="/images/2025-10-2117.58.08(1).jpg"
@@ -142,7 +142,7 @@ As part of the integration with Holders, [Changelly](https://changelly.com/) sup
      className="mx-auto"
      style={{ width:"25%" }}
    />
-2. The user enters the desired top-up amount and confirms the exchange.
+2. Пользователь вводит желаемую сумму пополнения и подтверждает обмен.
 
    <img
      src="/images/2025-10-2117.58.12(1).jpg"
@@ -151,7 +151,7 @@ As part of the integration with Holders, [Changelly](https://changelly.com/) sup
      className="mx-auto"
      style={{ width:"25%" }}
    />
-3. [Changelly](https://changelly.com/) creates an exchange order and awaits transfer from the user.
+3. [Changelly](https://changelly.com/) создает ордер на обмен и ожидает перевод от пользователя.
 
    <img
      src="/images/2025-10-2117.58.14(1).jpg"
@@ -160,25 +160,25 @@ As part of the integration with Holders, [Changelly](https://changelly.com/) sup
      className="mx-auto"
      style={{ width:"26%" }}
    />
-4. The user transfers funds to the details specified in the order.
-5. After receiving funds from the user, the [Changelly](https://changelly.com/) service credits the corresponding amount to their account in the Holders system.
+4. Пользователь переводит средства по реквизитам, указанным в ордере.
+5. После получения средств от пользователя сервис [Changelly](https://changelly.com/) зачисляет соответствующую сумму на его счет в системе Holders.
 
 ## Пополнение по реквизитам (direct funding)
 
-This method involves direct transfer of funds to the contract address from another address in the same network. It is only supported on newer contract versions:
+Этот способ предполагает прямой перевод средств на адрес контракта с другого адреса в той же сети. Он поддерживается только в более новых версиях контрактов:
 
 - **USDC (supported on all versions)**
 - **TON (starting from version v3)**
 - **USDT (TON) (starting from version v8)**
 
-With direct funding, funds are received directly to the contract address. To recognize received funds, a Controller is used that continuously scans all transactions on the blockchain. When a transaction sent to a Holders account address is detected, the Controller initiates an update of the corresponding contract balance.\
-Deposit by details is the classic direct account funding via transaction to its address. It allows you to fund an account, share account details, or create a payment link for account funding and send it to a friend who can fund the account through the [Changelly](https://changelly.com/) interface regardless of whether they have a Holders service account.
+При direct funding средства поступают напрямую на адрес контракта. Чтобы распознать поступление, используется Controller, который непрерывно сканирует транзакции в блокчейне. Когда он обнаруживает перевод на адрес счета Holders, он инициирует обновление баланса соответствующего контракта.\
+Пополнение по реквизитам — это классическое прямое пополнение счета транзакцией на его адрес. Оно позволяет пополнить счет, поделиться реквизитами счета или создать платежную ссылку на пополнение и отправить ее другу, который сможет внести средства через интерфейс [Changelly](https://changelly.com/), даже если у него нет аккаунта в Holders.
 
-- Fund the account directly using details
-- Share account details with other users
-- Create a payment link like https://hldrs.me/th/pay/cmgzamplv39rk3s3gkj2mia1x for funding and send it to another user
+- Пополнить счет напрямую по реквизитам
+- Поделиться реквизитами счета с другими пользователями
+- Создать платежную ссылку вида `https://hldrs.me/th/pay/cmgzamplv39rk3s3gkj2mia1x` для пополнения и отправить ее другому пользователю
 
-When using the payment link, the recipient can fund the account through the [Changelly](https://changelly.com/) interface without needing to create an account in the Holders service.
+При использовании платежной ссылки получатель может пополнить счет через интерфейс [Changelly](https://changelly.com/) без необходимости создавать аккаунт в сервисе Holders.
 
 ## Пополнение с биржи
 
@@ -284,41 +284,41 @@ SWIFT transfers in the Holders system are processed by [support service](https:/
 
 ### Tariff
 
-The commission for a SWIFT payment consists of:
+Комиссия за SWIFT-платеж состоит из:
 
-- Fixed part: 50 USD
-- Percentage part: 2.3% of the transfer amount (0.8% + 1.5%)
+- фиксированной части: 50 USD
+- процентной части: 2.3% от суммы перевода, то есть 0.8% + 1.5%
 
-The total commission is calculated as: 50 USD + 2.3% of the transfer amount.\
-When sending a SWIFT payment, you can choose one of two ways to pay commissions:\
-**SHA (Shared) - Shared payment:**
+Итоговая комиссия рассчитывается так: 50 USD + 2.3% от суммы перевода.\
+При отправке SWIFT-платежа можно выбрать один из двух способов оплаты комиссий:\
+**SHA (Shared), совместная оплата:**
 
-- Commissions are divided between sender and recipient
-- The recipient may receive a smaller amount due to deductions by intermediary banks
-- Suitable when the sender wants to save on expenses
+- комиссии делятся между отправителем и получателем
+- получатель может получить меньшую сумму из-за удержаний банками-корреспондентами
+- подходит в случаях, когда отправителю важно снизить собственные расходы
 
-**OUR - Full payment by sender:**
+**OUR, полная оплата отправителем:**
 
-- The sender pays all commissions of intermediary banks
-- The recipient receives exactly the specified amount without deductions
-- Additional fixed fee: 25 USD
-- Suitable when it's important that the recipient receives the full amount
+- отправитель оплачивает все комиссии банков-посредников
+- получатель получает ровно указанную сумму без удержаний
+- дополнительная фиксированная комиссия: 25 USD
+- подходит, когда важно, чтобы получатель получил полную сумму
 
 # Настройка блокчейн-лимитов
 
-The user has the ability to set restrictions on account spending, which are fixed at the blockchain level. The system supports three main types of limits:
+Пользователь может задавать ограничения на расходование средств по счету, которые фиксируются на уровне блокчейна. Система поддерживает три основных типа лимитов:
 
 - **Limit per individual transaction**
 - **Daily spending limit**
 - **Monthly spending limit**
 
-Limits are set individually for each account. Detailed information about the functioning of limits is presented in [the corresponding document](/Issuerblockchainlimits).
+Лимиты задаются индивидуально для каждого счета. Подробная информация о том, как они работают, приведена [в соответствующем документе](/Issuerblockchainlimits).
 
 # Изменение названия счета
 
-The user can change the account name displayed in the interface at any time by following these steps:
+Пользователь может в любой момент изменить название счета, отображаемое в интерфейсе. Для этого нужно:
 
-1. Select the account whose name the user wants to change
-2. Click on its title in the upper part of the interface
-3. Enter the desired name (name length is limited to 50 characters)
-4. Save the name
+1. выбрать счет, название которого нужно изменить
+2. нажать на его заголовок в верхней части интерфейса
+3. ввести желаемое имя, длина названия ограничена 50 символами
+4. сохранить новое название
