@@ -119,137 +119,137 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 
 ### Gas payment:
 
-- Gas payment for executing these operations is made by Route owner (Holders).
+- Gas за выполнение этих операций оплачивает `Route owner`, то есть Holders.
 
 ## Upgrade authority
 
-A role that has the right to update contract code. On Solana, you can update code immediately for all contracts associated with an account.\
-According to Holders' internal policy, updates should not affect contract state to preserve data integrity, however, changes to contract logic are allowed.
+Роль, имеющая право обновлять код контракта. В Solana можно сразу обновить код для всех контрактов, связанных с аккаунтом.\
+Согласно внутренней политике Holders, обновления не должны затрагивать состояние контракта, чтобы сохранять целостность данных, однако изменения в логике контракта допускаются.
 
 # Основные операции и сценарии
 
 ### 1. **Deploy (**`deploy`**)**
 
-- Creates a new account, initializes parameters: seed, addresses, controller.
-- Verifies seed correctness, address correspondence, remembers parameters, sets limits and states.
-- Returns deployment confirmation.
+- Создает новый аккаунт и инициализирует параметры: `seed`, адреса и `controller`.
+- Проверяет корректность `seed`, соответствие адресов, сохраняет параметры, устанавливает лимиты и состояния.
+- Возвращает подтверждение успешного деплоя.
 
 ### 2. **Top-up (**`topup`**)**
 
-- Deposits funds into the user's balance.
-- Verifies the correctness of the calling party and limits.
-- Updates the displayed balance, sends confirmation.
+- Зачисляет средства на пользовательский баланс.
+- Проверяет корректность вызывающей стороны и лимитов.
+- Обновляет отображаемый баланс и отправляет подтверждение.
 
 ### 3. **Transaction execution (**`execute`**)**
 
-- The most important function — allows transferring funds, debiting, processing clearings.
-- Verifies seed, seqno, time, account status.
-- Calculates current balance, checks limits for single, daily, and monthly limits.
-- Updates balance, limits, and state.
-- If the account is marked as closed — initiates automatic withdrawal of remaining funds.
+- Самая важная функция — позволяет переводить средства, выполнять списания и обрабатывать clearing.
+- Проверяет `seed`, `seqno`, время и статус аккаунта.
+- Рассчитывает текущий баланс, проверяет разовые, дневные и месячные лимиты.
+- Обновляет баланс, лимиты и состояние.
+- Если аккаунт помечен как закрытый, инициирует автоматический вывод оставшихся средств.
 
 ### 4. **Limit updates (**`update_limits`**)**
 
-- Allows the owner to change limits (single, daily, monthly).
-- Verifies sequence (seqno) and limit validity.
-- Updates the pending limits queue.
+- Позволяет владельцу менять лимиты, разовые, дневные и месячные.
+- Проверяет последовательность `seqno` и корректность лимитов.
+- Обновляет очередь ожидающих лимитов, `pending limits queue`.
 
 ### 5. **Account closure (**`close`**)**
 
-- Initiates a closure request.
-- After timeout expiration — automatically withdraws remaining funds and transfers the account to `closed` state.
+- Инициирует запрос на закрытие аккаунта.
+- После истечения `timeout` автоматически выводит оставшиеся средства и переводит аккаунт в состояние `closed`.
 
 ### 6. **Code update (**`update`**)**
 
-Provides smart contract upgrade. When called:
+Обеспечивает обновление smart contract. При вызове:
 
-- The correctness of version (`revision`) and owner signature is verified.
-- If checks pass — contract code is updated without state loss.
-- Allows implementing new functions, fixing bugs, and developing the system.
+- проверяется корректность версии, `revision`, и подписи владельца;
+- если проверки проходят, код контракта обновляется без потери состояния;
+- это позволяет добавлять новые функции, исправлять ошибки и развивать систему.
 
 ### 7.  **USDC withdrawal to linked wallet (**`withdraw_usdc`**)**
 
-- The system includes functions for [USDC](https://www.circle.com/usdc) withdrawal.
-- Mandatory authorization checks ensure secure asset withdrawal in accordance with rules and account state.
+- В системе есть функции для вывода [USDC](https://www.circle.com/usdc).
+- Обязательные проверки авторизации обеспечивают безопасный вывод актива в соответствии с правилами и текущим состоянием аккаунта.
 
 ### **8. USDC withdrawal to external account**
 
-- Allows withdrawing funds to an external account
-- Allows transferring funds between accounts within the system
+- Позволяет выводить средства на внешний аккаунт.
+- Позволяет переводить средства между аккаунтами внутри системы.
 
 # Gas
 
 ### Contract creation and maintenance
 
-In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - payment for 2 years upfront that permanently reserves space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL for every 10 kB. When closing an account, you can request a cost refund since allocation is no longer needed.\
-Approximate price for creating such a contract — **approximately 0.015 SOL (1.5 USD at Sol/USDT rate \$100)**.
+В Holders при создании контрактов в Solana используется [RentExemption](https://solana.com/docs/core/accounts) — предоплата за 2 года, которая навсегда резервирует место. Стоимость [RentExemption](https://solana.com/docs/core/accounts) в Solana зависит от размера хранилища, в байтах, и текущей ставки аллокации в сети. В среднем цена составляет примерно 0.0023 SOL на каждые 10 kB. При закрытии аккаунта можно запросить возврат этой стоимости, поскольку аллокация больше не нужна.\
+Примерная цена создания такого контракта — **около 0.015 SOL, это 1.5 USD при курсе Sol/USDT \$100**.
 
 ### Gas for top-up
 
-To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected — an additional fee that increases the chance of confirmation during high load. This allows faster transaction processing. The user pays gas only when topping up the contract; all other payments are already covered by the service. Gas for account top-up in Solana is fixed - **0.000005 SOL (0.00005 USD at Sol/USDT rate \$100).**
+Чтобы ускорять транзакции в сети Solana, подключен механизм [Priority Fee](https://solana.com/docs/core/fees) — дополнительная комиссия, повышающая вероятность подтверждения при высокой нагрузке. Это позволяет обрабатывать транзакции быстрее. Пользователь оплачивает gas только при пополнении контракта; все остальные платежи уже покрываются сервисом. Gas за пополнение аккаунта в Solana фиксирован и составляет **0.000005 SOL, это 0.00005 USD при курсе Sol/USDT \$100**.
 
 # Особенности реализации
 
 ### 1. State structure and data serialization
 
-The contract uses internal methods `load_data()` and `store_data()` for state serialization and deserialization. All important parameters — balances, limits, status, timeouts — are stored in structured form in block memory. Note: proper use of these methods is critical for data integrity.
+Контракт использует внутренние методы `load_data()` и `store_data()` для сериализации и десериализации состояния. Все важные параметры, балансы, лимиты, статус и таймауты, хранятся в структурированном виде в памяти блока. Важно: корректное использование этих методов критично для целостности данных.
 
 ### 2. Limit management through pending_limits queue
 
-Operation limits (single, daily, monthly) are implemented using the `pending_limits_queue`. This enables asynchronous limit updates while checking `seqno` sequence.\
-Limit updates occur only through `update_limits` calls, with verification of correct `seqno` and change validity.
+Лимиты операций, разовые, дневные и месячные, реализованы через `pending_limits_queue`. Это позволяет обновлять лимиты асинхронно, одновременно проверяя последовательность `seqno`.\
+Обновление лимитов происходит только через вызовы `update_limits`, с проверкой корректности `seqno` и допустимости изменений.
 
 ### 3. Account closure mechanism
 
-Account closure is implemented in two stages:\
-**RequestCloseA:** user calls closure request, account transitions to "closure requested" state, timeout is set.\
-**Automatic withdrawal:** after timeout expiration — all remaining funds are withdrawn by automatic call to `close` function, and account is transferred to `closed` state. This ensures security and automation of the closure procedure.
+Закрытие аккаунта реализовано в два этапа:\
+**RequestCloseA:** пользователь вызывает запрос на закрытие, аккаунт переходит в состояние `closure requested`, после чего задается `timeout`.\
+**Automatic withdrawal:** после истечения `timeout` все оставшиеся средства выводятся автоматическим вызовом функции `close`, а аккаунт переводится в состояние `closed`. Это обеспечивает безопасность и автоматизацию процедуры закрытия.
 
 ### 4. Verification and authorization
 
-All operations require authorization — either owner (`owner`) through signature or controller. It's important to follow the correct method call order and verify signatures to avoid unauthorized actions.
+Все операции требуют авторизации — либо владельца, `owner`, через подпись, либо `controller`. Важно соблюдать правильный порядок вызова методов и проверять подписи, чтобы избежать несанкционированных действий.
 
 ### 5. Working with balances and reservation
 
-Balance within the contract is managed using variables `deposited`, `transferred`, `withdrawn`. Before any operations, reservation (`raw_reserve()`) is performed to guarantee correct accounting and avoid overflow or insufficient funds.
+Баланс внутри контракта управляется с помощью переменных `deposited`, `transferred`, `withdrawn`. Перед любыми операциями выполняется резервирование, `raw_reserve()`, чтобы гарантировать корректный учет и избежать переполнения или нехватки средств.
 
 ### 6. Code update (upgrade)
 
-Updates are performed through the `update` method, which checks `revision` and owner signature. After successful verification — contract code is replaced without resetting state or data.
+Обновления выполняются через метод `update`, который проверяет `revision` и подпись владельца. После успешной проверки код контракта заменяется без сброса состояния и данных.
 
 ### 7. Interaction with external infrastructure
 
-Functions `do_send_message()` and `do_send_token_message()` are used for conducting operations and sending transactions. All transactions require sufficient gas and correct signature. In case of errors — transactions are rejected and corresponding error is triggered.
+Функции `do_send_message()` и `do_send_token_message()` используются для проведения операций и отправки транзакций. Все транзакции требуют достаточного объема gas и корректной подписи. При ошибках транзакции отклоняются и вызывается соответствующая ошибка.
 
 ### 8. Error handling
 
-The contract provides numerous checks and errors — for example, for limit violations, incorrect seeds, timeouts, or invalid signatures. It's essential to follow call rules to avoid execution errors.
+Контракт содержит множество проверок и ошибок, например для нарушения лимитов, некорректных `seed`, таймаутов или неверных подписей. Чтобы избежать ошибок исполнения, важно соблюдать правила вызова.
 
 ### 9. Security assurance
 
-The contract uses signature verification, `has_one`, proper management of `seeds` and `bump` to protect against unauthorized actions. Participants must carefully control private keys and follow call procedures.
+Контракт использует проверку подписей, `has_one`, а также корректное управление `seeds` и `bump` для защиты от несанкционированных действий. Участники должны внимательно контролировать приватные ключи и соблюдать процедуры вызова.
 
 # Структура данных и хранение
 
 ### Main storage fields (`state`):
 
-- **Time and sequence**:
-  - `ctx_seqno`: sequential transaction number.
-  - `ctx_last_state_at`: time of last state update.
-  - `ctx_deadline`: closure timeouts.
-- **Balance indicators**:
-  - `ctx_deposited_a`, `ctx_deposited_b`: deposit amounts.
-  - `ctx_transferred_a`, `ctx_transferred_b`: transfers between accounts.
-  - `ctx_withdrawn_a`, `ctx_withdrawn_b`: withdrawn fund amounts.
-- **Status and state**:
-  - `ctx_state`: account state (open, closed, closure requested).
-  - `ctx_seed`: unique seed for messages.
-  - `ctx_tz_offset`, `ctx_close_timeout`: timezone and timeout settings.
-- **Limits**:
-  - In `ctx_limits`: operation restrictions, stored limits, expenses, deadlines, and pending limits queue.
+- **Время и последовательность**:
+  - `ctx_seqno`: порядковый номер транзакции.
+  - `ctx_last_state_at`: время последнего обновления состояния.
+  - `ctx_deadline`: таймауты закрытия.
+- **Показатели баланса**:
+  - `ctx_deposited_a`, `ctx_deposited_b`: суммы депозитов.
+  - `ctx_transferred_a`, `ctx_transferred_b`: переводы между аккаунтами.
+  - `ctx_withdrawn_a`, `ctx_withdrawn_b`: суммы выведенных средств.
+- **Статус и состояние**:
+  - `ctx_state`: состояние аккаунта, `open`, `closed`, `closure requested`.
+  - `ctx_seed`: уникальный `seed` для сообщений.
+  - `ctx_tz_offset`, `ctx_close_timeout`: настройки таймзоны и таймаута.
+- **Лимиты**:
+  - В `ctx_limits`: ограничения операций, сохраненные лимиты, расходы, дедлайны и очередь ожидающих лимитов.
 
 ### Addresses and keys:
 
-- `ctx_address_a`, `ctx_address_b`: owner and treasure addresses.
-- `ctx_controller`: controller role.
-- `ctx_token_mint`: Mint for USDC.
+- `ctx_address_a`, `ctx_address_b`: адреса owner и treasure.
+- `ctx_controller`: роль controller.
+- `ctx_token_mint`: `mint` для USDC.

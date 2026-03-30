@@ -72,11 +72,11 @@ title: "Получение и отправка транзакций"
 
 2. Сборка транзакции:
 
-- `SystemProgram.transfer` instruction is created.
+- Создается инструкция `SystemProgram.transfer`.
 
 3. Добавление комментария, memo:
 
-- If there's a comment, instruction is added with `programId` = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr".
+- Если есть комментарий, добавляется инструкция с `programId = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"`.
 
 4. Подписание транзакции:
 
@@ -121,19 +121,19 @@ title: "Получение и отправка транзакций"
 
 1. BlocksWatcher (SSE):
 
-- Application establishes SSE connection with Tonhub API (`mainnet-v4.tonhubapi.com` or `testnet-v4.tonhubapi.com`).
-- When new block appears, server sends list of changed addresses.
-- If user's address is in list, application requests new transactions.
+- Приложение устанавливает SSE-соединение с Tonhub API, `mainnet-v4.tonhubapi.com` или `testnet-v4.tonhubapi.com`.
+- Когда появляется новый блок, сервер отправляет список изменившихся адресов.
+- Если адрес пользователя есть в этом списке, приложение запрашивает новые транзакции.
 
 2. Transaction requests:
 
-- Uses `fetchTransactionsPage` with cursor pagination.
-- Transactions are loaded in batches (usually 20–50).
+- Используется `fetchTransactionsPage` с cursor pagination.
+- Транзакции загружаются пачками, обычно по 20–50.
 
 3. Processing:
 
-- Parsing message bodies to determine operation type (regular transfer, token transfer, etc.).
-- Updating balances and transaction history in UI.
+- Выполняется разбор тел сообщений, чтобы определить тип операции, например обычный перевод, перевод token и так далее.
+- Обновляются балансы и история транзакций в интерфейсе.
 
 ## Solana
 
@@ -159,38 +159,38 @@ title: "Получение и отправка транзакций"
 
 # Статусы транзакций
 
-Pending, ожидание подтверждения:
+`Pending`, ожидание подтверждения:
 
-- Transaction sent but not yet included in a block.
-- For TON: waiting for block inclusion via BlocksWatcher.
-- For Solana: waiting for confirmation via RPC polling.
+- Транзакция отправлена, но еще не включена в блок.
+- Для TON это означает ожидание включения блока через BlocksWatcher.
+- Для Solana это означает ожидание подтверждения через RPC polling.
 
-Confirmed:
+`Confirmed`:
 
-- Transaction included in a block and confirmed by the network.
-- For TON: usually 1 confirmation is sufficient.
-- For Solana: usually requires multiple confirmations (finality).
+- Транзакция включена в блок и подтверждена сетью.
+- Для TON обычно достаточно одного подтверждения.
+- Для Solana обычно требуется несколько подтверждений, чтобы достичь finality.
 
-Failed:
+`Failed`:
 
-- Transaction rejected by the network (insufficient funds, invalid address, etc.).
-- Application shows error to user.
+- Транзакция отклонена сетью, например из-за недостатка средств, неверного адреса и так далее.
+- Приложение показывает пользователю ошибку.
 
 # Почему пользователь может «не видеть» входящую транзакцию
 
-- Wrong network. TON: testnet is selected in the app, but the transfer came to mainnet (or vice versa). Addresses in mainnet and testnet differ (different format/flag). Need to check the network switch and ensure the sender used the address and network corresponding to the one selected in Tonhub. Solana: mainnet is selected, but the transfer was made in devnet (or vice versa). History and balance are requested separately for mainnet and devnet. Check the network with the sender and in Tonhub (if there's a switch).
-- Wrong asset / wrong screen. TON: incoming token is displayed in the tokens sections, not in the "main" TON history. If the user only looks at the native TON transfer list, they won't see token deposits. Solana: incoming SPL token is visible in the balance and history of the specific token (by ATA). If the token isn't added to the list or the user only looks at SOL history, incoming token transfers can be missed.
-- RPC lag and update delay. TON: data comes through Tonhub API and BlocksWatcher. During delays or SSE interruptions, transaction list updates may come with delay. Manual refresh (pull-to-refresh) or reopening the screen helps. Solana: transaction list isn't polled by timer, but updates when opening the screen and when returning to the app. If RPC or indexer lags, new incoming transactions will only appear at the next such update. Recommendation: refresh manually or wait and reopen the screen.
-- Address not activated (TON). Transfer came to an address that has never sent a transaction (contract not deployed). Such incoming transfers may not display in history until first wallet activation. User should perform first outgoing transaction (or activation), after which balance and history should update.
-- Sender error or rollback. Transaction didn't make it to a block (rejected by network, insufficient fee from sender, expired blockhash in Solana, etc.). Recipient physically received nothing, so there's no transaction in their history. Need to check transaction status and hash in explorer with sender (TON / Solana).
+- **Неверная сеть.** В TON в приложении может быть выбрана `testnet`, а перевод пришел в `mainnet`, или наоборот. Адреса в mainnet и testnet отличаются, это разные формат и флаг. Нужно проверить переключатель сети и убедиться, что отправитель использовал адрес и сеть, соответствующие выбранным в Tonhub. В Solana может быть выбрана `mainnet`, а перевод сделан в `devnet`, или наоборот. История и баланс запрашиваются отдельно для mainnet и devnet. Нужно сверить сеть у отправителя и в Tonhub, если там есть переключатель.
+- **Неверный актив или неверный экран.** В TON входящий token показывается в разделе токенов, а не в "основной" истории TON. Если пользователь смотрит только список переводов нативного TON, он не увидит token-депозиты. В Solana входящий SPL token виден в балансе и истории конкретного токена, то есть по ATA. Если token не добавлен в список или пользователь смотрит только историю SOL, входящий перевод токена легко пропустить.
+- **Задержка RPC и обновления.** В TON данные приходят через Tonhub API и BlocksWatcher. При задержках или разрывах SSE обновление списка транзакций может приходить с опозданием. В этом случае помогает ручное обновление, `pull-to-refresh`, или повторное открытие экрана. В Solana список транзакций не опрашивается по таймеру, а обновляется при открытии экрана и возврате в приложение. Если RPC или indexer отстают, новые входящие транзакции появятся только при следующем таком обновлении. Рекомендация: обновить экран вручную или подождать и открыть его заново.
+- **Адрес еще не активирован, TON.** Перевод пришел на адрес, который никогда не отправлял транзакций, то есть контракт еще не был задеплоен. Такие входящие переводы могут не отображаться в истории до первой активации кошелька. Пользователю нужно выполнить первую исходящую транзакцию, то есть активацию, после чего баланс и история должны обновиться.
+- **Ошибка отправителя или rollback.** Транзакция не попала в блок, например была отклонена сетью, у отправителя не хватило fee, в Solana истек `blockhash` и так далее. Фактически получатель ничего не получил, поэтому в его истории нет транзакции. Нужно проверить статус транзакции и ее hash в explorer вместе с отправителем, для TON или Solana.
 
 # Пограничные случаи и повторная отправка
 
 ### Транзакция отправлена, но RPC не вернул ответ
 
-**TON and Solana:** On RPC timeout, retry with backoff is performed (TON — up to 15 attempts, Solana — up to 5). If all attempts fail, error is shown, pending is not created.\
-**Risk:** RPC might have accepted the transaction, but response didn't reach. On retry sending, a second transaction is created — possible double spending.\
-**Recommendation:** On long wait and error, check history and balance before retry sending.
+**TON и Solana:** при timeout на RPC выполняется повтор с backoff, в TON до 15 попыток, в Solana до 5. Если все попытки проваливаются, пользователю показывается ошибка, а `pending` не создается.\
+**Риск:** RPC мог принять транзакцию, но ответ не дошел. При повторной отправке создается вторая транзакция, а значит возможен двойной расход средств.\
+**Рекомендация:** при долгом ожидании и ошибке сначала проверить историю и баланс, и только потом повторять отправку.
 
 ### Транзакция зависла в pending-статусе
 
@@ -205,15 +205,15 @@ Timeout для TON и Solana составляет 60 секунд. Прилож�
 **TON:** кнопка `Send again` появляется только после перехода в статус `timed-out`.\
 **Solana:** кнопки retry нет. После timeout пользователь создает новый transfer вручную.
 
-- While transaction is in pending status (first 60 seconds), app only waits for confirmation.
+- Пока транзакция находится в статусе `pending`, то есть первые 60 секунд, приложение только ждет подтверждения.
 
 # Безопасность при отправке
 
-- **Contacts.** The app implements a contacts section that allows saving familiar addresses and assigning names to them. When sending or receiving transactions, the contact name is automatically displayed to the user, providing confidence in the correct recipient selection.
-- **Blocked addresses (deny list / spam).** Some addresses are automatically marked by the wallet as spam, helping avoid accidental fund transfers to them. The list of such addresses is stored on the backend and can be supplemented manually. Sending to such addresses isn't completely blocked — only visual indication is implemented to warn the user.
-- **Restricted addresses.** For addresses marked as restricted (e.g., certain staking pools), a dialog with warning message is displayed before sending. Sending is only possible after explicit user confirmation ("Continue anyway"). This feature is related to smart contract limitations, not phishing protection.
-- **Domains (.ton).** When entering a .ton domain, the system performs address resolution and checks correspondence of resolved address to target before sending (including token transactions). If mismatch is detected, `transfer.error.invalidDomain` error is displayed. This reduces risk of address substitution through fake domains.
-- **Network mismatch warning.** If user is in mainnet but entered address has testnet format (or vice versa), system displays warning and requests confirmation (`transfer.error.addressIsForTestnet`). This helps prevent accidental fund transfers to wrong network.
+- **Contacts.** В приложении реализован раздел контактов, который позволяет сохранять знакомые адреса и назначать им имена. При отправке или получении транзакций имя контакта автоматически показывается пользователю, что повышает уверенность в правильности выбора получателя.
+- **Blocked addresses, deny list и spam.** Некоторые адреса кошелек автоматически помечает как spam, что помогает избежать случайной отправки средств на них. Список таких адресов хранится на backend и может дополняться вручную. Полной блокировки отправки на такие адреса нет — реализовано только визуальное предупреждение.
+- **Restricted addresses.** Для адресов, отмеченных как restricted, например отдельных staking pools, перед отправкой показывается диалог с предупреждением. Отправка возможна только после явного подтверждения пользователя, `Continue anyway`. Эта функция связана с ограничениями smart contract, а не с защитой от фишинга.
+- **Domains, `.ton`.** При вводе `.ton`-домена система выполняет резолв адреса и перед отправкой проверяет соответствие полученного адреса целевому, включая token transactions. Если обнаружено несоответствие, показывается ошибка `transfer.error.invalidDomain`. Это снижает риск подмены адреса через поддельные домены.
+- **Network mismatch warning.** Если пользователь находится в `mainnet`, но ввел адрес формата `testnet`, или наоборот, система показывает предупреждение и просит подтверждение, `transfer.error.addressIsForTestnet`. Это помогает предотвратить случайную отправку средств в неправильную сеть.
 
 # Gas при отправке
 

@@ -9,12 +9,12 @@ description: "Этот документ объясняет, что такое с
 
 # Travel Rule
 
-[Travel Rule](https://www.fatf-gafi.org/en/publications/Fatf-recommendations/Fatf-recommendations.html) is an anti-money laundering (AML) requirement under which transfers between financial institutions (banks, cryptocurrency exchanges, and others) must include basic information about the sender and recipient (including name, account number/address, in some cases residential address and other data) along with the payment. This requirement enables tracking the origin and movement of funds, as well as preventing money laundering and terrorism financing. A bank account ownership certificate confirms that a specific individual or legal entity is the lawful owner of the specified account.\
+[Travel Rule](https://www.fatf-gafi.org/en/publications/Fatf-recommendations/Fatf-recommendations.html) — это требование в сфере противодействия отмыванию средств, AML, согласно которому переводы между финансовыми организациями, банками, криптовалютными биржами и другими участниками, должны сопровождаться базовой информацией об отправителе и получателе, включая имя, номер счета или адрес, а в некоторых случаях адрес проживания и другие данные. Это требование позволяет отслеживать происхождение и движение средств, а также предотвращать отмывание денег и финансирование терроризма. Сертификат владения банковским счетом подтверждает, что конкретное физическое или юридическое лицо является законным владельцем указанного счета.\
 Цель этого документа:
 
-- When conducting verification of funds origin and ensuring compliance with Travel Rule requirements, a financial service must verify the following:
-  - The bank account from which funds originate or to which funds are directed belongs specifically to this client;
-  - The owner's personal data specified in the certificate corresponds to the information that is transmitted and stored as part of Travel Rule compliance.
+- При проверке происхождения средств и соблюдении требований Travel Rule финансовый сервис должен удостовериться в следующем:
+  - банковский счет, с которого поступают средства или на который они направляются, действительно принадлежит именно этому клиенту;
+  - персональные данные владельца, указанные в сертификате, соответствуют информации, которая передается и хранится в рамках соблюдения Travel Rule.
 
 Таким образом, сертификат служит документальным подтверждением для идентификации клиента и процедур противодействия отмыванию средств (KYC/AML), а также одним из оснований для подтверждения корректности данных, передаваемых в соответствии с требованиями Travel Rule.
 
@@ -32,38 +32,38 @@ description: "Этот документ объясняет, что такое с
 
 ### Данные компании, выпускающей сертификат
 
-- Logo
-- Address
-- Identification number
-- Business activity
-- Contacts
+- логотип
+- адрес
+- идентификационный номер
+- вид деятельности
+- контакты
 
 ### Данные пользователя
 
-- First name, last name
-- Country of residence
-- Verification status
-- Partner who conducted verification
-- Date of last verification in the system
+- имя и фамилия
+- страна резидентства
+- статус верификации
+- партнер, который проводил верификацию
+- дата последней верификации в системе
 
 ### Подтверждение владения
 
-- Account owner's wallet address - the wallet address that creates proof of ownership
-- Account ownership confirmation - cryptographic element confirming the fact of ownership and control over the account, includes data that can be verified by third parties (random data from the server used for confirmation).
-- Signature - signature with the wallet's private key.
-- Public key - public key of the verified wallet. Generated from the blockchain or from proof of ownership
+- адрес кошелька владельца счета — адрес кошелька, который создает proof of ownership
+- подтверждение владения счетом — криптографический элемент, подтверждающий факт владения и контроля над счетом; включает данные, которые могут быть проверены третьими лицами, например случайные данные сервера, используемые для подтверждения
+- signature — подпись приватным ключом кошелька
+- public key — публичный ключ проверяемого кошелька, полученный из блокчейна или из proof of ownership
 
 ### Информация о счете
 
-- Account creation date
-- Account (contract) address
-- Account currency
-- Account blockchain
+- дата создания счета
+- адрес счета, то есть контракта
+- валюта счета
+- блокчейн счета
 
 ### Дополнительно
 
-- VASP seal
-- VASP director's signature
+- печать VASP
+- подпись директора VASP
 
 # Проверка действительности и подлинности сертификата
 
@@ -83,9 +83,9 @@ https://www.holders.io/cert?id=p4r158sdxxxrsapceq6updxc\\ По этой ссыл
 Для подтверждения владения кошельком со стороны пользователя применяется механизм proof of ownership, реализованный на основе стандарта TON Connect ([документация TON Connect](https://github.com/ton-connect/sdk)).\
 При подключении криптовалютного кошелька к веб-приложению система, согласно стандарту TON Connect, запрашивает подтверждение владения. Это подтверждение создается путем подписи приватным ключом следующих данных:
 
-- Cryptocurrency wallet address
-- Domain name of the connecting application
-- Timestamp of confirmation creation
-- Random data (payload) generated by the server
+- адрес криптовалютного кошелька
+- доменное имя подключаемого приложения
+- timestamp создания подтверждения
+- случайные данные, `payload`, сгенерированные сервером
 
 После формирования proof of ownership кошелек отправляет указанный набор данных на сервер вместе с криптографической подписью, созданной приватным ключом, для последующей проверки.

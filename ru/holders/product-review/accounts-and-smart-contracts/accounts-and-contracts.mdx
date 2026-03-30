@@ -5,88 +5,88 @@ description: "Этот документ объясняет, что в Holders о
 
 # Что называется счетом и смарт-контрактом
 
-**Smart contract** — is a program in the blockchain that automatically executes programmed conditions (including token transfers) without intermediaries. Its code and state are stored in the blockchain; transactions are executed when specified conditions are met, and changes to the contract's behavior can only be made by authorized parties (owners) within the embedded logic. In Holders, a contract is created individually for each user and belongs only to them.\
-**Account in the Holders system (account)** — is a software wrapper over a smart contract that transforms the contract itself into a user-friendly "banking" account. Simply put: one smart contract + Holders wrapper = user account. The account has the following characteristics:
+**Smart contract** — это программа в блокчейне, которая автоматически исполняет заданные условия, включая переводы токенов, без посредников. Ее код и состояние хранятся в блокчейне; транзакции выполняются при наступлении заранее определенных условий, а изменения в поведении контракта могут вноситься только уполномоченными сторонами, владельцами, в рамках встроенной логики. В Holders контракт создается индивидуально для каждого пользователя и принадлежит только ему.\
+**Account in the Holders system, account** — это программная оболочка над smart contract, которая превращает сам контракт в удобный для пользователя "банковский" счет. Проще говоря: один smart contract + обертка Holders = пользовательский счет. У счета есть следующие характеристики:
 
-- **Account name** - by default, the system assigns accounts a name in the format "Spending account X", where X denotes the sequential number of the account in the user's profile. The account owner can change the name at any time at their discretion.
-- **Account states** - reflects the current state of the account in the system. The account status in the user interface may differ from the actual state of the smart contract in the blockchain.
-- **Virtual account balance** - represents the balance displayed in the user interface, which may temporarily differ from the real smart contract balance. Such discrepancy occurs when some transactions are awaiting processing within the rollup procedure. It is the virtual account balance that is displayed on the account screen in the application.
-- **Bank cards** - one or more bank cards can be linked to the account, which are used for conducting operations.
+- **Account name** — по умолчанию система присваивает счетам название в формате `Spending account X`, где `X` обозначает порядковый номер счета в профиле пользователя. Владелец счета может изменить название в любой момент по своему усмотрению.
+- **Account states** — отражают текущее состояние счета в системе. Статус счета в пользовательском интерфейсе может отличаться от фактического состояния smart contract в блокчейне.
+- **Virtual account balance** — это баланс, отображаемый в пользовательском интерфейсе, который может временно отличаться от реального баланса smart contract. Такое расхождение возникает, когда часть транзакций еще ожидает обработки в рамках rollup-процедуры. Именно virtual account balance показывается на экране счета в приложении.
+- **Bank cards** — к счету могут быть привязаны одна или несколько банковских карт, которые используются для проведения операций.
 
 # Некастодиальная природа
 
-**Non-custodial** — a model in which the service does not store private keys and does not control user funds; the user manages them independently and can withdraw funds from their smart contract at any time.\
-The main competitive advantage of Holders is the non-custodial nature of accounts, ensured by smart contracts. Only the contract owner (user) has the ability to withdraw funds from the contract through their cryptocurrency wallet, to which only they have access.\
-Holders does not store users' private keys and has no direct control over client funds. The service can only perform operations within the permitted payment logic and exclusively to the address of Treasure wallets of the company. Withdrawal of funds to third-party wallets from the user contract is technically impossible, and all transactions to Treasure wallets are completely transparent and [tracked in the blockchain by contract address](https://tonviewer.com/).\
-The partner bank does not have access to the client account and has no authority to block or freeze funds.\
-The presence of an individual smart contract makes Holders a non-custodial service, which maximally increases the security and transparency of operations, as well as reduces operational and regulatory risks.
+**Non-custodial** — это модель, при которой сервис не хранит приватные ключи и не контролирует средства пользователя; пользователь управляет ими самостоятельно и может в любой момент вывести средства со своего smart contract.\
+Главное конкурентное преимущество Holders — некастодиальная природа счетов, обеспеченная smart contracts. Только владелец контракта, то есть пользователь, имеет возможность вывести средства с контракта через свой криптовалютный кошелек, доступ к которому есть только у него.\
+Holders не хранит приватные ключи пользователей и не имеет прямого контроля над средствами клиентов. Сервис может выполнять только операции в рамках разрешенной платежной логики и исключительно на адреса Treasure wallets компании. Вывод средств с пользовательского контракта на сторонние кошельки технически невозможен, а все транзакции в Treasure wallets полностью прозрачны и [отслеживаются в блокчейне по адресу контракта](https://tonviewer.com/).\
+Партнерский банк не имеет доступа к счету клиента и не обладает полномочиями блокировать или замораживать средства.\
+Наличие индивидуального smart contract делает Holders некастодиальным сервисом, что максимально повышает безопасность и прозрачность операций, а также снижает операционные и регуляторные риски.
 
 > **Holders — сервис, который позволяет пользователям по-настоящему владеть своими деньгами.**
 
 # Правовая основа решения
 
-A smart contract is a technology/execution mechanism, while user relationships are governed by an agreement (Terms of use). The code is not "legal by itself" - it operates within the framework of an agreement signed each time before creating an account in the service by the user. The version of the document signed by the user is recorded and stored in the database with the ability to update during the next terms update.\
+Smart contract — это технологический механизм исполнения, тогда как отношения с пользователем регулируются соглашением, Terms of use. Код сам по себе не является "юридическим документом" — он действует в рамках соглашения, которое пользователь подписывает каждый раз перед созданием счета в сервисе. Версия документа, подписанная пользователем, фиксируется и хранится в базе данных с возможностью обновления при следующем изменении terms.\
 Legal definitions:
 
-- Smart contract — a technical tool for accounting and debiting in crypto.
-- Card account — located with the Partner who processes card payments.
-- Wallet — the user's blockchain address from which contract creation was initiated.
-- User account — cabinet in the service.
+- Smart contract — технический инструмент для учета и списаний в криптовалюте.
+- Card account — находится у Partner, который обрабатывает карточные платежи.
+- Wallet — блокчейн-адрес пользователя, с которого было инициировано создание контракта.
+- User account — личный кабинет в сервисе.
 
 **Main points:**
 
-1. The smart contract is created and linked to the Card account, but is managed by the service under contractual mandate. Ownership rights to the "code/contract" are not assigned to the user, but the user fully owns the crypto assets on it, while the service has the right to manage them for service execution.
-2. The user account created by the user on the platform is controlled and administered by Holders; in case of violations, it may be restricted/closed. All funds are then withdrawn to the user's wallet linked to it.
-3. The card account belongs to and is maintained by the Partner (card issuer/servicing organization). Holders does not open/service bank accounts, but has the contractual right to initiate debits/credits within the scope of services.
+1. Smart contract создается и связывается с Card account, но управляется сервисом в рамках договорного мандата. Права собственности на сам "код и контракт" пользователю не передаются, однако пользователь полностью владеет размещенными на нем криптоактивами, а сервис имеет право управлять ими в рамках оказания услуги.
+2. User account, созданный пользователем на платформе, контролируется и администрируется Holders; в случае нарушений он может быть ограничен или закрыт. Все средства затем выводятся на привязанный к нему пользовательский кошелек.
+3. Card account принадлежит и обслуживается Partner, то есть эмитентом карты или обслуживающей организацией. Holders не открывает и не обслуживает банковские счета, но имеет договорное право инициировать списания и зачисления в пределах оказываемых услуг.
 
 # Типы контрактов в Holders
 
-**There are two types of contracts in Holders:**
+**В Holders есть два типа контрактов:**
 
-1. Supported currency contracts - for each blockchain and each cryptocurrency in Holders, a separate smart contract is deployed. Currently, three main contracts are functioning:
-   1. [**TON**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract for the [TON blockchain](https://ton.org/).
-   2. [**USDT**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract for the [USDT](https://tether.to/en/) token ([based on TON](https://ton.org/)) — available only for existing users (new openings unavailable).
-   3. [**USDC**](/holders/product-review/accounts/solana-smart-contracts) — smart contract for USDC token in the [Solana](https://solana.com/) blockchain.
-   4. [**USDY**](/holders/product-review/accounts/solana-smart-contracts) — smart contract for USDY token in the [Solana](https://solana.com/) blockchain.
-1. Contracts for implementing additional system capabilities:
-   1. [**Trust contract**](/holders/product-review/accounts/trust-smart-contract) - a contract that allows a user to create an account that can be shared with another user. The amount declared by the owner will be transferred to this account in stages at specified time intervals. It will later be used for trust management of assets.
+1. Контракты поддерживаемых валют — для каждого блокчейна и каждой криптовалюты в Holders разворачивается отдельный smart contract. Сейчас работают четыре основных контракта:
+   1. [**TON**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract для [блокчейна TON](https://ton.org/).
+   2. [**USDT**](/holders/product-review/accounts/ton-and-usdt-smart-contracts) — smart contract для токена [USDT](https://tether.to/en/) на [базе TON](https://ton.org/), доступен только для существующих пользователей, новые открытия недоступны.
+   3. [**USDC**](/holders/product-review/accounts/solana-smart-contracts) — smart contract для токена USDC в блокчейне [Solana](https://solana.com/).
+   4. [**USDY**](/holders/product-review/accounts/solana-smart-contracts) — smart contract для токена USDY в блокчейне [Solana](https://solana.com/).
+1. Контракты для реализации дополнительных возможностей системы:
+   1. [**Trust contract**](/holders/product-review/accounts/trust-smart-contract) — контракт, который позволяет пользователю создать счет, доступ к которому может быть предоставлен другому пользователю. Сумма, заявленная владельцем, будет переводиться на этот счет поэтапно, через заданные интервалы времени. В дальнейшем он будет использоваться для trust-управления активами.
 
 # Комиссии (Gas)
 
-When creating an account, space is allocated in the blockchain and a smart contract is created, linked to the user's wallet. Space allocation in the blockchain is the main action that consumes gas in the blockchain.
+При создании счета в блокчейне выделяется место и создается smart contract, связанный с кошельком пользователя. Именно выделение места в блокчейне является основным действием, которое потребляет gas.
 
 ## Solana
 
 ### Contract Creation and Maintenance
 
-In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - a one-time payment for 2 years that permanently secures space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL per 10 KB. When closing an account, you can request a refund of the cost since allocation is no longer needed.\
-Approximate cost of creating such a contract — **approximately 0.015 SOL (2 USD at Sol/USDT rate \$139)**.
+В Holders при создании контрактов в Solana используется [RentExemption](https://solana.com/docs/core/accounts) — разовый платеж за 2 года, который навсегда закрепляет место. Стоимость [RentExemption](https://solana.com/docs/core/accounts) в Solana зависит от размера хранилища, в байтах, и текущей ставки аллокации в сети. В среднем цена составляет примерно 0.0023 SOL за каждые 10 KB. При закрытии счета можно запросить возврат этой стоимости, так как аллокация больше не нужна.\
+Примерная стоимость создания такого контракта — **около 0.015 SOL, то есть 2 USD при курсе Sol/USDT \$139**.
 
 ### Gas for Top-up
 
-To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected — an additional fee that increases the chance of confirmation during high load. This allows for faster transactions. The user pays gas only when topping up the contract; all other payments are covered by the service. Gas for account top-up in Solana is fixed - **0.000005 SOL (0.00069 USD at Sol/USDT rate \$139).**
+Чтобы ускорять транзакции в сети Solana, подключен механизм [Priority Fee](https://solana.com/docs/core/fees) — дополнительная комиссия, которая повышает вероятность подтверждения при высокой нагрузке. Это позволяет проводить транзакции быстрее. Пользователь оплачивает gas только при пополнении контракта; все остальные платежи покрываются сервисом. Gas за пополнение счета в Solana фиксирован и составляет **0.000005 SOL, то есть 0.00069 USD при курсе Sol/USDT \$139**.
 
 ## TON
 
 ### Contract Creation and Maintenance
 
-In TON, space allocation (creating a new account) is done permanently, similar to RentExemption in Solana. When sending a transaction, the transfer amount and gas amount that the wallet is ready to spend are specified. If the actual gas cost is less than allocated, the remainder is returned.\
-Contract creation cost — **about 0.15–0.2 TON (0.27 USD at TON/USDT rate \$1.8)**.
+В TON выделение места, то есть создание нового счета, выполняется на постоянной основе, аналогично RentExemption в Solana. При отправке транзакции указывается сумма перевода и объем gas, который кошелек готов потратить. Если фактическая стоимость gas оказывается ниже выделенной, остаток возвращается.\
+Стоимость создания контракта — **примерно 0.15–0.2 TON, то есть 0.27 USD при курсе TON/USDT \$1.8**.
 
 ### Gas for Top-up
 
-Gas for account top-up in TON — **about 0.01 TON (0.018 USD at TON/USDT rate \$1.8)**.
+Gas за пополнение счета в TON — **примерно 0.01 TON, то есть 0.018 USD при курсе TON/USDT \$1.8**.
 
 ### Gas for Contract Storage
 
-In the TON network, a smart contract pays for [storage of occupied space](https://docs.ton.org/foundations/fees) - including code, data, and balance (account representation). When the TON balance drops below the established threshold, the account may be frozen or deleted. Storage cost is approximately 0.01 nanoTON per byte per day (the value cannot be fractional, but the cost is approximate). This fee is deducted from the gas amount with each transaction to maintain the contract in working condition.
+В сети TON smart contract оплачивает [хранение занимаемого пространства](https://docs.ton.org/foundations/fees), включая код, данные и баланс, то есть представление аккаунта. Когда баланс TON падает ниже установленного порога, аккаунт может быть заморожен или удален. Стоимость хранения составляет примерно 0.01 nanoTON за байт в день, значение не может быть дробным, поэтому цифра ориентировочная. Эта комиссия удерживается из gas каждой транзакции, чтобы поддерживать контракт в рабочем состоянии.
 
-In practice, freezing or deleting a contract requires [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) interaction with the contract, which occurs extremely rarely in real conditions. Consequently, even when the balance for storage payment is completely exhausted, the contract will only be frozen in case of active interaction with it from network participants (for example, when funds are received on the contract balance). In the absence of such interaction, the contract continues to function with a zero balance. When funds are received, the storage fee is deducted immediately.
+На практике для заморозки или удаления контракта требуется взаимодействие [validator](https://docs.ton.org/ecosystem/node/mytonctrl/validator#validator) с контрактом, а в реальных условиях это происходит крайне редко. Поэтому даже при полном исчерпании баланса на оплату хранения контракт будет заморожен только в случае активного взаимодействия с ним со стороны участников сети, например при поступлении средств на его баланс. При отсутствии такого взаимодействия контракт продолжает существовать с нулевым балансом. Когда средства поступают, комиссия за хранение удерживается сразу.
 
 # Мониторинг состояний
 
-The Backoffice operator monitors the state and balances of user accounts. The operator interface on the user page displays all client accounts and the current state of each contract.\
-To track possible failures, an automatic metric has been implemented that shows the number of contracts that have transitioned to an automatic freeze state. The metric is available to the testing operator in the general monitoring service.
+Оператор Backoffice отслеживает состояние и балансы пользовательских счетов. В интерфейсе оператора на странице пользователя отображаются все клиентские счета и текущее состояние каждого контракта.\
+Для отслеживания возможных сбоев реализована автоматическая метрика, показывающая количество контрактов, которые перешли в состояние автоматической заморозки. Эта метрика доступна тестовому оператору в общем сервисе мониторинга.
 
 # Блок-схема жизненного цикла контракта и счета
 
@@ -94,16 +94,16 @@ To track possible failures, an automatic metric has been implemented that shows 
 
 ## Жизненный цикл счета
 
-1. **PENDING_CONTRACT -** initial state after contract deployment. Transition to **ACTIVE** state occurs after fulfilling certain contract conditions.
-2. **ACTIVE -** main working state of the account. Transitions to **CLOSING** when closure is initiated.
-3. **CLOSING -** in the process of closing. Can transition to **CLOSED** if closure completes successfully, or to **SUSPENDED** if closure fails.
-4. **CLOSED -** final state when the account is successfully closed.
-5. **SUSPENDED -** transition here occurs if closure was unsuccessful and the account is suspended.
+1. **PENDING_CONTRACT** — начальное состояние после деплоя контракта. Переход в состояние **ACTIVE** происходит после выполнения определенных условий контракта.
+2. **ACTIVE** — основное рабочее состояние счета. Переходит в **CLOSING**, когда инициируется закрытие.
+3. **CLOSING** — счет находится в процессе закрытия. Может перейти в **CLOSED**, если закрытие завершилось успешно, или в **SUSPENDED**, если закрытие завершилось неудачей.
+4. **CLOSED** — финальное состояние, когда счет успешно закрыт.
+5. **SUSPENDED** — переход в это состояние происходит, если закрытие оказалось неуспешным и счет был приостановлен.
 
 ## Жизненный цикл контракта
 
-1. **ACTIVE -** contract is functioning and actively processing operations.
-2. **CLOSING -** transitions to this state when receiving a closure request.
-3. **CLOSED -** contract is closed and has completed its activity.
-4. **INVALID -** transitions to this state if it receives an invalid state from another party.
-5. **FAILING -** contract transitions here if processing fails or conditions are not met.
+1. **ACTIVE** — контракт функционирует и активно обрабатывает операции.
+2. **CLOSING** — переходит в это состояние при получении запроса на закрытие.
+3. **CLOSED** — контракт закрыт и завершил свою работу.
+4. **INVALID** — переходит в это состояние, если получает некорректное состояние от другой стороны.
+5. **FAILING** — контракт переходит сюда, если обработка завершается ошибкой или условия не выполнены.
