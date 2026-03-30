@@ -258,7 +258,7 @@ type TonSolanaAuthRequest = [
 ## Публичные данные аккаунта, авторизация не требуется
 
 **Endpoint:**`POST /v2/public/accounts`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -276,7 +276,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -303,7 +303,7 @@ type TonSolanaAuthRequest = [
 ## Проверка доступа, Invite Check
 
 **Endpoint:**`POST /v2/invite/wallet/check/v2`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -318,7 +318,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -337,7 +337,7 @@ type TonSolanaAuthRequest = [
 ## Профиль пользователя
 
 **Endpoint:**`POST /v2/profile/get`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -345,7 +345,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -365,7 +365,7 @@ type TonSolanaAuthRequest = [
 ## Список карточных транзакций
 
 **Endpoint:**`POST /v2/card/events`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -377,7 +377,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -406,7 +406,7 @@ type TonSolanaAuthRequest = [
 ## Данные для Apple Pay
 
 **Endpoint:**`POST /v2/card/provisioning/list`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -414,7 +414,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -438,7 +438,7 @@ type TonSolanaAuthRequest = [
 
 ![Screenshot2026 01 26at19 22 37](/images/Screenshot2026-01-26at19.22.37.png)
 
-Подробное описание Injected bridge и всех его API можно найти на странице [WebView Bridge APIs](/inegration-gides/web-view-bridge-apis).
+Подробное описание встроенного bridge и всех его API можно найти на странице [WebView Bridge APIs](/inegration-gides/web-view-bridge-apis).
 
 # URL-параметры
 
@@ -459,12 +459,12 @@ const url = `https://tonhub.holders.io?${queryParams.toString()}`;
 
 ### Типы
 
-| **Param name** | **Value**     |
-| :------------- | :------------ |
-| lang           | en            |
-| currency       | currency code |
-| theme          | theme code    |
-| theme-style    | dark          |
+| **Имя параметра** | **Значение** |
+| :---------------- | :----------- |
+| lang              | en           |
+| currency          | код валюты   |
+| theme             | код темы     |
+| theme-style       | dark         |
 
 **Поддерживаемые валюты:**
 
@@ -531,24 +531,24 @@ interface TonConnectInjectedBridge {
 
 ## Query API
 
-WebView can control the native application via URL parameters:
+WebView может управлять нативным приложением через URL-параметры:
 
-| **Parameter**    | **Values**                | **Description**                |
-| :--------------- | :------------------------ | :----------------------------- |
-| `closeApp`       | `true`                    | Close WebView                  |
-| `openEnrollment` | `true`                    | Start the registration process |
-| `openUrl`        | URL                       | Open a URL in the browser      |
-| `backPolicy`     | `back` / `close` / `lock` | “Back” button behavior         |
-| `lockScroll`     | `true` / `false`          | Scroll locking                 |
-| `showKAV`        | `true` / `false`          | Show keyboard accessory view   |
+| **Параметр**     | **Значения**              | **Описание**                     |
+| :--------------- | :------------------------ | :------------------------------- |
+| `closeApp`       | `true`                    | Закрыть WebView                  |
+| `openEnrollment` | `true`                    | Запустить процесс регистрации    |
+| `openUrl`        | URL                       | Открыть URL в браузере           |
+| `backPolicy`     | `back` / `close` / `lock` | Поведение кнопки «Назад»         |
+| `lockScroll`     | `true` / `false`          | Блокировка прокрутки             |
+| `showKAV`        | `true` / `false`          | Показать дополнительную панель клавиатуры |
 
-# User states
+# Состояния пользователя
 
-### User state transition flowchart
+### Схема переходов между состояниями пользователя
 
 ![Screenshot2026 01 27at12 43 50](/images/Screenshot2026-01-27at12.43.50.png)
 
-## State handling
+## Обработка состояний
 
 ```
 enum HoldersUserState {
@@ -597,9 +597,9 @@ async function handleUserState(token: string): Promise<void> {
 }
 ```
 
-# Code examples
+# Примеры кода
 
-## TypeScript: Full authentication flow
+## TypeScript: полный поток аутентификации
 
 ```
 import { Address, beginCell, storeStateInit } from '@ton/core';
