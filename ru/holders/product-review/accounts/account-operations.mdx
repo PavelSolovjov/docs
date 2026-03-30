@@ -30,9 +30,9 @@ description: "Этот документ кратко объясняет осно
 ## Интерфейс
 
 1. Открытие нового счета доступно пользователю с главной страницы кошелька. Пользователь нажимает `Add new account` и выбирает тип счета, который хочет открыть. Доступны три варианта:
-   1. **Account with card** — первая карта выпускается бесплатно, выпуск последующих карт платный.
-   2. **Account without card** — карту можно дополнительно выпустить в любой момент.
-   3. **Vesting account** — дает возможность создавать автоматические выплаты beneficiaries со счета.
+   1. **Счет с картой** — первая карта выпускается бесплатно, выпуск последующих карт платный.
+   2. **Счет без карты** — карту можно дополнительно выпустить в любой момент.
+   3. **Vesting-счет** — дает возможность создавать автоматические выплаты beneficiaries со счета.
 
       <img
         src="/images/Chooseaproduct(2)(1).png"
@@ -57,7 +57,7 @@ description: "Этот документ кратко объясняет осно
 Закрытие счета — это операция вывода счета из эксплуатации, после которой становятся невозможны пополнение, вывод и переводы. Счет исчезает из пользовательского интерфейса и переводится в финальный статус `CLOSED`. Перед выполнением процедуры система проверяет, что к счету не привязаны активные карты. Оставшиеся средства, если они есть, переводятся на кошелек владельца счета в соответствии с установленными правилами.
 
 <Info>
-  **Важно:** если refund поступает на уже закрытый счет, автоматический перевод на активный счет не выполняется. Такой refund переводится в статус pending payment и распределяется только после обращения владельца закрытого счета в техническую поддержку.
+  **Важно:** если возврат поступает на уже закрытый счет, автоматический перевод на активный счет не выполняется. Такой возврат переводится в статус ожидающего платежа и распределяется только после обращения владельца закрытого счета в техническую поддержку.
 </Info>
 
 ## Интерфейс
@@ -80,10 +80,10 @@ description: "Этот документ кратко объясняет осно
 
 # Способы пополнения счета
 
-1. **From savings account, то есть с баланса подключенного кошелька** — позволяет перевести средства из подключенного кошелька на счет.
-2. **From another wallet, то есть с другого кошелька** — позволяет пополнить счет в валюте, отличной от валюты счета, с автоматической конвертацией.
-3. **Deposit by details, direct funding** — дает возможность перевести средства на счет из любого источника по реквизитам счета.
-4. **From exchange, то есть с биржи** — позволяет зачислить средства на баланс счета с биржевого баланса.
+1. **Со savings account, то есть с баланса подключенного кошелька** — позволяет перевести средства из подключенного кошелька на счет.
+2. **С другого кошелька** — позволяет пополнить счет в валюте, отличной от валюты счета, с автоматической конвертацией.
+3. **Пополнение по реквизитам, direct funding** — дает возможность перевести средства на счет из любого источника по реквизитам счета.
+4. **С биржи** — позволяет зачислить средства на баланс счета с биржевого баланса.
 
 <Info>
   В системе Holders + Tonhub для счетов используется следующая терминология:
@@ -92,9 +92,9 @@ description: "Этот документ кратко объясняет осно
   - **Savings accounts** — балансы подключенного кошелька в разных валютах, используемые для хранения средств
 </Info>
 
-# Gas fees при пополнении счета
+# Комиссии gas при пополнении счета
 
-Gas fees, то есть комиссия за пополнение счета, состоят из двух основных частей:
+Комиссии gas, то есть комиссия за пополнение счета, состоят из двух основных частей:
 
 1. Gas за отправку транзакции пополнения — любая транзакция в блокчейне требует оплаты сетевой комиссии. Эту часть оплачивает пользователь.
 2. Gas за обновление баланса контракта. Чтобы распознать поступившие на баланс контракта средства, используется Controller, который непрерывно сканирует транзакции в блокчейне. Когда система обнаруживает транзакцию, отправленную на адрес счета Holders, Controller инициирует обновление соответствующего баланса контракта. Эту часть оплачивает Holders.
@@ -126,12 +126,11 @@ Gas fees, то есть комиссия за пополнение счета, �
 - **USDT (ERC-20)**
 - **USDC (Polygon)**
 - **USDC (ERC-20)**
-- **USDC (SOL) for contracts on the TON blockchain**
+- **USDC (SOL) для контрактов в сети TON**
 
 **Как это работает:** пользователь отправляет средства в одной из перечисленных валют на адрес [Changelly](https://changelly.com/), после чего сервис автоматически конвертирует их и зачисляет деньги на счет в нужной валюте. Это особенно удобно для использования криптовалют, ограниченных [регулированием MICA](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1114), например [USDT](https://tether.to/). Комиссию за обмен покрывает Holders. Обычно такое пополнение занимает до 60 минут.\
 В рамках интеграции с Holders сервис [Changelly](https://changelly.com/) поддерживает обмены только по фиксированному курсу, то есть `Fix rate`. При таком способе курс фиксируется на определенное время, поэтому клиент заранее знает точную итоговую сумму. На завершение операции дается 3 часа. Такой подход возможен потому, что обмен выполняется только между стабильными валютами.
 
-### Interface
 ### Интерфейс
 
 1. Пользователь выбирает валюту, в которой хочет пополнить счет.
@@ -220,42 +219,42 @@ Multi-signature — это механизм, при котором операц�
 
 ### Вывод в другие блокчейны
 
-To enable money withdrawal to different networks, [Changelly](https://changelly.com/) is integrated into the system (as with funding). [Changelly ](https://changelly.com/)allows the user to choose the network in which they want to receive money. The user selects the network, specifies the recipient address, and confirms the transfer. Gas for the operation is paid by Holders.
+Чтобы обеспечить вывод средств в другие сети, в систему интегрирован [Changelly](https://changelly.com/) по тому же принципу, что и для пополнений. [Changelly](https://changelly.com/) позволяет пользователю выбрать сеть, в которой он хочет получить средства. Пользователь выбирает сеть, указывает адрес получателя и подтверждает перевод. Gas за операцию оплачивает Holders.
 
 ## На другой счет Holders
 
-This method allows withdrawals/transfers of funds to other Holders accounts by phone number or email. An important condition is that the recipient's account must pre-approve incoming transfers by clicking the corresponding button on the main page.
+Этот способ позволяет выводить или переводить средства на другие счета Holders по номеру телефона или email. Важное условие: счет получателя должен заранее разрешить входящие переводы, нажав соответствующую кнопку на главной странице.
 
 # Платежи
 
-The following types of payments are available:
+Доступны следующие типы платежей:
 
-- **Holders Account** - to another account in the Holders system. This transfer was discussed above in the Account Withdrawal section.
-- **External Wallet** - to an arbitrary address. This transfer was discussed above in the Account Withdrawal section.
-- **SEPA** - bank transfers in EUR within Europe.
-- **SWIFT** - international bank transfers in any currency.
+- **Holders Account** — на другой счет в системе Holders. Этот перевод уже описан выше в разделе вывода со счета.
+- **External Wallet** — на произвольный адрес. Этот перевод уже описан выше в разделе вывода со счета.
+- **SEPA** — банковские переводы в EUR внутри Европы.
+- **SWIFT** — международные банковские переводы в любой валюте.
 
 ## SEPA
 
-A SEPA transfer is a cashless bank transfer in euros between SEPA zone countries (EU, EEA and others), which follows unified standards: fast, with fixed commission and without currency conversion.\
-SEPA transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SEPA transfer sending function implemented — all operations are carried out through the [Triple-A](https://www.triple-a.io/) payment partner. The transfer takes from 1 business day.
+SEPA-перевод — это безналичный банковский перевод в евро между странами SEPA-зоны, включая ЕС, ЕЭЗ и другие страны, который выполняется по единым стандартам: быстро, с фиксированной комиссией и без конвертации валюты.\
+SEPA-переводы в системе Holders обрабатываются вручную сотрудниками [службы поддержки](https://help.holders.io/en/) через платежного партнера [Triple-A](https://www.triple-a.io/). Для отправки перевода на счете клиента должны быть доступны сумма перевода и комиссия за его обработку. Сейчас в Holders не реализована прямая отправка SEPA-переводов, поэтому все операции выполняются через партнера [Triple-A](https://www.triple-a.io/). Перевод занимает от 1 рабочего дня.
 
 ### Данные получателя
 
-- Full name of the recipient according to banking documents
-- Recipient's IBAN
-- BIC/SWIFT code of the recipient's bank (if necessary)
-- Payment reference
-- Amount in EUR
+- Полное имя получателя в соответствии с банковскими документами
+- IBAN получателя
+- BIC/SWIFT-код банка получателя, если требуется
+- Назначение платежа
+- Сумма в EUR
 
 ### Tariff
 
-A standard commission is charged for processing a SEPA payment, consisting of a fixed amount and a percentage of the total transfer amount. The commission for sending SEPA payments is 3.5 USD plus 1.5% of the total payment amount, including the fixed commission. This means that when sending a larger amount, the percentage part of the commission will grow proportionally.
+За обработку SEPA-платежа взимается стандартная комиссия, состоящая из фиксированной части и процента от общей суммы перевода. Комиссия за отправку SEPA-платежей составляет 3.5 USD плюс 1.5% от общей суммы платежа с учетом фиксированной части. Это означает, что при отправке более крупной суммы процентная часть комиссии растет пропорционально.
 
 ## SWIFT
 
-A SWIFT transfer is an international bank transfer through the SWIFT network, allowing money to be sent to any country and currency, but usually with higher commission, possible conversion and longer timeframes than SEPA. Timeframes: usually from 1 to 5 business days.\
-SWIFT transfers in the Holders system are processed by [support service](https://help.holders.io/en/) agents manually through the [Triple-A](https://www.triple-a.io/) payment partner. To initiate a transfer, the transfer amount and commission for its processing must be available on the client's account. Currently, Holders does not have a direct SWIFT transfer sending function implemented — all operations are carried out through the [Triple-A ](https://www.triple-a.io/)payment partner.
+SWIFT-перевод — это международный банковский перевод через сеть SWIFT, который позволяет отправлять деньги в любую страну и в любой валюте, но обычно сопровождается более высокой комиссией, возможной конвертацией и более долгими сроками по сравнению с SEPA. Сроки обычно составляют от 1 до 5 рабочих дней.\
+SWIFT-переводы в системе Holders обрабатываются вручную сотрудниками [службы поддержки](https://help.holders.io/en/) через платежного партнера [Triple-A](https://www.triple-a.io/). Для отправки перевода на счете клиента должны быть доступны сумма перевода и комиссия за его обработку. Сейчас в Holders не реализована прямая отправка SWIFT-переводов, поэтому все операции выполняются через платежного партнера [Triple-A](https://www.triple-a.io/).
 
 ### Данные для отправки
 
@@ -283,7 +282,7 @@ SWIFT transfers in the Holders system are processed by [support service](https:/
 - **Issue Date**
 - **Expiry Date**
 
-### Tariff
+### Тариф
 
 Комиссия за SWIFT-платеж состоит из:
 
@@ -309,9 +308,9 @@ SWIFT transfers in the Holders system are processed by [support service](https:/
 
 Пользователь может задавать ограничения на расходование средств по счету, которые фиксируются на уровне блокчейна. Система поддерживает три основных типа лимитов:
 
-- **Limit per individual transaction**
-- **Daily spending limit**
-- **Monthly spending limit**
+- **Лимит на одну отдельную транзакцию**
+- **Дневной лимит расходов**
+- **Месячный лимит расходов**
 
 Лимиты задаются индивидуально для каждого счета. Подробная информация о том, как они работают, приведена [в соответствующем документе](/Issuerblockchainlimits).
 

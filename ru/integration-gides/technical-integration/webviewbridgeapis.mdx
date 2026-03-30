@@ -17,7 +17,7 @@ description: "Техническая документация по JavaScript br
 
 # Приоритеты API
 
-| API               | Priority    | Necessity                                              |
+| API               | Приоритет   | Необходимость                                          |
 | :---------------- | :---------- | :----------------------------------------------------- |
 | TonConnect Bridge | 🔴 Critical | Подключение и транзакции                               |
 | Main Button API   | 🔴 High     | Кнопка действия                                        |
@@ -31,7 +31,7 @@ description: "Техническая документация по JavaScript br
 
 # Механизм обмена сообщениями
 
-## Формат сообщения из WebView в native
+## Формат сообщения из WebView в нативное приложение
 
 ```
 interface WebViewMessage {
@@ -43,7 +43,7 @@ interface WebViewMessage {
 }
 ```
 
-## Формат ответа из native в WebView
+## Формат ответа из нативного приложения в WebView
 
 ```
 interface NativeResponse {
@@ -237,7 +237,7 @@ const tonConnectBridge = `
 `;
 ```
 
-## Обработка на стороне native
+## Обработка на стороне нативного приложения
 
 ```
 // Message handler from WebView
@@ -432,7 +432,7 @@ const signature = await window.tonhub.sendSolanaVersionedTransaction(base64Trans
 - `result` (string) — подпись транзакции в формате Base58 при успешной отправке
 - `error` — объект ошибки при отклонении или неудаче
 
-## Реализация Solana-методов на стороне native
+## Реализация Solana-методов на стороне нативного приложения
 
 ```
 // Add Solana methods to the bridgeObject
