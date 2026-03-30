@@ -8,9 +8,10 @@ title: "TRUST смарт-контракт"
 
 # Общая информация
 
-Blockchain: [Solana](https://solana.com/)\
-Repository: https://github.com/whalescorp/holders-vesting-sol/\\\\ **Language:**[Rust](https://rust-lang.org/)\
-License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
+- Блокчейн: [Solana](https://solana.com/)
+- Репозиторий: https://github.com/whalescorp/holders-vesting-sol/
+- Язык: [Rust](https://rust-lang.org/)
+- Лицензия: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Блок-схема работы контракта
 
@@ -95,14 +96,14 @@ pub fn total_release_amount_with_inflation_at(&self, unix_timestamp: i64) -> Opt
 
 # Структура данных
 
-## **Config**
+## Config
 
 - `bump`: используется для обеспечения уникальности аккаунта, это один из механизмов работы с адресами.
 - `seqno`: последовательный номер конфигурации.
 - `authority`: адрес владельца конфигурации.
 - `controller`: адрес контроллера, управляющего конфигурацией.
 
-## **Vesting**
+## Vesting
 
 - `bump`: как и в `Config`, используется для предотвращения коллизий при создании аккаунта.
 - `seqno`: последовательный номер vesting.
