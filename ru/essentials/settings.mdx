@@ -121,12 +121,12 @@ icon: "gear"
     <ResponseField name="icon" type="string">
       [Font Awesome](https://fontawesome.com/search?q=heart) иконка, которая будет использоваться для anchor.
 
-      Example: `comments`
+      Пример: `comments`
     </ResponseField>
     <ResponseField name="name" type="string">
       Название подписи anchor.
 
-      Example: `Community`
+      Пример: `Community`
     </ResponseField>
     <ResponseField name="url" type="string">
       Начало URL, которое определяет, какие страницы попадают в anchor. Обычно это имя папки, в которой лежат страницы.
@@ -221,9 +221,9 @@ icon: "gear"
 </ResponseField>
 
 <ResponseField name="openapi" type="string | string[]">
-  A string or an array of strings of URL(s) or relative path(s) pointing to your OpenAPI file.
+  Строка или массив строк с URL-адресами или относительными путями, указывающими на ваш OpenAPI-файл.
 
-  Examples:
+  Примеры:
 
   <CodeGroup>
 
@@ -245,9 +245,9 @@ icon: "gear"
 </ResponseField>
 
 <ResponseField name="footerSocials" type="FooterSocials">
-  An object of social media accounts where the key:property pair represents the social media platform and the account url.
+  Объект с аккаунтами в социальных сетях, где пара `key:property` представляет социальную платформу и URL аккаунта.
 
-  Example:
+  Пример:
 
   ```json
   {
@@ -258,40 +258,40 @@ icon: "gear"
 
   <Expandable title="FooterSocials">
     <ResponseField name="[key]" type="string">
-      One of the following values `website`, `facebook`, `x`, `discord`, `slack`, `github`, `linkedin`, `instagram`, `hacker-news`
+      Одно из следующих значений: `website`, `facebook`, `x`, `discord`, `slack`, `github`, `linkedin`, `instagram`, `hacker-news`
 
-      Example: `x`
+      Пример: `x`
     </ResponseField>
     <ResponseField name="property" type="string">
-      The URL to the social platform.
+      URL соответствующей социальной платформы.
 
-      Example: `https://x.com/mintlify`
+      Пример: `https://x.com/mintlify`
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="feedback" type="Feedback">
-  Configurations to enable feedback buttons
+  Настройки для включения кнопок обратной связи
 
   <Expandable title="Feedback">
     <ResponseField name="suggestEdit" type="boolean" default="false">
-      Enables a button to allow users to suggest edits via pull requests
+      Включает кнопку, позволяющую пользователям предлагать правки через pull request
     </ResponseField>
     <ResponseField name="raiseIssue" type="boolean" default="false">
-      Enables a button to allow users to raise an issue about the documentation
+      Включает кнопку, позволяющую пользователям сообщить о проблеме в документации
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="modeToggle" type="ModeToggle">
-  Customize the dark mode toggle.
+  Настройка переключателя темной темы.
 
   <Expandable title="ModeToggle">
     <ResponseField name="default" type={'"light" or "dark"'}>
-      Set if you always want to show light or dark mode for new users. When not set, we default to the same mode as the user's operating system.
+      Укажите это значение, если хотите всегда показывать новым пользователям только светлую или только темную тему. Если параметр не задан, по умолчанию используется тот же режим, что и в операционной системе пользователя.
     </ResponseField>
     <ResponseField name="isHidden" type="boolean" default="false">
-      Set to true to hide the dark/light mode toggle. You can combine `isHidden` with `default` to force your docs to only use light or dark mode. For example:
+      Установите `true`, чтобы скрыть переключатель светлой и темной темы. Можно комбинировать `isHidden` с `default`, чтобы принудительно использовать в документации только одну тему. Например:
 
       <CodeGroup>
 
@@ -316,5 +316,5 @@ icon: "gear"
 </ResponseField>
 
 <ResponseField name="backgroundImage" type="string">
-  A background image to be displayed behind every page. See example with [Infisical](https://infisical.com/docs) and [FRPC](https://frpc.io).
+  Фоновое изображение, которое будет отображаться за каждой страницей. Пример можно посмотреть у [Infisical](https://infisical.com/docs) и [FRPC](https://frpc.io).
 </ResponseField>

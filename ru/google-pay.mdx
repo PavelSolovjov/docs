@@ -9,11 +9,11 @@ description: "Этот документ объясняет, что такое Go
 
 # Возможные ограничения для пользователей
 
-1. **Compatible devices**: [GPay](https://pay.google.com/) is only available on [Android](https://www.android.com/) devices that support this feature.
-2. **Supported banks and cards**: Not all financial institutions and payment cards are compatible with [GPay](https://pay.google.com/). When concluding an agreement with the issuing bank, the business team verifies the availability of support for this technology from the specific bank.
-3. **Regional restrictions**: [GPay](https://pay.google.com/) availability varies depending on geographical location. [List of supported regions](https://worldpopulationreview.com/country-rankings/google-pay-countries-list).
-4. **Transaction limits**: Issuing banks may set restrictions on the maximum amount of transactions conducted through [GPay](https://pay.google.com/).
-5. **Number of cards**: The maximum number of cards is not limited, but restrictions may be applied when adding more than 10 cards per month.
+1. **Совместимые устройства**: [GPay](https://pay.google.com/) доступен только на устройствах [Android](https://www.android.com/), которые поддерживают эту функцию.
+2. **Поддерживаемые банки и карты**: не все финансовые организации и платежные карты совместимы с [GPay](https://pay.google.com/). При заключении договора с банком-эмитентом бизнес-команда отдельно проверяет, поддерживает ли конкретный банк эту технологию.
+3. **Региональные ограничения**: доступность [GPay](https://pay.google.com/) зависит от географического региона. [Список поддерживаемых регионов](https://worldpopulationreview.com/country-rankings/google-pay-countries-list).
+4. **Лимиты транзакций**: банки-эмитенты могут устанавливать ограничения на максимальную сумму операций, проводимых через [GPay](https://pay.google.com/).
+5. **Количество карт**: максимальное число карт формально не ограничено, но могут применяться ограничения при добавлении более 10 карт в месяц.
 
 # In-app provisioning
 
@@ -23,21 +23,21 @@ description: "Этот документ объясняет, что такое Go
 
 # Сертификация In-app provisioning
 
-Certification stages:
+Этапы сертификации:
 
- 1. Signing a Non-Disclosure Agreement (NDA) with Google
- 2. Signing an issuer agreement with Google
- 3. Completing all [functional tests](https://developers.google.com/pay/issuers/tsp-integration/testing#testing_requirements) to verify correct tokenization functionality
- 4. Implementing all applicable Google Pay [best practices](https://developers.google.com/pay/issuers/tsp-integration/best-practices)
- 5. Implementing at least two authentication options with yellow path (verification required) for tokenization
- 6. Confirming the absence of known issues related to tokenization, in-store transactions, or online transactions
- 7. [Training](https://developers.google.com/pay/issuers/support/overview#end_user_support) support staff on proper handling and routing of cardholder requests
- 8. [Updating the website](https://developers.google.com/pay/issuers/tsp-integration/overview#brand_guidelines) to inform cardholders about Google Pay, including relevant Google Pay support information (https://tonhub.com/google-pay).
- 9. Providing TSP with a list of products for launch in English and local languages. This information will be used to update their [list of supported issuers](https://support.google.com/pay/answer/7454247)
-10. Providing TSP launch checklist documentation
-11. Obtaining certification from TSP for production launch.
+1. Подписание с Google соглашения о неразглашении, NDA
+2. Подписание issuer agreement с Google
+3. Прохождение всех [функциональных тестов](https://developers.google.com/pay/issuers/tsp-integration/testing#testing_requirements), подтверждающих корректную работу токенизации
+4. Реализация всех применимых [best practices](https://developers.google.com/pay/issuers/tsp-integration/best-practices) Google Pay
+5. Реализация как минимум двух вариантов аутентификации для yellow path, то есть сценария, где требуется дополнительная верификация токенизации
+6. Подтверждение отсутствия известных проблем, связанных с токенизацией, офлайн-платежами или онлайн-транзакциями
+7. [Обучение](https://developers.google.com/pay/issuers/support/overview#end_user_support) сотрудников поддержки правильной обработке и маршрутизации обращений держателей карт
+8. [Обновление сайта](https://developers.google.com/pay/issuers/tsp-integration/overview#brand_guidelines) для информирования держателей карт о Google Pay, включая релевантную информацию о поддержке Google Pay, например [https://tonhub.com/google-pay](https://tonhub.com/google-pay)
+9. Передача TSP списка продуктов для запуска на английском и локальных языках. Эта информация будет использована для обновления их [списка поддерживаемых эмитентов](https://support.google.com/pay/answer/7454247)
+10. Предоставление документации TSP launch checklist
+11. Получение сертификации от TSP для production-запуска
 
-Complete [detailed guide](https://developers.google.com/pay/issuers/tsp-integration/overview) for implementing in-app provisioning.
+Полный [подробный гайд](https://developers.google.com/pay/issuers/tsp-integration/overview) по внедрению in-app provisioning.
 
 # Сертификация Holders
 
@@ -46,7 +46,7 @@ Complete [detailed guide](https://developers.google.com/pay/issuers/tsp-integrat
 **Partner bank:** [Wallester](https://wallester.com/)\
 **Certificate date:** 25.09.2024\
 **Cost:** \$5000 (tokenization setup Wallester)\
-The Wallester tokenization setup includes payment card configuration for integration with the following digital payment systems. In each of them, the card will be displayed with correct parameters and settings:
+Токенизационная настройка Wallester включает конфигурацию платежной карты для интеграции со следующими цифровыми платежными системами. В каждой из них карта будет отображаться с корректными параметрами и настройками:
 
 - [Apple Pay](https://www.apple.com/apple-pay/)
 - [Google Pay](https://pay.google.com/)
@@ -57,21 +57,21 @@ The Wallester tokenization setup includes payment card configuration for integra
 
 # Верификация карты пользователем
 
-After adding a card to Google Wallet, Google performs a verification procedure to confirm the user's ownership rights to the payment card. In some cases, verification is performed automatically, however the standard procedure involves verification through a confirmation code that is sent via SMS to the phone number specified by the user when registering their profile in the Holders system.\
-**Important feature:** Google Pay does not transmit the actual credit or debit card number when conducting transactions. Instead, the system generates a unique digital token that replaces the user's real card data. Each transaction is accompanied by the creation of an individual dynamic security code, which prevents the possibility of token reuse in case of compromise. This architecture ensures that payment documents display an alternative card number instead of the original one.
+После добавления карты в Google Wallet Google проводит процедуру верификации, чтобы подтвердить право пользователя на использование этой платежной карты. В некоторых случаях верификация проходит автоматически, однако стандартный сценарий предполагает подтверждение через код, отправляемый по SMS на номер телефона, указанный пользователем при регистрации профиля в системе Holders.\
+**Важная особенность:** Google Pay не передает фактический номер кредитной или дебетовой карты при проведении платежей. Вместо этого система генерирует уникальный цифровой токен, который заменяет реальные карточные данные пользователя. Каждая транзакция сопровождается созданием индивидуального динамического кода безопасности, что исключает повторное использование токена в случае компрометации. Благодаря этой архитектуре в платежных документах отображается альтернативный номер карты вместо оригинального.
 
 ## Статусы верификации карты в Google
 
-**Green** - the card passes verification immediately without additional requests.\
-**Yellow status** — to complete the verification procedure, the user needs to enter a one-time confirmation code (OTP).\
-**Orange status** — the card is subject to verification exclusively in manual mode through the partner bank.\
-Red - the card cannot be verified
+**Green** — карта проходит проверку сразу, без дополнительных запросов.\
+**Yellow status** — для завершения верификации пользователю нужно ввести одноразовый код подтверждения, OTP.\
+**Orange status** — карта подлежит верификации только в ручном режиме через банк-партнер.\
+**Red** — карта не может быть верифицирована.
 
 ## Обработка карты в Orange Flow
 
-If a card in the Google system receives orange status, the user will be offered to complete verification by calling the [**Tonhub**](https://gettonhub.com/) application support phone number (the call may be charged).\
-Tonhub phone number (Switzerland) +41587880033.\
-Currently, the specified number is answered by an automated system that directs the user to the application's online support service. After the user contacts Tonhub support through the Intercom platform, the operator gains the ability to perform card verification in the Wallester administrative panel according to the established instructions.
+Если карта в системе Google получает orange status, пользователю будет предложено пройти верификацию, позвонив по номеру поддержки приложения [**Tonhub**](https://gettonhub.com/), звонок может быть платным.\
+Номер Tonhub, Швейцария: `+41587880033`.\
+Сейчас на этом номере отвечает автоматизированная система, которая перенаправляет пользователя в онлайн-поддержку приложения. После того как пользователь связывается с поддержкой Tonhub через платформу Intercom, оператор получает возможность выполнить верификацию карты в административной панели Wallester по установленной инструкции.
 
 ## Ответственность за передачу карты
 
@@ -79,13 +79,13 @@ Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.co
 
 > "The Card must only be used by the Client. The Client must not authorise third parties to use the card, i.e., to make the Card or only the Card Data available to the third parties. The card must not be given to third parties as a gift, sold to third parties or otherwise transferred to third parties."
 
-This means that the card must be used only by the client, and the client has no right to authorize third parties to use the card, transfer it, give it as a gift, or sell it.\
-Accordingly, any actions involving the transfer of the card to other persons or granting them the right to use the card are qualified as a violation of the terms of the agreement with Wallester. Such violations result in the application of sanctions in the form of card blocking. In certain cases, depending on the nature of the use of card data and the intent of the participants, such actions may be qualified as fraudulent, which provides for criminal liability in the form of monetary penalties or imprisonment.
+Это означает, что карта должна использоваться только самим клиентом, и клиент не имеет права разрешать третьим лицам пользоваться картой, передавать ее, дарить или продавать.\
+Соответственно, любые действия, связанные с передачей карты другим лицам или предоставлением им права пользоваться картой, квалифицируются как нарушение условий соглашения с Wallester. Такие нарушения влекут за собой санкции в виде блокировки карты. В определенных случаях, в зависимости от характера использования карточных данных и умысла участников, такие действия могут квалифицироваться как мошенничество, что влечет уголовную ответственность в форме штрафов или лишения свободы.
 
 # Внешний вид карты
 
-Users cannot independently change the card design in [Google Wallet](https://wallet.google.com/). The card design in [Google Wallet](https://wallet.google.com/) is set by the bank or financial institution that issued the card. Each design is approved by the issuer with the payment system and added to the card settings after approval. The same situation occurs with the bank name that is displayed on the card in [Google Wallet](https://wallet.google.com/). Holders can change or add designs, but each change will require approval from [VISA](https://www.visa.com/) and additional costs.\
-**Cost of adding a design:** 400 EUR\
-**Cost of a minor change:** 100 EUR\
-A minor change is considered, for example, changing a phone number or logo on the card.\
-Adding a design to [Google Wallet](https://wallet.google.com/) after [VISA](https://www.visa.com/) approval happens automatically and does not require approvals or additional payments.
+Пользователи не могут самостоятельно менять дизайн карты в [Google Wallet](https://wallet.google.com/). Дизайн карты в [Google Wallet](https://wallet.google.com/) задается банком или финансовой организацией, выпустившей карту. Каждый дизайн согласуется эмитентом с платежной системой и после одобрения добавляется в настройки карты. Аналогичная ситуация и с названием банка, которое отображается на карте в [Google Wallet](https://wallet.google.com/). Holders может менять или добавлять дизайны, но каждое такое изменение потребует согласования с [VISA](https://www.visa.com/) и дополнительных затрат.\
+**Стоимость добавления дизайна:** 400 EUR\
+**Стоимость небольшого изменения:** 100 EUR\
+Под небольшим изменением понимается, например, смена телефона или логотипа на карте.\
+После одобрения [VISA](https://www.visa.com/) добавление дизайна в [Google Wallet](https://wallet.google.com/) происходит автоматически и не требует дополнительных согласований или оплат.
