@@ -150,7 +150,7 @@ interface SolanaTransactionResponse {
 }
 ```
 
-## Injection Implementation
+## Реализация инъекции
 
 ```
 const tonConnectBridge = `
@@ -237,7 +237,7 @@ const tonConnectBridge = `
 `;
 ```
 
-## Native-Side Handling
+## Обработка на стороне native
 
 ```
 // Message handler from WebView
@@ -386,13 +386,13 @@ async function handleSendRequest(request: AppRequest) {
 }
 ```
 
-## Solana Transaction Methods
+## Методы Solana-транзакций
 
-Two additional methods are added for Solana wallet support in Holders.
+Для поддержки Solana-кошельков в Holders добавлены два дополнительных метода.
 
 ### `sendSolanaTransaction`
 
-Sends a legacy (pre-v0) Solana transaction. The transaction is passed as a base64-encoded serialized message.
+Отправляет legacy-транзакцию Solana, то есть формат до версии v0. Транзакция передается как сериализованное сообщение в кодировке base64.
 
 ```
 // Call from WebView
@@ -402,18 +402,18 @@ const signature = await window.tonhub.sendSolanaTransaction(base64Transaction);
 // transaction: base64-encoded serialized Solana Message
 ```
 
-**Parameters:**
+**Параметры:**
 
-- `transaction` (string) — Base64-encoded serialized Solana message (legacy format)
+- `transaction` (string) — сериализованное Solana-сообщение в base64, legacy-формат
 
-**Returns:**
+**Возвращает:**
 
-- `result` (string) — Base58-encoded transaction signature on success
-- `error` — Error object on rejection or failure 
+- `result` (string) — подпись транзакции в формате Base58 при успешной отправке
+- `error` — объект ошибки при отклонении или неудаче
 
 ### `sendSolanaVersionedTransaction`
 
-Sends a versioned (v0) Solana transaction. Used for transactions with Address Lookup Tables.
+Отправляет versioned-транзакцию Solana формата v0. Используется для транзакций с Address Lookup Tables.
 
 ```
 // Call from WebView
@@ -423,16 +423,16 @@ const signature = await window.tonhub.sendSolanaVersionedTransaction(base64Trans
 // transaction: base64-encoded serialized VersionedTransaction
 ```
 
-**Parameters:**
+**Параметры:**
 
-- `transaction` (string) — Base64-encoded serialized VersionedTransaction
+- `transaction` (string) — сериализованный `VersionedTransaction` в base64
 
-**Returns:**
+**Возвращает:**
 
-- `result` (string) — Base58-encoded transaction signature on success
-- `error` — Error object on rejection or failure
+- `result` (string) — подпись транзакции в формате Base58 при успешной отправке
+- `error` — объект ошибки при отклонении или неудаче
 
-## Native-Side Implementation of Solana Methods
+## Реализация Solana-методов на стороне native
 
 ```
 // Add Solana methods to the bridgeObject
@@ -500,7 +500,7 @@ const bridgeObject = {
 };
 ```
 
-## Solana Transaction Processing
+## Обработка Solana-транзакций
 
 ```
 // Example Solana transaction confirmation screen

@@ -1,13 +1,13 @@
 ---
-title: "Integration instruction"
-description: "This guide is intended for implementing the technical Holders WebView integration into the partner’s product."
+title: "Инструкция по интеграции"
+description: "Это руководство предназначено для технической реализации интеграции Holders WebView в продукт партнера."
 ---
 
-# Integration Architecture Flowchart
+# Схема архитектуры интеграции
 
 ![Screenshot2026 01 26at18 50 25(1)](/images/Screenshot2026-01-26at18.50.25\(1\).png)
 
-# API endpoints
+# API-эндпоинты
 
 ### Backend API
 
@@ -16,26 +16,26 @@ description: "This guide is intended for implementing the technical Holders WebV
 | **Production**      | `https://card-prod.whales-api.com`    |
 | **Staging/Testnet** | `https://card-staging.whales-api.com` |
 
-### Web Application URLs
+### URL веб-приложения
 
 | Environment         | URL\*                                 |
 | :------------------ | :------------------------------------ |
 | **Production**      | `https://yourwallet.holders.io`       |
 | **Staging/Testnet** | `https://yourwallet-stage.holders.io` |
 
-\*Instead of yourwallet - URLs with your wallet name will be implemented.
+\*Вместо `yourwallet` будут использоваться URL с названием вашего кошелька.
 
-# Authentication process
+# Процесс аутентификации
 
-## General authentication flow
+## Общий поток аутентификации
 
 ![Screenshot2026 01 26at19 10 25](/images/Screenshot2026-01-26at19.10.25.png)
 
-## Proof Structure
+## Структура proof
 
-For authentication, the [TonConnect v2](https://github.com/ton-connect) protocol is used. It is necessary to create proof (proof of wallet ownership) for TON and optionally for Solana.
+Для аутентификации используется протокол [TonConnect v2](https://github.com/ton-connect). Необходимо сформировать proof, то есть доказательство владения кошельком, для TON и, при необходимости, для Solana.
 
-### **TON Proof Structure**
+### **Структура TON Proof**
 
 ```
 interface TonProof {
@@ -51,7 +51,7 @@ interface TonProof {
 }
 ```
 
-### **TON Proof Creation Algorithm**
+### **Алгоритм создания TON Proof**
 
 ```
 // 1. Construct the message to sign
@@ -78,7 +78,7 @@ const bufferToSign = Buffer.concat([
 const signature = nacl.sign.detached(sha256(bufferToSign), secretKey);
 ```
 
-**Solana Proof Structure**
+**Структура Solana Proof**
 
 ```
 interface SolanaProof {
@@ -93,7 +93,7 @@ interface SolanaProof {
 }
 ```
 
-### Authentication request format
+### Формат запроса на аутентификацию
 
 ```
 // Request for TON + Solana
@@ -128,12 +128,12 @@ type TonSolanaAuthRequest = [
 ];
 ```
 
-# API methods
+# API-методы
 
-## Wallet connection (Enrollment)
+## Подключение кошелька, Enrollment
 
 **Endpoint:**`POST /v2/user/wallet/connect`\
-**Request:**
+**Запрос:**
 
 ```
 [
@@ -178,7 +178,7 @@ type TonSolanaAuthRequest = [
 ]
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -187,10 +187,10 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-## Getting User State
+## Получение состояния пользователя
 
 **Endpoint:**`POST /account/state`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -198,7 +198,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -211,10 +211,10 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-## Accounts list (Private)
+## Список аккаунтов, приватный метод
 
 **Endpoint:**`POST /v2/account/list`\
-**Request:**
+**Запрос:**
 
 ```
 {
@@ -222,7 +222,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-**Response:**
+**Ответ:**
 
 ```
 {
@@ -255,7 +255,7 @@ type TonSolanaAuthRequest = [
 }
 ```
 
-## Public account data (no authorization required)
+## Публичные данные аккаунта, авторизация не требуется
 
 **Endpoint:**`POST /v2/public/accounts`\
 **Request:**
