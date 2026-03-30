@@ -8,36 +8,36 @@ Billing UI находится в `/instance/dashboard` → `InstanceDashboard.ts
 
 Используется **ручная навигация кнопками на `useState`**. Вложенный Radix `<TabsList>` не рендерится из-за конфликта React context, подробнее см. `CLAUDE.md`, раздел `Known Caveats`.
 
-- Revenue tab
-  - Overview
-  - Invoices
-  - Export
-  - Fee Ledger
+- Вкладка `Revenue`
+- Подвкладка `Overview`
+- Подвкладка `Invoices`
+- Подвкладка `Export`
+- Подвкладка `Fee Ledger`
 
 ### Overview
 
-- KPI cards (Collected / Pending / Failed / Gross)
-- fee type × status table
-- per-merchant collected / pending table
+- KPI-карточки, `Collected / Pending / Failed / Gross`
+- таблица `fee type × status`
+- таблица `per-merchant collected / pending`
 
 ### Invoices
 
-- Generate form
-- invoice list
-- detail dialog
-- line items
-- Finalize
-- Void
+- форма `Generate`
+- список инвойсов
+- диалог деталей
+- `line items`
+- действие `Finalize`
+- действие `Void`
 
 ### Export
 
-- Date range
-- Download CSV
+- диапазон дат
+- `Download CSV`
 
 ### Fee Ledger
 
-- Status filter
-- paginated table (50/page)
+- фильтр по статусу
+- пагинированная таблица, 50 записей на страницу
 
 ## Запланированные дополнения
 

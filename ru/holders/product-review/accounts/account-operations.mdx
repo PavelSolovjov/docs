@@ -30,9 +30,9 @@ description: "Этот документ кратко объясняет осно
 ## Интерфейс
 
 1. Открытие нового счета доступно пользователю с главной страницы кошелька. Пользователь нажимает `Add new account` и выбирает тип счета, который хочет открыть. Доступны три варианта:
-   1. **Account with card** — the first card is issued free of charge, subsequent card issuance is paid.
-   2. **Account without card** — a card can be additionally issued at any time.
-   3. **Vesting account** — provides the ability to create automatic payments to beneficiaries from the account.
+   1. **Account with card** — первая карта выпускается бесплатно, выпуск последующих карт платный.
+   2. **Account without card** — карту можно дополнительно выпустить в любой момент.
+   3. **Vesting account** — дает возможность создавать автоматические выплаты beneficiaries со счета.
 
       <img
         src="/images/Chooseaproduct(2)(1).png"
@@ -81,9 +81,9 @@ description: "Этот документ кратко объясняет осно
 # Способы пополнения счета
 
 1. **From savings account, то есть с баланса подключенного кошелька** — позволяет перевести средства из подключенного кошелька на счет.
-2. **From another wallet** — позволяет пополнить счет в валюте, отличной от валюты счета, с автоматической конвертацией.
+2. **From another wallet, то есть с другого кошелька** — позволяет пополнить счет в валюте, отличной от валюты счета, с автоматической конвертацией.
 3. **Deposit by details, direct funding** — дает возможность перевести средства на счет из любого источника по реквизитам счета.
-4. **From exchange** — позволяет зачислить средства на баланс счета с биржевого баланса.
+4. **From exchange, то есть с биржи** — позволяет зачислить средства на баланс счета с биржевого баланса.
 
 <Info>
   В системе Holders + Tonhub для счетов используется следующая терминология:
@@ -104,11 +104,11 @@ Gas fees, то есть комиссия за пополнение счета, �
 ## Размер комиссий
 
 1. Комиссия за проведение транзакции пополнения:
-   1. **TON** - approximately **0.03 TON**
-   2. **Solana** - **0.000005 SOL**
+   1. **TON** — примерно **0.03 TON**
+   2. **Solana** — **0.000005 SOL**
 1. Комиссия за обновление баланса контракта:
-   1. **TON** - approximately **0.1 TON** (paid by Holders)
-   2. **Solana** - **not charged**
+   1. **TON** — примерно **0.1 TON**, оплачивает Holders
+   2. **Solana** — **не взимается**
 
 Примечание: указаны максимальные значения комиссий. Фактическая комиссия может быть ниже; в этом случае неиспользованный остаток возвращается на баланс кошелька пользователя.
 
@@ -132,6 +132,7 @@ Gas fees, то есть комиссия за пополнение счета, �
 В рамках интеграции с Holders сервис [Changelly](https://changelly.com/) поддерживает обмены только по фиксированному курсу, то есть `Fix rate`. При таком способе курс фиксируется на определенное время, поэтому клиент заранее знает точную итоговую сумму. На завершение операции дается 3 часа. Такой подход возможен потому, что обмен выполняется только между стабильными валютами.
 
 ### Interface
+### Интерфейс
 
 1. Пользователь выбирает валюту, в которой хочет пополнить счет.
 
@@ -167,9 +168,9 @@ Gas fees, то есть комиссия за пополнение счета, �
 
 Этот способ предполагает прямой перевод средств на адрес контракта с другого адреса в той же сети. Он поддерживается только в более новых версиях контрактов:
 
-- **USDC (supported on all versions)**
-- **TON (starting from version v3)**
-- **USDT (TON) (starting from version v8)**
+- **USDC, поддерживается на всех версиях**
+- **TON, начиная с версии v3**
+- **USDT (TON), начиная с версии v8**
 
 При direct funding средства поступают напрямую на адрес контракта. Чтобы распознать поступление, используется Controller, который непрерывно сканирует транзакции в блокчейне. Когда он обнаруживает перевод на адрес счета Holders, он инициирует обновление баланса соответствующего контракта.\
 Пополнение по реквизитам — это классическое прямое пополнение счета транзакцией на его адрес. Оно позволяет пополнить счет, поделиться реквизитами счета или создать платежную ссылку на пополнение и отправить ее другу, который сможет внести средства через интерфейс [Changelly](https://changelly.com/), даже если у него нет аккаунта в Holders.
@@ -182,9 +183,9 @@ Gas fees, то есть комиссия за пополнение счета, �
 
 ## Пополнение с биржи
 
-This method represents an adapted version of funding by details specifically designed for cryptocurrency exchanges. The user interface provides step-by-step instructions for transferring funds from the most popular cryptocurrency trading platforms. The user selects the corresponding exchange and, following the provided instructions, completes the account funding procedure.
+Этот способ представляет собой адаптированную версию пополнения по реквизитам, специально рассчитанную на криптовалютные биржи. Пользовательский интерфейс дает пошаговые инструкции по переводу средств с наиболее популярных криптовалютных торговых платформ. Пользователь выбирает нужную биржу и, следуя предложенным инструкциям, завершает процедуру пополнения счета.
 
-Exchanges for which separate instructions are provided:
+Биржи, для которых доступны отдельные инструкции:
 
 - **Binance**
 - **OKX**
@@ -196,26 +197,26 @@ Exchanges for which separate instructions are provided:
 
 # Вывод со счета
 
-Funds withdrawal is carried out through three possible methods:
+Вывод средств выполняется тремя возможными способами:
 
-- To savings account - to the balance of the wallet linked to Holders.
-- To another wallet - to an arbitrary address.
-- Holders account - to another account in the Holders system.
+- На savings account — на баланс кошелька, привязанного к Holders.
+- На другой кошелек — на произвольный адрес.
+- На Holders account — на другой счет внутри системы Holders.
 
 ## На savings account
 
-This withdrawal mechanism provides a high level of security and non-custodial nature, since funds transfer is carried out exclusively to a pre-authorized client address, and is gas-free for the user, as the transaction is signed and paid for by the Holders service [controller](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02). Thus, the [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) performs withdrawal of funds to the client's wallet without requiring additional permission or signature from the account owner.
+Этот механизм вывода обеспечивает высокий уровень безопасности и сохраняет некастодиальную природу сервиса, поскольку перевод средств выполняется только на заранее авторизованный клиентский адрес, и при этом является gas-free для пользователя: транзакция подписывается и оплачивается сервисным [controller](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) Holders. Таким образом, [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) выполняет вывод средств на кошелек клиента без необходимости дополнительного разрешения или подписи со стороны владельца счета.
 
 ## На другой кошелек
 
-If the controller can withdraw money from an account to any address, this violates the agreement between Holders and the client. It turns out that the controller can take money from any account without the owner's permission. This makes the [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) centralized and unsafe. Auditors and users can rightfully say that the controller (managed by Holders) can steal all money from all accounts. To avoid this, multi-signature is used.\
-Multi-signature is when an operation requires signatures from both the client and Holders. This provides:
+Если controller мог бы выводить деньги со счета на любой адрес, это нарушало бы соглашение между Holders и клиентом. В таком случае controller мог бы забирать деньги с любого счета без разрешения владельца. Это делало бы [Holders smart contract](https://whales.enterprise.slack.com/docs/T045HLK3YLE/F09FGC4GU02) централизованным и небезопасным. Аудиторы и пользователи справедливо могли бы сказать, что controller, которым управляет Holders, способен украсть все средства со всех счетов. Чтобы избежать этого, используется multi-signature.\
+Multi-signature — это механизм, при котором операция требует подписей и со стороны клиента, и со стороны Holders. Это дает следующее:
 
-- The client personally authorizes all withdrawals from their account to external addresses
-- Holders verifies all withdrawals for compliance with AML/KYT requirements and other rules
-- Holders pays transaction fees instead of the client
+- клиент лично авторизует все выводы со своего счета на внешние адреса
+- Holders проверяет все выводы на соответствие требованиям AML/KYT и другим правилам
+- Holders оплачивает комиссии за транзакции вместо клиента
 
-This method maintains security and allows safe withdrawal of money to external addresses.
+Такой подход сохраняет безопасность и позволяет безопасно выводить средства на внешние адреса.
 
 ### Вывод в другие блокчейны
 

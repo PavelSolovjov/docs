@@ -60,7 +60,7 @@ title: "Краткое резюме по казначейству и креди�
 
 Эти правила применяются автоматически каждый раз, когда система принимает решение о funding для batch-партии чеков.
 
-## 4. Credit profile merchant
+## 4. Кредитный профиль merchant
 
 Каждому merchant платформа присваивает **credit profile**.
 
@@ -123,45 +123,45 @@ CFO и COO могут **вручную ребалансировать выдел
 
 На первом этапе хеджирование не планируется. Рекомендуемый подход - отдавать приоритет стратегии **currency match**, чтобы минимизировать открытую валютную экспозицию.
 
-## 8. Экономика treasury, carry P&L
+## 8. Экономика treasury и carry P&L
 
 Платформа зарабатывает на **спреде** между merchant income и стоимостью funding.
 
-| Item | Description |
+| Показатель | Описание |
 | :-- | :-- |
-| **Income** | Merchant fees, то есть issuance, redemption и exchange |
-| **Expense** | Проценты по credit lines |
+| **Доход** | Merchant fees, то есть issuance, redemption и exchange |
+| **Расход** | Проценты по credit lines |
 | **FX differences** | Прибыль или убыток из-за currency mismatch |
 | **Net carry** | Доход минус расходы |
 
 **Ключевые метрики:**
 
-| Metric | Meaning |
+| Метрика | Значение |
 | :-- | :-- |
-| Cost of funds | Annualized interest rate across the credit line portfolio |
-| Fee yield | Percentage return generated from merchant transaction volume |
-| Net spread | Difference between fee yield and cost of funds |
-| Average settlement term | Average number of days from shipment to settlement |
-| Overdue settlement ratio | Percentage of total volume that is overdue |
-| Pool utilization | Percentage of total available limit currently used |
+| Cost of funds | Годовая ставка по всему портфелю кредитных линий |
+| Fee yield | Процентная доходность, генерируемая объемом merchant-транзакций |
+| Net spread | Разница между fee yield и cost of funds |
+| Average settlement term | Среднее число дней от отгрузки до settlement |
+| Overdue settlement ratio | Доля общего объема, находящаяся в просрочке |
+| Pool utilization | Доля общего доступного лимита, которая уже используется |
 
 Если процентная ставка по credit lines выше, чем fee income, платформа фактически субсидирует операции за счет собственных средств. На фазе роста это может быть приемлемо, если ситуация явно отслеживается и контролируется.
 
 ## 9. Управление рисками
 
-### Liquidity risk, maturity mismatch
+### Риск ликвидности, maturity mismatch
 
 Ситуация: credit line истекает раньше, чем merchant завершает settlement.
 
 Контроль: система находит такие "problem drawdowns" и показывает их сумму в dashboard. Если mismatch существует, CFO получает уведомление.
 
-### Merchant credit risk
+### Кредитный риск merchant
 
 Ситуация: merchant не платит.
 
 Контроль: автоматическая блокировка новых batch-партий при overdue settlement, ручное понижение credit rating, управление со стороны COO.
 
-### Concentration risk
+### Риск концентрации
 
 Ситуация: слишком большая часть liquidity pool сконцентрирована на одном merchant или на одной линии.
 
@@ -179,13 +179,13 @@ CFO и COO могут **вручную ребалансировать выдел
 
 Инициатор финансовой операции и ее утверждающий должны **всегда быть разными людьми**. Система не должна позволять одному сотруднику в одиночку пройти весь цикл операции.
 
-| Operation | Initiated By | Approved By |
+| Операция | Инициатор | Утверждает |
 | :-- | :-- | :-- |
-| Manual drawdown from a credit line | Finance | Another Finance team member or Administrator |
-| Large drawdown (above threshold) | Finance / Administrator | Owner only |
-| Closing a credit line | Finance / Administrator | Owner |
-| Changing risk appetite | Finance / Administrator | Owner |
-| Rebalancing internal accounts | Finance | Administrator / Owner |
+| Ручной drawdown из кредитной линии | Finance | Другой участник Finance-команды или Administrator |
+| Крупный drawdown, выше порога | Finance / Administrator | Только Owner |
+| Закрытие кредитной линии | Finance / Administrator | Owner |
+| Изменение risk appetite | Finance / Administrator | Owner |
+| Ребалансировка внутренних счетов | Finance | Administrator / Owner |
 
 ### Velocity limits
 
@@ -195,57 +195,57 @@ CFO и COO могут **вручную ребалансировать выдел
 
 Система автоматически уведомляет finance и operations-команды о следующих событиях:
 
-| Event | Recipient |
+| Событие | Получатель |
 | :-- | :-- |
-| Credit line expires in N days | CFO, Finance |
-| Line utilization exceeds 80% | CFO, Finance |
-| Line expires with outstanding debt | CFO (urgent) |
-| Automatic drawdown executed | Finance (summary or immediate) |
-| Large drawdown | CFO, Finance |
-| Merchant frozen due to overdue settlement | Instance Administrator |
+| Credit line истекает через N дней | CFO, Finance |
+| Загрузка линии превысила 80% | CFO, Finance |
+| Линия истекает при наличии непогашенного долга | CFO, срочно |
+| Выполнен автоматический drawdown | Finance, сводно или сразу |
+| Крупный drawdown | CFO, Finance |
+| Merchant заморожен из-за просроченного settlement | Instance Administrator |
 
 ## 11. Audit и compliance
 
 Все операции записываются в неизменяемый audit log, включая:
 
-- who performed the action and when
-- before / after values
-- IP address and confirmation of additional authentication
+- кто выполнил действие и когда
+- значения до и после
+- IP-адрес и подтверждение дополнительной аутентификации
 
 Финансовые записи, такие как drawdowns, начисление процентов и allocations, **нельзя изменить или удалить** после создания. Их можно только перевести в финальный статус, например `repaid` или `defaulted`.
 
-## 12. Implementation Phases
+## 12. Этапы внедрения
 
-| Phase | Scope | Priority |
+| Этап | Объем | Приоритет |
 | :-- | :-- | :-- |
-| **Phase 1** | Lender registry, credit lines, eligibility matrix | P0 — foundation |
+| **Phase 1** | Реестр кредиторов, credit lines, eligibility matrix | P0 — foundation |
 | **Phase 2** | Merchant credit profiles, allocation engine, automatic drawdown | P0 — core functionality |
-| **Phase 3** | Interest accruals, carry P&L | P1 |
-| **Phase 4** | Settlement balance dashboard, notifications, overdue monitoring | P1 |
-| **Phase 5** | Permission editor by function | P2 |
+| **Phase 3** | Начисление процентов, carry P&L | P1 |
+| **Phase 4** | Dashboard settlement-баланса, уведомления, мониторинг просрочек | P1 |
+| **Phase 5** | Редактор прав по функциям | P2 |
 
-## 13. Open Questions for Approval
+## 13. Открытые вопросы для согласования
 
-**13.1 Initial lenders**\
-Who will be the platform’s first lenders? What terms are expected: currency, rate, limit, maturity?
+**13.1 Первые кредиторы**\
+Кто станет первыми кредиторами платформы? Какие условия ожидаются: валюта, ставка, лимит, срок?
 
-**13.2 Merchant credit limits**\
-What should the standard limit be for a new merchant? Based on what criteria should it be increased? Is a multi-step approval process needed above a certain threshold?
+**13.2 Кредитные лимиты merchant**\
+Каким должен быть стандартный лимит для нового merchant? По каким критериям он должен увеличиваться? Нужен ли многоступенчатый процесс утверждения выше определенного порога?
 
-**13.3 Default allocation strategy**\
-Which strategy should be used by default? Recommendation: **currency match** to minimize FX risk.
+**13.3 Стратегия аллокации по умолчанию**\
+Какая стратегия должна использоваться по умолчанию? Рекомендация: **currency match**, чтобы минимизировать FX risk.
 
-**13.4 Large-operation threshold (four-eyes)**\
-At what drawdown amount should Owner approval be required, rather than Finance approval only? The draft documentation assumes **\$10,000 USDC**, subject to approval.
+**13.4 Порог для крупных операций, four-eyes**\
+Начиная с какого размера drawdown должно требоваться одобрение Owner, а не только Finance? В черновой документации заложено значение **\$10,000 USDC**, но оно еще требует подтверждения.
 
-**13.5 Merchant settlement currency**\
-Which currencies will be accepted for merchant settlements? Who bears FX risk on conversion? Is multi-currency allocation required from day one, or are USDC-based lines sufficient initially?
+**13.5 Валюта merchant settlement**\
+Какие валюты будут приниматься для merchant settlement? Кто несет FX risk при конвертации? Нужна ли мультивалютная аллокация с первого дня, или на старте достаточно линий на базе USDC?
 
-**13.6 Overdue policy: automatic vs manual control**\
-Automatic blocking after more than 3 days overdue is assumed. Are different thresholds needed for different merchant categories? What is the resolution process after a block is triggered?
+**13.6 Политика просрочек: автоматический или ручной контроль**\
+Сейчас предполагается автоматическая блокировка после более чем 3 дней просрочки. Нужны ли разные пороги для разных категорий merchant? Какой должен быть процесс урегулирования после срабатывания блокировки?
 
-**13.7 Cost of funding vs fee income**\
-Under the current pricing model, do merchant fees cover the cost of external funding? Is financial scenario modeling required before launch?
+**13.7 Стоимость фондирования против fee income**\
+Покрывают ли merchant fees стоимость внешнего фондирования при текущей pricing-модели? Нужно ли проводить финансовое сценарное моделирование до запуска?
 
-**13.8 Collateral for lenders**\
-At the initial stage, facilities are unsecured. At what portfolio size would it make sense to move to a receivables assignment structure? This could reduce the cost of funds.
+**13.8 Обеспечение для кредиторов**\
+На начальном этапе линии будут без обеспечения. При каком размере портфеля имеет смысл перейти к структуре receivables assignment? Это может снизить стоимость фондирования.
