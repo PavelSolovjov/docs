@@ -4,7 +4,7 @@ title: "TRUST смарт-контракт"
 
 # Смарт-контракт
 
-A smart contract is a program that automatically executes and enforces agreement conditions on the blockchain. Its code is stored and executed in the network, without intermediaries, according to predefined rules.
+Смарт-контракт — это программа, которая автоматически исполняет и обеспечивает выполнение заданных условий в блокчейне. Ее код хранится и выполняется прямо в сети, без посредников, по заранее определенным правилам.
 
 # Общая информация
 
@@ -16,56 +16,56 @@ License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 ![Image(3)(1)](/images/image\(3\)\(1\).png)
 
-The flowchart describes the process of creating and using vesting, as well as token distribution through blockchain. The process can be broken down into the following stages:
+Эта блок-схема описывает процесс создания и использования vesting, а также распределения токенов через блокчейн. Процесс можно разбить на следующие этапы:
 
-1. **Vesting Creation:**
-   1. User initiates vesting creation.
-   2. Information is passed to the Issuer and then to the database (DB), where the record is saved with "PENDING" status.
-1. **Contract Deployment:**
-   1. Database notifies ChainManager about the need for contract deployment.
-   2. ChainManager initiates contract deployment on the blockchain.
-   3. After successful deployment, the status is updated to "ACTIVE".
-2. **Deposit Funding:**
-   1. User deposits tokens into the contract.
-   2. This action is registered in the database.
+1. **Создание vesting:**
+   1. Пользователь инициирует создание vesting.
+   2. Информация передается в Issuer, а затем в базу данных, где запись сохраняется в статусе `PENDING`.
+1. **Деплой контракта:**
+   1. База данных уведомляет ChainManager о необходимости задеплоить контракт.
+   2. ChainManager инициирует деплой контракта в блокчейне.
+   3. После успешного деплоя статус обновляется до `ACTIVE`.
+2. **Пополнение депозита:**
+   1. Пользователь вносит токены в контракт.
+   2. Это действие фиксируется в базе данных.
 
-Further actions occur cyclically depending on the unlock period:
+Дальнейшие действия происходят циклически в зависимости от периода разблокировки:
 
-1. **Token Distribution:**
-   1. A portion of tokens is paid out to the user.
-   2. ChainManager receives information from the blockchain that the payout has been completed.
-   3. ChainManager notifies the Issuer that the payout has been completed.
+1. **Распределение токенов:**
+   1. Пользователю выплачивается часть токенов.
+   2. ChainManager получает из блокчейна информацию о завершении выплаты.
+   3. ChainManager уведомляет Issuer о том, что выплата выполнена.
 
-- Issuer passes information about the payout and updated balance to the database and decides whether to initiate the next cycle.
+- Issuer передает в базу данных информацию о выплате и обновленном балансе и решает, нужно ли запускать следующий цикл.
 
 # Роли контракта
 
 1. **Config Authority**:
-   1. Responsible for creating and managing vesting configurations.
-   2. Has the right to set the controller.
+   1. Отвечает за создание и управление конфигурациями vesting.
+   2. Имеет право назначать controller.
 1. **Controller**:
-   1. Participant who manages a specific configuration and can perform vesting-related operations.
-   2. Can create new vestings and add or remove beneficiaries.
+   1. Участник, который управляет конкретной конфигурацией и может выполнять операции, связанные с vesting.
+   2. Может создавать новые vesting и добавлять или удалять beneficiaries.
 2. **Grantor**:
-   1. Person or address that creates a specific vesting.
-   2. Can add beneficiaries and initiate payouts.
+   1. Лицо или адрес, который создает конкретный vesting.
+   2. Может добавлять beneficiaries и инициировать выплаты.
 1. **Beneficiary**:
-   1. Receives tokens according to the vesting schedule.
-   2. Can participate in receiving tokens during their distribution.
+   1. Получает токены в соответствии с графиком vesting.
+   2. Может участвовать в получении токенов при их распределении.
 
 # Основные операции и сценарии
 
-1. **Configuration creation (**`create_config`**)** - initialization of a new vesting configuration with specific parameters, including configurator and controller.
-2. **Controller change (**`set_controller`**)** - updating the controller for an existing configuration.
-3. **Vesting creation (**`create_vesting`**)** - initialization of a new vesting, defining parameters such as token distribution time, nominal amount, and inflation.
-4. **Adding beneficiary (**`add_beneficiary`**)** - adds a new beneficiary to an existing vesting, while checking that the number of beneficiaries does not exceed maximum limits.
-5. **Removing beneficiary (**`remove_beneficiary`**)** - removes a beneficiary from the vesting recipients list, ensuring that minimum requirements for the number of beneficiaries are met.
-6. **Token claim (**`claim`**)** - allows a beneficiary to request tokens according to vesting conditions, checking available funds and time constraints.
+1. **Создание конфигурации, `create_config`** — инициализация новой конфигурации vesting с заданными параметрами, включая configurator и controller.
+2. **Смена controller, `set_controller`** — обновление controller для уже существующей конфигурации.
+3. **Создание vesting, `create_vesting`** — инициализация нового vesting с определением таких параметров, как время распределения токенов, номинальная сумма и инфляция.
+4. **Добавление beneficiary, `add_beneficiary`** — добавляет нового beneficiary в существующий vesting, проверяя, чтобы число beneficiaries не превышало допустимые пределы.
+5. **Удаление beneficiary, `remove_beneficiary`** — удаляет beneficiary из списка получателей vesting, при этом проверяется соблюдение минимальных требований по числу beneficiaries.
+6. **Запрос токенов, `claim`** — позволяет beneficiary запросить токены в соответствии с условиями vesting, проверяя доступные средства и временные ограничения.
 
 # Расчет инфляции
 
-The `VestingV0` structure has an `inflation_rate_per_interval` field that is responsible for the inflation percentage. This parameter allows setting inflation rates for a given interval.\
-The `total_release_amount_with_inflation_at` method in the `VestingV0` structure calculates the total amount of tokens that can be released, taking into account the specified inflation:
+В структуре `VestingV0` есть поле `inflation_rate_per_interval`, которое отвечает за процент инфляции. Этот параметр позволяет задавать уровень инфляции для заданного интервала.\
+Метод `total_release_amount_with_inflation_at` в структуре `VestingV0` вычисляет общее количество токенов, которое может быть выплачено с учетом заданной инфляции:
 
 ```
 pub fn total_release_amount_with_inflation_at(&self, unix_timestamp: i64) -> Option<u64 {
@@ -91,39 +91,39 @@ pub fn total_release_amount_with_inflation_at(&self, unix_timestamp: i64) -> Opt
 }
 ```
 
-The method calculates the number of intervals that have passed since the beginning of vesting and, depending on this, increases the amount based on the specified inflation. Through a loop, iteration occurs over intervals and accumulation of the amount depending on inflation. This approach allows dynamic calculation of payout amounts, depending on time and established inflation, which provides flexibility in managing financial flows.
+Метод вычисляет количество интервалов, прошедших с начала vesting, и в зависимости от этого увеличивает сумму с учетом указанной инфляции. Через цикл происходит проход по интервалам и накопление суммы в зависимости от инфляции. Такой подход позволяет динамически рассчитывать размер выплат в зависимости от времени и установленной инфляции, что дает гибкость в управлении финансовыми потоками.
 
 # Структура данных
 
 ## **Config**
 
-- `bump`: Used to ensure account uniqueness (method for working with addresses).
-- `seqno`: Sequential configuration number.
-- `authority`: Configuration owner address.
-- `controller`: Address of the controller managing the configuration.
+- `bump`: используется для обеспечения уникальности аккаунта, это один из механизмов работы с адресами.
+- `seqno`: последовательный номер конфигурации.
+- `authority`: адрес владельца конфигурации.
+- `controller`: адрес контроллера, управляющего конфигурацией.
 
 ## **Vesting**
 
-- `bump`: Like in `Config`, used to avoid collisions when creating an account.
-- `seqno`: Sequential vesting number.
-- `config`: Reference to the configuration account with which the vesting is associated.
-- `mint`: Address of the token to be vested.
-- `grantor`: Address of the vesting creator.
-- `beneficiaries`: List of token recipient addresses.
-- `started_at`: Vesting start time in Unix timestamp format.
-- `cliff_until`: End time of the "cliff" period (time block during which tokens cannot be received).
-- `release_interval`: Time interval between token releases.
-- `nominal_release_amount`: Nominal amount to be released.
-- `inflation_rate_per_interval`: Inflation percentage for each interval.
-- `total_transferred_amount`: Amount that has already been transferred to beneficiaries.
+- `bump`: как и в `Config`, используется для предотвращения коллизий при создании аккаунта.
+- `seqno`: последовательный номер vesting.
+- `config`: ссылка на аккаунт конфигурации, с которым связан vesting.
+- `mint`: адрес токена, для которого создается vesting.
+- `grantor`: адрес создателя vesting.
+- `beneficiaries`: список адресов получателей токенов.
+- `started_at`: время начала vesting в формате Unix timestamp.
+- `cliff_until`: момент окончания периода `cliff`, то есть отрезка времени, в течение которого токены еще нельзя получить.
+- `release_interval`: временной интервал между выплатами токенов.
+- `nominal_release_amount`: номинальная сумма, подлежащая выпуску.
+- `inflation_rate_per_interval`: процент инфляции для каждого интервала.
+- `total_transferred_amount`: сумма, которая уже была переведена beneficiaries.
 
 # Gas
 
 ### Contract Creation and Maintenance
 
-In Holders, when creating contracts in Solana, [RentExemption](https://solana.com/docs/core/accounts) is applied - a one-time payment for 2 years that permanently reserves space. The cost of [RentExemption](https://solana.com/docs/core/accounts) in Solana depends on storage size (in bytes) and the current allocation rate in the network. On average, the price is approximately 0.0023 SOL for every 10 KB. When closing an account, you can request a refund of the cost since the allocation is no longer needed.\
-The approximate cost of creating such a contract is **approximately 0.015 SOL (2 USD at Sol/USDT rate of \$139)**.
+В Holders при создании контрактов в Solana используется [RentExemption](https://solana.com/docs/core/accounts) — это разовый платеж за 2 года, который навсегда резервирует место. Стоимость [RentExemption](https://solana.com/docs/core/accounts) в Solana зависит от размера хранилища, в байтах, и текущей ставки аллокации в сети. В среднем цена составляет примерно 0.0023 SOL за каждые 10 KB. При закрытии аккаунта можно запросить возврат этой стоимости, так как аллокация больше не нужна.\
+Примерная стоимость создания такого контракта составляет **около 0.015 SOL, то есть примерно 2 USD при курсе Sol/USDT \$139**.
 
 ### Gas for Funding
 
-To accelerate transactions in the Solana network, a [Priority Fee](https://solana.com/docs/core/fees) mechanism is connected - an additional fee that increases the chance of confirmation during high load. This allows faster transaction processing. The user pays gas only when funding the contract; all other payments are already covered by the service. Gas for account funding in Solana is fixed - **0.000005 SOL (0.00069 USD at Sol/USDT rate of \$139).**
+Чтобы ускорять транзакции в сети Solana, подключен механизм [Priority Fee](https://solana.com/docs/core/fees) — это дополнительная комиссия, повышающая вероятность подтверждения при высокой нагрузке. Это позволяет обрабатывать транзакции быстрее. Пользователь оплачивает gas только при пополнении контракта; все остальные выплаты уже покрываются сервисом. Gas за пополнение счета в Solana фиксирован и составляет **0.000005 SOL, то есть 0.00069 USD при курсе Sol/USDT \$139**.
