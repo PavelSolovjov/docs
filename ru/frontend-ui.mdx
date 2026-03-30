@@ -1,8 +1,8 @@
 ---
-title: "Frontend UI"
+title: "Интерфейс фронтенда"
 ---
 
-Billing UI находится в `/instance/dashboard` → `InstanceDashboard.tsx`, вкладка `Revenue`.
+Интерфейс биллинга находится в `/instance/dashboard` → `InstanceDashboard.tsx`, вкладка `Revenue`.
 
 ## Структура вкладки Revenue
 
@@ -17,15 +17,15 @@ Billing UI находится в `/instance/dashboard` → `InstanceDashboard.ts
 ### Overview
 
 - KPI-карточки, `Collected / Pending / Failed / Gross`
-- таблица `fee type × status`
-- таблица `per-merchant collected / pending`
+- таблица `тип комиссии × статус`
+- таблица `собрано / в ожидании по каждому merchant`
 
 ### Invoices
 
 - форма `Generate`
 - список инвойсов
 - диалог деталей
-- `line items`
+- позиции инвойса
 - действие `Finalize`
 - действие `Void`
 
@@ -41,10 +41,10 @@ Billing UI находится в `/instance/dashboard` → `InstanceDashboard.ts
 
 ## Запланированные дополнения
 
-- Подвкладка **Settlements** — список settlement statements по merchant, действия generate и mark-paid
-- Подвкладка **Rebates** — список rebate notices и статусы paid / pending
+- Подвкладка **Settlements** — список settlement statements по merchant, действия `generate` и `mark-paid`
+- Подвкладка **Rebates** — список rebate notices и статусы `paid / pending`
 
-## Status pills
+## Цветовые статусы
 
 | Статус | Цвет | Значение |
 | :-- | :-- | :-- |
@@ -61,4 +61,4 @@ Billing UI находится в `/instance/dashboard` → `InstanceDashboard.ts
 
 Вкладку `Revenue` могут просматривать `owner`, `admin`, `finance`, `viewer`.
 
-Действия `Generate`, `Finalize`, `Void`, `Mark Paid` доступны только для `owner` и `admin`, плюс проверка secure session на backend.
+Действия `Generate`, `Finalize`, `Void`, `Mark Paid` доступны только для `owner` и `admin`, плюс проверка безопасной сессии на серверной части.

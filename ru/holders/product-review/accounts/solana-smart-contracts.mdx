@@ -1,5 +1,5 @@
 ---
-title: "SOLANA смарт-контракты"
+title: "Solana смарт-контракты"
 ---
 
 # Смарт-контракт
@@ -45,13 +45,14 @@ title: "SOLANA смарт-контракты"
 
 # Общая информация
 
-Blockchain: [Solana](https://solana.com/)\
-Location: https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src\\\\\\\\\\\\\\\\ **Language:**[Rust](https://rust-lang.org/)\
-License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
+Блокчейн: [Solana](https://solana.com/)\
+Расположение: `https://github.com/whalescorp/holders-contracts/tree/main/packages/solana/programs/holders/src`\
+**Язык:** [Rust](https://rust-lang.org/)\
+Лицензия: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 # Роли контракта
 
-## **Contract Owner (wallet authority)**
+## **Владелец контракта (wallet authority)**
 
 Эта роль назначается пользователю Holders при деплое контракта — владельцем считается кошелек, с которого было инициировано создание контракта. Изменить владельца контракта невозможно, а при потере доступа к кошельку восстановить оставшиеся на контракте средства не получится. Единственный способ помочь клиенту, потерявшему доступ к кошельку, — посоветовать ему потратить средства с карт, привязанных к счету.
 
@@ -67,7 +68,7 @@ License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 Адрес владельца контракта можно увидеть на основной странице счета в карточке `Linked to wallet`. Адрес кошелька владельца также доступен в backoffice на странице пользователя при нажатии на плитку счета.
 
-## **Controller** (**Controller authority**)
+## **Controller** (**controller authority**)
 
 Controller — это кошелек, `highload-wallet v3` с ротационным публичным ключом, которому делегированы права управления и выполнения операций от имени владельца. Он выполняет автоматические и операционные задачи, которые неудобно или невозможно возложить непосредственно на пользователя.
 
@@ -90,34 +91,34 @@ Controller — это кошелек, `highload-wallet v3` с ротационн
 
 ## **Treasure authority**
 
-Treasure wallets are Holders wallets where funds ([USDC](https://www.circle.com/usdc) or [TON](https://ton.org/en)) are transferred after clearings are processed. These are also smart contracts, but with limited rights. Only Treasure authority can perform actions with treasure wallets; this smart contract has no Wallet authority.
+Treasure wallets — это кошельки Holders, на которые переводятся средства, [USDC](https://www.circle.com/usdc) или [TON](https://ton.org/en), после обработки clearing-операций. Это тоже смарт-контракты, но с ограниченными правами. Только `Treasure authority` может выполнять действия с treasure wallets; у этого смарт-контракта нет `Wallet authority`.
 
-### Available actions:
+### Доступные действия:
 
-- Processing refunds and reversals from treasure wallets to client accounts
-- Withdrawals from treasure wallets (only to wallet addresses specified in the whitelist)
+- Обработка refund-операций и reversal-операций из treasure wallets на клиентские счета
+- Вывод средств из treasure wallets, только на адреса кошельков, указанные в whitelist
 
-### Gas payment:
+### Оплата gas:
 
-- Gas for these operations is paid by Treasure authority, i.e., Holders.
+- Gas за эти операции оплачивает `Treasure authority`, то есть Holders.
 
 ## Support authority
 
-A role responsible for launching fixes in case of errors. Currently, this is one fix: removing an incorrect deposit address that exchanges send to Associated Token Account. As a result, funds are sent to the wrong address, and the Support authority role allows manually removing such incorrect addresses.
+Эта роль отвечает за запуск исправлений в случае ошибок. Сейчас предусмотрено одно такое исправление: удаление некорректного адреса пополнения, который биржи иногда отправляют на `Associated Token Account`. В результате средства уходят не по тому адресу, и роль `Support authority` позволяет вручную удалять такие ошибочные адреса.
 
-## Route owner (in TON — Owner, also known as Treasure owner)
+## Route owner (в TON — Owner, также известный как Treasure owner)
 
-A role that has administrative rights over a set of contracts. For Wallester, Holders has a root account in the Solana network owned by Route owner.
+Это роль с административными правами над набором контрактов. Для Wallester у Holders есть root account в сети Solana, которым владеет `Route owner`.
 
-### Available functions:
+### Доступные функции:
 
-- Changing Treasure authority
-- Changing Support authority
-- Changing Controller
-- Setting up Graceful period (withdrawal time after account closure)
-- Updating whitelist for treasure withdrawals (adding or excluding addresses)
+- Изменение `Treasure authority`
+- Изменение `Support authority`
+- Изменение `Controller`
+- Настройка `Graceful period`, то есть времени вывода после закрытия счета
+- Обновление whitelist для выводов из treasure wallets, включая добавление и исключение адресов
 
-### Gas payment:
+### Оплата gas:
 
 - Gas за выполнение этих операций оплачивает `Route owner`, то есть Holders.
 
@@ -128,19 +129,19 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 
 # Основные операции и сценарии
 
-### 1. **Deploy (**`deploy`**)**
+### 1. **Развертывание (**`deploy`**)**
 
 - Создает новый аккаунт и инициализирует параметры: `seed`, адреса и `controller`.
 - Проверяет корректность `seed`, соответствие адресов, сохраняет параметры, устанавливает лимиты и состояния.
 - Возвращает подтверждение успешного деплоя.
 
-### 2. **Top-up (**`topup`**)**
+### 2. **Пополнение (**`topup`**)**
 
 - Зачисляет средства на пользовательский баланс.
 - Проверяет корректность вызывающей стороны и лимитов.
 - Обновляет отображаемый баланс и отправляет подтверждение.
 
-### 3. **Transaction execution (**`execute`**)**
+### 3. **Выполнение транзакции (**`execute`**)**
 
 - Самая важная функция — позволяет переводить средства, выполнять списания и обрабатывать clearing.
 - Проверяет `seed`, `seqno`, время и статус аккаунта.
@@ -148,90 +149,90 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 - Обновляет баланс, лимиты и состояние.
 - Если аккаунт помечен как закрытый, инициирует автоматический вывод оставшихся средств.
 
-### 4. **Limit updates (**`update_limits`**)**
+### 4. **Обновление лимитов (**`update_limits`**)**
 
 - Позволяет владельцу менять лимиты, разовые, дневные и месячные.
 - Проверяет последовательность `seqno` и корректность лимитов.
 - Обновляет очередь ожидающих лимитов, `pending limits queue`.
 
-### 5. **Account closure (**`close`**)**
+### 5. **Закрытие аккаунта (**`close`**)**
 
 - Инициирует запрос на закрытие аккаунта.
 - После истечения `timeout` автоматически выводит оставшиеся средства и переводит аккаунт в состояние `closed`.
 
-### 6. **Code update (**`update`**)**
+### 6. **Обновление кода (**`update`**)**
 
-Обеспечивает обновление smart contract. При вызове:
+Обеспечивает обновление смарт-контракта. При вызове:
 
 - проверяется корректность версии, `revision`, и подписи владельца;
 - если проверки проходят, код контракта обновляется без потери состояния;
 - это позволяет добавлять новые функции, исправлять ошибки и развивать систему.
 
-### 7.  **USDC withdrawal to linked wallet (**`withdraw_usdc`**)**
+### 7. **Вывод USDC на привязанный кошелек (**`withdraw_usdc`**)**
 
 - В системе есть функции для вывода [USDC](https://www.circle.com/usdc).
 - Обязательные проверки авторизации обеспечивают безопасный вывод актива в соответствии с правилами и текущим состоянием аккаунта.
 
-### **8. USDC withdrawal to external account**
+### 8. **Вывод USDC на внешний аккаунт**
 
 - Позволяет выводить средства на внешний аккаунт.
 - Позволяет переводить средства между аккаунтами внутри системы.
 
 # Gas
 
-### Contract creation and maintenance
+### Создание и обслуживание контракта
 
 В Holders при создании контрактов в Solana используется [RentExemption](https://solana.com/docs/core/accounts) — предоплата за 2 года, которая навсегда резервирует место. Стоимость [RentExemption](https://solana.com/docs/core/accounts) в Solana зависит от размера хранилища, в байтах, и текущей ставки аллокации в сети. В среднем цена составляет примерно 0.0023 SOL на каждые 10 kB. При закрытии аккаунта можно запросить возврат этой стоимости, поскольку аллокация больше не нужна.\
 Примерная цена создания такого контракта — **около 0.015 SOL, это 1.5 USD при курсе Sol/USDT \$100**.
 
-### Gas for top-up
+### Gas за пополнение
 
 Чтобы ускорять транзакции в сети Solana, подключен механизм [Priority Fee](https://solana.com/docs/core/fees) — дополнительная комиссия, повышающая вероятность подтверждения при высокой нагрузке. Это позволяет обрабатывать транзакции быстрее. Пользователь оплачивает gas только при пополнении контракта; все остальные платежи уже покрываются сервисом. Gas за пополнение аккаунта в Solana фиксирован и составляет **0.000005 SOL, это 0.00005 USD при курсе Sol/USDT \$100**.
 
 # Особенности реализации
 
-### 1. State structure and data serialization
+### 1. Структура состояния и сериализация данных
 
 Контракт использует внутренние методы `load_data()` и `store_data()` для сериализации и десериализации состояния. Все важные параметры, балансы, лимиты, статус и таймауты, хранятся в структурированном виде в памяти блока. Важно: корректное использование этих методов критично для целостности данных.
 
-### 2. Limit management through pending_limits queue
+### 2. Управление лимитами через `pending_limits_queue`
 
 Лимиты операций, разовые, дневные и месячные, реализованы через `pending_limits_queue`. Это позволяет обновлять лимиты асинхронно, одновременно проверяя последовательность `seqno`.\
 Обновление лимитов происходит только через вызовы `update_limits`, с проверкой корректности `seqno` и допустимости изменений.
 
-### 3. Account closure mechanism
+### 3. Механизм закрытия аккаунта
 
 Закрытие аккаунта реализовано в два этапа:\
 **RequestCloseA:** пользователь вызывает запрос на закрытие, аккаунт переходит в состояние `closure requested`, после чего задается `timeout`.\
 **Automatic withdrawal:** после истечения `timeout` все оставшиеся средства выводятся автоматическим вызовом функции `close`, а аккаунт переводится в состояние `closed`. Это обеспечивает безопасность и автоматизацию процедуры закрытия.
 
-### 4. Verification and authorization
+### 4. Проверка и авторизация
 
 Все операции требуют авторизации — либо владельца, `owner`, через подпись, либо `controller`. Важно соблюдать правильный порядок вызова методов и проверять подписи, чтобы избежать несанкционированных действий.
 
-### 5. Working with balances and reservation
+### 5. Работа с балансами и резервированием
 
 Баланс внутри контракта управляется с помощью переменных `deposited`, `transferred`, `withdrawn`. Перед любыми операциями выполняется резервирование, `raw_reserve()`, чтобы гарантировать корректный учет и избежать переполнения или нехватки средств.
 
-### 6. Code update (upgrade)
+### 6. Обновление кода (upgrade)
 
 Обновления выполняются через метод `update`, который проверяет `revision` и подпись владельца. После успешной проверки код контракта заменяется без сброса состояния и данных.
 
-### 7. Interaction with external infrastructure
+### 7. Взаимодействие с внешней инфраструктурой
 
 Функции `do_send_message()` и `do_send_token_message()` используются для проведения операций и отправки транзакций. Все транзакции требуют достаточного объема gas и корректной подписи. При ошибках транзакции отклоняются и вызывается соответствующая ошибка.
 
-### 8. Error handling
+### 8. Обработка ошибок
 
 Контракт содержит множество проверок и ошибок, например для нарушения лимитов, некорректных `seed`, таймаутов или неверных подписей. Чтобы избежать ошибок исполнения, важно соблюдать правила вызова.
 
-### 9. Security assurance
+### 9. Обеспечение безопасности
 
 Контракт использует проверку подписей, `has_one`, а также корректное управление `seeds` и `bump` для защиты от несанкционированных действий. Участники должны внимательно контролировать приватные ключи и соблюдать процедуры вызова.
 
 # Структура данных и хранение
 
-### Main storage fields (`state`):
+### Основные поля хранилища (`state`):
 
 - **Время и последовательность**:
   - `ctx_seqno`: порядковый номер транзакции.
@@ -248,7 +249,7 @@ A role that has administrative rights over a set of contracts. For Wallester, Ho
 - **Лимиты**:
   - В `ctx_limits`: ограничения операций, сохраненные лимиты, расходы, дедлайны и очередь ожидающих лимитов.
 
-### Addresses and keys:
+### Адреса и ключи:
 
 - `ctx_address_a`, `ctx_address_b`: адреса owner и treasure.
 - `ctx_controller`: роль controller.

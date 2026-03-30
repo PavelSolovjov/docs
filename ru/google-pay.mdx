@@ -1,9 +1,9 @@
 ---
 title: "Обзор Google Pay"
-description: "Этот документ объясняет, что такое Google Pay, какие пользовательские и региональные ограничения действуют, как работают In-app provisioning и его сертификация, а также как Google Pay интегрирован и сертифицирован в Holders."
+description: "Этот документ объясняет, что такое Google Pay, какие пользовательские и региональные ограничения действуют, как работает in-app provisioning и его сертификация, а также как Google Pay интегрирован и сертифицирован в Holders."
 ---
 
-# Что такое GPay
+# Что такое Google Pay
 
 **Google Pay** — это мобильный платежный сервис и электронный кошелек [Google Wallet](https://wallet.google.com/), разработанный [Google](https://www.google.com/). Он позволяет пользователям совершать бесконтактные платежи, оплачивать товары и услуги онлайн и в офлайн-магазинах через смартфоны и смарт-часы на базе [Android](https://www.android.com/). [Google Pay](https://pay.google.com/) также доступен на [iOS](https://www.apple.com/ios/), хотя функциональность там может быть ограничена.
 
@@ -41,11 +41,11 @@ description: "Этот документ объясняет, что такое Go
 
 # Сертификация Holders
 
-**Company that underwent certification:** [Walleexer s.r.o.](https://walleexer.com/)\
-**Application that underwent certification:** [Tonhub](https://gettonhub.com/)\
-**Partner bank:** [Wallester](https://wallester.com/)\
-**Certificate date:** 25.09.2024\
-**Cost:** \$5000 (tokenization setup Wallester)\
+**Компания, прошедшая сертификацию:** [Walleexer s.r.o.](https://walleexer.com/)\
+**Приложение, прошедшее сертификацию:** [Tonhub](https://gettonhub.com/)\
+**Банк-партнер:** [Wallester](https://wallester.com/)\
+**Дата сертификата:** 25.09.2024\
+**Стоимость:** \$5000 за настройку токенизации Wallester\
 Токенизационная настройка Wallester включает конфигурацию платежной карты для интеграции со следующими цифровыми платежными системами. В каждой из них карта будет отображаться с корректными параметрами и настройками:
 
 - [Apple Pay](https://www.apple.com/apple-pay/)
@@ -63,19 +63,19 @@ description: "Этот документ объясняет, что такое Go
 ## Статусы верификации карты в Google
 
 **Green** — карта проходит проверку сразу, без дополнительных запросов.\
-**Yellow status** — для завершения верификации пользователю нужно ввести одноразовый код подтверждения, OTP.\
-**Orange status** — карта подлежит верификации только в ручном режиме через банк-партнер.\
+**Yellow** — для завершения верификации пользователю нужно ввести одноразовый код подтверждения, OTP.\
+**Orange** — карта подлежит верификации только в ручном режиме через банк-партнер.\
 **Red** — карта не может быть верифицирована.
 
 ## Обработка карты в Orange Flow
 
-Если карта в системе Google получает orange status, пользователю будет предложено пройти верификацию, позвонив по номеру поддержки приложения [**Tonhub**](https://gettonhub.com/), звонок может быть платным.\
+Если карта в системе Google получает статус `Orange`, пользователю будет предложено пройти верификацию, позвонив по номеру поддержки приложения [**Tonhub**](https://gettonhub.com/), звонок может быть платным.\
 Номер Tonhub, Швейцария: `+41587880033`.\
 Сейчас на этом номере отвечает автоматизированная система, которая перенаправляет пользователя в онлайн-поддержку приложения. После того как пользователь связывается с поддержкой Tonhub через платформу Intercom, оператор получает возможность выполнить верификацию карты в административной панели Wallester по установленной инструкции.
 
 ## Ответственность за передачу карты
 
-Section 5.3.11 of the [Wallester Payment Service Agreement](https://wallester.com/private-account-card-agreement) states the following:
+Раздел 5.3.11 [Wallester Payment Service Agreement](https://wallester.com/private-account-card-agreement) устанавливает следующее:
 
 > "The Card must only be used by the Client. The Client must not authorise third parties to use the card, i.e., to make the Card or only the Card Data available to the third parties. The card must not be given to third parties as a gift, sold to third parties or otherwise transferred to third parties."
 
